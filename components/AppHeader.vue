@@ -14,7 +14,7 @@
           </button>
         </div>
         <div class="flex items-center space-x-6 text-gray-700 font-medium">
-          <span>Frete Grátis acima de R$299</span>
+          <span class="text-coral-soft font-semibold">Frete grátis nas compras acima de R$ 599</span>
           <span class="hidden md:inline">|</span>
           <span class="hidden md:inline">Parcele em até 5x sem juros</span>
           <span class="hidden lg:inline">|</span>
