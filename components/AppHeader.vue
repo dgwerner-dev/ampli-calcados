@@ -63,11 +63,29 @@
                 <div class="px-4 py-2 border-b border-gray-100">
                   <p class="text-sm font-medium text-gray-900">{{ user.email }}</p>
                   <p class="text-xs text-gray-500">{{ user.name || 'Usuário' }}</p>
+                  <p class="text-xs text-coral-soft font-semibold">{{ user.role === 'ADMIN' ? 'Administrador' : 'Usuário' }}</p>
                 </div>
+                
+                <!-- Admin Actions -->
+                <div v-if="user.role === 'ADMIN'" class="border-b border-gray-100">
+                  <button
+                    @click="openCreateUserModal"
+                    class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    Criar Usuário
+                  </button>
+                </div>
+                
                 <button
                   @click="handleLogout"
                   class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                 >
+                  <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                  </svg>
                   Sair
                 </button>
               </div>
@@ -132,6 +150,13 @@
       :is-open="showAuthModal"
       @close="showAuthModal = false"
     />
+
+    <!-- Create User Modal -->
+    <AuthModal
+      :is-open="showCreateUserModal"
+      @close="showCreateUserModal = false"
+      :mode="'create-user'"
+    />
   </header>
 </template>
 
@@ -139,6 +164,7 @@
 const mobileMenuOpen = ref(false)
 const showAuthModal = ref(false)
 const showUserMenu = ref(false)
+const showCreateUserModal = ref(false)
 
 const { user, signOut, initAuth } = useAuth()
 
@@ -148,6 +174,11 @@ const toggleMobileMenu = () => {
 
 const handleLogout = async () => {
   await signOut()
+  showUserMenu.value = false
+}
+
+const openCreateUserModal = () => {
+  showCreateUserModal.value = true
   showUserMenu.value = false
 }
 

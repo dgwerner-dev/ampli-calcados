@@ -17,6 +17,8 @@ model User {
   email     String   @unique
   name      String?
   avatar    String?
+  role      UserRole @default(USER)
+  isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -26,6 +28,12 @@ model User {
   reviews   Review[]
 
   @@map("users")
+}
+
+// Enum para roles de usuário
+enum UserRole {
+  USER
+  ADMIN
 }
 
 // Modelo de categoria de produtos

@@ -1,136 +1,287 @@
+import { ref, computed } from 'vue'
 import { supabase } from '~/utils/supabase'
 
-export const useAuth = () => {
-  const user = ref(null)
-  const loading = ref(true)
-  const error = ref(null)
+export interface User {
+  id: string
+  email: string
+  name?: string
+  avatar?: string
+  role: 'USER' | 'ADMIN'
+  isActive: boolean
+}
 
-  // Inicializar estado de autenticação
+export interface AuthState {
+  user: User | null
+  loading: boolean
+  error: string | null
+}
+
+export const useAuth = () => {
+  const user = ref<User | null>(null)
+  const loading = ref(false)
+  const error = ref<string | null>(null)
+
+  const isAuthenticated = computed(() => !!user.value)
+  const isAdmin = computed(() => user.value?.role === 'ADMIN')
+  const isUser = computed(() => user.value?.role === 'USER')
+
   const initAuth = async () => {
     try {
       const { data: { session } } = await supabase.auth.getSession()
-      user.value = session?.user || null
-      
-      // Escutar mudanças de autenticação
-      const { data: { subscription } } = supabase.auth.onAuthStateChange(
-        async (event, session) => {
-          user.value = session?.user || null
-          loading.value = false
-        }
-      )
-
-      loading.value = false
-      return { subscription }
+      if (session?.user) {
+        await loadUserProfile(session.user.id)
+      }
     } catch (err) {
-      error.value = err.message
-      loading.value = false
+      console.error('Erro ao inicializar autenticação:', err)
     }
   }
 
-  // Login com email e senha
-  const signIn = async (email: string, password: string) => {
+  const loadUserProfile = async (userId: string) => {
     try {
-      loading.value = true
-      error.value = null
-      
-      const { data, error: signInError } = await supabase.auth.signInWithPassword({
+      const { data: profile, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', userId)
+        .single()
+
+      if (error) {
+        console.error('Erro ao carregar perfil:', error)
+        return
+      }
+
+      user.value = {
+        id: profile.id,
+        email: profile.email,
+        name: profile.name,
+        avatar: profile.avatar,
+        role: profile.role,
+        isActive: profile.isActive
+      }
+    } catch (err) {
+      console.error('Erro ao carregar perfil do usuário:', err)
+    }
+  }
+
+  const signIn = async (email: string, password: string) => {
+    loading.value = true
+    error.value = null
+    
+    try {
+      const { data, error: authError } = await supabase.auth.signInWithPassword({
         email,
         password
       })
 
-      if (signInError) throw signInError
-      
-      user.value = data.user
-      return { success: true, user: data.user }
-    } catch (err) {
-      error.value = err.message
-      return { success: false, error: err.message }
+      if (authError) throw authError
+
+      if (data.user) {
+        await loadUserProfile(data.user.id)
+      }
+    } catch (err: any) {
+      error.value = err.message || 'Erro ao fazer login'
+      throw err
     } finally {
       loading.value = false
     }
   }
 
-  // Registro com email e senha
   const signUp = async (email: string, password: string, name?: string) => {
+    loading.value = true
+    error.value = null
+    
     try {
-      loading.value = true
-      error.value = null
-      
-      const { data, error: signUpError } = await supabase.auth.signUp({
+      // Verificar se o email já existe
+      const { data: existingUser } = await supabase
+        .from('users')
+        .select('id')
+        .eq('email', email)
+        .single()
+
+      if (existingUser) {
+        throw new Error('Este email já está cadastrado')
+      }
+
+      const { data, error: authError } = await supabase.auth.signUp({
         email,
         password,
         options: {
           data: {
-            name: name || ''
+            name
           }
         }
       })
 
-      if (signUpError) throw signUpError
-      
-      user.value = data.user
-      return { success: true, user: data.user }
-    } catch (err) {
-      error.value = err.message
-      return { success: false, error: err.message }
+      if (authError) throw authError
+
+      if (data.user) {
+        // Criar perfil do usuário no banco (sempre como USER)
+        const { error: profileError } = await supabase
+          .from('users')
+          .insert({
+            id: data.user.id,
+            email: data.user.email,
+            name: name || data.user.user_metadata?.name,
+            role: 'USER', // Novos usuários são sempre USER
+            isActive: true
+          })
+
+        if (profileError) {
+          console.error('Erro ao criar perfil:', profileError)
+          // Se falhar ao criar perfil, deletar o usuário de auth
+          await supabase.auth.admin.deleteUser(data.user.id)
+          throw new Error('Erro ao criar perfil do usuário')
+        }
+
+        await loadUserProfile(data.user.id)
+      }
+    } catch (err: any) {
+      error.value = err.message || 'Erro ao criar conta'
+      throw err
     } finally {
       loading.value = false
     }
   }
 
-  // Logout
-  const signOut = async () => {
+  const createUser = async (email: string, password: string, name?: string) => {
+    loading.value = true
+    error.value = null
+    
     try {
-      loading.value = true
-      error.value = null
-      
-      const { error: signOutError } = await supabase.auth.signOut()
-      
-      if (signOutError) throw signOutError
-      
-      user.value = null
-      return { success: true }
-    } catch (err) {
-      error.value = err.message
-      return { success: false, error: err.message }
-    } finally {
-      loading.value = false
-    }
-  }
+      // Verificar se o usuário atual é admin
+      if (!isAdmin.value) {
+        throw new Error('Apenas administradores podem criar novos usuários')
+      }
 
-  // Recuperar senha
-  const resetPassword = async (email: string) => {
-    try {
-      loading.value = true
-      error.value = null
-      
-      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/reset-password`
+      const { data, error: authError } = await supabase.auth.admin.createUser({
+        email,
+        password,
+        email_confirm: true,
+        user_metadata: {
+          name
+        }
       })
 
-      if (resetError) throw resetError
-      
-      return { success: true }
-    } catch (err) {
-      error.value = err.message
-      return { success: false, error: err.message }
+      if (authError) throw authError
+
+      if (data.user) {
+        // Criar perfil do usuário no banco
+        const { error: profileError } = await supabase
+          .from('users')
+          .insert({
+            id: data.user.id,
+            email: data.user.email,
+            name: name,
+            role: 'USER', // Novos usuários são sempre USER
+            isActive: true
+          })
+
+        if (profileError) {
+          console.error('Erro ao criar perfil:', profileError)
+          throw new Error('Erro ao criar perfil do usuário')
+        }
+
+        return data.user
+      }
+    } catch (err: any) {
+      error.value = err.message || 'Erro ao criar usuário'
+      throw err
     } finally {
       loading.value = false
     }
   }
 
-  // Verificar se está logado
-  const isAuthenticated = computed(() => !!user.value)
+  const signOut = async () => {
+    loading.value = true
+    error.value = null
+    
+    try {
+      const { error: authError } = await supabase.auth.signOut()
+      if (authError) throw authError
+      
+      user.value = null
+    } catch (err: any) {
+      error.value = err.message || 'Erro ao fazer logout'
+      throw err
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const resetPassword = async (email: string) => {
+    loading.value = true
+    error.value = null
+    
+    try {
+      const { error: authError } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/auth/reset-password`
+      })
+
+      if (authError) throw authError
+    } catch (err: any) {
+      error.value = err.message || 'Erro ao enviar email de reset'
+      throw err
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const updatePassword = async (newPassword: string) => {
+    loading.value = true
+    error.value = null
+    
+    try {
+      const { error: authError } = await supabase.auth.updateUser({
+        password: newPassword
+      })
+
+      if (authError) throw authError
+    } catch (err: any) {
+      error.value = err.message || 'Erro ao atualizar senha'
+      throw err
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const updateProfile = async (updates: { name?: string; avatar?: string }) => {
+    loading.value = true
+    error.value = null
+    
+    try {
+      if (!user.value) throw new Error('Usuário não autenticado')
+
+      const { error: profileError } = await supabase
+        .from('users')
+        .update(updates)
+        .eq('id', user.value.id)
+
+      if (profileError) throw profileError
+
+      // Atualizar dados do usuário
+      if (updates.name) user.value.name = updates.name
+      if (updates.avatar) user.value.avatar = updates.avatar
+    } catch (err: any) {
+      error.value = err.message || 'Erro ao atualizar perfil'
+      throw err
+    } finally {
+      loading.value = false
+    }
+  }
 
   return {
     user: readonly(user),
     loading: readonly(loading),
     error: readonly(error),
     isAuthenticated,
+    isAdmin,
+    isUser,
     initAuth,
     signIn,
     signUp,
+    createUser,
     signOut,
-    resetPassword
+    resetPassword,
+    updatePassword,
+    updateProfile
   }
 } 

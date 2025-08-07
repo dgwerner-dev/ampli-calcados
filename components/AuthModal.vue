@@ -9,7 +9,7 @@
         <!-- Header -->
         <div class="flex items-center justify-between p-6 border-b border-gray-200">
           <h2 class="text-xl font-semibold text-gray-900">
-            {{ isLogin ? 'Entrar' : 'Criar Conta' }}
+            {{ getModalTitle() }}
           </h2>
           <button 
             @click="closeModal"
@@ -34,7 +34,7 @@
           </div>
 
           <!-- Login Form -->
-          <form v-if="isLogin" @submit.prevent="handleLogin" class="space-y-4">
+          <form v-if="mode === 'login'" @submit.prevent="handleLogin" class="space-y-4">
             <div>
               <label for="login-email" class="block text-sm font-medium text-gray-700 mb-1">
                 Email
@@ -66,7 +66,7 @@
             <div class="flex items-center justify-between">
               <button
                 type="button"
-                @click="showForgotPassword = true"
+                @click="setMode('forgot-password')"
                 class="text-sm text-coral-soft hover:text-coral-dark transition-colors"
               >
                 Esqueceu a senha?
@@ -80,78 +80,24 @@
             >
               {{ loading ? 'Entrando...' : 'Entrar' }}
             </button>
+
+            <div class="text-center">
+              <p class="text-sm text-gray-500">
+                Entre em contato com o administrador para criar uma conta
+              </p>
+            </div>
           </form>
 
-          <!-- Register Form -->
-          <form v-else @submit.prevent="handleRegister" class="space-y-4">
-            <div>
-              <label for="register-name" class="block text-sm font-medium text-gray-700 mb-1">
-                Nome Completo
-              </label>
-              <input
-                id="register-name"
-                v-model="registerForm.name"
-                type="text"
-                required
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral-soft focus:border-transparent"
-                placeholder="Seu nome completo"
-              />
-            </div>
 
-            <div>
-              <label for="register-email" class="block text-sm font-medium text-gray-700 mb-1">
-                Email
-              </label>
-              <input
-                id="register-email"
-                v-model="registerForm.email"
-                type="email"
-                required
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral-soft focus:border-transparent"
-                placeholder="seu@email.com"
-              />
-            </div>
-
-            <div>
-              <label for="register-password" class="block text-sm font-medium text-gray-700 mb-1">
-                Senha
-              </label>
-              <input
-                id="register-password"
-                v-model="registerForm.password"
-                type="password"
-                required
-                minlength="6"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral-soft focus:border-transparent"
-                placeholder="Mínimo 6 caracteres"
-              />
-            </div>
-
-            <div>
-              <label for="register-confirm-password" class="block text-sm font-medium text-gray-700 mb-1">
-                Confirmar Senha
-              </label>
-              <input
-                id="register-confirm-password"
-                v-model="registerForm.confirmPassword"
-                type="password"
-                required
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral-soft focus:border-transparent"
-                placeholder="Confirme sua senha"
-              />
-            </div>
-
-            <button
-              type="submit"
-              :disabled="loading || !passwordsMatch"
-              class="w-full bg-coral-soft text-white py-2 px-4 rounded-lg hover:bg-coral-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {{ loading ? 'Criando conta...' : 'Criar Conta' }}
-            </button>
-          </form>
 
           <!-- Forgot Password Form -->
-          <form v-if="showForgotPassword" @submit.prevent="handleForgotPassword" class="space-y-4">
+          <form v-else-if="mode === 'forgot-password'" @submit.prevent="handleForgotPassword" class="space-y-4">
+            <div class="text-center mb-4">
+              <p class="text-gray-600">
+                Digite seu email para receber um link de redefinição de senha.
+              </p>
+            </div>
+
             <div>
               <label for="forgot-email" class="block text-sm font-medium text-gray-700 mb-1">
                 Email
@@ -171,32 +117,83 @@
               :disabled="loading"
               class="w-full bg-coral-soft text-white py-2 px-4 rounded-lg hover:bg-coral-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {{ loading ? 'Enviando...' : 'Enviar Link de Recuperação' }}
+              {{ loading ? 'Enviando...' : 'Enviar Email' }}
             </button>
+
+            <div class="text-center">
+              <button
+                type="button"
+                @click="setMode('login')"
+                class="text-sm text-gray-600 hover:text-coral-soft transition-colors"
+              >
+                Voltar para login
+              </button>
+            </div>
+          </form>
+
+          <!-- Create User Form (Admin Only) -->
+          <form v-else-if="mode === 'create-user'" @submit.prevent="handleCreateUser" class="space-y-4">
+            <div>
+              <label for="create-user-name" class="block text-sm font-medium text-gray-700 mb-1">
+                Nome Completo
+              </label>
+              <input
+                id="create-user-name"
+                v-model="createUserForm.name"
+                type="text"
+                required
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral-soft focus:border-transparent"
+                placeholder="Nome do usuário"
+              />
+            </div>
+
+            <div>
+              <label for="create-user-email" class="block text-sm font-medium text-gray-700 mb-1">
+                Email
+              </label>
+              <input
+                id="create-user-email"
+                v-model="createUserForm.email"
+                type="email"
+                required
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral-soft focus:border-transparent"
+                placeholder="email@exemplo.com"
+              />
+            </div>
+
+            <div>
+              <label for="create-user-password" class="block text-sm font-medium text-gray-700 mb-1">
+                Senha Temporária
+              </label>
+              <input
+                id="create-user-password"
+                v-model="createUserForm.password"
+                type="password"
+                required
+                minlength="6"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral-soft focus:border-transparent"
+                placeholder="Senha temporária (mínimo 6 caracteres)"
+              />
+            </div>
 
             <button
-              type="button"
-              @click="showForgotPassword = false"
-              class="w-full text-gray-600 py-2 px-4 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors"
+              type="submit"
+              :disabled="loading"
+              class="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Voltar
+              {{ loading ? 'Criando usuário...' : 'Criar Usuário' }}
             </button>
-          </form>
-        </div>
 
-        <!-- Footer -->
-        <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
-          <div class="text-center">
-            <p class="text-sm text-gray-600">
-              {{ isLogin ? 'Não tem uma conta?' : 'Já tem uma conta?' }}
+            <div class="text-center">
               <button
-                @click="toggleMode"
-                class="text-coral-soft hover:text-coral-dark font-medium transition-colors"
+                type="button"
+                @click="setMode('login')"
+                class="text-sm text-gray-600 hover:text-coral-soft transition-colors"
               >
-                {{ isLogin ? 'Criar conta' : 'Fazer login' }}
+                Voltar para login
               </button>
-            </p>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -213,38 +210,29 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 
-const { signIn, signUp, resetPassword, loading, error } = useAuth()
+const { signIn, createUser, resetPassword, loading, error } = useAuth()
 
-// Form states
-const isLogin = ref(true)
-const showForgotPassword = ref(false)
+// Estados do formulário
+const mode = ref('login')
 const successMessage = ref('')
 
-// Login form
+// Formulários
 const loginForm = ref({
   email: '',
   password: ''
 })
 
-// Register form
-const registerForm = ref({
-  name: '',
-  email: '',
-  password: '',
-  confirmPassword: ''
-})
-
-// Forgot password form
 const forgotPasswordForm = ref({
   email: ''
 })
 
-// Computed
-const passwordsMatch = computed(() => {
-  return registerForm.value.password === registerForm.value.confirmPassword
+const createUserForm = ref({
+  name: '',
+  email: '',
+  password: ''
 })
 
-// Methods
+// Métodos
 const closeModal = () => {
   emit('close')
   resetForms()
@@ -252,58 +240,62 @@ const closeModal = () => {
 
 const resetForms = () => {
   loginForm.value = { email: '', password: '' }
-  registerForm.value = { name: '', email: '', password: '', confirmPassword: '' }
   forgotPasswordForm.value = { email: '' }
+  createUserForm.value = { name: '', email: '', password: '' }
   error.value = null
   successMessage.value = ''
-  showForgotPassword.value = false
 }
 
-const toggleMode = () => {
-  isLogin.value = !isLogin.value
+const setMode = (newMode) => {
+  mode.value = newMode
   resetForms()
 }
 
+const getModalTitle = () => {
+  switch (mode.value) {
+    case 'login': return 'Entrar'
+    case 'forgot-password': return 'Recuperar Senha'
+    case 'create-user': return 'Criar Novo Usuário'
+    default: return 'Autenticação'
+  }
+}
+
 const handleLogin = async () => {
-  const result = await signIn(loginForm.value.email, loginForm.value.password)
-  
-  if (result.success) {
+  try {
+    await signIn(loginForm.value.email, loginForm.value.password)
     successMessage.value = 'Login realizado com sucesso!'
-    setTimeout(() => {
-      closeModal()
-    }, 1500)
+    setTimeout(() => closeModal(), 1500)
+  } catch (err) {
+    // Error já está sendo tratado no composable
   }
 }
 
-const handleRegister = async () => {
-  if (!passwordsMatch.value) {
-    error.value = 'As senhas não coincidem'
-    return
-  }
 
-  const result = await signUp(
-    registerForm.value.email, 
-    registerForm.value.password, 
-    registerForm.value.name
-  )
-  
-  if (result.success) {
-    successMessage.value = 'Conta criada com sucesso! Verifique seu email.'
-    setTimeout(() => {
-      closeModal()
-    }, 2000)
-  }
-}
 
 const handleForgotPassword = async () => {
-  const result = await resetPassword(forgotPasswordForm.value.email)
-  
-  if (result.success) {
-    successMessage.value = 'Email de recuperação enviado!'
-    setTimeout(() => {
-      showForgotPassword.value = false
-      resetForms()
-    }, 2000)
+  try {
+    await resetPassword(forgotPasswordForm.value.email)
+    successMessage.value = 'Email de recuperação enviado! Verifique sua caixa de entrada.'
+    setTimeout(() => setMode('login'), 2000)
+  } catch (err) {
+    // Error já está sendo tratado no composable
   }
 }
+
+const handleCreateUser = async () => {
+  try {
+    await createUser(createUserForm.value.email, createUserForm.value.password, createUserForm.value.name)
+    successMessage.value = 'Usuário criado com sucesso!'
+    setTimeout(() => closeModal(), 1500)
+  } catch (err) {
+    // Error já está sendo tratado no composable
+  }
+}
+
+// Watch para limpar mensagens quando o modal fecha
+watch(() => props.isOpen, (newValue) => {
+  if (!newValue) {
+    resetForms()
+  }
+})
 </script> 
