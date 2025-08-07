@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 import { supabase } from '~/utils/supabase'
 
 export interface User {
