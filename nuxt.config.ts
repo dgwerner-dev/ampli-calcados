@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  compatibilityDate: '2025-08-07',
   modules: [
     '@nuxtjs/tailwindcss',
     '@nuxtjs/supabase',
@@ -38,5 +39,9 @@ export default defineNuxtConfig({
       supabaseUrl: process.env.SUPABASE_URL,
       supabaseKey: process.env.SUPABASE_ANON_KEY
     }
+  },
+  supabase: {
+    url: process.env.SUPABASE_URL,
+    key: process.env.SUPABASE_ANON_KEY
   }
 })
