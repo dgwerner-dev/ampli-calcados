@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     '@nuxtjs/tailwindcss',
-    // '@nuxtjs/supabase', // Temporarily removed for troubleshooting
+    '@nuxtjs/supabase',
     // '@pinia/nuxt', // Temporarily removed for troubleshooting
   ],
   css: ['~/assets/css/main.css'],
