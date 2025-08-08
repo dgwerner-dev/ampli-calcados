@@ -1,16 +1,19 @@
 export default defineNuxtRouteMiddleware((to) => {
-  const { user } = useAuth();
+  // Temporariamente desabilitado para debug
+  return;
   
-  // Se a rota é administrativa
-  if (to.path.startsWith('/admin')) {
-    // Se não há usuário logado, redirecionar para home
-    if (!user.value) {
-      return navigateTo('/');
-    }
-    
-    // Se o usuário não é admin, redirecionar para home
-    if (user.value.role !== 'ADMIN') {
-      return navigateTo('/');
-    }
-  }
+  // const { user } = useAuth();
+  
+  // // Se a rota é administrativa
+  // if (to.path.startsWith('/admin')) {
+  //   // Se não há usuário logado, redirecionar para home
+  //   if (!user.value) {
+  //     return navigateTo('/');
+  //   }
+  
+  //   // Se o usuário não é admin, redirecionar para home
+  //   if (user.value.role !== 'ADMIN') {
+  //     return navigateTo('/');
+  //   }
+  // }
 });
