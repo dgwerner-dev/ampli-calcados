@@ -4,7 +4,9 @@
     <div class="bg-gray-100 py-2 px-4">
       <div class="max-w-7xl mx-auto flex justify-between items-center text-sm">
         <div class="flex items-center space-x-4">
-          <a href="#" class="text-gray-700 hover:text-black transition-colors duration-200">Clube AMPLI</a>
+          <a href="#" class="text-gray-700 hover:text-black transition-colors duration-200"
+            >Clube AMPLI</a
+          >
           <span class="text-gray-400">|</span>
           <button
             @click="showAuthModal = true"
@@ -14,11 +16,15 @@
           </button>
         </div>
         <div class="flex items-center space-x-6 text-gray-700 font-medium">
-          <span class="text-coral-soft font-semibold">Frete grátis nas compras acima de R$ 599</span>
+          <span class="text-coral-soft font-semibold"
+            >Frete grátis nas compras acima de R$ 599</span
+          >
           <span class="hidden md:inline">|</span>
           <span class="hidden md:inline">Parcele em até 5x sem juros</span>
           <span class="hidden lg:inline">|</span>
-          <span class="hidden lg:inline text-coral-soft font-semibold">10% de desconto em pgto. à vista</span>
+          <span class="hidden lg:inline text-coral-soft font-semibold"
+            >10% de desconto em pgto. à vista</span
+          >
         </div>
       </div>
     </div>
@@ -41,9 +47,19 @@
                 type="text"
                 placeholder="Buscar produtos..."
                 class="w-40 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral-soft focus:border-transparent text-sm"
+              />
+              <svg
+                class="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-              <svg class="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                ></path>
               </svg>
             </div>
 
@@ -53,38 +69,73 @@
                 @click="showUserMenu = !showUserMenu"
                 class="flex items-center space-x-1 p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
               >
-                <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                <svg
+                  class="w-5 h-5 text-gray-700"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  ></path>
                 </svg>
               </button>
 
               <!-- User Dropdown -->
-              <div v-if="showUserMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+              <div
+                v-if="showUserMenu"
+                class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
+              >
                 <div class="px-4 py-2 border-b border-gray-100">
                   <p class="text-sm font-medium text-gray-900">{{ user.email }}</p>
                   <p class="text-xs text-gray-500">{{ user.name || 'Usuário' }}</p>
-                  <p class="text-xs text-coral-soft font-semibold">{{ user.role === 'ADMIN' ? 'Administrador' : 'Usuário' }}</p>
+                  <p class="text-xs text-coral-soft font-semibold">
+                    {{ user.role === 'ADMIN' ? 'Administrador' : 'Usuário' }}
+                  </p>
                 </div>
-                
+
                 <!-- Admin Actions -->
                 <div v-if="user.role === 'ADMIN'" class="border-b border-gray-100">
                   <button
                     @click="openCreateUserModal"
                     class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                   >
-                    <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    <svg
+                      class="w-4 h-4 inline mr-2"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                      ></path>
                     </svg>
                     Criar Usuário
                   </button>
                 </div>
-                
+
                 <button
                   @click="handleLogout"
                   class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                 >
-                  <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                  <svg
+                    class="w-4 h-4 inline mr-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                    ></path>
                   </svg>
                   Sair
                 </button>
@@ -93,23 +144,61 @@
 
             <!-- Wishlist -->
             <button class="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200">
-              <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+              <svg
+                class="w-5 h-5 text-gray-700"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                ></path>
               </svg>
             </button>
 
             <!-- Cart -->
-            <button class="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200 relative">
-              <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6m6 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01"></path>
+            <button
+              class="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200 relative"
+            >
+              <svg
+                class="w-5 h-5 text-gray-700"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                ></path>
               </svg>
-              <span class="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">0</span>
+              <span
+                class="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full w-4 h-4 flex items-center justify-center"
+                >0</span
+              >
             </button>
 
             <!-- Mobile Menu Button -->
-            <button @click="toggleMobileMenu" class="lg:hidden p-2 hover:bg-gray-100 rounded-full transition-colors duration-200">
-              <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            <button
+              @click="toggleMobileMenu"
+              class="lg:hidden p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
+            >
+              <svg
+                class="w-5 h-5 text-gray-700"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                ></path>
               </svg>
             </button>
           </div>
@@ -117,15 +206,51 @@
 
         <!-- Navigation Menu -->
         <nav class="hidden lg:flex items-center space-x-8">
-          <a href="#" class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide">BIRKEN</a>
-          <a href="#" class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide">BOTAS</a>
-          <a href="#" class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide">LINHA FLATS</a>
-          <a href="#" class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide">SCARPINS</a>
-          <a href="#" class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide">SANDÁLIAS</a>
-          <a href="#" class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide">LINHA OXFORD</a>
-          <a href="#" class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide">LINHA MOCASSIM</a>
-          <a href="#" class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide">SAPATILHAS</a>
-          <a href="#" class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide">RASTEIRAS</a>
+          <a
+            href="#"
+            class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide"
+            >BIRKEN</a
+          >
+          <a
+            href="#"
+            class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide"
+            >BOTAS</a
+          >
+          <a
+            href="#"
+            class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide"
+            >LINHA FLATS</a
+          >
+          <a
+            href="#"
+            class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide"
+            >SCARPINS</a
+          >
+          <a
+            href="#"
+            class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide"
+            >SANDÁLIAS</a
+          >
+          <a
+            href="#"
+            class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide"
+            >LINHA OXFORD</a
+          >
+          <a
+            href="#"
+            class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide"
+            >LINHA MOCASSIM</a
+          >
+          <a
+            href="#"
+            class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide"
+            >SAPATILHAS</a
+          >
+          <a
+            href="#"
+            class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide"
+            >RASTEIRAS</a
+          >
         </nav>
       </div>
     </div>
@@ -133,23 +258,56 @@
     <!-- Mobile Menu -->
     <div v-if="mobileMenuOpen" class="lg:hidden bg-white border-t border-gray-200 shadow-lg">
       <div class="px-4 py-3 space-y-1">
-        <a href="#" class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium">BIRKEN</a>
-        <a href="#" class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium">BOTAS</a>
-        <a href="#" class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium">LINHA FLATS</a>
-        <a href="#" class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium">SCARPINS</a>
-        <a href="#" class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium">SANDÁLIAS</a>
-        <a href="#" class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium">LINHA OXFORD</a>
-        <a href="#" class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium">LINHA MOCASSIM</a>
-        <a href="#" class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium">SAPATILHAS</a>
-        <a href="#" class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium">RASTEIRAS</a>
+        <a
+          href="#"
+          class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium"
+          >BIRKEN</a
+        >
+        <a
+          href="#"
+          class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium"
+          >BOTAS</a
+        >
+        <a
+          href="#"
+          class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium"
+          >LINHA FLATS</a
+        >
+        <a
+          href="#"
+          class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium"
+          >SCARPINS</a
+        >
+        <a
+          href="#"
+          class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium"
+          >SANDÁLIAS</a
+        >
+        <a
+          href="#"
+          class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium"
+          >LINHA OXFORD</a
+        >
+        <a
+          href="#"
+          class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium"
+          >LINHA MOCASSIM</a
+        >
+        <a
+          href="#"
+          class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium"
+          >SAPATILHAS</a
+        >
+        <a
+          href="#"
+          class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium"
+          >RASTEIRAS</a
+        >
       </div>
     </div>
 
     <!-- Auth Modal -->
-    <AuthModal
-      :is-open="showAuthModal"
-      @close="showAuthModal = false"
-    />
+    <AuthModal :is-open="showAuthModal" @close="showAuthModal = false" />
 
     <!-- Create User Modal -->
     <AuthModal
@@ -161,39 +319,39 @@
 </template>
 
 <script setup>
-const mobileMenuOpen = ref(false)
-const showAuthModal = ref(false)
-const showUserMenu = ref(false)
-const showCreateUserModal = ref(false)
+const mobileMenuOpen = ref(false);
+const showAuthModal = ref(false);
+const showUserMenu = ref(false);
+const showCreateUserModal = ref(false);
 
-const { user, signOut, initAuth } = useAuth()
+const { user, signOut, initAuth } = useAuth();
 
 const toggleMobileMenu = () => {
-  mobileMenuOpen.value = !mobileMenuOpen.value
-}
+  mobileMenuOpen.value = !mobileMenuOpen.value;
+};
 
 const handleLogout = async () => {
-  await signOut()
-  showUserMenu.value = false
-}
+  await signOut();
+  showUserMenu.value = false;
+};
 
 const openCreateUserModal = () => {
-  showCreateUserModal.value = true
-  showUserMenu.value = false
-}
+  showCreateUserModal.value = true;
+  showUserMenu.value = false;
+};
 
 // Inicializar autenticação quando o componente for montado
 onMounted(() => {
-  initAuth()
-})
+  initAuth();
+});
 
 // Fechar menu do usuário quando clicar fora
 onMounted(() => {
-  document.addEventListener('click', (e) => {
-    const userMenu = document.querySelector('[data-user-menu]')
+  document.addEventListener('click', e => {
+    const userMenu = document.querySelector('[data-user-menu]');
     if (userMenu && !userMenu.contains(e.target)) {
-      showUserMenu.value = false
+      showUserMenu.value = false;
     }
-  })
-})
-</script> 
+  });
+});
+</script>
