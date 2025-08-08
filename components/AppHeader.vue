@@ -138,6 +138,25 @@
                     Visualizar Produtos
                   </button>
                   <button
+                    @click="openCreateCategoryModal"
+                    class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    <svg
+                      class="w-4 h-4 inline mr-2"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                      ></path>
+                    </svg>
+                    Cadastrar Categoria
+                  </button>
+                  <button
                     @click="openCreateProductModal"
                     class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                   >
@@ -377,6 +396,9 @@
     <!-- Create Product Modal -->
     <ProductModal :is-open="showCreateProductModal" @close="showCreateProductModal = false" />
 
+    <!-- Create Category Modal -->
+    <CategoryModal :is-open="showCreateCategoryModal" @close="showCreateCategoryModal = false" />
+
     <!-- View Products Modal -->
     <ViewProductsModal :is-open="showViewProductsModal" @close="showViewProductsModal = false" />
   </header>
@@ -388,6 +410,7 @@ const showAuthModal = ref(false);
 const showUserMenu = ref(false);
 const showCreateUserModal = ref(false);
 const showCreateProductModal = ref(false);
+const showCreateCategoryModal = ref(false);
 const showViewProductsModal = ref(false);
 const isLoggingOut = ref(false);
 
@@ -419,6 +442,11 @@ const openCreateUserModal = () => {
 
 const openCreateProductModal = () => {
   showCreateProductModal.value = true;
+  showUserMenu.value = false;
+};
+
+const openCreateCategoryModal = () => {
+  showCreateCategoryModal.value = true;
   showUserMenu.value = false;
 };
 
