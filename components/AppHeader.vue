@@ -118,8 +118,8 @@
                     </svg>
                     Criar Usuário
                   </button>
-                  <NuxtLink
-                    to="/admin/products"
+                  <button
+                    @click="openViewProductsModal"
                     class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                   >
                     <svg
@@ -136,7 +136,7 @@
                       ></path>
                     </svg>
                     Visualizar Produtos
-                  </NuxtLink>
+                  </button>
                   <button
                     @click="openCreateProductModal"
                     class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
@@ -376,6 +376,9 @@
 
     <!-- Create Product Modal -->
     <ProductModal :is-open="showCreateProductModal" @close="showCreateProductModal = false" />
+
+    <!-- View Products Modal -->
+    <ViewProductsModal :is-open="showViewProductsModal" @close="showViewProductsModal = false" />
   </header>
 </template>
 
@@ -385,6 +388,7 @@ const showAuthModal = ref(false);
 const showUserMenu = ref(false);
 const showCreateUserModal = ref(false);
 const showCreateProductModal = ref(false);
+const showViewProductsModal = ref(false);
 const isLoggingOut = ref(false);
 
 const { user, signOut, initAuth, refreshUserState } = useAuth();
@@ -415,6 +419,11 @@ const openCreateUserModal = () => {
 
 const openCreateProductModal = () => {
   showCreateProductModal.value = true;
+  showUserMenu.value = false;
+};
+
+const openViewProductsModal = () => {
+  showViewProductsModal.value = true;
   showUserMenu.value = false;
 };
 
