@@ -10,7 +10,9 @@
       >
         <!-- Header -->
         <div class="flex items-center justify-between p-6 border-b border-gray-200">
-          <h2 class="text-xl font-semibold text-gray-900">Cadastrar Novo Produto</h2>
+          <h2 class="text-xl font-semibold text-gray-900">
+            {{ props.product ? 'Editar Produto' : 'Cadastrar Novo Produto' }}
+          </h2>
           <button @click="closeModal" class="text-gray-400 hover:text-gray-600 transition-colors">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -219,7 +221,7 @@
                 :disabled="loading"
                 class="px-4 py-2 text-sm font-medium text-white bg-coral-soft border border-transparent rounded-lg hover:bg-coral-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {{ loading ? 'Salvando...' : 'Salvar Produto' }}
+                {{ loading ? 'Salvando...' : (props.product ? 'Atualizar Produto' : 'Salvar Produto') }}
               </button>
             </div>
           </form>
@@ -235,9 +237,13 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  product: {
+    type: Object,
+    default: null,
+  },
 });
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'saved']);
 
 const { success, error: notificationError } = useNotifications();
 
@@ -277,19 +283,37 @@ const closeModal = () => {
 };
 
 const resetForm = () => {
-  form.value = {
-    name: '',
-    slug: '',
-    description: '',
-    price: '',
-    salePrice: '',
-    categoryId: '',
-    images: [],
-    sizes: [],
-    colors: [],
-    inStock: true,
-    featured: false,
-  };
+  if (props.product) {
+    // Carregar dados do produto para edição
+    form.value = {
+      name: props.product.name,
+      slug: props.product.slug,
+      description: props.product.description,
+      price: props.product.price.toString(),
+      salePrice: props.product.salePrice ? props.product.salePrice.toString() : '',
+      categoryId: props.product.categoryId,
+      images: props.product.images || [],
+      sizes: props.product.sizes ? props.product.sizes.join(', ') : '',
+      colors: props.product.colors ? props.product.colors.join(', ') : '',
+      inStock: props.product.inStock,
+      featured: props.product.featured,
+    };
+  } else {
+    // Formulário vazio para novo produto
+    form.value = {
+      name: '',
+      slug: '',
+      description: '',
+      price: '',
+      salePrice: '',
+      categoryId: '',
+      images: [],
+      sizes: '',
+      colors: '',
+      inStock: true,
+      featured: false,
+    };
+  }
   error.value = null;
   successMessage.value = '';
 };
@@ -325,21 +349,33 @@ const handleSubmit = async () => {
         .filter(c => c),
     };
 
-    // Criar produto
-    const { data, error: createError } = await supabase
-      .from('products')
-      .insert(productData)
-      .select()
-      .single();
+    let result;
+    if (props.product) {
+      // Atualizar produto existente
+      result = await supabase
+        .from('products')
+        .update(productData)
+        .eq('id', props.product.id)
+        .select()
+        .single();
+    } else {
+      // Criar novo produto
+      result = await supabase
+        .from('products')
+        .insert(productData)
+        .select()
+        .single();
+    }
 
-    if (createError) throw createError;
+    if (result.error) throw result.error;
 
-    successMessage.value = 'Produto criado com sucesso!';
+    successMessage.value = props.product ? 'Produto atualizado com sucesso!' : 'Produto criado com sucesso!';
+    emit('saved');
     setTimeout(() => {
       closeModal();
     }, 1500);
   } catch (err) {
-    error.value = err.message || 'Erro ao criar produto';
+    error.value = err.message || (props.product ? 'Erro ao atualizar produto' : 'Erro ao criar produto');
   } finally {
     loading.value = false;
   }
@@ -351,7 +387,16 @@ watch(
   newValue => {
     if (newValue) {
       loadCategories();
-    } else {
+      resetForm();
+    }
+  }
+);
+
+// Recarregar formulário quando o produto mudar
+watch(
+  () => props.product,
+  () => {
+    if (props.isOpen) {
       resetForm();
     }
   }

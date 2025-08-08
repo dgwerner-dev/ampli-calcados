@@ -1,15 +1,13 @@
-export default defineNuxtRouteMiddleware(to => {
-  const { isAuthenticated } = useAuth();
-
-  // Se a rota requer autenticação e o usuário não está logado
-  if (to.meta.requiresAuth && !isAuthenticated.value) {
-    // Redirecionar para login
-    return navigateTo('/login');
+export default defineNuxtRouteMiddleware((to) => {
+  const { user } = useAuth();
+  
+  // Se não há usuário logado, redirecionar para login
+  if (!user.value) {
+    return navigateTo('/');
   }
-
-  // Se o usuário está logado e tenta acessar páginas de auth
-  if (to.meta.guest && isAuthenticated.value) {
-    // Redirecionar para home
+  
+  // Se a rota é administrativa e o usuário não é admin, redirecionar
+  if (to.path.startsWith('/admin') && user.value.role !== 'ADMIN') {
     return navigateTo('/');
   }
 });
