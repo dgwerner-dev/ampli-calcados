@@ -212,11 +212,6 @@ definePageMeta({
 
 const { user } = useAuth();
 
-// Verificar se é admin
-if (!user.value || user.value.role !== 'ADMIN') {
-  await navigateTo('/');
-}
-
 // Estados
 const loading = ref(false);
 const error = ref(null);
