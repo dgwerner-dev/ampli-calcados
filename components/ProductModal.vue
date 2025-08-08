@@ -80,13 +80,19 @@
                 id="product-category"
                 v-model="form.categoryId"
                 required
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral-soft focus:border-transparent"
+                :disabled="categoriesLoading"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral-soft focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <option value="">Selecione uma categoria</option>
+                <option value="">
+                  {{ categoriesLoading ? 'Carregando categorias...' : 'Selecione uma categoria' }}
+                </option>
                 <option v-for="category in categories" :key="category.id" :value="category.id">
                   {{ category.name }}
                 </option>
               </select>
+              <p v-if="!categoriesLoading && categories.length === 0" class="mt-1 text-sm text-red-600">
+                Nenhuma categoria encontrada. Cadastre categorias primeiro.
+              </p>
             </div>
 
             <!-- Description -->
@@ -290,6 +296,7 @@ const { success, error: notificationError } = useNotifications();
 
 // Estados
 const loading = ref(false);
+const categoriesLoading = ref(false);
 const error = ref(null);
 const successMessage = ref('');
 const categories = ref([]);
@@ -392,13 +399,21 @@ const uploadImagesToSupabase = async () => {
 };
 
 const loadCategories = async () => {
+  categoriesLoading.value = true;
   try {
     const { data, error: fetchError } = await supabase.from('categories').select('*').order('name');
 
     if (fetchError) throw fetchError;
     categories.value = data || [];
+    
+    if (categories.value.length === 0) {
+      console.log('Nenhuma categoria encontrada. Considere cadastrar categorias primeiro.');
+    }
   } catch (err) {
     console.error('Erro ao carregar categorias:', err);
+    error.value = 'Erro ao carregar categorias. Tente novamente.';
+  } finally {
+    categoriesLoading.value = false;
   }
 };
 
