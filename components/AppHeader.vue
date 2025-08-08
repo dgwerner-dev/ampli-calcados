@@ -423,8 +423,10 @@ const openCreateProductModal = () => {
 };
 
 const openViewProductsModal = () => {
+  console.log('Abrindo modal de produtos...');
   showViewProductsModal.value = true;
   showUserMenu.value = false;
+  console.log('showViewProductsModal:', showViewProductsModal.value);
 };
 
 const handleLoginSuccess = async () => {

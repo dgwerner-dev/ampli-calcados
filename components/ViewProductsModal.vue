@@ -130,6 +130,9 @@ const props = defineProps({
   },
 });
 
+// Debug log
+console.log('ViewProductsModal props:', props.isOpen);
+
 const emit = defineEmits(['close']);
 
 // Estados
