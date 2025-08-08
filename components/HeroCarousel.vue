@@ -90,12 +90,8 @@
                     <!-- Features -->
                     <div class="flex flex-wrap gap-3 text-sm">
                       <!-- Lançamento -->
-                      <div
-                        class="flex items-center bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                      >
-                        <div
-                          class="flex items-center justify-center w-6 h-6 bg-white/20 rounded-full mr-2"
-                        >
+                      <div class="carousel-feature-card card-lancamento">
+                        <div class="carousel-feature-icon">
                           <svg
                             class="w-4 h-4 text-white"
                             fill="none"
@@ -110,16 +106,12 @@
                             ></path>
                           </svg>
                         </div>
-                        <span class="text-white font-semibold">Lançamento</span>
+                        <span class="carousel-feature-text">Lançamento</span>
                       </div>
                       
                       <!-- Couro Genuíno -->
-                      <div
-                        class="flex items-center bg-gradient-to-r from-amber-500 to-orange-500 px-4 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                      >
-                        <div
-                          class="flex items-center justify-center w-6 h-6 bg-white/20 rounded-full mr-2"
-                        >
+                      <div class="carousel-feature-card card-couro">
+                        <div class="carousel-feature-icon">
                           <svg
                             class="w-4 h-4 text-white"
                             fill="none"
@@ -134,16 +126,12 @@
                             ></path>
                           </svg>
                         </div>
-                        <span class="text-white font-semibold">Couro Genuíno</span>
+                        <span class="carousel-feature-text">Couro Genuíno</span>
                       </div>
                       
                       <!-- Confortável -->
-                      <div
-                        class="flex items-center bg-gradient-to-r from-emerald-500 to-teal-500 px-4 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                      >
-                        <div
-                          class="flex items-center justify-center w-6 h-6 bg-white/20 rounded-full mr-2"
-                        >
+                      <div class="carousel-feature-card card-confortavel">
+                        <div class="carousel-feature-icon">
                           <svg
                             class="w-4 h-4 text-white"
                             fill="none"
@@ -158,16 +146,12 @@
                             ></path>
                           </svg>
                         </div>
-                        <span class="text-white font-semibold">Confortável</span>
+                        <span class="carousel-feature-text">Confortável</span>
                       </div>
                       
                       <!-- Pagamento Seguro -->
-                      <div
-                        class="flex items-center bg-gradient-to-r from-blue-500 to-indigo-500 px-4 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                      >
-                        <div
-                          class="flex items-center justify-center w-6 h-6 bg-white/20 rounded-full mr-2"
-                        >
+                      <div class="carousel-feature-card card-pagamento">
+                        <div class="carousel-feature-icon">
                           <svg
                             class="w-4 h-4 text-white"
                             fill="none"
@@ -182,7 +166,7 @@
                             ></path>
                           </svg>
                         </div>
-                        <span class="text-white font-semibold">Pagamento Seguro</span>
+                        <span class="carousel-feature-text">Pagamento Seguro</span>
                       </div>
                     </div>
 

@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Importar fixes do carrossel */
+@import './carousel-fixes.css';
+
 @layer base {
   * {
     font-family: 'Nunito', sans-serif;
