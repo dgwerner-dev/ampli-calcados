@@ -143,16 +143,63 @@
 
             <!-- Images -->
             <div>
-              <label for="product-images" class="block text-sm font-medium text-gray-700 mb-1">
-                URLs das Imagens (uma por linha)
+              <label class="block text-sm font-medium text-gray-700 mb-1">
+                Imagens do Produto
               </label>
-              <textarea
-                id="product-images"
-                v-model="imagesText"
-                rows="3"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral-soft focus:border-transparent"
-                placeholder="https://exemplo.com/imagem1.jpg&#10;https://exemplo.com/imagem2.jpg"
-              ></textarea>
+              
+              <!-- File Upload -->
+              <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                <input
+                  ref="fileInput"
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  @change="handleFileUpload"
+                  class="hidden"
+                />
+                <button
+                  type="button"
+                  @click="$refs.fileInput.click()"
+                  class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-coral-soft hover:bg-coral-dark transition-colors"
+                >
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                  </svg>
+                  Selecionar Imagens
+                </button>
+                <p class="mt-2 text-sm text-gray-500">
+                  Arraste e solte imagens aqui ou clique para selecionar
+                </p>
+              </div>
+
+              <!-- Uploaded Images Preview -->
+              <div v-if="uploadedImages.length > 0" class="mt-4">
+                <h4 class="text-sm font-medium text-gray-700 mb-2">Imagens selecionadas:</h4>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  <div
+                    v-for="(image, index) in uploadedImages"
+                    :key="index"
+                    class="relative group"
+                  >
+                    <img
+                      :src="image.preview"
+                      :alt="`Imagem ${index + 1}`"
+                      class="w-full h-24 object-cover rounded-lg"
+                    />
+                    <button
+                      @click="removeImage(index)"
+                      class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                      </svg>
+                    </button>
+                    <div v-if="image.uploading" class="absolute inset-0 bg-black bg-opacity-50 rounded-lg flex items-center justify-center">
+                      <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <!-- Sizes and Colors -->
@@ -246,6 +293,7 @@ const loading = ref(false);
 const error = ref(null);
 const successMessage = ref('');
 const categories = ref([]);
+const uploadedImages = ref([]);
 
 // Formulário
 const form = ref({
@@ -260,14 +308,6 @@ const form = ref({
   colors: [],
   inStock: true,
   featured: false,
-});
-
-// Texto das imagens para o textarea
-const imagesText = computed({
-  get: () => form.value.images.join('\n'),
-  set: value => {
-    form.value.images = value.split('\n').filter(url => url.trim());
-  },
 });
 
 // Métodos
@@ -290,8 +330,65 @@ const resetForm = () => {
     inStock: true,
     featured: false,
   };
+  uploadedImages.value = [];
   error.value = null;
   successMessage.value = '';
+};
+
+// Funções para upload de imagens
+const handleFileUpload = (event) => {
+  const files = Array.from(event.target.files);
+  
+  files.forEach(file => {
+    if (file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        uploadedImages.value.push({
+          file: file,
+          preview: e.target.result,
+          uploading: false,
+          url: null
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+};
+
+const removeImage = (index) => {
+  uploadedImages.value.splice(index, 1);
+};
+
+const uploadImagesToSupabase = async () => {
+  const uploadedUrls = [];
+  
+  for (let i = 0; i < uploadedImages.value.length; i++) {
+    const image = uploadedImages.value[i];
+    image.uploading = true;
+    
+    try {
+      const fileName = `${Date.now()}-${i}-${image.file.name}`;
+      const { data, error } = await supabase.storage
+        .from('product-images')
+        .upload(fileName, image.file);
+      
+      if (error) throw error;
+      
+      const { data: { publicUrl } } = supabase.storage
+        .from('product-images')
+        .getPublicUrl(fileName);
+      
+      uploadedUrls.push(publicUrl);
+      image.url = publicUrl;
+    } catch (err) {
+      console.error('Erro ao fazer upload da imagem:', err);
+      throw new Error(`Erro ao fazer upload da imagem ${i + 1}: ${err.message}`);
+    } finally {
+      image.uploading = false;
+    }
+  }
+  
+  return uploadedUrls;
 };
 
 const loadCategories = async () => {
@@ -310,11 +407,18 @@ const handleSubmit = async () => {
   error.value = null;
 
   try {
+    // Fazer upload das imagens primeiro
+    let imageUrls = [];
+    if (uploadedImages.value.length > 0) {
+      imageUrls = await uploadImagesToSupabase();
+    }
+
     // Preparar dados
     const productData = {
       ...form.value,
       price: parseFloat(form.value.price),
       salePrice: form.value.salePrice ? parseFloat(form.value.salePrice) : null,
+      images: imageUrls,
       sizes: form.value.sizes
         .split(',')
         .map(s => s.trim())
