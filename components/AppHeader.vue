@@ -118,13 +118,34 @@
                     </svg>
                     Criar Usuário
                   </button>
+                  <button
+                    @click="openCreateProductModal"
+                    class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    <svg
+                      class="w-4 h-4 inline mr-2"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                      ></path>
+                    </svg>
+                    Cadastrar Produto
+                  </button>
                 </div>
 
                 <button
                   @click="handleLogout"
-                  class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                  :disabled="isLoggingOut"
+                  class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <svg
+                    v-if="!isLoggingOut"
                     class="w-4 h-4 inline mr-2"
                     fill="none"
                     stroke="currentColor"
@@ -137,7 +158,21 @@
                       d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                     ></path>
                   </svg>
-                  Sair
+                  <svg
+                    v-else
+                    class="w-4 h-4 inline mr-2 animate-spin"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                    ></path>
+                  </svg>
+                  {{ isLoggingOut ? 'Saindo...' : 'Sair' }}
                 </button>
               </div>
             </div>
@@ -307,7 +342,11 @@
     </div>
 
     <!-- Auth Modal -->
-    <AuthModal :is-open="showAuthModal" @close="showAuthModal = false" />
+    <AuthModal
+      :is-open="showAuthModal"
+      @close="showAuthModal = false"
+      @login-success="handleLoginSuccess"
+    />
 
     <!-- Create User Modal -->
     <AuthModal
@@ -315,6 +354,9 @@
       @close="showCreateUserModal = false"
       :mode="'create-user'"
     />
+
+    <!-- Create Product Modal -->
+    <ProductModal :is-open="showCreateProductModal" @close="showCreateProductModal = false" />
   </header>
 </template>
 
@@ -323,21 +365,44 @@ const mobileMenuOpen = ref(false);
 const showAuthModal = ref(false);
 const showUserMenu = ref(false);
 const showCreateUserModal = ref(false);
+const showCreateProductModal = ref(false);
+const isLoggingOut = ref(false);
 
-const { user, signOut, initAuth } = useAuth();
+const { user, signOut, initAuth, refreshUserState } = useAuth();
 
 const toggleMobileMenu = () => {
   mobileMenuOpen.value = !mobileMenuOpen.value;
 };
 
+const { success, error } = useNotifications();
+
 const handleLogout = async () => {
-  await signOut();
-  showUserMenu.value = false;
+  isLoggingOut.value = true;
+  try {
+    await signOut();
+    showUserMenu.value = false;
+    success('Logout realizado com sucesso!');
+  } catch (err) {
+    error('Erro ao fazer logout. Tente novamente.');
+  } finally {
+    isLoggingOut.value = false;
+  }
 };
 
 const openCreateUserModal = () => {
   showCreateUserModal.value = true;
   showUserMenu.value = false;
+};
+
+const openCreateProductModal = () => {
+  showCreateProductModal.value = true;
+  showUserMenu.value = false;
+};
+
+const handleLoginSuccess = async () => {
+  // Forçar atualização do estado do usuário
+  await refreshUserState();
+  success('Login realizado com sucesso!');
 };
 
 // Inicializar autenticação quando o componente for montado

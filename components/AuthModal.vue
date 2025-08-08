@@ -284,7 +284,11 @@ const handleLogin = async () => {
   try {
     await signIn(loginForm.value.email, loginForm.value.password);
     successMessage.value = 'Login realizado com sucesso!';
-    setTimeout(() => closeModal(), 1500);
+    setTimeout(() => {
+      closeModal();
+      // Emitir evento de login bem-sucedido
+      emit('login-success');
+    }, 1500);
   } catch (err) {
     // Error já está sendo tratado no composable
   }

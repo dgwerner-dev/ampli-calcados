@@ -64,6 +64,21 @@ export const useAuth = () => {
     }
   };
 
+  const refreshUserState = async () => {
+    try {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (session?.user) {
+        await loadUserProfile(session.user.id);
+      } else {
+        user.value = null;
+      }
+    } catch (err) {
+      console.error('Erro ao atualizar estado do usuário:', err);
+    }
+  };
+
   const signIn = async (email: string, password: string) => {
     loading.value = true;
     error.value = null;
@@ -281,5 +296,6 @@ export const useAuth = () => {
     resetPassword,
     updatePassword,
     updateProfile,
+    refreshUserState,
   };
 };

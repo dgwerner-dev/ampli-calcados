@@ -11,6 +11,9 @@
       <!-- Products Grid -->
       <ProductsGrid />
     </main>
+
+    <!-- Notifications -->
+    <Notifications />
   </div>
 </template>
 
