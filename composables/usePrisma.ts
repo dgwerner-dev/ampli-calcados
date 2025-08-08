@@ -1,20 +1,20 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client';
 
 // Singleton do Prisma Client
-let prisma: PrismaClient
+let prisma: PrismaClient;
 
 export const usePrisma = () => {
   if (!prisma) {
-    prisma = new PrismaClient()
+    prisma = new PrismaClient();
   }
-  
-  return prisma
-}
+
+  return prisma;
+};
 
 // Funções utilitárias para o e-commerce
 export const useProductService = () => {
-  const prisma = usePrisma()
-  
+  const prisma = usePrisma();
+
   return {
     // Buscar todos os produtos
     async getAllProducts() {
@@ -23,25 +23,25 @@ export const useProductService = () => {
           category: true,
           reviews: {
             include: {
-              user: true
-            }
-          }
-        }
-      })
+              user: true,
+            },
+          },
+        },
+      });
     },
-    
+
     // Buscar produtos em destaque
     async getFeaturedProducts() {
       return await prisma.product.findMany({
         where: {
-          featured: true
+          featured: true,
         },
         include: {
-          category: true
-        }
-      })
+          category: true,
+        },
+      });
     },
-    
+
     // Buscar produto por slug
     async getProductBySlug(slug: string) {
       return await prisma.product.findUnique({
@@ -50,32 +50,32 @@ export const useProductService = () => {
           category: true,
           reviews: {
             include: {
-              user: true
-            }
-          }
-        }
-      })
+              user: true,
+            },
+          },
+        },
+      });
     },
-    
+
     // Buscar produtos por categoria
     async getProductsByCategory(categorySlug: string) {
       return await prisma.product.findMany({
         where: {
           category: {
-            slug: categorySlug
-          }
+            slug: categorySlug,
+          },
         },
         include: {
-          category: true
-        }
-      })
-    }
-  }
-}
+          category: true,
+        },
+      });
+    },
+  };
+};
 
 export const useOrderService = () => {
-  const prisma = usePrisma()
-  
+  const prisma = usePrisma();
+
   return {
     // Criar pedido
     async createOrder(userId: string, items: any[], total: number) {
@@ -91,20 +91,20 @@ export const useOrderService = () => {
               quantity: item.quantity,
               price: item.price,
               size: item.size,
-              color: item.color
-            }))
-          }
+              color: item.color,
+            })),
+          },
         },
         include: {
           orderItems: {
             include: {
-              product: true
-            }
-          }
-        }
-      })
+              product: true,
+            },
+          },
+        },
+      });
     },
-    
+
     // Buscar pedidos do usuário
     async getUserOrders(userId: string) {
       return await prisma.order.findMany({
@@ -112,68 +112,68 @@ export const useOrderService = () => {
         include: {
           orderItems: {
             include: {
-              product: true
-            }
-          }
+              product: true,
+            },
+          },
         },
         orderBy: {
-          createdAt: 'desc'
-        }
-      })
-    }
-  }
-}
+          createdAt: 'desc',
+        },
+      });
+    },
+  };
+};
 
 export const useWishlistService = () => {
-  const prisma = usePrisma()
-  
+  const prisma = usePrisma();
+
   return {
     // Adicionar à lista de desejos
     async addToWishlist(userId: string, productId: string) {
       return await prisma.wishlistItem.create({
         data: {
           userId,
-          productId
+          productId,
         },
         include: {
-          product: true
-        }
-      })
+          product: true,
+        },
+      });
     },
-    
+
     // Remover da lista de desejos
     async removeFromWishlist(userId: string, productId: string) {
       return await prisma.wishlistItem.delete({
         where: {
           userId_productId: {
             userId,
-            productId
-          }
-        }
-      })
+            productId,
+          },
+        },
+      });
     },
-    
+
     // Buscar lista de desejos do usuário
     async getUserWishlist(userId: string) {
       return await prisma.wishlistItem.findMany({
         where: { userId },
         include: {
-          product: true
-        }
-      })
+          product: true,
+        },
+      });
     },
-    
+
     // Verificar se produto está na lista de desejos
     async isInWishlist(userId: string, productId: string) {
       const item = await prisma.wishlistItem.findUnique({
         where: {
           userId_productId: {
             userId,
-            productId
-          }
-        }
-      })
-      return !!item
-    }
-  }
-} 
+            productId,
+          },
+        },
+      });
+      return !!item;
+    },
+  };
+};

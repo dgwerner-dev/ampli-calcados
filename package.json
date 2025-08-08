@@ -8,7 +8,9 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:seed": "tsx prisma/seed.ts",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@nuxtjs/supabase": "^1.6.0",
@@ -23,6 +25,7 @@
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
+    "prettier": "^3.6.2",
     "tsx": "^4.20.3"
   }
 }

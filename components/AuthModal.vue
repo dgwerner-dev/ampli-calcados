@@ -2,21 +2,25 @@
   <div v-if="isOpen" class="fixed inset-0 z-50 overflow-y-auto">
     <!-- Overlay -->
     <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" @click="closeModal"></div>
-    
+
     <!-- Modal -->
     <div class="flex min-h-full items-center justify-center p-4">
-      <div class="relative w-full max-w-md transform overflow-hidden rounded-lg bg-white shadow-xl transition-all">
+      <div
+        class="relative w-full max-w-md transform overflow-hidden rounded-lg bg-white shadow-xl transition-all"
+      >
         <!-- Header -->
         <div class="flex items-center justify-between p-6 border-b border-gray-200">
           <h2 class="text-xl font-semibold text-gray-900">
             {{ getModalTitle() }}
           </h2>
-          <button 
-            @click="closeModal"
-            class="text-gray-400 hover:text-gray-600 transition-colors"
-          >
+          <button @click="closeModal" class="text-gray-400 hover:text-gray-600 transition-colors">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
             </svg>
           </button>
         </div>
@@ -29,7 +33,10 @@
           </div>
 
           <!-- Success Message -->
-          <div v-if="successMessage" class="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+          <div
+            v-if="successMessage"
+            class="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg"
+          >
             <p class="text-sm text-green-600">{{ successMessage }}</p>
           </div>
 
@@ -88,10 +95,12 @@
             </div>
           </form>
 
-
-
           <!-- Forgot Password Form -->
-          <form v-else-if="mode === 'forgot-password'" @submit.prevent="handleForgotPassword" class="space-y-4">
+          <form
+            v-else-if="mode === 'forgot-password'"
+            @submit.prevent="handleForgotPassword"
+            class="space-y-4"
+          >
             <div class="text-center mb-4">
               <p class="text-gray-600">
                 Digite seu email para receber um link de redefinição de senha.
@@ -132,7 +141,11 @@
           </form>
 
           <!-- Create User Form (Admin Only) -->
-          <form v-else-if="mode === 'create-user'" @submit.prevent="handleCreateUser" class="space-y-4">
+          <form
+            v-else-if="mode === 'create-user'"
+            @submit.prevent="handleCreateUser"
+            class="space-y-4"
+          >
             <div>
               <label for="create-user-name" class="block text-sm font-medium text-gray-700 mb-1">
                 Nome Completo
@@ -162,7 +175,10 @@
             </div>
 
             <div>
-              <label for="create-user-password" class="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                for="create-user-password"
+                class="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Senha Temporária
               </label>
               <input
@@ -204,98 +220,107 @@
 const props = defineProps({
   isOpen: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close']);
 
-const { signIn, createUser, resetPassword, loading, error } = useAuth()
+const { signIn, createUser, resetPassword, loading, error } = useAuth();
 
 // Estados do formulário
-const mode = ref('login')
-const successMessage = ref('')
+const mode = ref('login');
+const successMessage = ref('');
 
 // Formulários
 const loginForm = ref({
   email: '',
-  password: ''
-})
+  password: '',
+});
 
 const forgotPasswordForm = ref({
-  email: ''
-})
+  email: '',
+});
 
 const createUserForm = ref({
   name: '',
   email: '',
-  password: ''
-})
+  password: '',
+});
 
 // Métodos
 const closeModal = () => {
-  emit('close')
-  resetForms()
-}
+  emit('close');
+  resetForms();
+};
 
 const resetForms = () => {
-  loginForm.value = { email: '', password: '' }
-  forgotPasswordForm.value = { email: '' }
-  createUserForm.value = { name: '', email: '', password: '' }
-  error.value = null
-  successMessage.value = ''
-}
+  loginForm.value = { email: '', password: '' };
+  forgotPasswordForm.value = { email: '' };
+  createUserForm.value = { name: '', email: '', password: '' };
+  error.value = null;
+  successMessage.value = '';
+};
 
-const setMode = (newMode) => {
-  mode.value = newMode
-  resetForms()
-}
+const setMode = newMode => {
+  mode.value = newMode;
+  resetForms();
+};
 
 const getModalTitle = () => {
   switch (mode.value) {
-    case 'login': return 'Entrar'
-    case 'forgot-password': return 'Recuperar Senha'
-    case 'create-user': return 'Criar Novo Usuário'
-    default: return 'Autenticação'
+    case 'login':
+      return 'Entrar';
+    case 'forgot-password':
+      return 'Recuperar Senha';
+    case 'create-user':
+      return 'Criar Novo Usuário';
+    default:
+      return 'Autenticação';
   }
-}
+};
 
 const handleLogin = async () => {
   try {
-    await signIn(loginForm.value.email, loginForm.value.password)
-    successMessage.value = 'Login realizado com sucesso!'
-    setTimeout(() => closeModal(), 1500)
+    await signIn(loginForm.value.email, loginForm.value.password);
+    successMessage.value = 'Login realizado com sucesso!';
+    setTimeout(() => closeModal(), 1500);
   } catch (err) {
     // Error já está sendo tratado no composable
   }
-}
-
-
+};
 
 const handleForgotPassword = async () => {
   try {
-    await resetPassword(forgotPasswordForm.value.email)
-    successMessage.value = 'Email de recuperação enviado! Verifique sua caixa de entrada.'
-    setTimeout(() => setMode('login'), 2000)
+    await resetPassword(forgotPasswordForm.value.email);
+    successMessage.value = 'Email de recuperação enviado! Verifique sua caixa de entrada.';
+    setTimeout(() => setMode('login'), 2000);
   } catch (err) {
     // Error já está sendo tratado no composable
   }
-}
+};
 
 const handleCreateUser = async () => {
   try {
-    await createUser(createUserForm.value.email, createUserForm.value.password, createUserForm.value.name)
-    successMessage.value = 'Usuário criado com sucesso!'
-    setTimeout(() => closeModal(), 1500)
+    await createUser(
+      createUserForm.value.email,
+      createUserForm.value.password,
+      createUserForm.value.name
+    );
+    successMessage.value = 'Usuário criado com sucesso!';
+    setTimeout(() => closeModal(), 1500);
   } catch (err) {
     // Error já está sendo tratado no composable
   }
-}
+};
 
 // Watch para limpar mensagens quando o modal fecha
-watch(() => props.isOpen, (newValue) => {
-  if (!newValue) {
-    resetForms()
+watch(
+  () => props.isOpen,
+  newValue => {
+    if (!newValue) {
+      resetForms();
+    }
   }
-})
-</script> 
+);
+</script>

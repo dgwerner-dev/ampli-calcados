@@ -6,7 +6,7 @@
   * {
     font-family: 'Nunito', sans-serif;
   }
-  
+
   body {
     margin: 0;
     padding: 0;
@@ -18,20 +18,20 @@
   .btn-primary {
     @apply bg-coral-soft text-white px-6 py-2 hover:bg-coral-dark transition-colors duration-300;
   }
-  
+
   .btn-secondary {
     @apply border border-coral-soft text-coral-dark px-6 py-2 hover:bg-coral-soft hover:text-white transition-colors duration-300;
   }
-  
+
   .product-card {
     @apply bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300;
   }
-  
+
   .carousel-dot {
     @apply w-2 h-2 rounded-full bg-gray-300 cursor-pointer transition-colors duration-300;
   }
-  
+
   .carousel-dot.active {
     @apply bg-coral-soft;
   }
-} 
+}

@@ -14,34 +14,34 @@ export default defineNuxtConfig({
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'description', content: 'E-commerce AMPLI CALÇADOS - Calçados de qualidade' }
+        { name: 'description', content: 'E-commerce AMPLI CALÇADOS - Calçados de qualidade' },
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
         {
           rel: 'preconnect',
-          href: 'https://fonts.googleapis.com'
+          href: 'https://fonts.googleapis.com',
         },
         {
           rel: 'preconnect',
           href: 'https://fonts.gstatic.com',
-          crossorigin: 'anonymous'
+          crossorigin: 'anonymous',
         },
         {
           rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap'
-        }
-      ]
-    }
+          href: 'https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap',
+        },
+      ],
+    },
   },
   runtimeConfig: {
     public: {
       supabaseUrl: process.env.SUPABASE_URL,
-      supabaseKey: process.env.SUPABASE_ANON_KEY
-    }
+      supabaseKey: process.env.SUPABASE_ANON_KEY,
+    },
   },
   supabase: {
     url: process.env.SUPABASE_URL,
-    key: process.env.SUPABASE_ANON_KEY
-  }
-})
+    key: process.env.SUPABASE_ANON_KEY,
+  },
+});

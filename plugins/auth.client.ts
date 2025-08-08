@@ -1,6 +1,6 @@
 export default defineNuxtPlugin(async () => {
-  const { initAuth } = useAuth()
-  
+  const { initAuth } = useAuth();
+
   // Inicializar autenticação quando o app carregar
-  await initAuth()
-}) 
+  await initAuth();
+});
