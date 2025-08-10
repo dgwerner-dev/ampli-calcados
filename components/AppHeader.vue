@@ -9,10 +9,13 @@
           >
           <span class="text-gray-400">|</span>
           <button
-            @click="showAuthModal = true"
+            type="button"
+            @click="handleTopLoginClick"
             class="text-gray-700 hover:text-black transition-colors duration-200"
           >
-            {{ user ? user.email : 'Login' }}
+            <ClientOnly fallback="Login">
+              {{ user ? 'Bem-vindo, ' + (user.name || user.email) : 'Login' }}
+            </ClientOnly>
           </button>
         </div>
         <div class="flex items-center space-x-6 text-gray-700 font-medium">
@@ -64,89 +67,16 @@
             </div>
 
             <!-- User Menu -->
-            <div v-if="user" class="relative">
-              <button
-                @click="showUserMenu = !showUserMenu"
-                class="flex items-center space-x-1 p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
-              >
-                <svg
-                  class="w-5 h-5 text-gray-700"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                  ></path>
-                </svg>
-              </button>
-
-              <!-- User Dropdown -->
-              <div
-                v-if="showUserMenu"
-                class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
-              >
-                <div class="px-4 py-2 border-b border-gray-100">
-                  <p class="text-sm font-medium text-gray-900 select-none">{{ user.email }}</p>
-                  <p class="text-xs text-gray-500">{{ user.name || 'Usuário' }}</p>
-                  <p class="text-xs text-coral-soft font-semibold">
-                    {{ user.role === 'ADMIN' ? 'Administrador' : 'Usuário' }}
-                  </p>
-                </div>
-
-                <!-- Admin Actions -->
-                <div v-if="user.role === 'ADMIN'" class="border-b border-gray-100">
-                  <button
-                    @click="openCreateUserModal"
-                    class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-                  >
-                    <svg
-                      class="w-4 h-4 inline mr-2"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                      ></path>
-                    </svg>
-                    Criar Usuário
-                  </button>
-                  <button
-                    @click="openAdminPanel"
-                    class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-                  >
-                    <svg
-                      class="w-4 h-4 inline mr-2"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                      ></path>
-                    </svg>
-                    Painel Administrativo
-                  </button>
-                </div>
-
+            <ClientOnly>
+              <div v-if="user" class="relative">
                 <button
-                  @click="handleLogout"
-                  :disabled="isLoggingOut"
-                  class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  data-user-toggle
+                  type="button"
+                  @click.stop="showUserMenu = !showUserMenu"
+                  class="flex items-center space-x-1 p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
                 >
                   <svg
-                    v-if="!isLoggingOut"
-                    class="w-4 h-4 inline mr-2"
+                    class="w-5 h-5 text-gray-700"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -155,27 +85,113 @@
                       stroke-linecap="round"
                       stroke-linejoin="round"
                       stroke-width="2"
-                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                     ></path>
                   </svg>
-                  <svg
-                    v-else
-                    class="w-4 h-4 inline mr-2 animate-spin"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                    ></path>
-                  </svg>
-                  {{ isLoggingOut ? 'Saindo...' : 'Sair' }}
                 </button>
+
+                <!-- User Dropdown -->
+                <div
+                  v-show="showUserMenu"
+                  data-user-menu
+                  class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
+                >
+                  <div class="px-4 py-2 border-b border-gray-100">
+                    <p class="text-sm font-medium text-gray-900 select-none">{{ user.email }}</p>
+                    <p class="text-xs text-gray-500">{{ user.name || 'Usuário' }}</p>
+                    <p class="text-xs text-coral-soft font-semibold">
+                      {{ user.role === 'ADMIN' ? 'Administrador' : 'Usuário' }}
+                    </p>
+                  </div>
+
+                  <!-- User Actions -->
+                  <div class="border-b border-gray-100">
+                    <button
+                      type="button"
+                      @mousedown.stop.prevent
+                      @click.stop.prevent="goTo('/orders')"
+                      class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors block cursor-pointer"
+                    >
+                      <svg
+                        class="w-4 h-4 inline mr-2"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                        ></path>
+                      </svg>
+                      Meus Pedidos
+                    </button>
+                  </div>
+
+                  <!-- Admin Actions (link para página) -->
+                  <div v-if="user.role === 'ADMIN'" class="border-b border-gray-100">
+                    <button
+                      type="button"
+                      @mousedown.stop.prevent
+                      @click.stop.prevent="goTo('/admin')"
+                      class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors block cursor-pointer"
+                    >
+                      <svg
+                        class="w-4 h-4 inline mr-2"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                        ></path>
+                      </svg>
+                      Painel Administrativo
+                    </button>
+                  </div>
+
+                  <button
+                    @click="handleLogout"
+                    :disabled="isLoggingOut"
+                    class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <svg
+                      v-if="!isLoggingOut"
+                      class="w-4 h-4 inline mr-2"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                      ></path>
+                    </svg>
+                    <svg
+                      v-else
+                      class="w-4 h-4 inline mr-2 animate-spin"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                      ></path>
+                    </svg>
+                    {{ isLoggingOut ? 'Saindo...' : 'Sair' }}
+                  </button>
+                </div>
               </div>
-            </div>
+            </ClientOnly>
 
             <!-- Wishlist -->
             <button class="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200">
@@ -347,31 +363,31 @@
       @close="showAuthModal = false"
       @login-success="handleLoginSuccess"
     />
-
-    <!-- Create User Modal -->
-    <AuthModal
-      :is-open="showCreateUserModal"
-      @close="showCreateUserModal = false"
-      :mode="'create-user'"
-    />
-
-    <!-- Admin Panel -->
-    <AdminPanel :is-open="showAdminPanel" @close="showAdminPanel = false" />
   </header>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const mobileMenuOpen = ref(false);
 const showAuthModal = ref(false);
 const showUserMenu = ref(false);
-const showCreateUserModal = ref(false);
-const showAdminPanel = ref(false);
 const isLoggingOut = ref(false);
 
 const { user, signOut, initAuth, refreshUserState } = useAuth();
 
+watch(user, () => {
+  // força reatividade do dropdown quando o user muda
+});
+
 const toggleMobileMenu = () => {
   mobileMenuOpen.value = !mobileMenuOpen.value;
+};
+const handleTopLoginClick = () => {
+  if (!user.value) {
+    showAuthModal.value = true;
+  } else {
+    // abre menu do usuário ao clicar no saudação
+    showUserMenu.value = !showUserMenu.value;
+  }
 };
 
 const { success, error } = useNotifications();
@@ -389,34 +405,56 @@ const handleLogout = async () => {
   }
 };
 
-const openCreateUserModal = () => {
-  showCreateUserModal.value = true;
-  showUserMenu.value = false;
-};
-
-const openAdminPanel = () => {
-  showAdminPanel.value = true;
-  showUserMenu.value = false;
-};
-
 const handleLoginSuccess = async () => {
   // Forçar atualização do estado do usuário
   await refreshUserState();
   success('Login realizado com sucesso!');
 };
 
+const router = useRouter();
+const goTo = async (path: string) => {
+  showUserMenu.value = false;
+  await router.push(path);
+};
+
+// Removido goToOrders específico em favor de goTo genérico
+
 // Inicializar autenticação quando o componente for montado
 onMounted(() => {
   initAuth();
+
+  // Abrir modal de login quando a página /login emitir evento
+  const openModal = () => {
+    showAuthModal.value = true;
+  };
+  window.addEventListener('open-auth-modal', openModal);
+
+  // Também detectar query ?login=1 para abrir modal direto
+  const route = useRoute();
+  if (route.query.login === '1') {
+    showAuthModal.value = true;
+  }
+
+  onBeforeUnmount(() => {
+    window.removeEventListener('open-auth-modal', openModal);
+  });
 });
 
-// Fechar menu do usuário quando clicar fora
+// Fechar menu do usuário quando clicar fora (ignorar clique no botão toggle)
+const handleOutsideClick = (e: MouseEvent) => {
+  const menu = document.querySelector('[data-user-menu]');
+  const toggle = document.querySelector('[data-user-toggle]');
+  const target = e.target as Node;
+  if (menu && !menu.contains(target) && toggle && !toggle.contains(target)) {
+    showUserMenu.value = false;
+  }
+};
+
 onMounted(() => {
-  document.addEventListener('click', e => {
-    const userMenu = document.querySelector('[data-user-menu]');
-    if (userMenu && !userMenu.contains(e.target)) {
-      showUserMenu.value = false;
-    }
-  });
+  document.addEventListener('click', handleOutsideClick);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleOutsideClick);
 });
 </script>

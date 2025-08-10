@@ -8,12 +8,21 @@
       <div
         class="relative w-full max-w-md transform overflow-hidden rounded-lg bg-white shadow-xl transition-all"
       >
-        <!-- Header -->
-        <div class="flex items-center justify-between p-6 border-b border-gray-200">
-          <h2 class="text-xl font-semibold text-gray-900">
-            {{ getModalTitle() }}
-          </h2>
-          <button @click="closeModal" class="text-gray-400 hover:text-gray-600 transition-colors">
+        <!-- Header com logo centralizado e maior -->
+        <div class="relative p-6 border-b border-gray-200 text-center">
+          <img
+            :src="logoUrl"
+            alt="AMPLI CALÇADOS"
+            class="h-16 md:h-20 w-auto select-none mx-auto"
+            loading="eager"
+            decoding="async"
+          />
+          <!-- Título apenas para acessibilidade -->
+          <h2 class="sr-only">{{ getModalTitle() }}</h2>
+          <button
+            @click="closeModal"
+            class="absolute right-6 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+          >
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
@@ -26,7 +35,7 @@
         </div>
 
         <!-- Content -->
-        <div class="p-6">
+        <div class="p-6 relative">
           <!-- Error Message -->
           <div v-if="error" class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
             <p class="text-sm text-red-600">{{ error }}</p>
@@ -94,6 +103,15 @@
               </p>
             </div>
           </form>
+
+          <!-- Post-Login Loading Overlay -->
+          <div
+            v-if="postLoginLoading"
+            class="absolute inset-0 bg-white/80 flex flex-col items-center justify-center space-y-3"
+          >
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-coral-soft"></div>
+            <p class="text-sm text-gray-600">Carregando sua conta...</p>
+          </div>
 
           <!-- Forgot Password Form -->
           <form
@@ -217,6 +235,7 @@
 </template>
 
 <script setup>
+import logoUrl from '~/assets/images/logo.svg?url';
 const props = defineProps({
   isOpen: {
     type: Boolean,
@@ -231,6 +250,7 @@ const { signIn, createUser, resetPassword, loading, error } = useAuth();
 // Estados do formulário
 const mode = ref('login');
 const successMessage = ref('');
+const postLoginLoading = ref(false);
 
 // Formulários
 const loginForm = ref({
@@ -283,12 +303,15 @@ const getModalTitle = () => {
 const handleLogin = async () => {
   try {
     await signIn(loginForm.value.email, loginForm.value.password);
-    successMessage.value = 'Login realizado com sucesso!';
+    // Exibir overlay de carregamento pós-login
+    postLoginLoading.value = true;
+    // Notificar header para atualizar estado imediatamente
+    emit('login-success');
+    // Pequeno atraso para UX antes de fechar
     setTimeout(() => {
+      postLoginLoading.value = false;
       closeModal();
-      // Emitir evento de login bem-sucedido
-      emit('login-success');
-    }, 1500);
+    }, 1000);
   } catch (err) {
     // Error já está sendo tratado no composable
   }

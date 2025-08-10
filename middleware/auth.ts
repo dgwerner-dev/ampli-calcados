@@ -1,15 +1,14 @@
 export default defineNuxtRouteMiddleware(to => {
-  const { isAuthenticated } = useAuth();
+  // Aplicar apenas no lado do cliente para evitar problemas de SSR
+  if (process.client) {
+    // Verificar se a rota específica requer autenticação
+    if (to.meta.requiresAuth) {
+      const { isAuthenticated } = useAuth();
 
-  // Se a rota requer autenticação e o usuário não está logado
-  if (to.meta.requiresAuth && !isAuthenticated.value) {
-    // Redirecionar para login
-    return navigateTo('/login');
-  }
-
-  // Se o usuário está logado e tenta acessar páginas de auth
-  if (to.meta.guest && isAuthenticated.value) {
-    // Redirecionar para home
-    return navigateTo('/');
+      // Se não estiver autenticado, redirecionar para home
+      if (!isAuthenticated.value) {
+        return navigateTo('/');
+      }
+    }
   }
 });

@@ -1,20 +1,7 @@
 <template>
-  <div id="app" class="min-h-screen bg-white">
-    <!-- Header -->
-    <AppHeader />
-
-    <!-- Main Content -->
-    <main class="pt-0">
-      <!-- Hero Carousel -->
-      <HeroCarousel />
-
-      <!-- Products Grid -->
-      <ProductsGrid />
-    </main>
-
-    <!-- Notifications -->
-    <Notifications />
-  </div>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
 </template>
 
 <script setup>

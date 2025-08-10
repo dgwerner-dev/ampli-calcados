@@ -5,7 +5,9 @@
 
     <!-- Modal -->
     <div class="flex min-h-full items-center justify-center p-4">
-      <div class="relative w-full max-w-md transform overflow-hidden rounded-lg bg-white shadow-xl transition-all">
+      <div
+        class="relative w-full max-w-md transform overflow-hidden rounded-lg bg-white shadow-xl transition-all"
+      >
         <!-- Header -->
         <div class="flex items-center justify-between p-6 border-b border-gray-200">
           <h2 class="text-xl font-semibold text-gray-900">
@@ -13,7 +15,12 @@
           </h2>
           <button @click="closeModal" class="text-gray-400 hover:text-gray-600 transition-colors">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
             </svg>
           </button>
         </div>
@@ -70,7 +77,10 @@
 
             <!-- Description -->
             <div>
-              <label for="category-description" class="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                for="category-description"
+                class="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Descrição
               </label>
               <textarea
@@ -110,7 +120,13 @@
                 :disabled="loading"
                 class="px-4 py-2 text-sm font-medium text-white bg-coral-soft border border-transparent rounded-lg hover:bg-coral-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {{ loading ? 'Salvando...' : (props.category ? 'Atualizar Categoria' : 'Salvar Categoria') }}
+                {{
+                  loading
+                    ? 'Salvando...'
+                    : props.category
+                      ? 'Atualizar Categoria'
+                      : 'Salvar Categoria'
+                }}
               </button>
             </div>
           </form>
@@ -120,7 +136,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const props = defineProps({
   isOpen: {
     type: Boolean,
@@ -133,6 +149,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['close', 'saved']);
+// Supabase client do módulo @nuxtjs/supabase
+const supabase = useSupabaseClient();
 
 // Estados
 const loading = ref(false);
@@ -195,22 +213,21 @@ const handleSubmit = async () => {
         .single();
     } else {
       // Criar nova categoria
-      result = await supabase
-        .from('categories')
-        .insert(form.value)
-        .select()
-        .single();
+      result = await supabase.from('categories').insert(form.value).select().single();
     }
 
     if (result.error) throw result.error;
 
-    successMessage.value = props.category ? 'Categoria atualizada com sucesso!' : 'Categoria criada com sucesso!';
+    successMessage.value = props.category
+      ? 'Categoria atualizada com sucesso!'
+      : 'Categoria criada com sucesso!';
     emit('saved');
     setTimeout(() => {
       closeModal();
     }, 1500);
   } catch (err) {
-    error.value = err.message || (props.category ? 'Erro ao atualizar categoria' : 'Erro ao criar categoria');
+    error.value =
+      err.message || (props.category ? 'Erro ao atualizar categoria' : 'Erro ao criar categoria');
   } finally {
     loading.value = false;
   }
@@ -219,7 +236,7 @@ const handleSubmit = async () => {
 // Recarregar formulário quando o modal abrir
 watch(
   () => props.isOpen,
-  (newValue) => {
+  newValue => {
     if (newValue) {
       resetForm();
     }
@@ -235,4 +252,4 @@ watch(
     }
   }
 );
-</script> 
+</script>

@@ -1,5 +1,4 @@
-import { computed, ref } from 'vue';
-import { supabase } from '~/utils/supabase';
+import { computed, readonly } from 'vue';
 
 export interface User {
   id: string;
@@ -17,9 +16,10 @@ export interface AuthState {
 }
 
 export const useAuth = () => {
-  const user = ref<User | null>(null);
-  const loading = ref(false);
-  const error = ref<string | null>(null);
+  const supabase = useSupabaseClient();
+  const user = useState<User | null>('auth_user', () => null);
+  const loading = useState<boolean>('auth_loading', () => false);
+  const error = useState<string | null>('auth_error', () => null);
 
   const isAuthenticated = computed(() => !!user.value);
   const isAdmin = computed(() => user.value?.role === 'ADMIN');

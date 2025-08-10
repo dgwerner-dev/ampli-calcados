@@ -90,7 +90,10 @@
                   {{ category.name }}
                 </option>
               </select>
-              <p v-if="!categoriesLoading && categories.length === 0" class="mt-1 text-sm text-red-600">
+              <p
+                v-if="!categoriesLoading && categories.length === 0"
+                class="mt-1 text-sm text-red-600"
+              >
                 Nenhuma categoria encontrada. Cadastre categorias primeiro.
               </p>
             </div>
@@ -152,7 +155,7 @@
               <label class="block text-sm font-medium text-gray-700 mb-1">
                 Imagens do Produto
               </label>
-              
+
               <!-- File Upload -->
               <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
                 <input
@@ -169,7 +172,12 @@
                   class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-coral-soft hover:bg-coral-dark transition-colors"
                 >
                   <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                    ></path>
                   </svg>
                   Selecionar Imagens
                 </button>
@@ -182,11 +190,7 @@
               <div v-if="uploadedImages.length > 0" class="mt-4">
                 <h4 class="text-sm font-medium text-gray-700 mb-2">Imagens selecionadas:</h4>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  <div
-                    v-for="(image, index) in uploadedImages"
-                    :key="index"
-                    class="relative group"
-                  >
+                  <div v-for="(image, index) in uploadedImages" :key="index" class="relative group">
                     <img
                       :src="image.preview"
                       :alt="`Imagem ${index + 1}`"
@@ -197,10 +201,18 @@
                       class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
                     >
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        ></path>
                       </svg>
                     </button>
-                    <div v-if="image.uploading" class="absolute inset-0 bg-black bg-opacity-50 rounded-lg flex items-center justify-center">
+                    <div
+                      v-if="image.uploading"
+                      class="absolute inset-0 bg-black bg-opacity-50 rounded-lg flex items-center justify-center"
+                    >
                       <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
                     </div>
                   </div>
@@ -282,7 +294,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const props = defineProps({
   isOpen: {
     type: Boolean,
@@ -343,18 +355,18 @@ const resetForm = () => {
 };
 
 // Funções para upload de imagens
-const handleFileUpload = (event) => {
+const handleFileUpload = event => {
   const files = Array.from(event.target.files);
-  
+
   files.forEach(file => {
     if (file.type.startsWith('image/')) {
       const reader = new FileReader();
-      reader.onload = (e) => {
+      reader.onload = e => {
         uploadedImages.value.push({
           file: file,
           preview: e.target.result,
           uploading: false,
-          url: null
+          url: null,
         });
       };
       reader.readAsDataURL(file);
@@ -362,29 +374,31 @@ const handleFileUpload = (event) => {
   });
 };
 
-const removeImage = (index) => {
+const removeImage = index => {
   uploadedImages.value.splice(index, 1);
 };
 
+const supabase = useSupabaseClient();
+
 const uploadImagesToSupabase = async () => {
   const uploadedUrls = [];
-  
+
   for (let i = 0; i < uploadedImages.value.length; i++) {
     const image = uploadedImages.value[i];
     image.uploading = true;
-    
+
     try {
       const fileName = `${Date.now()}-${i}-${image.file.name}`;
       const { data, error } = await supabase.storage
         .from('product-images')
         .upload(fileName, image.file);
-      
+
       if (error) throw error;
-      
-      const { data: { publicUrl } } = supabase.storage
-        .from('product-images')
-        .getPublicUrl(fileName);
-      
+
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from('product-images').getPublicUrl(fileName);
+
       uploadedUrls.push(publicUrl);
       image.url = publicUrl;
     } catch (err) {
@@ -394,7 +408,7 @@ const uploadImagesToSupabase = async () => {
       image.uploading = false;
     }
   }
-  
+
   return uploadedUrls;
 };
 
@@ -405,7 +419,7 @@ const loadCategories = async () => {
 
     if (fetchError) throw fetchError;
     categories.value = data || [];
-    
+
     if (categories.value.length === 0) {
       console.log('Nenhuma categoria encontrada. Considere cadastrar categorias primeiro.');
     }
