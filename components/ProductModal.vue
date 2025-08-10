@@ -10,7 +10,9 @@
       >
         <!-- Header -->
         <div class="flex items-center justify-between p-6 border-b border-gray-200">
-          <h2 class="text-xl font-semibold text-gray-900">Cadastrar Novo Produto</h2>
+          <h2 class="text-xl font-semibold text-gray-900">
+            {{ isEditing ? 'Editar Produto' : 'Cadastrar Novo Produto' }}
+          </h2>
           <button @click="closeModal" class="text-gray-400 hover:text-gray-600 transition-colors">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -300,11 +302,16 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  product: {
+    type: Object,
+    default: null,
+  },
 });
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'saved']);
 
 const { success, error: notificationError } = useNotifications();
+const isEditing = computed(() => !!props.product);
 
 // Estados
 const loading = ref(false);
@@ -323,8 +330,8 @@ const form = ref({
   salePrice: '',
   categoryId: '',
   images: [],
-  sizes: [],
-  colors: [],
+  sizes: '',
+  colors: '',
   inStock: true,
   featured: false,
 });
@@ -344,8 +351,8 @@ const resetForm = () => {
     salePrice: '',
     categoryId: '',
     images: [],
-    sizes: [],
-    colors: [],
+    sizes: '',
+    colors: '',
     inStock: true,
     featured: false,
   };
@@ -380,15 +387,17 @@ const removeImage = index => {
 
 const supabase = useSupabaseClient();
 
-const uploadImagesToSupabase = async () => {
+const uploadImagesToSupabase = async (filesToUpload: any[]) => {
   const uploadedUrls = [];
 
-  for (let i = 0; i < uploadedImages.value.length; i++) {
-    const image = uploadedImages.value[i];
-    image.uploading = true;
+  for (const image of filesToUpload) {
+    const imageObject = uploadedImages.value.find(img => img.preview === image.preview);
+    if (imageObject) {
+      imageObject.uploading = true;
+    }
 
     try {
-      const fileName = `${Date.now()}-${i}-${image.file.name}`;
+      const fileName = `${Date.now()}-${image.file.name}`;
       const { data, error } = await supabase.storage
         .from('product-images')
         .upload(fileName, image.file);
@@ -400,12 +409,13 @@ const uploadImagesToSupabase = async () => {
       } = supabase.storage.from('product-images').getPublicUrl(fileName);
 
       uploadedUrls.push(publicUrl);
-      image.url = publicUrl;
     } catch (err) {
       console.error('Erro ao fazer upload da imagem:', err);
-      throw new Error(`Erro ao fazer upload da imagem ${i + 1}: ${err.message}`);
+      throw new Error(`Erro ao fazer upload da imagem: ${err.message}`);
     } finally {
-      image.uploading = false;
+      if (imageObject) {
+        imageObject.uploading = false;
+      }
     }
   }
 
@@ -436,18 +446,27 @@ const handleSubmit = async () => {
   error.value = null;
 
   try {
-    // Fazer upload das imagens primeiro
-    let imageUrls = [];
-    if (uploadedImages.value.length > 0) {
-      imageUrls = await uploadImagesToSupabase();
+    // 1. Separar imagens existentes e novas
+    const existingImageUrls = uploadedImages.value
+      .filter(img => img.url && !img.file)
+      .map(img => img.url);
+
+    const newImageFiles = uploadedImages.value.filter(img => img.file);
+
+    // 2. Fazer upload apenas das novas imagens
+    let newImageUrls = [];
+    if (newImageFiles.length > 0) {
+      newImageUrls = await uploadImagesToSupabase(newImageFiles);
     }
+
+    const allImageUrls = [...existingImageUrls, ...newImageUrls];
 
     // Preparar dados
     const productData = {
       ...form.value,
       price: parseFloat(form.value.price),
       salePrice: form.value.salePrice ? parseFloat(form.value.salePrice) : null,
-      images: imageUrls,
+      images: allImageUrls,
       sizes: form.value.sizes
         .split(',')
         .map(s => s.trim())
@@ -457,22 +476,40 @@ const handleSubmit = async () => {
         .map(c => c.trim())
         .filter(c => c),
     };
+    // Remover ID do form para não dar conflito no insert/update
+    delete productData.id;
 
-    // Criar produto
-    const { data, error: createError } = await supabase
-      .from('products')
-      .insert(productData)
-      .select()
-      .single();
+    if (isEditing.value) {
+      // Atualizar produto existente
+      const { data, error: updateError } = await supabase
+        .from('products')
+        .update(productData)
+        .eq('id', props.product.id)
+        .select();
 
-    if (createError) throw createError;
+      if (updateError) throw updateError;
+      if (!data || data.length === 0) throw new Error('Falha ao atualizar o produto.');
 
-    successMessage.value = 'Produto criado com sucesso!';
+      successMessage.value = 'Produto atualizado com sucesso!';
+    } else {
+      // Criar novo produto
+      const { data, error: createError } = await supabase
+        .from('products')
+        .insert(productData)
+        .select();
+
+      if (createError) throw createError;
+      if (!data || data.length === 0) throw new Error('Falha ao criar o produto.');
+
+      successMessage.value = 'Produto criado com sucesso!';
+    }
+
+    emit('saved');
     setTimeout(() => {
       closeModal();
     }, 1500);
   } catch (err) {
-    error.value = err.message || 'Erro ao criar produto';
+    error.value = err.message || `Erro ao ${isEditing.value ? 'atualizar' : 'criar'} produto`;
   } finally {
     loading.value = false;
   }
@@ -484,6 +521,28 @@ watch(
   newValue => {
     if (newValue) {
       loadCategories();
+      if (props.product) {
+        // Modo de edição: preencher formulário
+        form.value = {
+          ...props.product,
+          price: props.product.price?.toString() || '',
+          salePrice: props.product.salePrice?.toString() || '',
+          sizes: Array.isArray(props.product.sizes) ? props.product.sizes.join(', ') : '',
+          colors: Array.isArray(props.product.colors) ? props.product.colors.join(', ') : '',
+        };
+        // Preencher imagens se existirem
+        if (props.product.images && Array.isArray(props.product.images)) {
+          uploadedImages.value = props.product.images.map(url => ({
+            file: null,
+            preview: url,
+            uploading: false,
+            url: url,
+          }));
+        }
+      } else {
+        // Modo de criação: resetar formulário
+        resetForm();
+      }
     } else {
       resetForm();
     }

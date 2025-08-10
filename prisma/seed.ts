@@ -2,119 +2,92 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+// Dados extraídos do site
+const siteData = {
+  Birken: [
+    { name: 'Birken Olívia Off White', price: 299.9 },
+    { name: 'Birken Olívia Croco Caramelo', price: 299.9 },
+    { name: 'Birken Joana Caramelo Com Fivela', price: 299.9 },
+  ],
+  Botas: [
+    { name: 'Bota Cano Médio Café / Salto 6', price: 499.9 },
+    { name: 'Bota Fernanda em Couro Preto', price: 499.9 },
+    { name: 'Bota Coturno Cano Médio Preta', price: 499.9 },
+  ],
+  Scarpins: [
+    { name: 'Scarpin New Caramelo', price: 309.9 },
+    { name: 'Scarpin Boneca (Ginger)', price: 309.9 },
+    { name: 'Scarpin Boneca (Nude)', price: 309.9 },
+    { name: 'Scarpin Boneca (Preto)', price: 309.9 },
+    { name: 'Scarpin Whisky com detalhes em Caramelo', price: 309.9 },
+    { name: 'Scarpin Preto com detalhes em Verniz Preto', price: 309.9 },
+    { name: 'Scarpin Clássico Baixo Pinhão', price: 309.9 },
+    { name: 'Scarpin Clássico Baixo Caramelo', price: 309.9 },
+  ],
+  Sandálias: [
+    { name: 'Sandália Angélica ( Laranja)', price: 319.9 },
+    { name: 'Sandália Angélica ( Ouro Light)', price: 319.9 },
+    { name: 'Sandália em Couro Caramelo', price: 319.9 },
+    { name: 'Sandália Caramelo com debrum Off White', price: 319.9 },
+    { name: 'Sandália Angélica ( Azul Claro)', price: 319.9 },
+  ],
+};
+
+function generateSlug(name: string) {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)+/g, '');
+}
+
 async function main() {
-  console.log('🌱 Iniciando seed do banco de dados...');
+  console.log('Iniciando o processo de seeding...');
 
-  // Criar categorias básicas
-  console.log('📂 Criando categorias básicas...');
-  
-  const categories = [
-    {
-      name: 'Birken',
-      slug: 'birken',
-      description: 'Sandálias Birkenstock - Conforto e qualidade alemã',
-      image: null,
-    },
-    {
-      name: 'Botas',
-      slug: 'botas',
-      description: 'Botas elegantes e confortáveis para todas as ocasiões',
-      image: null,
-    },
-    {
-      name: 'Linhas Flat',
-      slug: 'linhas-flat',
-      description: 'Calçados com solado baixo para máximo conforto',
-      image: null,
-    },
-    {
-      name: 'Sandálias',
-      slug: 'sandalias',
-      description: 'Sandálias confortáveis para o dia a dia',
-      image: null,
-    },
-    {
-      name: 'Tênis',
-      slug: 'tenis',
-      description: 'Tênis esportivos e casuais',
-      image: null,
-    },
-    {
-      name: 'Sapatos',
-      slug: 'sapatos',
-      description: 'Sapatos elegantes para ocasiões especiais',
-      image: null,
-    },
-    {
-      name: 'Rasteiras',
-      slug: 'rasteiras',
-      description: 'Rasteiras confortáveis e estilosas',
-      image: null,
-    },
-    {
-      name: 'Mocassins',
-      slug: 'mocassins',
-      description: 'Mocassins clássicos e versáteis',
-      image: null,
-    },
-  ];
+  // 1. Limpar dados existentes
+  console.log('Limpando tabelas de produtos e categorias...');
+  await prisma.product.deleteMany({});
+  await prisma.category.deleteMany({});
+  console.log('Tabelas limpas.');
 
-  for (const category of categories) {
-    const existingCategory = await prisma.category.findUnique({
-      where: { slug: category.slug },
+  // 2. Criar categorias e produtos
+  for (const categoryName of Object.keys(siteData)) {
+    console.log(`Criando categoria: ${categoryName}`);
+    const category = await prisma.category.create({
+      data: {
+        name: categoryName,
+        slug: generateSlug(categoryName),
+        description: `Categoria para ${categoryName}`,
+      },
     });
+    console.log(`Categoria ${categoryName} criada com id: ${category.id}`);
 
-    if (!existingCategory) {
-      await prisma.category.create({
-        data: category,
+    const productsToCreate = siteData[categoryName];
+    for (const productData of productsToCreate) {
+      console.log(`  - Criando produto: ${productData.name}`);
+      await prisma.product.create({
+        data: {
+          name: productData.name,
+          slug: generateSlug(productData.name),
+          description: `Descrição para ${productData.name}`,
+          price: productData.price,
+          images: [],
+          sizes: ['35', '36', '37', '38', '39', '40'],
+          colors: ['default'],
+          inStock: true,
+          featured: false,
+          categoryId: category.id,
+        },
       });
-      console.log(`✅ Categoria "${category.name}" criada`);
-    } else {
-      console.log(`⏭️  Categoria "${category.name}" já existe`);
     }
+    console.log(`${productsToCreate.length} produtos criados para a categoria ${categoryName}.`);
   }
 
-  console.log('✅ Categorias básicas criadas com sucesso!');
-  console.log('');
-
-  // Verificar se já existe um admin
-  const existingAdmin = await prisma.user.findFirst({
-    where: {
-      role: 'ADMIN',
-    },
-  });
-
-  if (existingAdmin) {
-    console.log('✅ Admin já existe no sistema');
-    return;
-  }
-
-  // Criar admin padrão
-  const admin = await prisma.user.create({
-    data: {
-      id: 'admin-user-id', // ID fixo para o admin
-      email: 'admin@amplicalcados.com',
-      name: 'Administrador AMPLI',
-      role: 'ADMIN',
-      isActive: true,
-    },
-  });
-
-  console.log('✅ Admin criado com sucesso:', admin.email);
-  console.log('📝 Credenciais do admin:');
-  console.log('   Email: admin@amplicalcados.com');
-  console.log('   Senha: admin123 (deve ser alterada no primeiro login)');
-  console.log('');
-  console.log('⚠️  IMPORTANTE:');
-  console.log('   1. Acesse o Supabase e crie o usuário de auth manualmente');
-  console.log('   2. Use o email: admin@amplicalcados.com');
-  console.log('   3. Defina uma senha segura');
-  console.log('   4. Confirme o email do usuário');
+  console.log('Seeding concluído com sucesso!');
 }
 
 main()
   .catch(e => {
-    console.error('❌ Erro durante o seed:', e);
+    console.error('Ocorreu um erro durante o seeding:', e);
     process.exit(1);
   })
   .finally(async () => {

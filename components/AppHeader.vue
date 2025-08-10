@@ -42,8 +42,23 @@
             <h1 class="text-3xl font-bold text-black tracking-wide">AMPLI CALÇADOS</h1>
           </div>
 
-          <!-- Right Side Icons -->
-          <div class="flex items-center space-x-2">
+          <!-- Search and Filter Section -->
+          <div class="flex items-center space-x-4">
+            <!-- Size Filter -->
+            <div class="flex items-center space-x-3 text-sm">
+              <span class="text-gray-500 font-medium">Compre por tamanho:</span>
+              <div class="flex items-center space-x-2">
+                <button
+                  v-for="size in sizes"
+                  :key="size"
+                  @click="filterBySize(size)"
+                  class="px-3 py-1 border border-gray-200 rounded-full text-gray-700 hover:bg-coral-soft hover:text-white hover:border-coral-soft font-semibold transition-all duration-200 ease-in-out"
+                >
+                  {{ size }}
+                </button>
+              </div>
+            </div>
+
             <!-- Search -->
             <div class="relative hidden md:block">
               <input
@@ -371,12 +386,19 @@ const mobileMenuOpen = ref(false);
 const showAuthModal = ref(false);
 const showUserMenu = ref(false);
 const isLoggingOut = ref(false);
+const sizes = [40, 41, 42, 43];
 
 const { user, signOut, initAuth, refreshUserState } = useAuth();
 
 watch(user, () => {
   // força reatividade do dropdown quando o user muda
 });
+
+const filterBySize = (size: number) => {
+  console.log('Filtrando por tamanho:', size);
+  // Lógica de filtro a ser implementada aqui
+  // Ex: router.push({ path: '/produtos', query: { tamanho: size } });
+};
 
 const toggleMobileMenu = () => {
   mobileMenuOpen.value = !mobileMenuOpen.value;
