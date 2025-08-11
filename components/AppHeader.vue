@@ -39,7 +39,7 @@
         <div class="flex items-center justify-between mb-4">
           <!-- Logo -->
           <div class="flex-shrink-0">
-            <h1 class="text-3xl font-bold text-black tracking-wide">AMPLI CALÇADOS</h1>
+            <h1 class="text-3xl font-bold text-coral-soft tracking-wide">AMPLI CALÇADOS</h1>
           </div>
 
           <!-- Search and Filter Section -->
@@ -274,47 +274,47 @@
         <nav class="hidden lg:flex items-center space-x-8">
           <a
             href="#"
-            class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide"
+            class="text-coral-soft hover:text-coral-dark transition-colors font-medium text-sm uppercase tracking-wide"
             >BIRKEN</a
           >
           <a
             href="#"
-            class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide"
+            class="text-coral-soft hover:text-coral-dark transition-colors font-medium text-sm uppercase tracking-wide"
             >BOTAS</a
           >
           <a
             href="#"
-            class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide"
+            class="text-coral-soft hover:text-coral-dark transition-colors font-medium text-sm uppercase tracking-wide"
             >LINHA FLATS</a
           >
           <a
             href="#"
-            class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide"
+            class="text-coral-soft hover:text-coral-dark transition-colors font-medium text-sm uppercase tracking-wide"
             >SCARPINS</a
           >
           <a
             href="#"
-            class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide"
+            class="text-coral-soft hover:text-coral-dark transition-colors font-medium text-sm uppercase tracking-wide"
             >SANDÁLIAS</a
           >
           <a
             href="#"
-            class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide"
+            class="text-coral-soft hover:text-coral-dark transition-colors font-medium text-sm uppercase tracking-wide"
             >LINHA OXFORD</a
           >
           <a
             href="#"
-            class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide"
+            class="text-coral-soft hover:text-coral-dark transition-colors font-medium text-sm uppercase tracking-wide"
             >LINHA MOCASSIM</a
           >
           <a
             href="#"
-            class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide"
+            class="text-coral-soft hover:text-coral-dark transition-colors font-medium text-sm uppercase tracking-wide"
             >SAPATILHAS</a
           >
           <a
             href="#"
-            class="text-gray-700 hover:text-black transition-colors font-medium text-sm uppercase tracking-wide"
+            class="text-coral-soft hover:text-coral-dark transition-colors font-medium text-sm uppercase tracking-wide"
             >RASTEIRAS</a
           >
         </nav>
