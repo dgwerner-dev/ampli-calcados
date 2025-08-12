@@ -19,7 +19,8 @@ export default defineEventHandler(async event => {
     const prompt = `
       Crie uma descrição de venda otimizada e amigável para um e-commerce de calçados femininos.
       O tom deve ser casual, feminino e focado nos benefícios e no estilo de vida.
-      Evite listas e características técnicas. Crie um texto fluido e vendedor em um único parágrafo.
+      Use 2 ou 3 parágrafos curtos para facilitar a leitura, usando quebras de linha para separá-los.
+      Evite listas e características técnicas. Crie um texto fluido e vendedor.
 
       Produto: ${productName}
       Categoria: ${categoryName}

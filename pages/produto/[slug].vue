@@ -106,8 +106,10 @@
                   </svg>
                   Sobre o produto
                 </h3>
-                <div class="mt-4 text-base leading-relaxed text-gray-700 whitespace-pre-line">
-                  {{ product.description }}
+                <div class="mt-4 text-base leading-relaxed text-gray-700 space-y-4">
+                  <p v-for="(paragraph, index) in descriptionParagraphs" :key="index">
+                    {{ paragraph }}
+                  </p>
                 </div>
               </div>
             </div>
@@ -301,6 +303,11 @@ const installmentPrice = computed(() => {
 const boletoPrice = computed(() => {
   if (!product.value?.price) return '0,00';
   return formatPrice(product.value.price * 0.9);
+});
+
+const descriptionParagraphs = computed(() => {
+  if (!product.value?.description) return [];
+  return product.value.description.split('\n').filter(p => p.trim() !== '');
 });
 
 const fetchData = async () => {
