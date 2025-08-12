@@ -39,7 +39,9 @@
         <div class="flex items-center justify-between mb-4">
           <!-- Logo -->
           <div class="flex-shrink-0">
-            <h1 class="text-3xl font-bold text-coral-soft tracking-wide">AMPLI CALÇADOS</h1>
+            <NuxtLink to="/" class="text-3xl font-bold text-coral-soft tracking-wide">
+              AMPLI CALÇADOS
+            </NuxtLink>
           </div>
 
           <!-- Search and Filter Section -->
@@ -272,51 +274,14 @@
 
         <!-- Navigation Menu -->
         <nav class="hidden lg:flex items-center space-x-8">
-          <a
-            href="#"
+          <NuxtLink
+            v-for="category in categories"
+            :key="category.id"
+            :to="`/categoria/${category.slug}`"
             class="text-coral-soft hover:text-coral-dark transition-colors font-medium text-sm uppercase tracking-wide"
-            >BIRKEN</a
           >
-          <a
-            href="#"
-            class="text-coral-soft hover:text-coral-dark transition-colors font-medium text-sm uppercase tracking-wide"
-            >BOTAS</a
-          >
-          <a
-            href="#"
-            class="text-coral-soft hover:text-coral-dark transition-colors font-medium text-sm uppercase tracking-wide"
-            >LINHA FLATS</a
-          >
-          <a
-            href="#"
-            class="text-coral-soft hover:text-coral-dark transition-colors font-medium text-sm uppercase tracking-wide"
-            >SCARPINS</a
-          >
-          <a
-            href="#"
-            class="text-coral-soft hover:text-coral-dark transition-colors font-medium text-sm uppercase tracking-wide"
-            >SANDÁLIAS</a
-          >
-          <a
-            href="#"
-            class="text-coral-soft hover:text-coral-dark transition-colors font-medium text-sm uppercase tracking-wide"
-            >LINHA OXFORD</a
-          >
-          <a
-            href="#"
-            class="text-coral-soft hover:text-coral-dark transition-colors font-medium text-sm uppercase tracking-wide"
-            >LINHA MOCASSIM</a
-          >
-          <a
-            href="#"
-            class="text-coral-soft hover:text-coral-dark transition-colors font-medium text-sm uppercase tracking-wide"
-            >SAPATILHAS</a
-          >
-          <a
-            href="#"
-            class="text-coral-soft hover:text-coral-dark transition-colors font-medium text-sm uppercase tracking-wide"
-            >RASTEIRAS</a
-          >
+            {{ category.name }}
+          </NuxtLink>
         </nav>
       </div>
     </div>
@@ -324,51 +289,15 @@
     <!-- Mobile Menu -->
     <div v-if="mobileMenuOpen" class="lg:hidden bg-white border-t border-gray-200 shadow-lg">
       <div class="px-4 py-3 space-y-1">
-        <a
-          href="#"
+        <NuxtLink
+          v-for="category in categories"
+          :key="category.id"
+          :to="`/categoria/${category.slug}`"
+          @click="toggleMobileMenu"
           class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium"
-          >BIRKEN</a
         >
-        <a
-          href="#"
-          class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium"
-          >BOTAS</a
-        >
-        <a
-          href="#"
-          class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium"
-          >LINHA FLATS</a
-        >
-        <a
-          href="#"
-          class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium"
-          >SCARPINS</a
-        >
-        <a
-          href="#"
-          class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium"
-          >SANDÁLIAS</a
-        >
-        <a
-          href="#"
-          class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium"
-          >LINHA OXFORD</a
-        >
-        <a
-          href="#"
-          class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium"
-          >LINHA MOCASSIM</a
-        >
-        <a
-          href="#"
-          class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium"
-          >SAPATILHAS</a
-        >
-        <a
-          href="#"
-          class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium"
-          >RASTEIRAS</a
-        >
+          {{ category.name }}
+        </NuxtLink>
       </div>
     </div>
 
@@ -387,8 +316,24 @@ const showAuthModal = ref(false);
 const showUserMenu = ref(false);
 const isLoggingOut = ref(false);
 const sizes = [40, 41, 42, 43];
+const categories = ref([]);
 
 const { user, signOut, initAuth, refreshUserState } = useAuth();
+const supabase = useSupabaseClient();
+
+const loadCategories = async () => {
+  try {
+    const { data, error } = await supabase
+      .from('categories')
+      .select('id, name, slug')
+      .order('name', { ascending: true });
+
+    if (error) throw error;
+    categories.value = data;
+  } catch (err) {
+    console.error('Erro ao carregar categorias:', err);
+  }
+};
 
 watch(user, () => {
   // força reatividade do dropdown quando o user muda
@@ -444,6 +389,7 @@ const goTo = async (path: string) => {
 // Inicializar autenticação quando o componente for montado
 onMounted(() => {
   initAuth();
+  loadCategories();
 
   // Abrir modal de login quando a página /login emitir evento
   const openModal = () => {

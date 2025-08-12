@@ -100,11 +100,52 @@
               </p>
             </div>
 
+            <!-- Raw Description -->
+            <div>
+              <label
+                for="product-raw-description"
+                class="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Descrição Base (para IA)
+              </label>
+              <textarea
+                id="product-raw-description"
+                v-model="form.raw_description"
+                rows="3"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral-soft focus:border-transparent"
+                placeholder="Insira características, material, diferenciais, etc."
+              ></textarea>
+            </div>
+
             <!-- Description -->
             <div>
-              <label for="product-description" class="block text-sm font-medium text-gray-700 mb-1">
-                Descrição *
-              </label>
+              <div class="flex items-center justify-between mb-1">
+                <label for="product-description" class="block text-sm font-medium text-gray-700">
+                  Descrição Otimizada *
+                </label>
+                <button
+                  type="button"
+                  @click="generateDescription"
+                  :disabled="isGenerating"
+                  class="flex items-center text-xs font-semibold text-coral-soft hover:text-coral-dark disabled:opacity-50 disabled:cursor-wait"
+                >
+                  <svg
+                    class="mr-1 h-4 w-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.898 20.572L16.5 21.75l-.398-1.178a3.375 3.375 0 00-2.456-2.456L12.5 18l1.178-.398a3.375 3.375 0 002.456-2.456L16.5 14.25l.398 1.178a3.375 3.375 0 002.456 2.456L20.5 18l-1.178.398a3.375 3.375 0 00-2.456 2.456z"
+                    />
+                  </svg>
+                  {{ isGenerating ? 'Gerando...' : 'Gerar com IA' }}
+                </button>
+              </div>
               <textarea
                 id="product-description"
                 v-model="form.description"
@@ -316,6 +357,7 @@ const isEditing = computed(() => !!props.product);
 // Estados
 const loading = ref(false);
 const categoriesLoading = ref(false);
+const isGenerating = ref(false);
 const error = ref(null);
 const successMessage = ref('');
 const categories = ref([]);
@@ -326,6 +368,7 @@ const form = ref({
   name: '',
   slug: '',
   description: '',
+  raw_description: '',
   price: '',
   salePrice: '',
   categoryId: '',
@@ -347,6 +390,7 @@ const resetForm = () => {
     name: '',
     slug: '',
     description: '',
+    raw_description: '',
     price: '',
     salePrice: '',
     categoryId: '',
@@ -359,6 +403,44 @@ const resetForm = () => {
   uploadedImages.value = [];
   error.value = null;
   successMessage.value = '';
+};
+
+const generateDescription = async () => {
+  if (!form.value.raw_description) {
+    notificationError('Por favor, insira uma descrição base para a IA.');
+    return;
+  }
+  isGenerating.value = true;
+  error.value = null;
+  try {
+    const category = categories.value.find(c => c.id === form.value.categoryId);
+    const categoryName = category ? category.name : 'Geral';
+
+    const response = await fetch('/api/generate-description', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        productName: form.value.name,
+        rawDescription: form.value.raw_description,
+        categoryName: categoryName,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.statusMessage || 'Erro da API');
+    }
+
+    const data = await response.json();
+    form.value.description = data.description;
+    success('Descrição gerada com sucesso!');
+  } catch (err: any) {
+    notificationError(err.message || 'Ocorreu um erro ao gerar a descrição.');
+  } finally {
+    isGenerating.value = false;
+  }
 };
 
 // Funções para upload de imagens

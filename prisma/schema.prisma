@@ -19,6 +19,7 @@ model User {
   avatar    String?
   role      UserRole @default(USER)
   isActive  Boolean  @default(true)
+  dateOfBirth DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -54,26 +55,27 @@ model Category {
 
 // Modelo de produto
 model Product {
-  id          String   @id @default(cuid())
-  name        String
-  slug        String   @unique
-  description String
-  price       Decimal  @db.Decimal(10, 2)
-  salePrice   Decimal? @db.Decimal(10, 2)
-  images      String[] // URLs das imagens
-  sizes       String[] // Tamanhos disponíveis
-  colors      String[] // Cores disponíveis
-  inStock     Boolean  @default(true)
-  featured    Boolean  @default(false)
-  categoryId  String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id              String   @id @default(cuid())
+  name            String
+  slug            String   @unique
+  description     String?
+  raw_description String?
+  price           Float
+  salePrice       Decimal? @db.Decimal(10, 2)
+  images          String[] // URLs das imagens
+  sizes           String[] // Tamanhos disponíveis
+  colors          String[] // Cores disponíveis
+  inStock         Boolean  @default(true)
+  featured        Boolean  @default(false)
+  categoryId      String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   // Relacionamentos
-  category     Category     @relation(fields: [categoryId], references: [id])
-  orderItems   OrderItem[]
-  wishlistItems WishlistItem[]
-  reviews      Review[]
+  category        Category     @relation(fields: [categoryId], references: [id])
+  orderItems      OrderItem[]
+  wishlistItems   WishlistItem[]
+  reviews         Review[]
 
   @@map("products")
 }

@@ -92,20 +92,6 @@
               ></textarea>
             </div>
 
-            <!-- Image URL -->
-            <div>
-              <label for="category-image" class="block text-sm font-medium text-gray-700 mb-1">
-                URL da Imagem
-              </label>
-              <input
-                id="category-image"
-                v-model="form.image"
-                type="url"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral-soft focus:border-transparent"
-                placeholder="https://exemplo.com/imagem.jpg"
-              />
-            </div>
-
             <!-- Submit Button -->
             <div class="flex justify-end space-x-3">
               <button
@@ -162,7 +148,6 @@ const form = ref({
   name: '',
   slug: '',
   description: '',
-  image: '',
 });
 
 // Métodos
@@ -178,7 +163,6 @@ const resetForm = () => {
       name: props.category.name,
       slug: props.category.slug,
       description: props.category.description || '',
-      image: props.category.image || '',
     };
   } else {
     // Formulário vazio para nova categoria
@@ -186,7 +170,6 @@ const resetForm = () => {
       name: '',
       slug: '',
       description: '',
-      image: '',
     };
   }
   error.value = null;

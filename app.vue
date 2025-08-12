@@ -1,9 +1,8 @@
 <template>
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
+  <div>
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+    <Notifications />
+  </div>
 </template>
-
-<script setup>
-// Nuxt.js automatically imports components
-</script>

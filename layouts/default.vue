@@ -1,10 +1,9 @@
 <template>
-  <div class="min-h-screen bg-white">
+  <div>
     <AppHeader />
-    <main class="pt-24">
+    <main class="pt-40">
       <slot />
     </main>
-    <Notifications />
   </div>
 </template>
 

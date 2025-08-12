@@ -1,17 +1,12 @@
 <template>
-  <section class="py-16 bg-white border-t border-gray-100">
+  <section class="py-16 bg-white">
     <div class="max-w-7xl mx-auto px-4">
-      <!-- Section Header -->
-      <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-black mb-4">LANÇAMENTOS</h2>
-        <p class="text-gray-700 text-lg">Descubra os produtos mais recentes da AMPLI CALÇADOS</p>
-      </div>
-
       <!-- Products Grid -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div
+        <NuxtLink
           v-for="product in products"
           :key="product.id"
+          :to="`/produto/${product.slug}`"
           class="product-card group cursor-pointer"
         >
           <!-- Product Image -->
@@ -20,10 +15,12 @@
               class="aspect-square bg-gray-200 group-hover:scale-105 transition-transform duration-300"
             >
               <img
-                :src="product.image"
+                v-if="product.images && product.images.length > 0"
+                :src="product.images[0]"
                 :alt="product.name"
                 class="w-full h-full object-cover object-center"
               />
+              <div v-else class="w-full h-full bg-gray-100"></div>
             </div>
 
             <!-- Quick Actions -->
@@ -55,55 +52,31 @@
             <h3 class="font-medium text-black mb-2 group-hover:text-gray-700 transition-colors">
               {{ product.name }}
             </h3>
-            <p class="text-lg font-bold text-black">{{ product.price }}</p>
+            <p class="text-lg font-bold text-black">R$ {{ formatPrice(product.price) }}</p>
 
             <!-- Add to Cart Button - Always Visible -->
             <button
-              class="w-full mt-3 py-2 text-sm font-medium rounded transition-all duration-300 bg-gray-100 text-gray-700 hover:bg-coral-soft hover:text-white"
+              class="w-full mt-3 py-2 text-sm font-medium rounded transition-all duration-300 bg-coral-soft text-white hover:bg-coral-dark"
             >
               Adicionar ao Carrinho
             </button>
           </div>
-        </div>
-      </div>
-
-      <!-- View All Button -->
-      <div class="text-center mt-12">
-        <button class="btn-secondary">VER TODOS OS LANÇAMENTOS</button>
+        </NuxtLink>
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
-const products = ref([
-  {
-    id: 1,
-    name: 'Sandálias Flats Elegantes',
-    price: 'R$ 199,90',
-    image:
-      'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400&h=400&fit=crop&crop=center',
+defineProps({
+  products: {
+    type: Array,
+    default: () => [],
   },
-  {
-    id: 2,
-    name: 'Ballet Flats Clássicos',
-    price: 'R$ 249,90',
-    image:
-      'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop&crop=center',
-  },
-  {
-    id: 3,
-    name: 'Botas de Couro Premium',
-    price: 'R$ 299,90',
-    image:
-      'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop&crop=center',
-  },
-  {
-    id: 4,
-    name: 'Oxfords AMPLI',
-    price: 'R$ 179,90',
-    image:
-      'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop&crop=center',
-  },
-]);
+});
+
+const formatPrice = price => {
+  if (typeof price !== 'number') return '0,00';
+  return price.toFixed(2).replace('.', ',');
+};
 </script>
