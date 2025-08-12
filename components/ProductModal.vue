@@ -73,6 +73,20 @@
               </div>
             </div>
 
+            <!-- Code -->
+            <div>
+              <label for="product-code" class="block text-sm font-medium text-gray-700 mb-1">
+                Código do Produto (SKU)
+              </label>
+              <input
+                id="product-code"
+                v-model="form.code"
+                type="text"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral-soft focus:border-transparent"
+                placeholder="Ex: SB-ARI-001"
+              />
+            </div>
+
             <!-- Category -->
             <div>
               <label for="product-category" class="block text-sm font-medium text-gray-700 mb-1">
@@ -367,6 +381,7 @@ const uploadedImages = ref([]);
 const form = ref({
   name: '',
   slug: '',
+  code: '',
   description: '',
   raw_description: '',
   price: '',
@@ -389,6 +404,7 @@ const resetForm = () => {
   form.value = {
     name: '',
     slug: '',
+    code: '',
     description: '',
     raw_description: '',
     price: '',
@@ -607,6 +623,7 @@ watch(
         // Modo de edição: preencher formulário
         form.value = {
           ...props.product,
+          code: props.product.code || '',
           price: props.product.price?.toString() || '',
           salePrice: props.product.salePrice?.toString() || '',
           sizes: Array.isArray(props.product.sizes) ? props.product.sizes.join(', ') : '',

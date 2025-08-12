@@ -82,6 +82,9 @@
               <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
                 {{ product.name }}
               </h1>
+              <p v-if="product.code" class="mt-1 text-sm text-gray-500">
+                Cód. de referência: {{ product.code }}
+              </p>
               <!-- Description -->
               <div class="mt-8">
                 <p class="text-sm text-gray-600">
