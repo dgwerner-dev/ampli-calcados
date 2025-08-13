@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 // Configuração do Supabase com Service Role Key (contorna RLS)
 const supabaseUrl = 'https://uatvzepupurboemimloe.supabase.co';
 const supabaseServiceKey =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVhdHZ6ZXB1cHVyYm9lbWltbG9lIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NDUwMjA5MSwiZXhwIjoyMDcwMDc4MDkxfQ.cU25quoaK5XHbrLBUJ31wPL1zWZcAXHbeksivxxVGIA';
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtbmJpb2RteXRkc3ZveHNweGVlIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NTEwODY1MSwiZXhwIjoyMDcwNjg0NjUxfQ.Zixp-aDn3IXx4Z-sKgnJJ_BIIVfx0AiIWkCfIYSpFKA';
 
 // Cliente Supabase com service role key (contorna RLS)
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
