@@ -1,15 +1,25 @@
 import { createClient } from '@supabase/supabase-js';
+import dotenv from 'dotenv';
+
+// Carregar variáveis de ambiente
+dotenv.config();
 
 // Configuração do Supabase
-const supabaseUrl = 'https://uatvzepupurboemimloe.supabase.co';
-const supabaseKey =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtbmJpb2RteXRkc3ZveHNweGVlIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NTEwODY1MSwiZXhwIjoyMDcwNjg0NjUxfQ.Zixp-aDn3IXx4Z-sKgnJJ_BIIVfx0AiIWkCfIYSpFKA';
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+  console.error('❌ Variáveis de ambiente SUPABASE_URL e SUPABASE_SERVICE_KEY são obrigatórias');
+  console.log('💡 Verifique se o arquivo .env está configurado corretamente');
+  process.exit(1);
+}
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function checkCurrentStatus() {
   try {
     console.log('🔍 Verificando status atual...');
+    console.log(`🌐 URL: ${supabaseUrl}`);
 
     // Tentar acessar a tabela users para ver se há políticas ativas
     const { data, error } = await supabase.from('users').select('id').limit(1);
@@ -105,7 +115,7 @@ async function createOrUpdateAdminUser() {
         .single();
 
       if (createError) {
-        console.error('❌ Erro ao criar usuário:', createError);
+        console.error('❌ Erro ao criar usuário admin:', createError);
         return false;
       } else {
         console.log('✅ Usuário admin criado com sucesso:', newUser);
@@ -149,7 +159,9 @@ function showManualInstructions() {
   console.log('1. Acesse o Supabase Dashboard:');
   console.log('   https://supabase.com/dashboard');
   console.log('');
-  console.log('2. Selecione seu projeto: uatvzepupurboemimloe');
+  console.log(
+    `2. Selecione seu projeto: ${process.env.SUPABASE_URL?.split('//')[1]?.split('.')[0] || 'PROJETO'}`
+  );
   console.log('');
   console.log('3. Vá para SQL Editor (menu lateral)');
   console.log('');

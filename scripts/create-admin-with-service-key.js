@@ -1,9 +1,18 @@
 import { createClient } from '@supabase/supabase-js';
+import dotenv from 'dotenv';
+
+// Carregar variáveis de ambiente
+dotenv.config();
 
 // Configuração do Supabase com Service Role Key (contorna RLS)
-const supabaseUrl = 'https://uatvzepupurboemimloe.supabase.co';
-const supabaseServiceKey =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtbmJpb2RteXRkc3ZveHNweGVlIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NTEwODY1MSwiZXhwIjoyMDcwNjg0NjUxfQ.Zixp-aDn3IXx4Z-sKgnJJ_BIIVfx0AiIWkCfIYSpFKA';
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_KEY;
+
+if (!supabaseUrl || !supabaseServiceKey) {
+  console.error('❌ Variáveis de ambiente SUPABASE_URL e SUPABASE_SERVICE_KEY são obrigatórias');
+  console.log('💡 Verifique se o arquivo .env está configurado corretamente');
+  process.exit(1);
+}
 
 // Cliente Supabase com service role key (contorna RLS)
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
@@ -11,6 +20,7 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey);
 async function createAdminUser() {
   try {
     console.log('🔧 Criando usuário admin no Supabase Auth (com Service Role Key)...');
+    console.log(`🌐 URL: ${supabaseUrl}`);
 
     // Verificar se o usuário já existe
     const { data: existingUsers, error: listError } = await supabase.auth.admin.listUsers();
