@@ -54,11 +54,11 @@ const siteData = {
       price: 499.9,
       images: ['https://cdn.awsli.com.br/600x450/1036/1036448/produto/95085431/212d87edb4.jpg'],
     },
-    { 
-      name: 'Bota Coturno Cano Médio Preta', 
+    {
+      name: 'Bota Coturno Cano Médio Preta',
       code: 'COTURNO-PRETA-001',
-      price: 499.9, 
-      images: [] 
+      price: 499.9,
+      images: [],
     }, // Imagem não fornecida
   ],
   Scarpins: [
@@ -316,25 +316,27 @@ function generateSlug(name: string) {
 
 async function createAdminUser() {
   if (!supabaseUrl || !supabaseServiceKey) {
-    console.log('⚠️  Variáveis de ambiente do Supabase não encontradas, pulando criação do usuário admin');
+    console.log(
+      '⚠️  Variáveis de ambiente do Supabase não encontradas, pulando criação do usuário admin'
+    );
     return null;
   }
 
   try {
     console.log('🔧 Criando usuário admin no Supabase...');
-    
+
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
-    
+
     // Verificar se o usuário admin já existe
     const { data: existingUsers, error: listError } = await supabase.auth.admin.listUsers();
-    
+
     if (listError) {
       console.log('⚠️  Erro ao verificar usuários existentes:', listError.message);
       return null;
     }
 
     const adminExists = existingUsers.users.find(user => user.email === 'admin@amplicalcados.com');
-    
+
     if (adminExists) {
       console.log('✅ Usuário admin já existe no Supabase Auth');
       return adminExists.id;
@@ -359,7 +361,7 @@ async function createAdminUser() {
     console.log(`📧 Email: ${newUser.user.email}`);
     console.log(`🆔 ID: ${newUser.user.id}`);
     console.log('🔑 Senha: admin123');
-    
+
     return newUser.user.id;
   } catch (error) {
     console.log('⚠️  Erro ao criar usuário admin:', error);
@@ -417,7 +419,7 @@ async function main() {
   if (adminUserId) {
     try {
       console.log('Criando usuário admin na tabela users...');
-      
+
       await prisma.user.create({
         data: {
           id: adminUserId,
@@ -427,7 +429,7 @@ async function main() {
           isActive: true,
         },
       });
-      
+
       console.log('✅ Usuário admin criado na tabela users');
     } catch (error) {
       console.log('⚠️  Erro ao criar usuário admin na tabela users:', error);
@@ -435,7 +437,7 @@ async function main() {
   }
 
   console.log('Seeding concluído com sucesso!');
-  
+
   if (adminUserId) {
     console.log('');
     console.log('🎯 USUÁRIO ADMIN CRIADO:');
