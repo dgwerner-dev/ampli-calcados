@@ -1,6 +1,7 @@
 # 🔧 RESOLVENDO PROBLEMAS DE ACESSO AO SUPABASE
 
 ## 🚨 **PROBLEMA ATUAL:**
+
 - Categorias não carregam no header
 - Login não funciona corretamente
 - Erro 403 (Forbidden) ao acessar tabelas
