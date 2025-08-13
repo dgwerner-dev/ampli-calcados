@@ -110,6 +110,7 @@ async function createOrUpdateAdminUser() {
           name: 'Administrador AMPLI',
           role: 'ADMIN',
           isActive: true,
+          updatedAt: new Date().toISOString(),
         })
         .select()
         .single();
