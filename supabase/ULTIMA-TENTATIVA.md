@@ -1,6 +1,7 @@
 # 🚨 ULTIMA TENTATIVA - PROBLEMA CRÍTICO NO SUPABASE
 
 ## ❌ **DIAGNÓSTICO:**
+
 - **Service Key** não consegue acessar o banco
 - **Chave Anônima** também não funciona
 - **Erro 42501**: "permission denied for schema public"
@@ -58,12 +59,12 @@ END $$;
 DROP FUNCTION IF EXISTS is_admin();
 
 -- 4. Verificar status
-SELECT 
+SELECT
     schemaname,
     tablename,
     rowsecurity
-FROM pg_tables 
-WHERE schemaname = 'public' 
+FROM pg_tables
+WHERE schemaname = 'public'
 ORDER BY tablename;
 ```
 
@@ -83,6 +84,7 @@ ORDER BY tablename;
 ## 🆘 **SE NADA FUNCIONAR:**
 
 ### **Alternativa 1: Usar Banco Local**
+
 ```bash
 # Instalar PostgreSQL localmente
 brew install postgresql
@@ -96,6 +98,7 @@ DATABASE_URL="postgresql://localhost:5432/bartezen_local"
 ```
 
 ### **Alternativa 2: Usar Supabase Local**
+
 ```bash
 # Instalar Supabase CLI
 npm install -g supabase
@@ -107,6 +110,7 @@ supabase start
 ## 📞 **SUPORTE:**
 
 Se nenhuma solução funcionar:
+
 1. **Verifique** o status do Supabase: [status.supabase.com](https://status.supabase.com)
 2. **Abra um ticket** no Discord do Supabase
 3. **Considere** migrar para outro provedor (PlanetScale, Neon, etc.)
