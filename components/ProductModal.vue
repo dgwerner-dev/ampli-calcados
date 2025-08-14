@@ -319,6 +319,15 @@
 
               <label class="flex items-center">
                 <input
+                  v-model="form.isActive"
+                  type="checkbox"
+                  class="rounded border-gray-300 text-coral-soft focus:ring-coral-soft"
+                />
+                <span class="ml-2 text-sm text-gray-700">Ativo</span>
+              </label>
+
+              <label class="flex items-center">
+                <input
                   v-model="form.featured"
                   type="checkbox"
                   class="rounded border-gray-300 text-coral-soft focus:ring-coral-soft"
@@ -391,6 +400,7 @@ const form = ref({
   sizes: '',
   colors: '',
   inStock: true,
+  isActive: true,
   featured: false,
 });
 
@@ -414,6 +424,7 @@ const resetForm = () => {
     sizes: '',
     colors: '',
     inStock: true,
+    isActive: true,
     featured: false,
   };
   uploadedImages.value = [];

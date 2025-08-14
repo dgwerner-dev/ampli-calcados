@@ -67,6 +67,7 @@ model Product {
   sizes           String[] // Tamanhos disponíveis
   colors          String[] // Cores disponíveis
   inStock         Boolean  @default(true)
+  isActive        Boolean  @default(true)
   featured        Boolean  @default(false)
   categoryId      String
   createdAt       DateTime @default(now())

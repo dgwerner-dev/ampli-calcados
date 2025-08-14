@@ -141,9 +141,16 @@
               <div class="flex justify-between items-center">
                 <h3 class="text-lg font-semibold text-gray-900">Produtos</h3>
                 <div class="flex items-center space-x-3">
-                  <button class="inline-flex items-center rounded-lg border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700">
+                  <button
+                    class="inline-flex items-center rounded-lg border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700"
+                  >
                     <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9"></path>
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9"
+                      ></path>
                     </svg>
                     Venda em marketplaces
                   </button>
@@ -176,12 +183,21 @@
                     />
                   </div>
                 </div>
-                <button class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors">
+                <button
+                  class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
+                >
                   Buscar
                 </button>
-                <button class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors">
+                <button
+                  class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
+                >
                   <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"></path>
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"
+                    ></path>
                   </svg>
                   Filtros
                 </button>
@@ -200,7 +216,12 @@
                     title="Página anterior"
                   >
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15 19l-7-7 7-7"
+                      ></path>
                     </svg>
                   </button>
                   <button
@@ -208,7 +229,12 @@
                     title="Próxima página"
                   >
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      ></path>
                     </svg>
                   </button>
                 </div>
@@ -230,7 +256,10 @@
                   <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                       <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
                           <input
                             v-model="selectAllProducts"
                             type="checkbox"
@@ -238,28 +267,56 @@
                             class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
                           />
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
                           Produto
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
                           Categoria
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
                           Preço
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
                           Estoque
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
                           Disponibilidade
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Ativo
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
                           Status
                         </th>
                       </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                      <tr v-for="product in filteredProducts" :key="product.id" class="hover:bg-gray-50 group">
+                      <tr
+                        v-for="product in filteredProducts"
+                        :key="product.id"
+                        class="hover:bg-gray-50 group"
+                      >
                         <td class="px-6 py-4 whitespace-nowrap">
                           <input
                             v-model="selectedProducts"
@@ -271,15 +328,31 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                           <div class="flex items-center">
                             <div class="flex-shrink-0 h-12 w-12">
-                              <div class="h-12 w-12 rounded-lg bg-gray-200 flex items-center justify-center">
-                                <svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                              <div
+                                class="h-12 w-12 rounded-lg bg-gray-200 flex items-center justify-center"
+                              >
+                                <svg
+                                  class="h-6 w-6 text-gray-400"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                  ></path>
                                 </svg>
                               </div>
                             </div>
                             <div class="ml-4">
-                              <div class="text-sm font-medium text-gray-900">{{ product.name }}</div>
-                              <div class="text-sm text-gray-500 font-mono">{{ product.code || '-' }}</div>
+                              <div class="text-sm font-medium text-gray-900">
+                                {{ product.name }}
+                              </div>
+                              <div class="text-sm text-gray-500 font-mono">
+                                {{ product.code || '-' }}
+                              </div>
                               <div class="text-xs text-gray-400">Tipo: Com variação</div>
                             </div>
                           </div>
@@ -304,18 +377,28 @@
                           Consultar variação
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
+                          <div class="flex items-center">
+                            <input
+                              v-model="product.isActive"
+                              type="checkbox"
+                              @change="toggleProductStatus(product)"
+                              class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+                            />
+                          </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
                           <div class="group relative">
                             <div class="flex items-center space-x-2">
                               <div
                                 :class="[
                                   'w-3 h-3 rounded-full',
-                                  product.inStock ? 'bg-green-500' : 'bg-red-500'
+                                  product.inStock ? 'bg-green-500' : 'bg-red-500',
                                 ]"
                               ></div>
                               <span
                                 :class="[
                                   'text-sm font-medium',
-                                  product.inStock ? 'text-green-600' : 'text-red-600'
+                                  product.inStock ? 'text-green-600' : 'text-red-600',
                                 ]"
                               >
                                 {{ product.inStock ? 'Ativo' : 'Inativo' }}
@@ -323,15 +406,29 @@
                             </div>
 
                             <!-- Actions on Hover -->
-                            <div class="absolute right-0 top-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
-                              <div class="flex items-center space-x-1 bg-white border border-gray-200 rounded-lg shadow-lg p-1">
+                            <div
+                              class="absolute right-0 top-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10"
+                            >
+                              <div
+                                class="flex items-center space-x-1 bg-white border border-gray-200 rounded-lg shadow-lg p-1"
+                              >
                                 <button
                                   @click="editProduct(product)"
                                   class="p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-md transition-colors"
                                   title="Editar produto"
                                 >
-                                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                  <svg
+                                    class="w-4 h-4"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                    ></path>
                                   </svg>
                                 </button>
                                 <button
@@ -339,8 +436,18 @@
                                   class="p-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-md transition-colors"
                                   title="Excluir produto"
                                 >
-                                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                  <svg
+                                    class="w-4 h-4"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                    ></path>
                                   </svg>
                                 </button>
                               </div>
@@ -366,7 +473,12 @@
                         title="Página anterior"
                       >
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M15 19l-7-7 7-7"
+                          ></path>
                         </svg>
                       </button>
                       <button
@@ -374,7 +486,12 @@
                         title="Próxima página"
                       >
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 5l7 7-7 7"
+                          ></path>
                         </svg>
                       </button>
                     </div>
@@ -2060,9 +2177,27 @@ const toggleSelectAllProducts = () => {
   }
 };
 
-const getCategoryName = (categoryId) => {
+const getCategoryName = categoryId => {
   const category = categories.value.find(cat => cat.id === categoryId);
   return category ? category.name : '-';
+};
+
+const toggleProductStatus = async product => {
+  try {
+    const { error: updateError } = await supabase
+      .from('products')
+      .update({ isActive: !product.isActive })
+      .eq('id', product.id);
+
+    if (updateError) throw updateError;
+
+    // Atualizar o estado local
+    product.isActive = !product.isActive;
+  } catch (err) {
+    console.error('Erro ao alterar status do produto:', err);
+    // Reverter o estado em caso de erro
+    product.isActive = !product.isActive;
+  }
 };
 
 const formatDiscountType = discountType => {
@@ -2125,8 +2260,7 @@ const filteredProducts = computed(() => {
   const search = productSearch.value.toLowerCase();
   return products.value.filter(
     product =>
-      product.name.toLowerCase().includes(search) ||
-      product.code?.toLowerCase().includes(search)
+      product.name.toLowerCase().includes(search) || product.code?.toLowerCase().includes(search)
   );
 });
 
