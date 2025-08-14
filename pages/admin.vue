@@ -1042,7 +1042,7 @@
                             {{ region.cepRange || '-' }}
                           </td>
                           <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="group relative">
+                            <div class="group flex items-center justify-between">
                               <div class="flex items-center space-x-2">
                                 <div
                                   :class="[
@@ -1062,7 +1062,7 @@
 
                               <!-- Actions on Hover -->
                               <div
-                                class="absolute right-2 top-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10"
+                                class="opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                               >
                                 <div
                                   class="flex items-center space-x-1 bg-white border border-gray-200 rounded-lg shadow-lg p-1"
