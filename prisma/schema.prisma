@@ -85,6 +85,7 @@ model Product {
 model Order {
   id        String      @id @default(cuid())
   userId    String
+  couponId  String?
   status    OrderStatus @default(PENDING)
   total     Decimal     @db.Decimal(10, 2)
   shipping  Decimal     @db.Decimal(10, 2)
@@ -94,6 +95,7 @@ model Order {
 
   // Relacionamentos
   user       User        @relation(fields: [userId], references: [id])
+  coupon     Coupon?     @relation(fields: [couponId], references: [id])
   orderItems OrderItem[]
 
   @@map("orders")
@@ -158,4 +160,49 @@ enum OrderStatus {
   SHIPPED
   DELIVERED
   CANCELLED
+}
+
+// Enum para tipo de desconto
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+}
+
+// Modelo de cupom de desconto
+model Coupon {
+  id            String       @id @default(cuid())
+  name          String
+  description   String?
+  code          String       @unique
+  discountType  DiscountType
+  discountValue Float
+  minOrderValue Float?
+  maxDiscount   Float?
+  usageLimit    Int?
+  usedCount     Int          @default(0)
+  validUntil    DateTime?
+  isActive      Boolean      @default(true)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  // Relacionamentos
+  orders Order[]
+
+  @@map("coupons")
+}
+
+// Modelo de promoção de frete
+model ShippingPromotion {
+  id            String   @id @default(cuid())
+  name          String
+  description   String?
+  minOrderValue Float
+  freeShipping  Boolean  @default(true)
+  discountValue Float    @default(0)
+  validUntil    DateTime?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("shipping_promotions")
 }

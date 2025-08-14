@@ -61,6 +61,26 @@
           </svg>
           Clientes
         </button>
+
+        <button
+          @click="activeTab = 'promotions'"
+          :class="[
+            'w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors',
+            activeTab === 'promotions'
+              ? 'bg-coral-soft text-white'
+              : 'text-gray-700 hover:bg-gray-100',
+          ]"
+        >
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"
+            ></path>
+          </svg>
+          Promoções
+        </button>
       </nav>
     </div>
 
@@ -539,6 +559,417 @@
         </div>
       </div>
 
+      <!-- Promotions Tab -->
+      <div v-if="activeTab === 'promotions'" class="space-y-6">
+        <!-- Promotions Header -->
+        <div class="flex justify-between items-center">
+          <div class="flex items-center space-x-4">
+            <button
+              @click="activePromotionTab = 'coupons'"
+              :class="[
+                'px-4 py-2 text-sm font-medium rounded-lg transition-colors',
+                activePromotionTab === 'coupons'
+                  ? 'bg-coral-soft text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
+              ]"
+            >
+              Cupons de Desconto
+            </button>
+            <button
+              @click="activePromotionTab = 'shipping'"
+              :class="[
+                'px-4 py-2 text-sm font-medium rounded-lg transition-colors',
+                activePromotionTab === 'shipping'
+                  ? 'bg-coral-soft text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
+              ]"
+            >
+              Promoções de Frete
+            </button>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <button
+              v-if="activePromotionTab === 'coupons'"
+              @click="openCreateCouponModal"
+              class="inline-flex items-center rounded-lg border border-transparent bg-coral-soft px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-dark"
+            >
+              <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                ></path>
+              </svg>
+              Novo Cupom
+            </button>
+            <button
+              v-if="activePromotionTab === 'shipping'"
+              @click="openCreateShippingPromotionModal"
+              class="inline-flex items-center rounded-lg border border-transparent bg-coral-soft px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-dark"
+            >
+              <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                ></path>
+              </svg>
+              Nova Promoção de Frete
+            </button>
+          </div>
+        </div>
+
+        <!-- Coupons Section -->
+        <div v-if="activePromotionTab === 'coupons'" class="space-y-6">
+          <!-- Coupons Loading -->
+          <div v-if="couponsLoading" class="flex justify-center items-center py-12">
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-coral-soft"></div>
+          </div>
+
+          <!-- Coupons Error -->
+          <div v-else-if="couponsError" class="bg-red-50 border border-red-200 rounded-lg p-4">
+            <p class="text-red-600">{{ couponsError }}</p>
+          </div>
+
+          <!-- Coupons Grid -->
+          <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div
+              v-for="coupon in coupons"
+              :key="coupon.id"
+              class="bg-gray-50 rounded-lg p-4 border border-gray-200"
+            >
+              <!-- Coupon Header -->
+              <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center space-x-2">
+                  <span
+                    :class="[
+                      'px-2 py-1 rounded-full text-xs font-medium',
+                      coupon.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800',
+                    ]"
+                  >
+                    {{ coupon.isActive ? 'Ativo' : 'Inativo' }}
+                  </span>
+                  <span
+                    :class="[
+                      'px-2 py-1 rounded-full text-xs font-medium',
+                      isCouponValid(coupon)
+                        ? 'bg-blue-100 text-blue-800'
+                        : 'bg-gray-100 text-gray-800',
+                    ]"
+                  >
+                    {{ isCouponValid(coupon) ? 'Válido' : 'Expirado' }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Coupon Info -->
+              <div class="mb-3">
+                <h4 class="font-medium text-gray-900 mb-1">{{ coupon.name }}</h4>
+                <p class="text-sm text-gray-500 mb-2">
+                  {{ coupon.description || 'Sem descrição' }}
+                </p>
+                <div class="bg-gray-100 rounded-lg p-2 mb-2">
+                  <p class="text-xs text-gray-600 font-mono text-center">{{ coupon.code }}</p>
+                </div>
+              </div>
+
+              <!-- Discount Info -->
+              <div class="mb-3">
+                <div class="flex items-center justify-between text-sm">
+                  <span class="text-gray-600">Desconto:</span>
+                  <span class="font-medium text-coral-soft">
+                    {{ formatDiscount(coupon) }}
+                  </span>
+                </div>
+                <div v-if="coupon.minOrderValue" class="flex items-center justify-between text-sm">
+                  <span class="text-gray-600">Pedido mínimo:</span>
+                  <span class="font-medium">R$ {{ formatPrice(coupon.minOrderValue) }}</span>
+                </div>
+                <div v-if="coupon.maxDiscount" class="flex items-center justify-between text-sm">
+                  <span class="text-gray-600">Desconto máximo:</span>
+                  <span class="font-medium">R$ {{ formatPrice(coupon.maxDiscount) }}</span>
+                </div>
+              </div>
+
+              <!-- Usage Info -->
+              <div class="mb-3 text-sm text-gray-600">
+                <div class="flex items-center justify-between">
+                  <span>Usos:</span>
+                  <span
+                    >{{ coupon.usedCount
+                    }}{{ coupon.usageLimit ? ` / ${coupon.usageLimit}` : '' }}</span
+                  >
+                </div>
+                <div class="flex items-center justify-between">
+                  <span>Válido até:</span>
+                  <span>{{ formatDate(coupon.validUntil) }}</span>
+                </div>
+              </div>
+
+              <!-- Actions -->
+              <div class="flex items-center space-x-2">
+                <button
+                  @click="editCoupon(coupon)"
+                  class="text-coral-soft hover:text-coral-dark transition-colors"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                    ></path>
+                  </svg>
+                </button>
+                <button
+                  @click="toggleCouponStatus(coupon)"
+                  :class="[
+                    'transition-colors',
+                    coupon.isActive
+                      ? 'text-red-600 hover:text-red-800'
+                      : 'text-green-600 hover:text-green-800',
+                  ]"
+                >
+                  <svg
+                    v-if="coupon.isActive"
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L5.636 5.636"
+                    ></path>
+                  </svg>
+                  <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 13l4 4L19 7"
+                    ></path>
+                  </svg>
+                </button>
+                <button
+                  @click="deleteCoupon(coupon)"
+                  class="text-red-600 hover:text-red-800 transition-colors"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Coupons Empty State -->
+          <div v-if="coupons.length === 0 && !couponsLoading" class="text-center py-12">
+            <svg
+              class="mx-auto h-12 w-12 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"
+              ></path>
+            </svg>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">Nenhum cupom encontrado</h3>
+            <p class="mt-1 text-sm text-gray-500">Comece criando seu primeiro cupom de desconto.</p>
+          </div>
+        </div>
+
+        <!-- Shipping Promotions Section -->
+        <div v-if="activePromotionTab === 'shipping'" class="space-y-6">
+          <!-- Shipping Promotions Loading -->
+          <div v-if="shippingPromotionsLoading" class="flex justify-center items-center py-12">
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-coral-soft"></div>
+          </div>
+
+          <!-- Shipping Promotions Error -->
+          <div
+            v-else-if="shippingPromotionsError"
+            class="bg-red-50 border border-red-200 rounded-lg p-4"
+          >
+            <p class="text-red-600">{{ shippingPromotionsError }}</p>
+          </div>
+
+          <!-- Shipping Promotions Grid -->
+          <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div
+              v-for="promotion in shippingPromotions"
+              :key="promotion.id"
+              class="bg-gray-50 rounded-lg p-4 border border-gray-200"
+            >
+              <!-- Promotion Header -->
+              <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center space-x-2">
+                  <span
+                    :class="[
+                      'px-2 py-1 rounded-full text-xs font-medium',
+                      promotion.isActive
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-red-100 text-red-800',
+                    ]"
+                  >
+                    {{ promotion.isActive ? 'Ativa' : 'Inativa' }}
+                  </span>
+                  <span
+                    :class="[
+                      'px-2 py-1 rounded-full text-xs font-medium',
+                      isShippingPromotionValid(promotion)
+                        ? 'bg-blue-100 text-blue-800'
+                        : 'bg-gray-100 text-gray-800',
+                    ]"
+                  >
+                    {{ isShippingPromotionValid(promotion) ? 'Válida' : 'Expirada' }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Promotion Info -->
+              <div class="mb-3">
+                <h4 class="font-medium text-gray-900 mb-1">{{ promotion.name }}</h4>
+                <p class="text-sm text-gray-500 mb-2">
+                  {{ promotion.description || 'Sem descrição' }}
+                </p>
+              </div>
+
+              <!-- Shipping Info -->
+              <div class="mb-3">
+                <div class="flex items-center justify-between text-sm">
+                  <span class="text-gray-600">Pedido mínimo:</span>
+                  <span class="font-medium">R$ {{ formatPrice(promotion.minOrderValue) }}</span>
+                </div>
+                <div class="flex items-center justify-between text-sm">
+                  <span class="text-gray-600">Tipo:</span>
+                  <span class="font-medium text-coral-soft">
+                    {{ promotion.freeShipping ? 'Frete Grátis' : 'Desconto no Frete' }}
+                  </span>
+                </div>
+                <div
+                  v-if="!promotion.freeShipping"
+                  class="flex items-center justify-between text-sm"
+                >
+                  <span class="text-gray-600">Desconto:</span>
+                  <span class="font-medium text-coral-soft">
+                    R$ {{ formatPrice(promotion.discountValue) }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Validity Info -->
+              <div class="mb-3 text-sm text-gray-600">
+                <div class="flex items-center justify-between">
+                  <span>Válida até:</span>
+                  <span>{{ formatDate(promotion.validUntil) }}</span>
+                </div>
+              </div>
+
+              <!-- Actions -->
+              <div class="flex items-center space-x-2">
+                <button
+                  @click="editShippingPromotion(promotion)"
+                  class="text-coral-soft hover:text-coral-dark transition-colors"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                    ></path>
+                  </svg>
+                </button>
+                <button
+                  @click="toggleShippingPromotionStatus(promotion)"
+                  :class="[
+                    'transition-colors',
+                    promotion.isActive
+                      ? 'text-red-600 hover:text-red-800'
+                      : 'text-green-600 hover:text-green-800',
+                  ]"
+                >
+                  <svg
+                    v-if="promotion.isActive"
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L5.636 5.636"
+                    ></path>
+                  </svg>
+                  <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 13l4 4L19 7"
+                    ></path>
+                  </svg>
+                </button>
+                <button
+                  @click="deleteShippingPromotion(promotion)"
+                  class="text-red-600 hover:text-red-800 transition-colors"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 7l-.867 12.128A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Shipping Promotions Empty State -->
+          <div
+            v-if="shippingPromotions.length === 0 && !shippingPromotionsLoading"
+            class="text-center py-12"
+          >
+            <svg
+              class="mx-auto h-12 w-12 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+              ></path>
+            </svg>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">
+              Nenhuma promoção de frete encontrada
+            </h3>
+            <p class="mt-1 text-sm text-gray-500">Comece criando sua primeira promoção de frete.</p>
+          </div>
+        </div>
+      </div>
+
       <!-- Product Modal -->
       <ProductModal
         :is-open="showProductModal"
@@ -553,6 +984,22 @@
         :category="editingCategory"
         @close="closeCategoryModal"
         @saved="handleCategorySaved"
+      />
+
+      <!-- Coupon Modal -->
+      <CouponModal
+        :is-open="showCouponModal"
+        :coupon="editingCoupon"
+        @close="closeCouponModal"
+        @saved="handleCouponSaved"
+      />
+
+      <!-- Shipping Promotion Modal -->
+      <ShippingPromotionModal
+        :is-open="showShippingPromotionModal"
+        :promotion="editingShippingPromotion"
+        @close="closeShippingPromotionModal"
+        @saved="handleShippingPromotionSaved"
       />
     </div>
   </div>
@@ -569,13 +1016,24 @@ const usersLoading = ref(false);
 const productsError = ref(null);
 const categoriesError = ref(null);
 const usersError = ref(null);
+const couponsError = ref(null);
+const shippingPromotionsError = ref(null);
 const products = ref([]);
 const categories = ref([]);
 const users = ref([]);
+const coupons = ref([]);
+const shippingPromotions = ref([]);
 const showProductModal = ref(false);
 const showCategoryModal = ref(false);
+const showCouponModal = ref(false);
+const showShippingPromotionModal = ref(false);
 const editingProduct = ref(null);
 const editingCategory = ref(null);
+const editingCoupon = ref(null);
+const editingShippingPromotion = ref(null);
+const activePromotionTab = ref('coupons');
+const couponsLoading = ref(false);
+const shippingPromotionsLoading = ref(false);
 const productSearch = ref('');
 const userSearch = ref('');
 const userSortKey = ref('createdAt');
@@ -745,11 +1203,177 @@ const deleteCategory = async category => {
   }
 };
 
+// Promoções
+const loadCoupons = async () => {
+  couponsLoading.value = true;
+  couponsError.value = null;
+
+  try {
+    const { data, error: fetchError } = await supabase
+      .from('coupons')
+      .select('*')
+      .order('createdAt', { ascending: false });
+
+    if (fetchError) throw fetchError;
+    coupons.value = data || [];
+  } catch (err) {
+    couponsError.value = err.message || 'Erro ao carregar cupons';
+  } finally {
+    couponsLoading.value = false;
+  }
+};
+
+const loadShippingPromotions = async () => {
+  shippingPromotionsLoading.value = true;
+  shippingPromotionsError.value = null;
+
+  try {
+    const { data, error: fetchError } = await supabase
+      .from('shipping_promotions')
+      .select('*')
+      .order('createdAt', { ascending: false });
+
+    if (fetchError) throw fetchError;
+    shippingPromotions.value = data || [];
+  } catch (err) {
+    shippingPromotionsError.value = err.message || 'Erro ao carregar promoções de frete';
+  } finally {
+    shippingPromotionsLoading.value = false;
+  }
+};
+
+const formatDiscount = coupon => {
+  if (coupon.discountType === 'PERCENTAGE') {
+    return `${coupon.discountValue}%`;
+  }
+  return `R$ ${formatPrice(coupon.discountValue)}`;
+};
+
+const isCouponValid = coupon => {
+  if (!coupon.isActive) return false;
+  if (coupon.validUntil && new Date(coupon.validUntil) < new Date()) return false;
+  if (coupon.usageLimit && coupon.usedCount >= coupon.usageLimit) return false;
+  return true;
+};
+
+const isShippingPromotionValid = promotion => {
+  if (!promotion.isActive) return false;
+  if (promotion.validUntil && new Date(promotion.validUntil) < new Date()) return false;
+  return true;
+};
+
+const openCreateCouponModal = () => {
+  editingCoupon.value = null;
+  showCouponModal.value = true;
+};
+
+const editCoupon = coupon => {
+  editingCoupon.value = { ...coupon };
+  showCouponModal.value = true;
+};
+
+const closeCouponModal = () => {
+  showCouponModal.value = false;
+  editingCoupon.value = null;
+};
+
+const handleCouponSaved = () => {
+  loadCoupons();
+  closeCouponModal();
+};
+
+const toggleCouponStatus = async coupon => {
+  try {
+    const { error: updateError } = await supabase
+      .from('coupons')
+      .update({ isActive: !coupon.isActive })
+      .eq('id', coupon.id);
+
+    if (updateError) throw updateError;
+
+    await loadCoupons();
+  } catch (err) {
+    couponsError.value = err.message || 'Erro ao alterar status do cupom';
+  }
+};
+
+const deleteCoupon = async coupon => {
+  if (!confirm(`Tem certeza que deseja excluir o cupom "${coupon.name}"?`)) {
+    return;
+  }
+
+  try {
+    const { error: deleteError } = await supabase.from('coupons').delete().eq('id', coupon.id);
+
+    if (deleteError) throw deleteError;
+
+    await loadCoupons();
+  } catch (err) {
+    couponsError.value = err.message || 'Erro ao excluir cupom';
+  }
+};
+
+const openCreateShippingPromotionModal = () => {
+  editingShippingPromotion.value = null;
+  showShippingPromotionModal.value = true;
+};
+
+const editShippingPromotion = promotion => {
+  editingShippingPromotion.value = { ...promotion };
+  showShippingPromotionModal.value = true;
+};
+
+const closeShippingPromotionModal = () => {
+  showShippingPromotionModal.value = false;
+  editingShippingPromotion.value = null;
+};
+
+const handleShippingPromotionSaved = () => {
+  loadShippingPromotions();
+  closeShippingPromotionModal();
+};
+
+const toggleShippingPromotionStatus = async promotion => {
+  try {
+    const { error: updateError } = await supabase
+      .from('shipping_promotions')
+      .update({ isActive: !promotion.isActive })
+      .eq('id', promotion.id);
+
+    if (updateError) throw updateError;
+
+    await loadShippingPromotions();
+  } catch (err) {
+    shippingPromotionsError.value = err.message || 'Erro ao alterar status da promoção';
+  }
+};
+
+const deleteShippingPromotion = async promotion => {
+  if (!confirm(`Tem certeza que deseja excluir a promoção "${promotion.name}"?`)) {
+    return;
+  }
+
+  try {
+    const { error: deleteError } = await supabase
+      .from('shipping_promotions')
+      .delete()
+      .eq('id', promotion.id);
+
+    if (deleteError) throw deleteError;
+
+    await loadShippingPromotions();
+  } catch (err) {
+    shippingPromotionsError.value = err.message || 'Erro ao excluir promoção';
+  }
+};
+
 // Carregar dados quando a página for montada
 onMounted(() => {
   loadProducts();
   loadCategories();
   loadUsers();
+  loadCoupons();
+  loadShippingPromotions();
 });
 
 watch(productSearch, () => {
