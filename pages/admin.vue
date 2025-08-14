@@ -1,10 +1,5 @@
 <template>
   <div class="max-w-7xl mx-auto px-4 py-8">
-    <!-- Header -->
-    <div class="flex items-center justify-between mb-6 border-b border-gray-200 pb-4">
-      <h1 class="text-3xl font-bold text-gray-900">Painel Administrativo</h1>
-    </div>
-
     <!-- Content -->
     <div class="p-6">
       <!-- Tabs -->
