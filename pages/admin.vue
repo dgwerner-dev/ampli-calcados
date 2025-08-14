@@ -262,21 +262,63 @@
                         </th>
                         <th
                           scope="col"
-                          class="w-16 px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          class="w-20 px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Categoria
+                          <div class="flex justify-center" title="Categoria">
+                            <svg
+                              class="w-4 h-4 text-gray-600"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                              ></path>
+                            </svg>
+                          </div>
                         </th>
                         <th
                           scope="col"
-                          class="w-16 px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          class="w-24 px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Preço
+                          <div class="flex justify-center" title="Preço">
+                            <svg
+                              class="w-4 h-4 text-gray-600"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
+                              ></path>
+                            </svg>
+                          </div>
                         </th>
                         <th
                           scope="col"
-                          class="w-16 px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          class="w-20 px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Estoque
+                          <div class="flex justify-center" title="Estoque">
+                            <svg
+                              class="w-4 h-4 text-gray-600"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                              ></path>
+                            </svg>
+                          </div>
                         </th>
                         <th
                           scope="col"
@@ -332,26 +374,30 @@
                             </div>
                           </div>
                         </td>
-                        <td class="w-16 px-2 py-4 whitespace-nowrap text-center">
-                          <div class="flex justify-center" :title="getCategoryName(product.categoryId)">
-                            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                            </svg>
+                        <td
+                          class="w-20 px-2 py-4 whitespace-nowrap text-sm text-gray-900 text-center"
+                        >
+                          {{ getCategoryName(product.categoryId) }}
+                        </td>
+                        <td
+                          class="w-24 px-2 py-4 whitespace-nowrap text-sm text-gray-900 text-center"
+                        >
+                          <div class="text-sm text-gray-900">
+                            <span
+                              v-if="product.salePrice"
+                              class="line-through text-gray-500 text-xs"
+                            >
+                              R$ {{ formatPrice(product.price) }}
+                            </span>
+                            <div class="font-medium">
+                              R$ {{ formatPrice(product.salePrice || product.price) }}
+                            </div>
                           </div>
                         </td>
-                        <td class="w-16 px-2 py-4 whitespace-nowrap text-center">
-                          <div class="flex justify-center" :title="`R$ ${formatPrice(product.salePrice || product.price)}`">
-                            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
-                            </svg>
-                          </div>
-                        </td>
-                        <td class="w-16 px-2 py-4 whitespace-nowrap text-center">
-                          <div class="flex justify-center" :title="product.inStock ? 'Em estoque' : 'Indisponível'">
-                            <svg class="w-5 h-5" :class="product.inStock ? 'text-green-600' : 'text-red-600'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                            </svg>
-                          </div>
+                        <td
+                          class="w-20 px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center"
+                        >
+                          {{ product.inStock ? '-' : 'Indisponível' }}
                         </td>
                         <td class="w-16 px-2 py-4 whitespace-nowrap text-center">
                           <div class="group relative">
