@@ -388,7 +388,7 @@ async function main() {
       data: {
         name: categoryName,
         slug: generateSlug(categoryName),
-        description: `Categoria para ${categoryName}`,
+        description: null,
       },
     });
     console.log(`Categoria ${categoryName} criada com id: ${category.id}`);
