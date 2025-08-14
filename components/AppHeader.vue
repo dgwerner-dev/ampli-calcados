@@ -373,8 +373,10 @@ const handleLogout = async () => {
 };
 
 const handleLoginSuccess = async () => {
+  console.log('🔔 Evento login-success recebido');
   // Forçar atualização do estado do usuário
   await refreshUserState();
+  console.log('✅ Estado do usuário atualizado:', user.value);
   success('Login realizado com sucesso!');
 };
 
