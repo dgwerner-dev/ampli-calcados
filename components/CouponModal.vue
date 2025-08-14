@@ -1,11 +1,18 @@
 <template>
   <div v-if="isOpen" class="fixed inset-0 z-50 overflow-y-auto">
-    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <div
+      class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+    >
       <!-- Background overlay -->
-      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" @click="closeModal"></div>
+      <div
+        class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+        @click="closeModal"
+      ></div>
 
       <!-- Modal panel -->
-      <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+      <div
+        class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+      >
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
           <div class="sm:flex sm:items-start">
             <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
@@ -28,7 +35,9 @@
 
                 <!-- Descrição -->
                 <div>
-                  <label for="description" class="block text-sm font-medium text-gray-700">Descrição</label>
+                  <label for="description" class="block text-sm font-medium text-gray-700"
+                    >Descrição</label
+                  >
                   <textarea
                     id="description"
                     v-model="form.description"
@@ -51,7 +60,9 @@
 
                 <!-- Tipo de Desconto -->
                 <div>
-                  <label for="discountType" class="block text-sm font-medium text-gray-700">Tipo de Desconto</label>
+                  <label for="discountType" class="block text-sm font-medium text-gray-700"
+                    >Tipo de Desconto</label
+                  >
                   <select
                     id="discountType"
                     v-model="form.discountType"
@@ -66,7 +77,11 @@
                 <!-- Valor do Desconto -->
                 <div>
                   <label for="discountValue" class="block text-sm font-medium text-gray-700">
-                    {{ form.discountType === 'PERCENTAGE' ? 'Percentual de Desconto (%)' : 'Valor do Desconto (R$)' }}
+                    {{
+                      form.discountType === 'PERCENTAGE'
+                        ? 'Percentual de Desconto (%)'
+                        : 'Valor do Desconto (R$)'
+                    }}
                   </label>
                   <input
                     id="discountValue"
@@ -82,7 +97,9 @@
 
                 <!-- Pedido Mínimo -->
                 <div>
-                  <label for="minOrderValue" class="block text-sm font-medium text-gray-700">Pedido Mínimo (R$)</label>
+                  <label for="minOrderValue" class="block text-sm font-medium text-gray-700"
+                    >Pedido Mínimo (R$)</label
+                  >
                   <input
                     id="minOrderValue"
                     v-model="form.minOrderValue"
@@ -95,7 +112,9 @@
 
                 <!-- Desconto Máximo -->
                 <div>
-                  <label for="maxDiscount" class="block text-sm font-medium text-gray-700">Desconto Máximo (R$)</label>
+                  <label for="maxDiscount" class="block text-sm font-medium text-gray-700"
+                    >Desconto Máximo (R$)</label
+                  >
                   <input
                     id="maxDiscount"
                     v-model="form.maxDiscount"
@@ -108,7 +127,9 @@
 
                 <!-- Limite de Uso -->
                 <div>
-                  <label for="usageLimit" class="block text-sm font-medium text-gray-700">Limite de Uso</label>
+                  <label for="usageLimit" class="block text-sm font-medium text-gray-700"
+                    >Limite de Uso</label
+                  >
                   <input
                     id="usageLimit"
                     v-model="form.usageLimit"
@@ -120,7 +141,9 @@
 
                 <!-- Data de Validade -->
                 <div>
-                  <label for="validUntil" class="block text-sm font-medium text-gray-700">Válido Até</label>
+                  <label for="validUntil" class="block text-sm font-medium text-gray-700"
+                    >Válido Até</label
+                  >
                   <input
                     id="validUntil"
                     v-model="form.validUntil"
@@ -151,9 +174,26 @@
             :disabled="saving"
             class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-coral-soft text-base font-medium text-white hover:bg-coral-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft sm:ml-3 sm:w-auto sm:text-sm disabled:opacity-50"
           >
-            <svg v-if="saving" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            <svg
+              v-if="saving"
+              class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
             </svg>
             {{ saving ? 'Salvando...' : 'Salvar' }}
           </button>
@@ -204,39 +244,42 @@ const form = ref({
 const supabase = useSupabaseClient();
 
 // Reset form when modal opens/closes
-watch(() => props.isOpen, (newValue) => {
-  if (newValue) {
-    if (props.coupon) {
-      // Edit mode
-      form.value = {
-        name: props.coupon.name || '',
-        description: props.coupon.description || '',
-        code: props.coupon.code || '',
-        discountType: props.coupon.discountType || 'PERCENTAGE',
-        discountValue: props.coupon.discountValue || '',
-        minOrderValue: props.coupon.minOrderValue || '',
-        maxDiscount: props.coupon.maxDiscount || '',
-        usageLimit: props.coupon.usageLimit || '',
-        validUntil: props.coupon.validUntil ? props.coupon.validUntil.slice(0, 16) : '',
-        isActive: props.coupon.isActive !== undefined ? props.coupon.isActive : true,
-      };
-    } else {
-      // Create mode
-      form.value = {
-        name: '',
-        description: '',
-        code: '',
-        discountType: 'PERCENTAGE',
-        discountValue: '',
-        minOrderValue: '',
-        maxDiscount: '',
-        usageLimit: '',
-        validUntil: '',
-        isActive: true,
-      };
+watch(
+  () => props.isOpen,
+  newValue => {
+    if (newValue) {
+      if (props.coupon) {
+        // Edit mode
+        form.value = {
+          name: props.coupon.name || '',
+          description: props.coupon.description || '',
+          code: props.coupon.code || '',
+          discountType: props.coupon.discountType || 'PERCENTAGE',
+          discountValue: props.coupon.discountValue || '',
+          minOrderValue: props.coupon.minOrderValue || '',
+          maxDiscount: props.coupon.maxDiscount || '',
+          usageLimit: props.coupon.usageLimit || '',
+          validUntil: props.coupon.validUntil ? props.coupon.validUntil.slice(0, 16) : '',
+          isActive: props.coupon.isActive !== undefined ? props.coupon.isActive : true,
+        };
+      } else {
+        // Create mode
+        form.value = {
+          name: '',
+          description: '',
+          code: '',
+          discountType: 'PERCENTAGE',
+          discountValue: '',
+          minOrderValue: '',
+          maxDiscount: '',
+          usageLimit: '',
+          validUntil: '',
+          isActive: true,
+        };
+      }
     }
   }
-});
+);
 
 const closeModal = () => {
   if (!saving.value) {
@@ -263,20 +306,17 @@ const saveCoupon = async () => {
 
     if (props.coupon) {
       // Update existing coupon
-      const { error } = await supabase
-        .from('coupons')
-        .update(couponData)
-        .eq('id', props.coupon.id);
+      const { error } = await supabase.from('coupons').update(couponData).eq('id', props.coupon.id);
 
       if (error) throw error;
     } else {
       // Create new coupon - não incluir id, deixar o banco gerar automaticamente
-      const { error } = await supabase
-        .from('coupons')
-        .insert([{ 
-          ...couponData, 
-          usedCount: 0 
-        }]);
+      const { error } = await supabase.from('coupons').insert([
+        {
+          ...couponData,
+          usedCount: 0,
+        },
+      ]);
 
       if (error) throw error;
     }
