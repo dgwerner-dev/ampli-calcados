@@ -1,5 +1,9 @@
 <template>
-  <div v-if="isOpen" class="fixed inset-0 z-50 overflow-y-auto">
+  <div v-if="isOpen" class="fixed inset-0 z-[9999] overflow-y-auto" style="background: rgba(0,0,0,0.5);">
+    <!-- Debug: mostrar que o modal está sendo renderizado -->
+    <div style="position: fixed; top: 10px; left: 10px; background: red; color: white; padding: 10px; z-index: 10000;">
+      MODAL ESTÁ ABERTO - isOpen: {{ isOpen }}
+    </div>
     <!-- Overlay -->
     <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" @click="closeModal"></div>
 
@@ -370,6 +374,11 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+});
+
+// Debug: monitorar mudanças na prop isOpen
+watch(() => props.isOpen, (newValue) => {
+  console.log('ProductModal - isOpen mudou para:', newValue);
 });
 
 const emit = defineEmits(['close', 'saved']);

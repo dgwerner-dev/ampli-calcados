@@ -2417,7 +2417,7 @@ watch(activeTab, () => {
 });
 
 // Debug: monitorar mudanças no estado do modal de produto
-watch(showProductModal, (newValue) => {
+watch(showProductModal, newValue => {
   console.log('showProductModal mudou para:', newValue);
 });
 
