@@ -51,7 +51,9 @@
               @click="activeTab = 'users'"
               :class="[
                 'w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors',
-                activeTab === 'users' ? 'bg-coral-soft text-white' : 'text-gray-700 hover:bg-gray-100',
+                activeTab === 'users'
+                  ? 'bg-coral-soft text-white'
+                  : 'text-gray-700 hover:bg-gray-100',
               ]"
             >
               <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -129,7 +131,10 @@
               </div>
 
               <!-- Products Grid -->
-              <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div
+                v-else
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+              >
                 <div
                   v-for="product in products"
                   :key="product.id"
@@ -183,7 +188,9 @@
                       <span
                         :class="[
                           'inline-flex items-center px-2 py-1 rounded-full text-xs font-medium',
-                          product.inStock ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800',
+                          product.inStock
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-red-100 text-red-800',
                         ]"
                       >
                         {{ product.inStock ? 'Em estoque' : 'Sem estoque' }}
@@ -275,12 +282,18 @@
               </div>
 
               <!-- Categories Error -->
-              <div v-else-if="categoriesError" class="bg-red-50 border border-red-200 rounded-lg p-4">
+              <div
+                v-else-if="categoriesError"
+                class="bg-red-50 border border-red-200 rounded-lg p-4"
+              >
                 <p class="text-red-600">{{ categoriesError }}</p>
               </div>
 
               <!-- Categories Grid -->
-              <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div
+                v-else
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+              >
                 <div
                   v-for="category in categories"
                   :key="category.id"
@@ -530,7 +543,9 @@
                         <span
                           :class="[
                             'px-2 inline-flex text-xs leading-5 font-semibold rounded-full',
-                            user.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800',
+                            user.isActive
+                              ? 'bg-green-100 text-green-800'
+                              : 'bg-red-100 text-red-800',
                           ]"
                         >
                           {{ user.isActive ? 'Ativo' : 'Inativo' }}
@@ -557,7 +572,9 @@
                   />
                 </svg>
                 <h3 class="mt-2 text-sm font-medium text-gray-900">Nenhum cliente encontrado</h3>
-                <p class="mt-1 text-sm text-gray-500">Ainda não há clientes cadastrados no sistema.</p>
+                <p class="mt-1 text-sm text-gray-500">
+                  Ainda não há clientes cadastrados no sistema.
+                </p>
               </div>
             </div>
           </div>
@@ -650,7 +667,9 @@
                       <span
                         :class="[
                           'px-2 py-1 rounded-full text-xs font-medium',
-                          coupon.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800',
+                          coupon.isActive
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-red-100 text-red-800',
                         ]"
                       >
                         {{ coupon.isActive ? 'Ativo' : 'Inativo' }}
@@ -687,11 +706,17 @@
                         {{ formatDiscount(coupon) }}
                       </span>
                     </div>
-                    <div v-if="coupon.minOrderValue" class="flex items-center justify-between text-sm">
+                    <div
+                      v-if="coupon.minOrderValue"
+                      class="flex items-center justify-between text-sm"
+                    >
                       <span class="text-gray-600">Pedido mínimo:</span>
                       <span class="font-medium">R$ {{ formatPrice(coupon.minOrderValue) }}</span>
                     </div>
-                    <div v-if="coupon.maxDiscount" class="flex items-center justify-between text-sm">
+                    <div
+                      v-if="coupon.maxDiscount"
+                      class="flex items-center justify-between text-sm"
+                    >
                       <span class="text-gray-600">Desconto máximo:</span>
                       <span class="font-medium">R$ {{ formatPrice(coupon.maxDiscount) }}</span>
                     </div>
@@ -750,7 +775,13 @@
                           d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L5.636 5.636"
                         ></path>
                       </svg>
-                      <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg
+                        v-else
+                        class="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
                         <path
                           stroke-linecap="round"
                           stroke-linejoin="round"
@@ -792,7 +823,9 @@
                   ></path>
                 </svg>
                 <h3 class="mt-2 text-sm font-medium text-gray-900">Nenhum cupom encontrado</h3>
-                <p class="mt-1 text-sm text-gray-500">Comece criando seu primeiro cupom de desconto.</p>
+                <p class="mt-1 text-sm text-gray-500">
+                  Comece criando seu primeiro cupom de desconto.
+                </p>
               </div>
             </div>
 
@@ -921,7 +954,13 @@
                           d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L5.636 5.636"
                         ></path>
                       </svg>
-                      <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg
+                        v-else
+                        class="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
                         <path
                           stroke-linecap="round"
                           stroke-linejoin="round"
@@ -968,7 +1007,9 @@
                 <h3 class="mt-2 text-sm font-medium text-gray-900">
                   Nenhuma promoção de frete encontrada
                 </h3>
-                <p class="mt-1 text-sm text-gray-500">Comece criando sua primeira promoção de frete.</p>
+                <p class="mt-1 text-sm text-gray-500">
+                  Comece criando sua primeira promoção de frete.
+                </p>
               </div>
             </div>
           </div>
