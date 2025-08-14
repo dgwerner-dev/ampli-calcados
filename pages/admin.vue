@@ -4,7 +4,7 @@
     <div class="max-w-7xl mx-auto px-4">
       <div class="flex h-screen">
         <!-- Sidebar -->
-        <div class="w-64 bg-white shadow-lg rounded-lg mt-6 mb-6">
+        <div class="w-48 bg-white shadow-lg rounded-lg mt-6 mb-6">
           <!-- Sidebar Navigation -->
           <nav class="p-4 space-y-2">
             <button
@@ -133,7 +133,7 @@
         </div>
 
         <!-- Main Content -->
-        <div class="flex-1 overflow-auto ml-6">
+        <div class="flex-1 overflow-auto ml-4">
           <div class="p-6 bg-white rounded-lg mt-6 mb-6">
             <!-- Products Tab -->
             <div v-if="activeTab === 'products'" class="space-y-6">
@@ -256,37 +256,31 @@
                         </th>
                         <th
                           scope="col"
-                          class="w-1/3 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          class="w-2/5 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
                           Produto
                         </th>
                         <th
                           scope="col"
-                          class="w-1/6 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          class="w-16 px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
                           Categoria
                         </th>
                         <th
                           scope="col"
-                          class="w-1/6 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          class="w-16 px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
                           Preço
                         </th>
                         <th
                           scope="col"
-                          class="w-20 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          class="w-16 px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
                           Estoque
                         </th>
                         <th
                           scope="col"
-                          class="w-24 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Disponibilidade
-                        </th>
-                        <th
-                          scope="col"
-                          class="w-24 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          class="w-16 px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
                           Status
                         </th>
@@ -306,18 +300,18 @@
                             class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
                           />
                         </td>
-                        <td class="w-1/3 px-3 py-4 whitespace-nowrap">
+                        <td class="w-2/5 px-3 py-4 whitespace-nowrap">
                           <div class="flex items-center">
                             <div class="flex-shrink-0 h-10 w-10">
                               <div
                                 class="h-10 w-10 rounded-lg bg-gray-200 flex items-center justify-center"
                               >
-                                                                  <svg
-                                    class="h-5 w-5 text-gray-400"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                  >
+                                <svg
+                                  class="h-5 w-5 text-gray-400"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
                                   <path
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
@@ -338,42 +332,36 @@
                             </div>
                           </div>
                         </td>
-                        <td class="w-1/6 px-3 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {{ getCategoryName(product.categoryId) }}
-                        </td>
-                        <td class="w-1/6 px-3 py-4 whitespace-nowrap">
-                          <div class="text-sm text-gray-900">
-                            <span v-if="product.salePrice" class="line-through text-gray-500">
-                              R$ {{ formatPrice(product.price) }}
-                            </span>
-                            <span class="ml-2 font-medium">
-                              R$ {{ formatPrice(product.salePrice || product.price) }}
-                            </span>
+                        <td class="w-16 px-2 py-4 whitespace-nowrap text-center">
+                          <div class="flex justify-center" :title="getCategoryName(product.categoryId)">
+                            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                            </svg>
                           </div>
                         </td>
-                        <td class="w-20 px-3 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {{ product.inStock ? '-' : 'Indisponível' }}
+                        <td class="w-16 px-2 py-4 whitespace-nowrap text-center">
+                          <div class="flex justify-center" :title="`R$ ${formatPrice(product.salePrice || product.price)}`">
+                            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                            </svg>
+                          </div>
                         </td>
-                        <td class="w-24 px-3 py-4 whitespace-nowrap text-sm text-gray-500">
-                          Consultar variação
+                        <td class="w-16 px-2 py-4 whitespace-nowrap text-center">
+                          <div class="flex justify-center" :title="product.inStock ? 'Em estoque' : 'Indisponível'">
+                            <svg class="w-5 h-5" :class="product.inStock ? 'text-green-600' : 'text-red-600'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                            </svg>
+                          </div>
                         </td>
-                        <td class="w-24 px-3 py-4 whitespace-nowrap">
+                        <td class="w-16 px-2 py-4 whitespace-nowrap text-center">
                           <div class="group relative">
-                            <div class="flex items-center space-x-2">
+                            <div class="flex justify-center">
                               <div
                                 :class="[
                                   'w-3 h-3 rounded-full',
                                   product.inStock ? 'bg-green-500' : 'bg-red-500',
                                 ]"
                               ></div>
-                              <span
-                                :class="[
-                                  'text-sm font-medium',
-                                  product.inStock ? 'text-green-600' : 'text-red-600',
-                                ]"
-                              >
-                                {{ product.inStock ? 'Ativo' : 'Inativo' }}
-                              </span>
                             </div>
 
                             <!-- Actions on Hover -->
@@ -2155,8 +2143,6 @@ const getCategoryName = categoryId => {
   const category = categories.value.find(cat => cat.id === categoryId);
   return category ? category.name : '-';
 };
-
-
 
 const formatDiscountType = discountType => {
   switch (discountType) {
