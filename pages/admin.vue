@@ -1027,7 +1027,11 @@
                         </tr>
                       </thead>
                       <tbody class="bg-white divide-y divide-gray-200">
-                        <tr v-for="region in regions" :key="region.id" class="hover:bg-gray-50 group">
+                        <tr
+                          v-for="region in regions"
+                          :key="region.id"
+                          class="hover:bg-gray-50 group"
+                        >
                           <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {{ region.name }}
                           </td>
@@ -1043,13 +1047,13 @@
                                 <div
                                   :class="[
                                     'w-3 h-3 rounded-full',
-                                    region.isActive ? 'bg-green-500' : 'bg-red-500'
+                                    region.isActive ? 'bg-green-500' : 'bg-red-500',
                                   ]"
                                 ></div>
                                 <span
                                   :class="[
                                     'text-sm font-medium',
-                                    region.isActive ? 'text-green-600' : 'text-red-600'
+                                    region.isActive ? 'text-green-600' : 'text-red-600',
                                   ]"
                                 >
                                   {{ region.isActive ? 'Ativo' : 'Inativo' }}
@@ -1057,15 +1061,29 @@
                               </div>
 
                               <!-- Actions on Hover -->
-                              <div class="absolute right-0 top-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
-                                <div class="flex items-center space-x-2 bg-white border border-gray-200 rounded-lg shadow-lg p-2">
+                              <div
+                                class="absolute right-2 top-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10"
+                              >
+                                <div
+                                  class="flex items-center space-x-1 bg-white border border-gray-200 rounded-lg shadow-lg p-1"
+                                >
                                   <button
                                     @click="editRegion(region)"
                                     class="p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-md transition-colors"
                                     title="Editar região"
                                   >
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                    <svg
+                                      class="w-4 h-4"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                      ></path>
                                     </svg>
                                   </button>
                                   <button
@@ -1074,15 +1092,37 @@
                                       'p-2 rounded-md transition-colors',
                                       region.isActive
                                         ? 'text-red-600 hover:text-red-800 hover:bg-red-50'
-                                        : 'text-green-600 hover:text-green-800 hover:bg-green-50'
+                                        : 'text-green-600 hover:text-green-800 hover:bg-green-50',
                                     ]"
                                     :title="region.isActive ? 'Desativar região' : 'Ativar região'"
                                   >
-                                    <svg v-if="region.isActive" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L5.636 5.636"></path>
+                                    <svg
+                                      v-if="region.isActive"
+                                      class="w-4 h-4"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L5.636 5.636"
+                                      ></path>
                                     </svg>
-                                    <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    <svg
+                                      v-else
+                                      class="w-4 h-4"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M5 13l4 4L19 7"
+                                      ></path>
                                     </svg>
                                   </button>
                                 </div>
