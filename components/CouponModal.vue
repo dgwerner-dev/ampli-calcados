@@ -270,10 +270,13 @@ const saveCoupon = async () => {
 
       if (error) throw error;
     } else {
-      // Create new coupon
+      // Create new coupon - não incluir id, deixar o banco gerar automaticamente
       const { error } = await supabase
         .from('coupons')
-        .insert([{ ...couponData, usedCount: 0 }]);
+        .insert([{ 
+          ...couponData, 
+          usedCount: 0 
+        }]);
 
       if (error) throw error;
     }
