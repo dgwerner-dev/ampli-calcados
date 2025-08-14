@@ -630,7 +630,7 @@ watch(
   newValue => {
     console.log('Modal isOpen changed:', newValue);
     console.log('Product prop:', props.product);
-    
+
     if (newValue) {
       loadCategories();
       if (props.product) {

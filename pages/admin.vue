@@ -238,14 +238,14 @@
               </div>
 
               <!-- Products Table -->
-              <div v-else class="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                <div class="overflow-x-auto">
-                  <table class="min-w-full divide-y divide-gray-200">
+              <div v-else class="bg-white rounded-lg border border-gray-200">
+                <div class="w-full">
+                  <table class="w-full table-fixed divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                       <tr>
                         <th
                           scope="col"
-                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          class="w-12 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
                           <input
                             v-model="selectAllProducts"
@@ -256,43 +256,37 @@
                         </th>
                         <th
                           scope="col"
-                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          class="w-1/3 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
                           Produto
                         </th>
                         <th
                           scope="col"
-                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          class="w-1/6 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
                           Categoria
                         </th>
                         <th
                           scope="col"
-                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          class="w-1/6 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
                           Preço
                         </th>
                         <th
                           scope="col"
-                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          class="w-20 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
                           Estoque
                         </th>
                         <th
                           scope="col"
-                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          class="w-24 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
                           Disponibilidade
                         </th>
                         <th
                           scope="col"
-                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Ativo
-                        </th>
-                        <th
-                          scope="col"
-                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          class="w-24 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
                           Status
                         </th>
@@ -304,7 +298,7 @@
                         :key="product.id"
                         class="hover:bg-gray-50 group"
                       >
-                        <td class="px-6 py-4 whitespace-nowrap">
+                        <td class="w-12 px-3 py-4 whitespace-nowrap">
                           <input
                             v-model="selectedProducts"
                             :value="product.id"
@@ -312,18 +306,18 @@
                             class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
                           />
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
+                        <td class="w-1/3 px-3 py-4 whitespace-nowrap">
                           <div class="flex items-center">
-                            <div class="flex-shrink-0 h-12 w-12">
+                            <div class="flex-shrink-0 h-10 w-10">
                               <div
-                                class="h-12 w-12 rounded-lg bg-gray-200 flex items-center justify-center"
+                                class="h-10 w-10 rounded-lg bg-gray-200 flex items-center justify-center"
                               >
-                                <svg
-                                  class="h-6 w-6 text-gray-400"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
+                                                                  <svg
+                                    class="h-5 w-5 text-gray-400"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
                                   <path
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
@@ -333,21 +327,21 @@
                                 </svg>
                               </div>
                             </div>
-                            <div class="ml-4">
-                              <div class="text-sm font-medium text-gray-900">
+                            <div class="ml-3 min-w-0 flex-1">
+                              <div class="text-sm font-medium text-gray-900 truncate">
                                 {{ product.name }}
                               </div>
-                              <div class="text-sm text-gray-500 font-mono">
+                              <div class="text-xs text-gray-500 font-mono truncate">
                                 {{ product.code || '-' }}
                               </div>
                               <div class="text-xs text-gray-400">Tipo: Com variação</div>
                             </div>
                           </div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <td class="w-1/6 px-3 py-4 whitespace-nowrap text-sm text-gray-900">
                           {{ getCategoryName(product.categoryId) }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
+                        <td class="w-1/6 px-3 py-4 whitespace-nowrap">
                           <div class="text-sm text-gray-900">
                             <span v-if="product.salePrice" class="line-through text-gray-500">
                               R$ {{ formatPrice(product.price) }}
@@ -357,23 +351,13 @@
                             </span>
                           </div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td class="w-20 px-3 py-4 whitespace-nowrap text-sm text-gray-500">
                           {{ product.inStock ? '-' : 'Indisponível' }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td class="w-24 px-3 py-4 whitespace-nowrap text-sm text-gray-500">
                           Consultar variação
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                          <div class="flex items-center">
-                            <input
-                              v-model="product.isActive"
-                              type="checkbox"
-                              @change="toggleProductStatus(product)"
-                              class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
-                            />
-                          </div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
+                        <td class="w-24 px-3 py-4 whitespace-nowrap">
                           <div class="group relative">
                             <div class="flex items-center space-x-2">
                               <div
@@ -2172,23 +2156,7 @@ const getCategoryName = categoryId => {
   return category ? category.name : '-';
 };
 
-const toggleProductStatus = async product => {
-  try {
-    const { error: updateError } = await supabase
-      .from('products')
-      .update({ isActive: !product.isActive })
-      .eq('id', product.id);
 
-    if (updateError) throw updateError;
-
-    // Atualizar o estado local
-    product.isActive = !product.isActive;
-  } catch (err) {
-    console.error('Erro ao alterar status do produto:', err);
-    // Reverter o estado em caso de erro
-    product.isActive = !product.isActive;
-  }
-};
 
 const formatDiscountType = discountType => {
   switch (discountType) {
