@@ -1,18 +1,4 @@
 <template>
-  <!-- Debug: teste simples de renderização -->
-  <div
-    style="
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      background: yellow;
-      color: black;
-      padding: 10px;
-      z-index: 10000;
-    "
-  >
-    ADMIN PAGE CARREGADA - showProductModal: {{ showProductModal }}
-  </div>
 
   <div class="min-h-screen bg-gray-50">
     <!-- Container principal com largura máxima e centralização -->
@@ -1805,36 +1791,7 @@
               </div>
             </div>
 
-            <!-- Teste simples de renderização -->
-            <div style="position: fixed; top: 200px; left: 200px; background: purple; color: white; padding: 10px; z-index: 10000;">
-              TESTE DE RENDERIZAÇÃO
-            </div>
 
-            <!-- Product Modal Original (comentado temporariamente) -->
-            <!--
-            <ProductModal
-              :is-open="showProductModal"
-              :product="editingProduct"
-              @close="closeProductModal"
-              @saved="handleProductSaved"
-            />
-            -->
-
-            <!-- Debug: mostrar estado do modal -->
-            <div
-              v-if="showProductModal"
-              style="
-                position: fixed;
-                top: 50px;
-                left: 50px;
-                background: blue;
-                color: white;
-                padding: 10px;
-                z-index: 10000;
-              "
-            >
-              DEBUG: showProductModal é true
-            </div>
 
             <!-- Category Modal -->
             <CategoryModal
@@ -1866,29 +1823,12 @@
   </div>
   
   <!-- Product Modal (fora da estrutura principal) -->
-  <div
-    v-if="showProductModal"
-    style="
-      position: fixed;
-      top: 100px;
-      left: 100px;
-      background: orange;
-      color: white;
-      padding: 20px;
-      z-index: 10000;
-      border: 2px solid black;
-    "
-  >
-    <h3>MODAL SIMPLES DE TESTE (COM V-IF)</h3>
-    <p>showProductModal: {{ showProductModal }}</p>
-    <p>editingProduct: {{ editingProduct }}</p>
-    <button
-      @click="closeProductModal"
-      style="background: red; color: white; padding: 5px; margin: 5px"
-    >
-      Fechar
-    </button>
-  </div>
+  <ProductModal
+    :is-open="showProductModal"
+    :product="editingProduct"
+    @close="closeProductModal"
+    @saved="handleProductSaved"
+  />
 </template>
 
 <script setup>
@@ -2043,20 +1983,13 @@ const setUserSort = key => {
 };
 
 const openCreateProductModal = () => {
-  console.log('=== FUNÇÃO openCreateProductModal CHAMADA ===');
-  console.log('Estado ANTES:', showProductModal.value);
   editingProduct.value = null;
   showProductModal.value = true;
-  console.log('Estado DEPOIS:', showProductModal.value);
-  console.log('editingProduct:', editingProduct.value);
 };
 
 const editProduct = product => {
-  console.log('Editando produto:', product);
   editingProduct.value = { ...product };
   showProductModal.value = true;
-  console.log('Modal aberto:', showProductModal.value);
-  console.log('Produto sendo editado:', editingProduct.value);
 };
 
 const closeProductModal = () => {
@@ -2470,8 +2403,7 @@ onMounted(() => {
   loadShippingPromotions();
 });
 
-// Resetar modais quando a aba mudar (comentado temporariamente para debug)
-/*
+// Resetar modais quando a aba mudar
 watch(activeTab, () => {
   showProductModal.value = false;
   showCategoryModal.value = false;
@@ -2482,12 +2414,8 @@ watch(activeTab, () => {
   editingCoupon.value = null;
   editingShippingPromotion.value = null;
 });
-*/
 
-// Debug: monitorar mudanças no estado do modal de produto
-watch(showProductModal, newValue => {
-  console.log('showProductModal mudou para:', newValue);
-});
+
 
 watch(productSearch, () => {
   if (productSearchDebounceTimer) {
