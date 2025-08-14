@@ -628,10 +628,14 @@ const handleSubmit = async () => {
 watch(
   () => props.isOpen,
   newValue => {
+    console.log('Modal isOpen changed:', newValue);
+    console.log('Product prop:', props.product);
+    
     if (newValue) {
       loadCategories();
       if (props.product) {
         // Modo de edição: preencher formulário
+        console.log('Preenchendo formulário com produto:', props.product);
         form.value = {
           ...props.product,
           code: props.product.code || '',
@@ -640,6 +644,7 @@ watch(
           sizes: Array.isArray(props.product.sizes) ? props.product.sizes.join(', ') : '',
           colors: Array.isArray(props.product.colors) ? props.product.colors.join(', ') : '',
         };
+        console.log('Formulário preenchido:', form.value);
         // Preencher imagens se existirem
         if (props.product.images && Array.isArray(props.product.images)) {
           uploadedImages.value = props.product.images.map(url => ({
@@ -651,6 +656,7 @@ watch(
         }
       } else {
         // Modo de criação: resetar formulário
+        console.log('Resetando formulário para criação');
         resetForm();
       }
     } else {

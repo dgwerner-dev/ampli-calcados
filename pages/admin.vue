@@ -142,19 +142,6 @@
                 <h3 class="text-lg font-semibold text-gray-900">Produtos</h3>
                 <div class="flex items-center space-x-3">
                   <button
-                    class="inline-flex items-center rounded-lg border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700"
-                  >
-                    <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9"
-                      ></path>
-                    </svg>
-                    Venda em marketplaces
-                  </button>
-                  <button
                     @click="openCreateProductModal"
                     class="inline-flex items-center rounded-lg border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700"
                   >
@@ -1979,8 +1966,11 @@ const openCreateProductModal = () => {
 };
 
 const editProduct = product => {
+  console.log('Editando produto:', product);
   editingProduct.value = { ...product };
   showProductModal.value = true;
+  console.log('Modal aberto:', showProductModal.value);
+  console.log('Produto sendo editado:', editingProduct.value);
 };
 
 const closeProductModal = () => {
