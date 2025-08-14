@@ -627,7 +627,8 @@
             <!-- Coupons Section -->
             <div v-if="activeMarketingSection === 'coupons'" class="space-y-6">
               <!-- Coupons Header -->
-              <div class="flex justify-end items-center">
+              <div class="flex justify-between items-center mb-6">
+                <h3 class="text-lg font-semibold text-gray-900">Listagem de cupons</h3>
                 <button
                   @click="openCreateCouponModal"
                   class="inline-flex items-center rounded-lg border border-transparent bg-coral-soft px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-dark"
@@ -644,6 +645,45 @@
                 </button>
               </div>
 
+              <!-- Search and Filters -->
+              <div class="bg-white rounded-lg border border-gray-200 p-4 mb-6">
+                <div class="flex flex-col sm:flex-row gap-4">
+                  <div class="flex-1">
+                    <div class="relative">
+                      <div
+                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                      >
+                        <svg
+                          class="h-5 w-5 text-gray-400"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                          ></path>
+                        </svg>
+                      </div>
+                      <input
+                        v-model="couponSearch"
+                        type="text"
+                        placeholder="Buscar por nome ou descrição do cupom"
+                        class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-coral-soft focus:border-coral-soft sm:text-sm"
+                      />
+                    </div>
+                  </div>
+                  <button
+                    @click="searchCoupons"
+                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors"
+                  >
+                    Buscar
+                  </button>
+                </div>
+              </div>
+
               <!-- Coupons Loading -->
               <div v-if="couponsLoading" class="flex justify-center items-center py-12">
                 <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-coral-soft"></div>
@@ -654,155 +694,223 @@
                 <p class="text-red-600">{{ couponsError }}</p>
               </div>
 
-              <!-- Coupons Grid -->
-              <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div
-                  v-for="coupon in coupons"
-                  :key="coupon.id"
-                  class="bg-gray-50 rounded-lg p-4 border border-gray-200"
-                >
-                  <!-- Coupon Header -->
-                  <div class="flex items-center justify-between mb-3">
+              <!-- Coupons Table -->
+              <div v-else class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                <!-- Table Header -->
+                <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                      <label class="flex items-center">
+                        <input
+                          v-model="selectAllCoupons"
+                          type="checkbox"
+                          @change="toggleSelectAllCoupons"
+                          class="h-4 w-4 text-coral-soft focus:ring-coral-soft border-gray-300 rounded"
+                        />
+                        <span class="ml-2 text-sm font-medium text-gray-700">Selecionar todos</span>
+                      </label>
+                    </div>
+                    <div class="text-sm text-gray-500">
+                      Mostrando {{ filteredCoupons.length }} de {{ coupons.length }} no total
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Table -->
+                <div class="overflow-x-auto">
+                  <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                      <tr>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          <input
+                            v-model="selectAllCoupons"
+                            type="checkbox"
+                            @change="toggleSelectAllCoupons"
+                            class="h-4 w-4 text-coral-soft focus:ring-coral-soft border-gray-300 rounded"
+                          />
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Cupom
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Tipo
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Validade
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Utilizados / Disponíveis
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Status
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                      <tr
+                        v-for="coupon in filteredCoupons"
+                        :key="coupon.id"
+                        class="hover:bg-gray-50 transition-colors"
+                      >
+                        <!-- Checkbox -->
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <input
+                            v-model="selectedCoupons"
+                            :value="coupon.id"
+                            type="checkbox"
+                            class="h-4 w-4 text-coral-soft focus:ring-coral-soft border-gray-300 rounded"
+                          />
+                        </td>
+
+                        <!-- Cupom Info -->
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <div>
+                            <div class="text-sm font-medium text-gray-900 font-mono">
+                              {{ coupon.code }}
+                            </div>
+                            <div class="text-sm text-gray-500">{{ coupon.name }}</div>
+                          </div>
+                        </td>
+
+                        <!-- Tipo -->
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <span
+                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+                          >
+                            {{ formatDiscountType(coupon.discountType) }}
+                          </span>
+                        </td>
+
+                        <!-- Validade -->
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          {{ formatValidity(coupon.validUntil) }}
+                        </td>
+
+                        <!-- Utilizados / Disponíveis -->
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          {{ coupon.usedCount }} / {{ coupon.usageLimit || '∞' }}
+                        </td>
+
+                        <!-- Status with Actions -->
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <div class="group relative">
+                            <!-- Status Display -->
+                            <div class="flex items-center space-x-2">
+                              <div :class="['w-3 h-3 rounded-full', getStatusColor(coupon)]"></div>
+                              <span :class="['text-sm font-medium', getStatusTextColor(coupon)]">
+                                {{ getStatusText(coupon) }}
+                              </span>
+                            </div>
+
+                            <!-- Actions on Hover -->
+                            <div
+                              class="absolute right-0 top-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10"
+                            >
+                              <div
+                                class="flex items-center space-x-2 bg-white border border-gray-200 rounded-lg shadow-lg p-2"
+                              >
+                                <button
+                                  @click="editCoupon(coupon)"
+                                  class="p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-md transition-colors"
+                                  title="Editar cupom"
+                                >
+                                  <svg
+                                    class="w-4 h-4"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                    ></path>
+                                  </svg>
+                                </button>
+                                <button
+                                  @click="deleteCoupon(coupon)"
+                                  class="p-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-md transition-colors"
+                                  title="Excluir cupom"
+                                >
+                                  <svg
+                                    class="w-4 h-4"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                    ></path>
+                                  </svg>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Table Footer -->
+                <div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
+                  <div class="flex items-center justify-between">
+                    <div class="text-sm text-gray-500">
+                      Mostrando {{ filteredCoupons.length }} de {{ coupons.length }} no total
+                    </div>
                     <div class="flex items-center space-x-2">
-                      <span
-                        :class="[
-                          'px-2 py-1 rounded-full text-xs font-medium',
-                          coupon.isActive
-                            ? 'bg-green-100 text-green-800'
-                            : 'bg-red-100 text-red-800',
-                        ]"
+                      <span class="text-sm text-gray-500">1/1</span>
+                      <button
+                        disabled
+                        class="p-2 text-gray-300 cursor-not-allowed"
+                        title="Página anterior"
                       >
-                        {{ coupon.isActive ? 'Ativo' : 'Inativo' }}
-                      </span>
-                      <span
-                        :class="[
-                          'px-2 py-1 rounded-full text-xs font-medium',
-                          isCouponValid(coupon)
-                            ? 'bg-blue-100 text-blue-800'
-                            : 'bg-gray-100 text-gray-800',
-                        ]"
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M15 19l-7-7 7-7"
+                          ></path>
+                        </svg>
+                      </button>
+                      <button
+                        disabled
+                        class="p-2 text-gray-300 cursor-not-allowed"
+                        title="Próxima página"
                       >
-                        {{ isCouponValid(coupon) ? 'Válido' : 'Expirado' }}
-                      </span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 5l7 7-7 7"
+                          ></path>
+                        </svg>
+                      </button>
                     </div>
-                  </div>
-
-                  <!-- Coupon Info -->
-                  <div class="mb-3">
-                    <h4 class="font-medium text-gray-900 mb-1">{{ coupon.name }}</h4>
-                    <p class="text-sm text-gray-500 mb-2">
-                      {{ coupon.description || 'Sem descrição' }}
-                    </p>
-                    <div class="bg-gray-100 rounded-lg p-2 mb-2">
-                      <p class="text-xs text-gray-600 font-mono text-center">{{ coupon.code }}</p>
-                    </div>
-                  </div>
-
-                  <!-- Discount Info -->
-                  <div class="mb-3">
-                    <div class="flex items-center justify-between text-sm">
-                      <span class="text-gray-600">Desconto:</span>
-                      <span class="font-medium text-coral-soft">
-                        {{ formatDiscount(coupon) }}
-                      </span>
-                    </div>
-                    <div
-                      v-if="coupon.minOrderValue"
-                      class="flex items-center justify-between text-sm"
-                    >
-                      <span class="text-gray-600">Pedido mínimo:</span>
-                      <span class="font-medium">R$ {{ formatPrice(coupon.minOrderValue) }}</span>
-                    </div>
-                    <div
-                      v-if="coupon.maxDiscount"
-                      class="flex items-center justify-between text-sm"
-                    >
-                      <span class="text-gray-600">Desconto máximo:</span>
-                      <span class="font-medium">R$ {{ formatPrice(coupon.maxDiscount) }}</span>
-                    </div>
-                  </div>
-
-                  <!-- Usage Info -->
-                  <div class="mb-3 text-sm text-gray-600">
-                    <div class="flex items-center justify-between">
-                      <span>Usos:</span>
-                      <span
-                        >{{ coupon.usedCount
-                        }}{{ coupon.usageLimit ? ` / ${coupon.usageLimit}` : '' }}</span
-                      >
-                    </div>
-                    <div class="flex items-center justify-between">
-                      <span>Válido até:</span>
-                      <span>{{ formatDate(coupon.validUntil) }}</span>
-                    </div>
-                  </div>
-
-                  <!-- Actions -->
-                  <div class="flex items-center space-x-2">
-                    <button
-                      @click="editCoupon(coupon)"
-                      class="text-coral-soft hover:text-coral-dark transition-colors"
-                    >
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                        ></path>
-                      </svg>
-                    </button>
-                    <button
-                      @click="toggleCouponStatus(coupon)"
-                      :class="[
-                        'transition-colors',
-                        coupon.isActive
-                          ? 'text-red-600 hover:text-red-800'
-                          : 'text-green-600 hover:text-green-800',
-                      ]"
-                    >
-                      <svg
-                        v-if="coupon.isActive"
-                        class="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L5.636 5.636"
-                        ></path>
-                      </svg>
-                      <svg
-                        v-else
-                        class="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M5 13l4 4L19 7"
-                        ></path>
-                      </svg>
-                    </button>
-                    <button
-                      @click="deleteCoupon(coupon)"
-                      class="text-red-600 hover:text-red-800 transition-colors"
-                    >
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                        ></path>
-                      </svg>
-                    </button>
                   </div>
                 </div>
               </div>
@@ -1070,7 +1178,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 
 // Estados
 const activeTab = ref('products');
@@ -1102,6 +1210,11 @@ const productSearch = ref('');
 const userSearch = ref('');
 const userSortKey = ref('createdAt');
 const userSortOrder = ref('desc');
+
+// Novas variáveis para tabela de cupons
+const couponSearch = ref('');
+const selectedCoupons = ref([]);
+const selectAllCoupons = ref(false);
 
 const supabase = useSupabaseClient();
 
@@ -1376,6 +1489,71 @@ const deleteCoupon = async coupon => {
     couponsError.value = err.message || 'Erro ao excluir cupom';
   }
 };
+
+// Novas funções para tabela de cupons
+const searchCoupons = () => {
+  // A busca é feita automaticamente pelo computed filteredCoupons
+};
+
+const toggleSelectAllCoupons = () => {
+  if (selectAllCoupons.value) {
+    selectedCoupons.value = filteredCoupons.value.map(coupon => coupon.id);
+  } else {
+    selectedCoupons.value = [];
+  }
+};
+
+const formatDiscountType = (discountType) => {
+  switch (discountType) {
+    case 'PERCENTAGE':
+      return 'Percentual';
+    case 'FIXED':
+      return 'Valor fixo';
+    case 'FREE_SHIPPING':
+      return 'Frete grátis';
+    default:
+      return 'Desconhecido';
+  }
+};
+
+const formatValidity = (validUntil) => {
+  if (!validUntil) return 'Indefinida';
+  const date = new Date(validUntil);
+  return date.toLocaleDateString('pt-BR');
+};
+
+const getStatusColor = (coupon) => {
+  if (!coupon.isActive) return 'bg-red-500';
+  if (coupon.validUntil && new Date(coupon.validUntil) < new Date()) return 'bg-yellow-500';
+  if (coupon.usageLimit && coupon.usedCount >= coupon.usageLimit) return 'bg-gray-500';
+  return 'bg-green-500';
+};
+
+const getStatusTextColor = (coupon) => {
+  if (!coupon.isActive) return 'text-red-600';
+  if (coupon.validUntil && new Date(coupon.validUntil) < new Date()) return 'text-yellow-600';
+  if (coupon.usageLimit && coupon.usedCount >= coupon.usageLimit) return 'text-gray-600';
+  return 'text-green-600';
+};
+
+const getStatusText = (coupon) => {
+  if (!coupon.isActive) return 'Inativo';
+  if (coupon.validUntil && new Date(coupon.validUntil) < new Date()) return 'Expirado';
+  if (coupon.usageLimit && coupon.usedCount >= coupon.usageLimit) return 'Esgotado';
+  return 'Ativo';
+};
+
+// Computed para cupons filtrados
+const filteredCoupons = computed(() => {
+  if (!couponSearch.value) return coupons.value;
+  
+  const search = couponSearch.value.toLowerCase();
+  return coupons.value.filter(coupon => 
+    coupon.name.toLowerCase().includes(search) ||
+    coupon.description?.toLowerCase().includes(search) ||
+    coupon.code.toLowerCase().includes(search)
+  );
+});
 
 const openCreateShippingPromotionModal = () => {
   editingShippingPromotion.value = null;
