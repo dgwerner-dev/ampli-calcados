@@ -1,9 +1,19 @@
 <template>
   <!-- Debug: teste simples de renderização -->
-  <div style="position: fixed; top: 10px; left: 10px; background: yellow; color: black; padding: 10px; z-index: 10000;">
+  <div
+    style="
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: yellow;
+      color: black;
+      padding: 10px;
+      z-index: 10000;
+    "
+  >
     ADMIN PAGE CARREGADA - showProductModal: {{ showProductModal }}
   </div>
-  
+
   <div class="min-h-screen bg-gray-50">
     <!-- Container principal com largura máxima e centralização -->
     <div class="max-w-7xl mx-auto px-4">
@@ -1796,13 +1806,29 @@
             </div>
 
             <!-- Product Modal -->
-            <div v-if="showProductModal" style="position: fixed; top: 100px; left: 100px; background: orange; color: white; padding: 20px; z-index: 10000; border: 2px solid black;">
-              <h3>MODAL SIMPLES DE TESTE</h3>
+            <div
+              style="
+                position: fixed;
+                top: 100px;
+                left: 100px;
+                background: orange;
+                color: white;
+                padding: 20px;
+                z-index: 10000;
+                border: 2px solid black;
+              "
+            >
+              <h3>MODAL SIMPLES DE TESTE (SEM V-IF)</h3>
               <p>showProductModal: {{ showProductModal }}</p>
               <p>editingProduct: {{ editingProduct }}</p>
-              <button @click="closeProductModal" style="background: red; color: white; padding: 5px; margin: 5px;">Fechar</button>
+              <button
+                @click="closeProductModal"
+                style="background: red; color: white; padding: 5px; margin: 5px"
+              >
+                Fechar
+              </button>
             </div>
-            
+
             <!-- Product Modal Original (comentado temporariamente) -->
             <!--
             <ProductModal
