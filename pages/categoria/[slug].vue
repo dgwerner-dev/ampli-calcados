@@ -14,14 +14,6 @@
 
     <!-- Content -->
     <div v-else-if="category">
-      <!-- Category Header -->
-      <div class="border-b border-gray-200 pb-4 mb-8">
-        <h1 class="text-4xl font-bold text-gray-900 tracking-tight">{{ category.name }}</h1>
-        <p v-if="category.description" class="mt-2 text-lg text-gray-500">
-          {{ category.description }}
-        </p>
-      </div>
-
       <!-- Products Grid -->
       <ProductsGrid :products="products" />
 
