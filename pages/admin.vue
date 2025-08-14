@@ -1797,6 +1797,11 @@
               @close="closeProductModal"
               @saved="handleProductSaved"
             />
+            
+            <!-- Debug: mostrar estado do modal -->
+            <div v-if="showProductModal" style="position: fixed; top: 50px; left: 50px; background: blue; color: white; padding: 10px; z-index: 10000;">
+              DEBUG: showProductModal é true
+            </div>
 
             <!-- Category Modal -->
             <CategoryModal
@@ -1830,6 +1835,7 @@
 
 <script setup>
 import { ref, onMounted, watch, computed } from 'vue';
+import ProductModal from '~/components/ProductModal.vue';
 
 // Estados
 const activeTab = ref('products');
