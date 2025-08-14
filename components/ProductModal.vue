@@ -1,11 +1,20 @@
 <template>
   <!-- Debug: sempre mostrar algo para testar -->
-  <div style="position: fixed; top: 20px; right: 20px; background: green; color: white; padding: 10px; z-index: 10000;">
+  <div
+    style="
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: green;
+      color: white;
+      padding: 10px;
+      z-index: 10000;
+    "
+  >
     ProductModal carregado - isOpen: {{ isOpen }}
   </div>
-  
+
   <div
-    v-if="isOpen"
     class="fixed inset-0 z-[9999] overflow-y-auto"
     style="background: rgba(0, 0, 0, 0.5)"
   >

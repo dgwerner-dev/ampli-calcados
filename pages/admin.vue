@@ -1,4 +1,9 @@
 <template>
+  <!-- Debug: teste simples de renderização -->
+  <div style="position: fixed; top: 10px; left: 10px; background: yellow; color: black; padding: 10px; z-index: 10000;">
+    ADMIN PAGE CARREGADA - showProductModal: {{ showProductModal }}
+  </div>
+  
   <div class="min-h-screen bg-gray-50">
     <!-- Container principal com largura máxima e centralização -->
     <div class="max-w-7xl mx-auto px-4">
@@ -1797,9 +1802,20 @@
               @close="closeProductModal"
               @saved="handleProductSaved"
             />
-            
+
             <!-- Debug: mostrar estado do modal -->
-            <div v-if="showProductModal" style="position: fixed; top: 50px; left: 50px; background: blue; color: white; padding: 10px; z-index: 10000;">
+            <div
+              v-if="showProductModal"
+              style="
+                position: fixed;
+                top: 50px;
+                left: 50px;
+                background: blue;
+                color: white;
+                padding: 10px;
+                z-index: 10000;
+              "
+            >
               DEBUG: showProductModal é true
             </div>
 
