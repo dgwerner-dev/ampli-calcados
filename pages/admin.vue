@@ -1979,8 +1979,10 @@ const setUserSort = key => {
 };
 
 const openCreateProductModal = () => {
+  console.log('Abrindo modal de novo produto');
   editingProduct.value = null;
   showProductModal.value = true;
+  console.log('Estado do modal:', showProductModal.value);
 };
 
 const editProduct = product => {
@@ -2400,6 +2402,23 @@ onMounted(() => {
   loadUsers();
   loadCoupons();
   loadShippingPromotions();
+});
+
+// Resetar modais quando a aba mudar
+watch(activeTab, () => {
+  showProductModal.value = false;
+  showCategoryModal.value = false;
+  showCouponModal.value = false;
+  showShippingPromotionModal.value = false;
+  editingProduct.value = null;
+  editingCategory.value = null;
+  editingCoupon.value = null;
+  editingShippingPromotion.value = null;
+});
+
+// Debug: monitorar mudanças no estado do modal de produto
+watch(showProductModal, (newValue) => {
+  console.log('showProductModal mudou para:', newValue);
 });
 
 watch(productSearch, () => {
