@@ -2011,10 +2011,12 @@ const setUserSort = key => {
 };
 
 const openCreateProductModal = () => {
-  console.log('Abrindo modal de novo produto');
+  console.log('=== FUNÇÃO openCreateProductModal CHAMADA ===');
+  console.log('Estado ANTES:', showProductModal.value);
   editingProduct.value = null;
   showProductModal.value = true;
-  console.log('Estado do modal:', showProductModal.value);
+  console.log('Estado DEPOIS:', showProductModal.value);
+  console.log('editingProduct:', editingProduct.value);
 };
 
 const editProduct = product => {
@@ -2436,7 +2438,8 @@ onMounted(() => {
   loadShippingPromotions();
 });
 
-// Resetar modais quando a aba mudar
+// Resetar modais quando a aba mudar (comentado temporariamente para debug)
+/*
 watch(activeTab, () => {
   showProductModal.value = false;
   showCategoryModal.value = false;
@@ -2447,6 +2450,7 @@ watch(activeTab, () => {
   editingCoupon.value = null;
   editingShippingPromotion.value = null;
 });
+*/
 
 // Debug: monitorar mudanças no estado do modal de produto
 watch(showProductModal, newValue => {
