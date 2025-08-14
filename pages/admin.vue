@@ -68,10 +68,10 @@
             </button>
 
             <button
-              @click="activeTab = 'promotions'"
+              @click="activeTab = 'marketing'"
               :class="[
                 'w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors',
-                activeTab === 'promotions'
+                activeTab === 'marketing'
                   ? 'bg-coral-soft text-white'
                   : 'text-gray-700 hover:bg-gray-100',
               ]"
@@ -86,6 +86,49 @@
               </svg>
               Marketing
             </button>
+            
+            <!-- Marketing Submenu -->
+            <div v-if="activeTab === 'marketing'" class="ml-4 space-y-1">
+              <button
+                @click="activeMarketingSection = 'coupons'"
+                :class="[
+                  'w-full flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-colors',
+                  activeMarketingSection === 'coupons'
+                    ? 'bg-coral-soft text-white'
+                    : 'text-gray-600 hover:bg-gray-100',
+                ]"
+              >
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"
+                  ></path>
+                </svg>
+                Cupons de Desconto
+              </button>
+              
+              <button
+                @click="activeMarketingSection = 'shipping'"
+                :class="[
+                  'w-full flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-colors',
+                  activeMarketingSection === 'shipping'
+                    ? 'bg-coral-soft text-white'
+                    : 'text-gray-600 hover:bg-gray-100',
+                ]"
+              >
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                  ></path>
+                </svg>
+                Promoções de Frete
+              </button>
+            </div>
           </nav>
         </div>
 
@@ -579,38 +622,13 @@
             </div>
           </div>
 
-          <!-- Promotions Tab -->
-          <div v-if="activeTab === 'promotions'" class="space-y-6">
-            <!-- Promotions Header -->
-            <div class="flex justify-between items-center">
-              <div class="flex items-center space-x-4">
+          <!-- Marketing Tab -->
+          <div v-if="activeTab === 'marketing'" class="space-y-6">
+            <!-- Coupons Section -->
+            <div v-if="activeMarketingSection === 'coupons'" class="space-y-6">
+              <!-- Coupons Header -->
+              <div class="flex justify-end items-center">
                 <button
-                  @click="activePromotionTab = 'coupons'"
-                  :class="[
-                    'px-4 py-2 text-sm font-medium rounded-lg transition-colors',
-                    activePromotionTab === 'coupons'
-                      ? 'bg-coral-soft text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
-                  ]"
-                >
-                  Cupons de Desconto
-                </button>
-                <button
-                  @click="activePromotionTab = 'shipping'"
-                  :class="[
-                    'px-4 py-2 text-sm font-medium rounded-lg transition-colors',
-                    activePromotionTab === 'shipping'
-                      ? 'bg-coral-soft text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
-                  ]"
-                >
-                  Promoções de Frete
-                </button>
-              </div>
-
-              <div class="flex items-center space-x-4">
-                <button
-                  v-if="activePromotionTab === 'coupons'"
                   @click="openCreateCouponModal"
                   class="inline-flex items-center rounded-lg border border-transparent bg-coral-soft px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-dark"
                 >
@@ -624,26 +642,8 @@
                   </svg>
                   Novo Cupom
                 </button>
-                <button
-                  v-if="activePromotionTab === 'shipping'"
-                  @click="openCreateShippingPromotionModal"
-                  class="inline-flex items-center rounded-lg border border-transparent bg-coral-soft px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-dark"
-                >
-                  <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                    ></path>
-                  </svg>
-                  Nova Promoção de Frete
-                </button>
               </div>
-            </div>
-
-            <!-- Coupons Section -->
-            <div v-if="activePromotionTab === 'coupons'" class="space-y-6">
+              
               <!-- Coupons Loading -->
               <div v-if="couponsLoading" class="flex justify-center items-center py-12">
                 <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-coral-soft"></div>
@@ -830,7 +830,25 @@
             </div>
 
             <!-- Shipping Promotions Section -->
-            <div v-if="activePromotionTab === 'shipping'" class="space-y-6">
+            <div v-if="activeMarketingSection === 'shipping'" class="space-y-6">
+              <!-- Shipping Promotions Header -->
+              <div class="flex justify-end items-center">
+                <button
+                  @click="openCreateShippingPromotionModal"
+                  class="inline-flex items-center rounded-lg border border-transparent bg-coral-soft px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-dark"
+                >
+                  <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                    ></path>
+                  </svg>
+                  Nova Promoção de Frete
+                </button>
+              </div>
+              
               <!-- Shipping Promotions Loading -->
               <div v-if="shippingPromotionsLoading" class="flex justify-center items-center py-12">
                 <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-coral-soft"></div>
@@ -1077,7 +1095,7 @@ const editingProduct = ref(null);
 const editingCategory = ref(null);
 const editingCoupon = ref(null);
 const editingShippingPromotion = ref(null);
-const activePromotionTab = ref('coupons');
+const activeMarketingSection = ref('coupons');
 const couponsLoading = ref(false);
 const shippingPromotionsLoading = ref(false);
 const productSearch = ref('');
@@ -1438,6 +1456,15 @@ watch(userSearch, () => {
   userSearchDebounceTimer = setTimeout(() => {
     loadUsers();
   }, 300); // 300ms delay
+});
+
+// Watch para mudanças na seção de marketing
+watch(activeMarketingSection, (newSection) => {
+  if (newSection === 'coupons') {
+    loadCoupons();
+  } else if (newSection === 'shipping') {
+    loadShippingPromotions();
+  }
 });
 
 definePageMeta({
