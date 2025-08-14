@@ -1805,30 +1805,6 @@
               </div>
             </div>
 
-            <!-- Product Modal -->
-            <div
-              style="
-                position: fixed;
-                top: 100px;
-                left: 100px;
-                background: orange;
-                color: white;
-                padding: 20px;
-                z-index: 10000;
-                border: 2px solid black;
-              "
-            >
-              <h3>MODAL SIMPLES DE TESTE (SEM V-IF)</h3>
-              <p>showProductModal: {{ showProductModal }}</p>
-              <p>editingProduct: {{ editingProduct }}</p>
-              <button
-                @click="closeProductModal"
-                style="background: red; color: white; padding: 5px; margin: 5px"
-              >
-                Fechar
-              </button>
-            </div>
-            
             <!-- Teste simples de renderização -->
             <div style="position: fixed; top: 200px; left: 200px; background: purple; color: white; padding: 10px; z-index: 10000;">
               TESTE DE RENDERIZAÇÃO
@@ -1887,6 +1863,31 @@
         </div>
       </div>
     </div>
+  </div>
+  
+  <!-- Product Modal (fora da estrutura principal) -->
+  <div
+    v-if="showProductModal"
+    style="
+      position: fixed;
+      top: 100px;
+      left: 100px;
+      background: orange;
+      color: white;
+      padding: 20px;
+      z-index: 10000;
+      border: 2px solid black;
+    "
+  >
+    <h3>MODAL SIMPLES DE TESTE (COM V-IF)</h3>
+    <p>showProductModal: {{ showProductModal }}</p>
+    <p>editingProduct: {{ editingProduct }}</p>
+    <button
+      @click="closeProductModal"
+      style="background: red; color: white; padding: 5px; margin: 5px"
+    >
+      Fechar
+    </button>
   </div>
 </template>
 
