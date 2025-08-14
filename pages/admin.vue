@@ -1,45 +1,64 @@
 <template>
-  <div class="max-w-7xl mx-auto px-4 py-8">
-    <!-- Content -->
-    <div class="p-6">
-      <!-- Tabs -->
-      <div class="border-b border-gray-200 mb-6">
-        <nav class="-mb-px flex space-x-8">
-          <button
-            @click="activeTab = 'products'"
-            :class="[
-              'py-2 px-1 border-b-2 font-medium text-sm',
-              activeTab === 'products'
-                ? 'border-coral-soft text-coral-soft'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
-            ]"
-          >
-            Produtos
-          </button>
-          <button
-            @click="activeTab = 'categories'"
-            :class="[
-              'py-2 px-1 border-b-2 font-medium text-sm',
-              activeTab === 'categories'
-                ? 'border-coral-soft text-coral-soft'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
-            ]"
-          >
-            Categorias
-          </button>
-          <button
-            @click="activeTab = 'users'"
-            :class="[
-              'py-2 px-1 border-b-2 font-medium text-sm',
-              activeTab === 'users'
-                ? 'border-coral-soft text-coral-soft'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
-            ]"
-          >
-            Clientes
-          </button>
-        </nav>
+  <div class="flex h-screen bg-gray-50">
+    <!-- Sidebar -->
+    <div class="w-64 bg-white shadow-lg">
+      <!-- Sidebar Header -->
+      <div class="p-6 border-b border-gray-200">
+        <h1 class="text-xl font-bold text-gray-900">Administração</h1>
       </div>
+      
+      <!-- Sidebar Navigation -->
+      <nav class="p-4 space-y-2">
+        <button
+          @click="activeTab = 'products'"
+          :class="[
+            'w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors',
+            activeTab === 'products'
+              ? 'bg-coral-soft text-white'
+              : 'text-gray-700 hover:bg-gray-100',
+          ]"
+        >
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+          </svg>
+          Produtos
+        </button>
+        
+        <button
+          @click="activeTab = 'categories'"
+          :class="[
+            'w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors',
+            activeTab === 'categories'
+              ? 'bg-coral-soft text-white'
+              : 'text-gray-700 hover:bg-gray-100',
+          ]"
+        >
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+          </svg>
+          Categorias
+        </button>
+        
+        <button
+          @click="activeTab = 'users'"
+          :class="[
+            'w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors',
+            activeTab === 'users'
+              ? 'bg-coral-soft text-white'
+              : 'text-gray-700 hover:bg-gray-100',
+          ]"
+        >
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+          </svg>
+          Clientes
+        </button>
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 overflow-auto">
+      <div class="p-6">
 
       <!-- Products Tab -->
       <div v-if="activeTab === 'products'" class="space-y-6">
@@ -524,6 +543,8 @@
       @close="closeCategoryModal"
       @saved="handleCategorySaved"
     />
+      </div>
+    </div>
   </div>
 </template>
 
