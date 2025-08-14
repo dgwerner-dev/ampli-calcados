@@ -127,10 +127,10 @@
                       type="button"
                       @mousedown.stop.prevent
                       @click.stop.prevent="goTo('/orders')"
-                      class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors block cursor-pointer"
+                      class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors block cursor-pointer flex items-center"
                     >
                       <svg
-                        class="w-4 h-4 inline mr-2"
+                        class="w-4 h-4 mr-2 flex-shrink-0"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -152,10 +152,10 @@
                       type="button"
                       @mousedown.stop.prevent
                       @click.stop.prevent="goTo('/admin')"
-                      class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors block cursor-pointer"
+                      class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors block cursor-pointer flex items-center"
                     >
                       <svg
-                        class="w-4 h-4 inline mr-2"
+                        class="w-4 h-4 mr-2 flex-shrink-0"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -174,11 +174,11 @@
                   <button
                     @click="handleLogout"
                     :disabled="isLoggingOut"
-                    class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
                   >
                     <svg
                       v-if="!isLoggingOut"
-                      class="w-4 h-4 inline mr-2"
+                      class="w-4 h-4 mr-2 flex-shrink-0"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -192,7 +192,7 @@
                     </svg>
                     <svg
                       v-else
-                      class="w-4 h-4 inline mr-2 animate-spin"
+                      class="w-4 h-4 mr-2 flex-shrink-0 animate-spin"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
