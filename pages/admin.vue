@@ -86,7 +86,7 @@
               </svg>
               Marketing
             </button>
-            
+
             <!-- Marketing Submenu -->
             <div v-if="activeTab === 'marketing'" class="ml-4 space-y-1">
               <button
@@ -108,7 +108,7 @@
                 </svg>
                 Cupons de Desconto
               </button>
-              
+
               <button
                 @click="activeMarketingSection = 'shipping'"
                 :class="[
@@ -643,7 +643,7 @@
                   Novo Cupom
                 </button>
               </div>
-              
+
               <!-- Coupons Loading -->
               <div v-if="couponsLoading" class="flex justify-center items-center py-12">
                 <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-coral-soft"></div>
@@ -848,7 +848,7 @@
                   Nova Promoção de Frete
                 </button>
               </div>
-              
+
               <!-- Shipping Promotions Loading -->
               <div v-if="shippingPromotionsLoading" class="flex justify-center items-center py-12">
                 <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-coral-soft"></div>
@@ -1459,7 +1459,7 @@ watch(userSearch, () => {
 });
 
 // Watch para mudanças na seção de marketing
-watch(activeMarketingSection, (newSection) => {
+watch(activeMarketingSection, newSection => {
   if (newSection === 'coupons') {
     loadCoupons();
   } else if (newSection === 'shipping') {

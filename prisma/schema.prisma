@@ -166,24 +166,29 @@ enum OrderStatus {
 enum DiscountType {
   PERCENTAGE
   FIXED
+  FREE_SHIPPING
 }
 
 // Modelo de cupom de desconto
 model Coupon {
-  id            String       @id @default(cuid())
-  name          String
-  description   String?
-  code          String       @unique
-  discountType  DiscountType
-  discountValue Float
-  minOrderValue Float?
-  maxDiscount   Float?
-  usageLimit    Int?
-  usedCount     Int          @default(0)
-  validUntil    DateTime?
-  isActive      Boolean      @default(true)
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
+  id                    String       @id @default(cuid())
+  name                  String
+  description           String?
+  code                  String       @unique
+  discountType          DiscountType
+  discountValue         Float?
+  minOrderValue         Float?
+  usageLimit            Int?
+  usagePerCustomer      Int          @default(1)
+  usedCount             Int          @default(0)
+  validUntil            DateTime?
+  isActive              Boolean      @default(true)
+  productRestriction    String       @default("ALL_PRODUCTS")
+  customerRestriction   String       @default("ALL_CUSTOMERS")
+  isAccumulative        Boolean      @default(false)
+  applyToTotal          Boolean      @default(true)
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime     @updatedAt
 
   // Relacionamentos
   orders Order[]
