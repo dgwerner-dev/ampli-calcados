@@ -1828,6 +1828,11 @@
                 Fechar
               </button>
             </div>
+            
+            <!-- Teste simples de renderização -->
+            <div style="position: fixed; top: 200px; left: 200px; background: purple; color: white; padding: 10px; z-index: 10000;">
+              TESTE DE RENDERIZAÇÃO
+            </div>
 
             <!-- Product Modal Original (comentado temporariamente) -->
             <!--
