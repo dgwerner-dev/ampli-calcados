@@ -2,11 +2,6 @@
   <div class="flex h-screen bg-gray-50">
     <!-- Sidebar -->
     <div class="w-64 bg-white shadow-lg">
-      <!-- Sidebar Header -->
-      <div class="p-6 border-b border-gray-200">
-        <h1 class="text-xl font-bold text-gray-900">Administração</h1>
-      </div>
-
       <!-- Sidebar Navigation -->
       <nav class="p-4 space-y-2">
         <button
