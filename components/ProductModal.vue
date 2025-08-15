@@ -583,7 +583,9 @@
                         />
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="text-sm text-gray-900">R$ {{ variation.salePrice || '0,00' }}</span>
+                        <span class="text-sm text-gray-900"
+                          >R$ {{ variation.salePrice || '0,00' }}</span
+                        >
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
                         <span class="text-sm text-gray-900">{{ variation.quantity || '0' }}</span>
@@ -601,7 +603,12 @@
                             @click="editProductVariation(index)"
                             class="text-blue-600 hover:text-blue-800 transition-colors"
                           >
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg
+                              class="w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
                               <path
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
