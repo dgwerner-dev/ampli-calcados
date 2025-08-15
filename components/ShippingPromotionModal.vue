@@ -18,7 +18,12 @@
           <div class="flex items-center justify-between">
             <div class="flex items-center space-x-3">
               <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg
+                  class="w-6 h-6 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
@@ -41,7 +46,12 @@
               class="text-white/80 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
             >
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                ></path>
               </svg>
             </button>
           </div>
@@ -130,7 +140,9 @@
                     Pedido mínimo <span class="text-red-500">*</span>
                   </label>
                   <div class="relative">
-                    <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">R$</span>
+                    <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                      >R$</span
+                    >
                     <input
                       id="minOrderValue"
                       v-model="form.minOrderValue"
@@ -164,10 +176,14 @@
                         class="h-5 w-5 text-coral-soft focus:ring-coral-soft border-gray-300"
                       />
                       <div class="ml-3 flex-1">
-                        <span class="text-sm font-medium text-gray-900 group-hover:text-coral-700">Frete grátis</span>
+                        <span class="text-sm font-medium text-gray-900 group-hover:text-coral-700"
+                          >Frete grátis</span
+                        >
                         <p class="text-xs text-gray-500 mt-1">Frete totalmente gratuito</p>
                       </div>
-                      <div class="absolute top-2 right-2 w-3 h-3 bg-gray-200 rounded-full group-hover:bg-coral-200 transition-colors"></div>
+                      <div
+                        class="absolute top-2 right-2 w-3 h-3 bg-gray-200 rounded-full group-hover:bg-coral-200 transition-colors"
+                      ></div>
                     </label>
 
                     <label
@@ -181,10 +197,14 @@
                         class="h-5 w-5 text-coral-soft focus:ring-coral-soft border-gray-300"
                       />
                       <div class="ml-3 flex-1">
-                        <span class="text-sm font-medium text-gray-900 group-hover:text-coral-700">Desconto no frete</span>
+                        <span class="text-sm font-medium text-gray-900 group-hover:text-coral-700"
+                          >Desconto no frete</span
+                        >
                         <p class="text-xs text-gray-500 mt-1">Desconto parcial no frete</p>
                       </div>
-                      <div class="absolute top-2 right-2 w-3 h-3 bg-gray-200 rounded-full group-hover:bg-coral-200 transition-colors"></div>
+                      <div
+                        class="absolute top-2 right-2 w-3 h-3 bg-gray-200 rounded-full group-hover:bg-coral-200 transition-colors"
+                      ></div>
                     </label>
                   </div>
                 </div>
@@ -195,7 +215,9 @@
                     Valor do desconto <span class="text-red-500">*</span>
                   </label>
                   <div class="relative">
-                    <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">R$</span>
+                    <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                      >R$</span
+                    >
                     <input
                       id="discountValue"
                       v-model="form.discountValue"
@@ -207,9 +229,7 @@
                       placeholder="0,00"
                     />
                   </div>
-                  <p class="mt-2 text-xs text-gray-500">
-                    Valor do desconto aplicado no frete
-                  </p>
+                  <p class="mt-2 text-xs text-gray-500">Valor do desconto aplicado no frete</p>
                 </div>
               </div>
             </div>
@@ -326,33 +346,37 @@ const form = ref({
 const supabase = useSupabaseClient();
 
 // Reset form when modal opens/closes
-watch(() => props.isOpen, (newValue) => {
-  if (newValue) {
-    if (props.promotion) {
-      // Edit mode
-      form.value = {
-        name: props.promotion.name || '',
-        description: props.promotion.description || '',
-        minOrderValue: props.promotion.minOrderValue || '',
-        freeShipping: props.promotion.freeShipping !== undefined ? props.promotion.freeShipping : true,
-        discountValue: props.promotion.discountValue || '',
-        validUntil: props.promotion.validUntil ? props.promotion.validUntil.slice(0, 16) : '',
-        isActive: props.promotion.isActive !== undefined ? props.promotion.isActive : true,
-      };
-    } else {
-      // Create mode
-      form.value = {
-        name: '',
-        description: '',
-        minOrderValue: '',
-        freeShipping: true,
-        discountValue: '',
-        validUntil: '',
-        isActive: true,
-      };
+watch(
+  () => props.isOpen,
+  newValue => {
+    if (newValue) {
+      if (props.promotion) {
+        // Edit mode
+        form.value = {
+          name: props.promotion.name || '',
+          description: props.promotion.description || '',
+          minOrderValue: props.promotion.minOrderValue || '',
+          freeShipping:
+            props.promotion.freeShipping !== undefined ? props.promotion.freeShipping : true,
+          discountValue: props.promotion.discountValue || '',
+          validUntil: props.promotion.validUntil ? props.promotion.validUntil.slice(0, 16) : '',
+          isActive: props.promotion.isActive !== undefined ? props.promotion.isActive : true,
+        };
+      } else {
+        // Create mode
+        form.value = {
+          name: '',
+          description: '',
+          minOrderValue: '',
+          freeShipping: true,
+          discountValue: '',
+          validUntil: '',
+          isActive: true,
+        };
+      }
     }
   }
-});
+);
 
 const closeModal = () => {
   if (!loading.value) {
@@ -384,9 +408,7 @@ const savePromotion = async () => {
       if (error) throw error;
     } else {
       // Create new promotion
-      const { error } = await supabase
-        .from('shipping_promotions')
-        .insert([promotionData]);
+      const { error } = await supabase.from('shipping_promotions').insert([promotionData]);
 
       if (error) throw error;
     }

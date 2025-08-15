@@ -18,7 +18,12 @@
           <div class="flex items-center justify-between">
             <div class="flex items-center space-x-3">
               <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg
+                  class="w-6 h-6 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
@@ -31,9 +36,7 @@
                 <h3 class="text-xl font-bold text-white">
                   {{ props.category ? 'Editar Categoria' : 'Nova Categoria' }}
                 </h3>
-                <p class="text-coral-100 text-sm">
-                  Configure as informações da categoria
-                </p>
+                <p class="text-coral-100 text-sm">Configure as informações da categoria</p>
               </div>
             </div>
             <button
@@ -41,7 +44,12 @@
               class="text-white/80 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
             >
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                ></path>
               </svg>
             </button>
           </div>

@@ -135,60 +135,58 @@
         <!-- Main Content -->
         <div class="flex-1 overflow-auto ml-4">
           <div class="p-6 bg-white rounded-lg mt-6 mb-6">
-            <!-- Products Tab -->
-            <div v-if="activeTab === 'products'" class="space-y-6">
-              <!-- Products Header -->
-              <div class="flex justify-between items-center">
-                <h3 class="text-lg font-semibold text-gray-900">Produtos</h3>
-                <div class="flex items-center space-x-3">
-                  <button
-                    @click="openCreateProductModal"
-                    class="inline-flex items-center rounded-lg border border-transparent bg-coral-soft px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-dark"
-                  >
-                    <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                      ></path>
-                    </svg>
-                    Criar produto
-                  </button>
-                </div>
-              </div>
+                         <!-- Products Tab -->
+             <div v-if="activeTab === 'products'" class="space-y-6">
+               <!-- Products Header -->
+               <div class="flex items-center justify-between">
+                 <div class="flex items-center space-x-3 flex-1 max-w-2xl">
+                   <div class="flex-1">
+                     <input
+                       v-model="productSearch"
+                       type="text"
+                       placeholder="Busque por nome ou SKU"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200"
+                     />
+                   </div>
+                   <button
+                     @click="searchProducts"
+                     class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-coral-soft hover:bg-coral-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-colors"
+                   >
+                     Buscar
+                   </button>
+                   <button
+                     class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
+                   >
+                     <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                       <path
+                         stroke-linecap="round"
+                         stroke-linejoin="round"
+                         stroke-width="2"
+                         d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"
+                       ></path>
+                     </svg>
+                     Filtros
+                   </button>
+                 </div>
+                 <div class="ml-4">
+                   <button
+                     @click="openCreateProductModal"
+                     class="inline-flex items-center rounded-lg border border-transparent bg-coral-soft px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-dark"
+                   >
+                     <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                       <path
+                         stroke-linecap="round"
+                         stroke-linejoin="round"
+                         stroke-width="2"
+                         d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                       ></path>
+                     </svg>
+                     Criar produto
+                   </button>
+                 </div>
+               </div>
 
-              <!-- Search and Filter Bar -->
-              <div class="flex flex-col sm:flex-row gap-4">
-                <div class="flex-1">
-                  <div class="relative">
-                    <input
-                      v-model="productSearch"
-                      type="text"
-                      placeholder="Busque por nome ou SKU"
-                      class="block w-full pl-4 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-green-600 focus:border-green-600 sm:text-sm"
-                    />
-                  </div>
-                </div>
-                <button
-                  class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-coral-soft hover:bg-coral-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-colors"
-                >
-                  Buscar
-                </button>
-                <button
-                  class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
-                >
-                  <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"
-                    ></path>
-                  </svg>
-                  Filtros
-                </button>
-              </div>
+
 
               <!-- Pagination Summary -->
               <div class="flex items-center justify-between">
