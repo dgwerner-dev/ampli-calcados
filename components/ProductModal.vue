@@ -458,6 +458,194 @@
               </div>
             </div>
 
+            <!-- 5. Variações do produto -->
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+              <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center space-x-3">
+                  <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
+                    <svg
+                      class="w-5 h-5 text-indigo-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                      ></path>
+                    </svg>
+                  </div>
+                  <h4 class="text-lg font-semibold text-gray-900">Variações do produto</h4>
+                </div>
+                <div class="flex items-center space-x-3">
+                  <div class="px-3 py-1 bg-teal-100 text-teal-800 text-sm font-medium rounded-full">
+                    Limite: {{ productVariations.length }} de 50 variações
+                  </div>
+                  <button
+                    type="button"
+                    @click="addProductVariation"
+                    :disabled="productVariations.length >= 50"
+                    class="inline-flex items-center px-4 py-2 bg-gray-800 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                      ></path>
+                    </svg>
+                    Adicionar variação
+                  </button>
+                </div>
+              </div>
+
+              <!-- Tabela de variações -->
+              <div v-if="productVariations.length > 0" class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        Tamanho de tênis
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        Código
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        Preço
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        Estoque
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        Status
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        Ações
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white divide-y divide-gray-200">
+                    <tr
+                      v-for="(variation, index) in productVariations"
+                      :key="index"
+                      class="hover:bg-gray-50"
+                    >
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center space-x-3">
+                          <span class="text-sm font-medium text-gray-900">{{ variation.size }}</span>
+                          <div class="w-6 h-6 bg-gray-200 rounded flex items-center justify-center">
+                            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                              ></path>
+                            </svg>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <input
+                          v-model="variation.code"
+                          type="text"
+                          class="text-sm text-gray-900 bg-transparent border-none focus:ring-0 focus:outline-none font-mono"
+                          placeholder="Código da variação"
+                        />
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="relative">
+                          <span class="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">R$</span>
+                          <input
+                            v-model="variation.price"
+                            type="number"
+                            step="0.01"
+                            min="0"
+                            class="text-sm text-gray-900 bg-transparent border-none focus:ring-0 focus:outline-none pl-6 w-20"
+                            placeholder="0,00"
+                          />
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <select
+                          v-model="variation.stock"
+                          class="text-sm text-gray-900 bg-transparent border-none focus:ring-0 focus:outline-none"
+                        >
+                          <option value="unlimited">Ilimitado</option>
+                          <option value="limited">Limitado</option>
+                          <option value="out">Esgotado</option>
+                        </select>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center space-x-2">
+                          <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                          <span class="text-sm text-gray-900">Ativo</span>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <button
+                          type="button"
+                          @click="removeProductVariation(index)"
+                          class="text-red-600 hover:text-red-800 transition-colors"
+                        >
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                            ></path>
+                          </svg>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Estado vazio -->
+              <div v-else class="text-center py-8">
+                <svg
+                  class="mx-auto h-12 w-12 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                  ></path>
+                </svg>
+                <h3 class="mt-2 text-sm font-medium text-gray-900">Nenhuma variação cadastrada</h3>
+                <p class="mt-1 text-sm text-gray-500">
+                  Adicione variações de tamanho para este produto.
+                </p>
+              </div>
+            </div>
+
             <!-- Footer com botões -->
             <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
               <button
@@ -529,6 +717,9 @@ const successMessage = ref('');
 const categories = ref([]);
 const uploadedImages = ref([]);
 
+// Variações do produto
+const productVariations = ref([]);
+
 // Formulário
 const form = ref({
   name: '',
@@ -571,6 +762,7 @@ const resetForm = () => {
     featured: false,
   };
   uploadedImages.value = [];
+  productVariations.value = [];
   error.value = null;
   successMessage.value = '';
 };
@@ -765,6 +957,32 @@ const handleSubmit = async () => {
   } finally {
     loading.value = false;
   }
+};
+
+// Métodos para variações do produto
+const addProductVariation = () => {
+  if (productVariations.value.length >= 50) {
+    notificationError('Limite máximo de 50 variações atingido.');
+    return;
+  }
+
+  const newVariation = {
+    size: '',
+    code: '',
+    price: form.value.price || '',
+    stock: 'unlimited',
+    isActive: true,
+  };
+
+  productVariations.value.push(newVariation);
+};
+
+const removeProductVariation = (index) => {
+  productVariations.value.splice(index, 1);
+};
+
+const resetVariations = () => {
+  productVariations.value = [];
 };
 
 // Carregar categorias quando o modal abrir
