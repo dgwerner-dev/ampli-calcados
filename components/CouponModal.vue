@@ -443,11 +443,12 @@
                 <label for="validUntil" class="block text-sm font-medium text-gray-700 mb-2">
                   Data final
                 </label>
-                <input
+                <DatePicker
                   id="validUntil"
                   v-model="form.validUntil"
-                  type="datetime-local"
-                  class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200"
+                  :include-time="true"
+                  placeholder="Selecione a data de expiração"
+                  :min-date="new Date()"
                 />
               </div>
             </div>
@@ -523,6 +524,7 @@
 
 <script setup>
 import { ref, watch } from 'vue';
+import DatePicker from './DatePicker.vue';
 
 const props = defineProps({
   isOpen: {
