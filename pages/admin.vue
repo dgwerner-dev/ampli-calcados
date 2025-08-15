@@ -135,58 +135,56 @@
         <!-- Main Content -->
         <div class="flex-1 overflow-auto ml-4">
           <div class="p-6 bg-white rounded-lg mt-6 mb-6">
-                         <!-- Products Tab -->
-             <div v-if="activeTab === 'products'" class="space-y-6">
-               <!-- Products Header -->
-               <div class="flex items-center justify-between">
-                 <div class="flex items-center space-x-3 flex-1 max-w-2xl">
-                   <div class="flex-1">
-                     <input
-                       v-model="productSearch"
-                       type="text"
-                       placeholder="Busque por nome ou SKU"
-                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200"
-                     />
-                   </div>
-                   <button
-                     @click="searchProducts"
-                     class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-coral-soft hover:bg-coral-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-colors"
-                   >
-                     Buscar
-                   </button>
-                   <button
-                     class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
-                   >
-                     <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                       <path
-                         stroke-linecap="round"
-                         stroke-linejoin="round"
-                         stroke-width="2"
-                         d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"
-                       ></path>
-                     </svg>
-                     Filtros
-                   </button>
-                 </div>
-                 <div class="ml-4">
-                   <button
-                     @click="openCreateProductModal"
-                     class="inline-flex items-center rounded-lg border border-transparent bg-coral-soft px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-dark"
-                   >
-                     <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                       <path
-                         stroke-linecap="round"
-                         stroke-linejoin="round"
-                         stroke-width="2"
-                         d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                       ></path>
-                     </svg>
-                     Criar produto
-                   </button>
-                 </div>
-               </div>
-
-
+            <!-- Products Tab -->
+            <div v-if="activeTab === 'products'" class="space-y-6">
+              <!-- Products Header -->
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3 flex-1 max-w-2xl">
+                  <div class="flex-1">
+                    <input
+                      v-model="productSearch"
+                      type="text"
+                      placeholder="Busque por nome ou SKU"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200"
+                    />
+                  </div>
+                  <button
+                    @click="searchProducts"
+                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-coral-soft hover:bg-coral-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-colors"
+                  >
+                    Buscar
+                  </button>
+                  <button
+                    class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
+                  >
+                    <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"
+                      ></path>
+                    </svg>
+                    Filtros
+                  </button>
+                </div>
+                <div class="ml-4">
+                  <button
+                    @click="openCreateProductModal"
+                    class="inline-flex items-center rounded-lg border border-transparent bg-coral-soft px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-dark"
+                  >
+                    <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                      ></path>
+                    </svg>
+                    Criar produto
+                  </button>
+                </div>
+              </div>
 
               <!-- Pagination Summary -->
               <div class="flex items-center justify-between">
@@ -522,25 +520,43 @@
               </div>
             </div>
 
-            <!-- Categories Tab -->
-            <div v-if="activeTab === 'categories'" class="space-y-6">
-              <!-- Categories Header -->
-              <div class="flex justify-end items-center">
-                <button
-                  @click="openCreateCategoryModal"
-                  class="inline-flex items-center rounded-lg border border-transparent bg-coral-soft px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-dark"
-                >
-                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                    ></path>
-                  </svg>
-                  Nova Categoria
-                </button>
-              </div>
+                         <!-- Categories Tab -->
+             <div v-if="activeTab === 'categories'" class="space-y-6">
+               <!-- Categories Header -->
+               <div class="flex items-center justify-between">
+                 <div class="flex items-center space-x-3 flex-1 max-w-2xl">
+                   <div class="flex-1">
+                     <input
+                       v-model="categorySearch"
+                       type="text"
+                       placeholder="Busque por nome da categoria"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200"
+                     />
+                   </div>
+                   <button
+                     @click="searchCategories"
+                     class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-coral-soft hover:bg-coral-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-colors"
+                   >
+                     Buscar
+                   </button>
+                 </div>
+                 <div class="ml-4">
+                   <button
+                     @click="openCreateCategoryModal"
+                     class="inline-flex items-center rounded-lg border border-transparent bg-coral-soft px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-dark"
+                   >
+                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                       <path
+                         stroke-linecap="round"
+                         stroke-linejoin="round"
+                         stroke-width="2"
+                         d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                       ></path>
+                     </svg>
+                     Nova Categoria
+                   </button>
+                 </div>
+               </div>
 
               <!-- Categories Loading -->
               <div v-if="categoriesLoading" class="flex justify-center items-center py-12">
@@ -629,13 +645,39 @@
             <!-- Users Tab -->
             <div v-if="activeTab === 'users'" class="space-y-6">
               <!-- Users Header -->
-              <div class="flex justify-end items-center">
-                <input
-                  v-model="userSearch"
-                  type="text"
-                  placeholder="Buscar por nome ou email..."
-                  class="w-64 rounded-lg border border-gray-300 px-4 py-2 shadow-sm focus:border-coral-soft focus:ring-coral-soft sm:text-sm"
-                />
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3 flex-1 max-w-2xl">
+                  <div class="flex-1">
+                    <input
+                      v-model="userSearch"
+                      type="text"
+                      placeholder="Busque por nome ou email do cliente"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200"
+                    />
+                  </div>
+                  <button
+                    @click="searchUsers"
+                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-coral-soft hover:bg-coral-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-colors"
+                  >
+                    Buscar
+                  </button>
+                </div>
+                <div class="ml-4">
+                  <button
+                    @click="exportUsers"
+                    class="inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+                  >
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                      ></path>
+                    </svg>
+                    Exportar
+                  </button>
+                </div>
               </div>
 
               <!-- Users Loading -->
@@ -850,59 +892,37 @@
             <!-- Coupons Section -->
             <div v-if="activeMarketingSection === 'coupons'" class="space-y-6">
               <!-- Coupons Header -->
-              <div class="flex justify-between items-center mb-6">
-                <h3 class="text-lg font-semibold text-gray-900">Listagem de cupons</h3>
-                <button
-                  @click="openCreateCouponModal"
-                  class="inline-flex items-center rounded-lg border border-transparent bg-coral-soft px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-dark"
-                >
-                  <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                    ></path>
-                  </svg>
-                  Novo Cupom
-                </button>
-              </div>
-
-              <!-- Search and Filters -->
-              <div class="bg-white rounded-lg border border-gray-200 p-4 mb-6">
-                <div class="flex flex-col sm:flex-row gap-4">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3 flex-1 max-w-2xl">
                   <div class="flex-1">
-                    <div class="relative">
-                      <div
-                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                      >
-                        <svg
-                          class="h-5 w-5 text-gray-400"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                          ></path>
-                        </svg>
-                      </div>
-                      <input
-                        v-model="couponSearch"
-                        type="text"
-                        placeholder="Buscar por nome ou descrição do cupom"
-                        class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-coral-soft focus:border-coral-soft sm:text-sm"
-                      />
-                    </div>
+                    <input
+                      v-model="couponSearch"
+                      type="text"
+                      placeholder="Busque por nome ou descrição do cupom"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200"
+                    />
                   </div>
                   <button
                     @click="searchCoupons"
                     class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-coral-soft hover:bg-coral-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-colors"
                   >
                     Buscar
+                  </button>
+                </div>
+                <div class="ml-4">
+                  <button
+                    @click="openCreateCouponModal"
+                    class="inline-flex items-center rounded-lg border border-transparent bg-coral-soft px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-dark"
+                  >
+                    <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                      ></path>
+                    </svg>
+                    Novo Cupom
                   </button>
                 </div>
               </div>
