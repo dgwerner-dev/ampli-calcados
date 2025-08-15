@@ -510,7 +510,10 @@
               </div>
 
               <!-- Grid de imagens -->
-              <div v-if="uploadedImages.length > 0" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <div
+                v-if="uploadedImages.length > 0"
+                class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+              >
                 <div
                   v-for="(image, index) in uploadedImages"
                   :key="index"
@@ -522,10 +525,14 @@
                     :alt="`Imagem ${index + 1} do produto`"
                     class="w-full h-full object-cover"
                   />
-                  
+
                   <!-- Overlay com ações -->
-                  <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-200 flex items-center justify-center">
-                    <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex space-x-2">
+                  <div
+                    class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-200 flex items-center justify-center"
+                  >
+                    <div
+                      class="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex space-x-2"
+                    >
                       <!-- Botão de visualizar -->
                       <button
                         type="button"
@@ -533,7 +540,12 @@
                         class="p-2 bg-white rounded-full shadow-lg hover:bg-gray-50 transition-colors"
                         title="Visualizar imagem"
                       >
-                        <svg class="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg
+                          class="w-4 h-4 text-gray-700"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
                           <path
                             stroke-linecap="round"
                             stroke-linejoin="round"
@@ -548,7 +560,7 @@
                           ></path>
                         </svg>
                       </button>
-                      
+
                       <!-- Botão de remover -->
                       <button
                         type="button"
@@ -556,7 +568,12 @@
                         class="p-2 bg-red-500 rounded-full shadow-lg hover:bg-red-600 transition-colors"
                         title="Remover imagem"
                       >
-                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg
+                          class="w-4 h-4 text-white"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
                           <path
                             stroke-linecap="round"
                             stroke-linejoin="round"
@@ -577,7 +594,9 @@
                   </div>
 
                   <!-- Número da imagem -->
-                  <div class="absolute top-2 left-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded-full">
+                  <div
+                    class="absolute top-2 left-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded-full"
+                  >
                     {{ index + 1 }}
                   </div>
                 </div>
@@ -599,15 +618,18 @@
                   ></path>
                 </svg>
                 <h3 class="mt-2 text-sm font-medium text-gray-900">Nenhuma imagem adicionada</h3>
-                <p class="mt-1 text-sm text-gray-500">
-                  Adicione imagens para mostrar seu produto.
-                </p>
+                <p class="mt-1 text-sm text-gray-500">Adicione imagens para mostrar seu produto.</p>
               </div>
 
               <!-- Dicas -->
               <div class="mt-4 p-4 bg-blue-50 rounded-lg">
                 <div class="flex items-start space-x-3">
-                  <svg class="w-5 h-5 text-blue-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg
+                    class="w-5 h-5 text-blue-600 mt-0.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       stroke-linecap="round"
                       stroke-linejoin="round"
@@ -1027,7 +1049,7 @@ const removeImage = index => {
   uploadedImages.value.splice(index, 1);
 };
 
-const previewImage = (image) => {
+const previewImage = image => {
   // Abrir imagem em nova aba para visualização
   const imageUrl = image.preview || image.url;
   if (imageUrl) {
