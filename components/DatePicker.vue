@@ -313,7 +313,7 @@ const toggleCalendar = () => {
       const spaceBelow = window.innerHeight - rect.bottom;
       const spaceAbove = rect.top;
       const calendarHeight = 400; // Approximate height of calendar
-      
+
       shouldOpenUp.value = spaceBelow < calendarHeight && spaceAbove > calendarHeight;
     }
     isOpen.value = !isOpen.value;
