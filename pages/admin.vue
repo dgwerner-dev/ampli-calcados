@@ -1883,11 +1883,20 @@
     @close="closeProductModal"
     @saved="handleProductSaved"
   />
+  
+  <!-- Region Modal (fora da estrutura principal) -->
+  <RegionModal
+    :is-visible="showRegionModal"
+    :region="editingRegion"
+    @close="closeRegionModal"
+    @saved="handleRegionSaved"
+  />
 </template>
 
 <script setup>
 import { ref, onMounted, watch, computed } from 'vue';
 import ProductModal from '~/components/ProductModal.vue';
+import RegionModal from '~/components/RegionModal.vue';
 import { useShippingPromotions } from '~/composables/useShippingPromotions';
 
 // Estados
@@ -1909,10 +1918,12 @@ const showProductModal = ref(false);
 const showCategoryModal = ref(false);
 const showCouponModal = ref(false);
 const showShippingPromotionModal = ref(false);
+const showRegionModal = ref(false);
 const editingProduct = ref(null);
 const editingCategory = ref(null);
 const editingCoupon = ref(null);
 const editingShippingPromotion = ref(null);
+const editingRegion = ref(null);
 const activeMarketingSection = ref('coupons');
 const couponsLoading = ref(false);
 const shippingPromotionsLoading = ref(false);
@@ -2495,27 +2506,8 @@ const toggleFreeShippingAlert = () => {
 };
 
 const editRegion = async region => {
-  try {
-    const newName = prompt('Nome da região:', region.name);
-    if (!newName) return;
-
-    const newMinOrderValue = parseFloat(prompt('Valor mínimo do pedido:', region.minOrderValue));
-    if (isNaN(newMinOrderValue)) return;
-
-    const newZipCodeStart = prompt('CEP inicial (ex: 01000):', region.zipCodeStart);
-    const newZipCodeEnd = prompt('CEP final (ex: 39999):', region.zipCodeEnd);
-
-    await updateShippingRegion(region.id, {
-      name: newName,
-      minOrderValue: newMinOrderValue,
-      zipCodeStart: newZipCodeStart,
-      zipCodeEnd: newZipCodeEnd,
-    });
-
-    console.log('Região atualizada com sucesso');
-  } catch (error) {
-    console.error('Erro ao editar região:', error);
-  }
+  editingRegion.value = region;
+  showRegionModal.value = true;
 };
 
 const toggleRegionStatus = async region => {
@@ -2531,8 +2523,18 @@ const toggleRegionStatus = async region => {
 };
 
 const openCreateRegionModal = () => {
-  // Implementar modal para criar nova região
-  console.log('Abrindo modal para criar nova região');
+  editingRegion.value = null;
+  showRegionModal.value = true;
+};
+
+const closeRegionModal = () => {
+  showRegionModal.value = false;
+  editingRegion.value = null;
+};
+
+const handleRegionSaved = async (region) => {
+  await loadShippingRegions();
+  console.log('Região salva com sucesso:', region);
 };
 
 // Carregar dados quando a página for montada
@@ -2551,10 +2553,12 @@ watch(activeTab, () => {
   showCategoryModal.value = false;
   showCouponModal.value = false;
   showShippingPromotionModal.value = false;
+  showRegionModal.value = false;
   editingProduct.value = null;
   editingCategory.value = null;
   editingCoupon.value = null;
   editingShippingPromotion.value = null;
+  editingRegion.value = null;
 });
 
 // Resetar paginação quando a busca mudar
