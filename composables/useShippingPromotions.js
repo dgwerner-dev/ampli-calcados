@@ -3,7 +3,7 @@ import { useSupabaseClient } from '#supabase/client';
 
 export const useShippingPromotions = () => {
   const supabase = useSupabaseClient();
-  
+
   // Estados
   const shippingPromotions = ref([]);
   const shippingRegions = ref([]);
@@ -37,10 +37,12 @@ export const useShippingPromotions = () => {
     try {
       const { data, error: fetchError } = await supabase
         .from('shipping_regions')
-        .select(`
+        .select(
+          `
           *,
           shipping_promotion:shipping_promotions(name)
-        `)
+        `
+        )
         .order('name');
 
       if (fetchError) throw fetchError;
@@ -55,11 +57,13 @@ export const useShippingPromotions = () => {
     try {
       const { data, error: fetchError } = await supabase
         .from('shipping_products')
-        .select(`
+        .select(
+          `
           *,
           product:products(name, code, images),
           shipping_promotion:shipping_promotions(name)
-        `)
+        `
+        )
         .order('createdAt', { ascending: false });
 
       if (fetchError) throw fetchError;
@@ -74,11 +78,13 @@ export const useShippingPromotions = () => {
     try {
       const { data, error: fetchError } = await supabase
         .from('shipping_categories')
-        .select(`
+        .select(
+          `
           *,
           category:categories(name),
           shipping_promotion:shipping_promotions(name)
-        `)
+        `
+        )
         .order('createdAt', { ascending: false });
 
       if (fetchError) throw fetchError;
@@ -89,7 +95,7 @@ export const useShippingPromotions = () => {
   };
 
   // Criar promoção de frete
-  const createShippingPromotion = async (promotionData) => {
+  const createShippingPromotion = async promotionData => {
     try {
       const { data, error: createError } = await supabase
         .from('shipping_promotions')
@@ -98,7 +104,7 @@ export const useShippingPromotions = () => {
         .single();
 
       if (createError) throw createError;
-      
+
       await loadShippingPromotions();
       return data;
     } catch (err) {
@@ -118,7 +124,7 @@ export const useShippingPromotions = () => {
         .single();
 
       if (updateError) throw updateError;
-      
+
       await loadShippingPromotions();
       return data;
     } catch (err) {
@@ -128,7 +134,7 @@ export const useShippingPromotions = () => {
   };
 
   // Deletar promoção de frete
-  const deleteShippingPromotion = async (id) => {
+  const deleteShippingPromotion = async id => {
     try {
       const { error: deleteError } = await supabase
         .from('shipping_promotions')
@@ -136,7 +142,7 @@ export const useShippingPromotions = () => {
         .eq('id', id);
 
       if (deleteError) throw deleteError;
-      
+
       await loadShippingPromotions();
     } catch (err) {
       error.value = err.message || 'Erro ao deletar promoção de frete';
@@ -145,7 +151,7 @@ export const useShippingPromotions = () => {
   };
 
   // Criar região de frete
-  const createShippingRegion = async (regionData) => {
+  const createShippingRegion = async regionData => {
     try {
       const { data, error: createError } = await supabase
         .from('shipping_regions')
@@ -154,7 +160,7 @@ export const useShippingPromotions = () => {
         .single();
 
       if (createError) throw createError;
-      
+
       await loadShippingRegions();
       return data;
     } catch (err) {
@@ -174,7 +180,7 @@ export const useShippingPromotions = () => {
         .single();
 
       if (updateError) throw updateError;
-      
+
       await loadShippingRegions();
       return data;
     } catch (err) {
@@ -184,15 +190,12 @@ export const useShippingPromotions = () => {
   };
 
   // Deletar região de frete
-  const deleteShippingRegion = async (id) => {
+  const deleteShippingRegion = async id => {
     try {
-      const { error: deleteError } = await supabase
-        .from('shipping_regions')
-        .delete()
-        .eq('id', id);
+      const { error: deleteError } = await supabase.from('shipping_regions').delete().eq('id', id);
 
       if (deleteError) throw deleteError;
-      
+
       await loadShippingRegions();
     } catch (err) {
       error.value = err.message || 'Erro ao deletar região de frete';
@@ -205,16 +208,18 @@ export const useShippingPromotions = () => {
     try {
       const { data, error: createError } = await supabase
         .from('shipping_products')
-        .insert([{
-          productId,
-          shippingPromotionId: promotionId,
-          isActive: true,
-        }])
+        .insert([
+          {
+            productId,
+            shippingPromotionId: promotionId,
+            isActive: true,
+          },
+        ])
         .select()
         .single();
 
       if (createError) throw createError;
-      
+
       await loadShippingProducts();
       return data;
     } catch (err) {
@@ -233,7 +238,7 @@ export const useShippingPromotions = () => {
         .eq('shippingPromotionId', promotionId);
 
       if (deleteError) throw deleteError;
-      
+
       await loadShippingProducts();
     } catch (err) {
       error.value = err.message || 'Erro ao remover produto da promoção';
@@ -246,16 +251,18 @@ export const useShippingPromotions = () => {
     try {
       const { data, error: createError } = await supabase
         .from('shipping_categories')
-        .insert([{
-          categoryId,
-          shippingPromotionId: promotionId,
-          isActive: true,
-        }])
+        .insert([
+          {
+            categoryId,
+            shippingPromotionId: promotionId,
+            isActive: true,
+          },
+        ])
         .select()
         .single();
 
       if (createError) throw createError;
-      
+
       await loadShippingCategories();
       return data;
     } catch (err) {
@@ -274,7 +281,7 @@ export const useShippingPromotions = () => {
         .eq('shippingPromotionId', promotionId);
 
       if (deleteError) throw deleteError;
-      
+
       await loadShippingCategories();
     } catch (err) {
       error.value = err.message || 'Erro ao remover categoria da promoção';
@@ -287,7 +294,8 @@ export const useShippingPromotions = () => {
     try {
       const { data, error: fetchError } = await supabase
         .from('shipping_products')
-        .select(`
+        .select(
+          `
           *,
           shipping_promotion:shipping_promotions(
             minOrderValue,
@@ -295,7 +303,8 @@ export const useShippingPromotions = () => {
             discountValue,
             isActive
           )
-        `)
+        `
+        )
         .eq('productId', productId)
         .eq('isActive', true)
         .eq('shipping_promotion.isActive', true);
@@ -331,7 +340,8 @@ export const useShippingPromotions = () => {
     try {
       const { data, error: fetchError } = await supabase
         .from('shipping_regions')
-        .select(`
+        .select(
+          `
           *,
           shipping_promotion:shipping_promotions(
             minOrderValue,
@@ -339,7 +349,8 @@ export const useShippingPromotions = () => {
             discountValue,
             isActive
           )
-        `)
+        `
+        )
         .eq('isActive', true)
         .eq('shipping_promotion.isActive', true)
         .gte('zipCodeStart', zipCode)

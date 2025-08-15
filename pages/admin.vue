@@ -1888,6 +1888,7 @@
 <script setup>
 import { ref, onMounted, watch, computed } from 'vue';
 import ProductModal from '~/components/ProductModal.vue';
+import { useShippingPromotions } from '~/composables/useShippingPromotions';
 
 // Estados
 const activeTab = ref('products');
@@ -1940,11 +1941,16 @@ const productSearchShipping = ref('');
 const selectedProductsShipping = ref([]);
 const selectAllProductsShipping = ref(false);
 const freeShippingAlert = ref(false);
-const regions = ref([
-  { id: 1, name: 'São Paulo', minOrderValue: 100, cepRange: '01000-01999', isActive: true },
-  { id: 2, name: 'Rio de Janeiro', minOrderValue: 200, cepRange: '20000-20999', isActive: true },
-  { id: 3, name: 'Belo Horizonte', minOrderValue: 150, cepRange: '30000-30999', isActive: true },
-]);
+const regions = ref([]);
+
+// Inicializar composable de promoções de frete
+const {
+  shippingRegions,
+  loadShippingRegions,
+  createShippingRegion,
+  updateShippingRegion,
+  deleteShippingRegion,
+} = useShippingPromotions();
 
 const supabase = useSupabaseClient();
 
@@ -2488,18 +2494,40 @@ const toggleFreeShippingAlert = () => {
   freeShippingAlert.value = !freeShippingAlert.value;
 };
 
-const editRegion = region => {
-  // Implementar modal para editar região
-  console.log('Editando região:', region);
-  // Aqui você pode abrir um modal para editar os campos da região
-  // como nome, valor mínimo do pedido, faixa de CEP, etc.
+const editRegion = async region => {
+  try {
+    const newName = prompt('Nome da região:', region.name);
+    if (!newName) return;
+    
+    const newMinOrderValue = parseFloat(prompt('Valor mínimo do pedido:', region.minOrderValue));
+    if (isNaN(newMinOrderValue)) return;
+    
+    const newZipCodeStart = prompt('CEP inicial (ex: 01000):', region.zipCodeStart);
+    const newZipCodeEnd = prompt('CEP final (ex: 39999):', region.zipCodeEnd);
+    
+    await updateShippingRegion(region.id, {
+      name: newName,
+      minOrderValue: newMinOrderValue,
+      zipCodeStart: newZipCodeStart,
+      zipCodeEnd: newZipCodeEnd,
+    });
+    
+    console.log('Região atualizada com sucesso');
+  } catch (error) {
+    console.error('Erro ao editar região:', error);
+  }
 };
 
-const toggleRegionStatus = region => {
-  // Alternar o status ativo/inativo da região
-  region.isActive = !region.isActive;
-  console.log(`Região ${region.name} ${region.isActive ? 'ativada' : 'desativada'}`);
-  // Aqui você pode fazer uma chamada para a API para persistir a mudança
+const toggleRegionStatus = async region => {
+  try {
+    await updateShippingRegion(region.id, {
+      isActive: !region.isActive,
+    });
+    
+    console.log(`Região ${region.name} ${region.isActive ? 'desativada' : 'ativada'}`);
+  } catch (error) {
+    console.error('Erro ao alterar status da região:', error);
+  }
 };
 
 const openCreateRegionModal = () => {
@@ -2514,6 +2542,7 @@ onMounted(() => {
   loadUsers();
   loadCoupons();
   loadShippingPromotions();
+  loadShippingRegions();
 });
 
 // Resetar modais quando a aba mudar
@@ -2537,6 +2566,16 @@ watch(productSearch, () => {
   productSearchDebounceTimer = setTimeout(() => {
     loadProducts();
   }, 300); // 300ms delay
+});
+
+// Sincronizar dados das regiões
+watch(shippingRegions, (newRegions) => {
+  regions.value = newRegions.map(region => ({
+    ...region,
+    cepRange: region.zipCodeStart && region.zipCodeEnd 
+      ? `${region.zipCodeStart}-${region.zipCodeEnd}` 
+      : '-'
+  }));
 });
 
 watch(userSearch, () => {
