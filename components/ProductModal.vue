@@ -18,7 +18,12 @@
           <div class="flex items-center justify-between">
             <div class="flex items-center space-x-3">
               <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg
+                  class="w-6 h-6 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
@@ -31,9 +36,7 @@
                 <h3 class="text-xl font-bold text-white">
                   {{ isEditing ? 'Editar Produto' : 'Novo Produto' }}
                 </h3>
-                <p class="text-coral-100 text-sm">
-                  Configure todas as informações do seu produto
-                </p>
+                <p class="text-coral-100 text-sm">Configure todas as informações do seu produto</p>
               </div>
             </div>
             <button
@@ -41,7 +44,12 @@
               class="text-white/80 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
             >
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                ></path>
               </svg>
             </button>
           </div>
@@ -51,8 +59,18 @@
           <!-- Error Message -->
           <div v-if="error" class="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
             <div class="flex items-center space-x-2">
-              <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              <svg
+                class="w-5 h-5 text-red-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
               </svg>
               <p class="text-sm text-red-600 font-medium">{{ error }}</p>
             </div>
@@ -64,8 +82,18 @@
             class="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl"
           >
             <div class="flex items-center space-x-2">
-              <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              <svg
+                class="w-5 h-5 text-green-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
               </svg>
               <p class="text-sm text-green-600 font-medium">{{ successMessage }}</p>
             </div>
@@ -76,13 +104,23 @@
             <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
               <div class="flex items-center space-x-3 mb-6">
                 <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  <svg
+                    class="w-5 h-5 text-blue-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    ></path>
                   </svg>
                 </div>
                 <h4 class="text-lg font-semibold text-gray-900">Informações básicas</h4>
               </div>
-              
+
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Nome do produto -->
                 <div>
@@ -133,7 +171,10 @@
 
                 <!-- Categoria -->
                 <div>
-                  <label for="product-category" class="block text-sm font-medium text-gray-700 mb-2">
+                  <label
+                    for="product-category"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                  >
                     Categoria <span class="text-red-500">*</span>
                   </label>
                   <select
@@ -144,11 +185,7 @@
                     class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <option value="">Selecione uma categoria</option>
-                    <option
-                      v-for="category in categories"
-                      :key="category.id"
-                      :value="category.id"
-                    >
+                    <option v-for="category in categories" :key="category.id" :value="category.id">
                       {{ category.name }}
                     </option>
                   </select>
@@ -160,13 +197,23 @@
             <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
               <div class="flex items-center space-x-3 mb-6">
                 <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
-                  <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                  <svg
+                    class="w-5 h-5 text-green-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
+                    ></path>
                   </svg>
                 </div>
                 <h4 class="text-lg font-semibold text-gray-900">Preços e estoque</h4>
               </div>
-              
+
               <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Preço normal -->
                 <div>
@@ -174,7 +221,9 @@
                     Preço normal <span class="text-red-500">*</span>
                   </label>
                   <div class="relative">
-                    <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">R$</span>
+                    <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                      >R$</span
+                    >
                     <input
                       id="product-price"
                       v-model="form.price"
@@ -190,11 +239,16 @@
 
                 <!-- Preço promocional -->
                 <div>
-                  <label for="product-sale-price" class="block text-sm font-medium text-gray-700 mb-2">
+                  <label
+                    for="product-sale-price"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                  >
                     Preço promocional
                   </label>
                   <div class="relative">
-                    <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">R$</span>
+                    <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                      >R$</span
+                    >
                     <input
                       id="product-sale-price"
                       v-model="form.salePrice"
@@ -205,9 +259,7 @@
                       placeholder="0,00"
                     />
                   </div>
-                  <p class="mt-2 text-xs text-gray-500">
-                    Deixe vazio se não houver promoção
-                  </p>
+                  <p class="mt-2 text-xs text-gray-500">Deixe vazio se não houver promoção</p>
                 </div>
 
                 <!-- Status do estoque -->
@@ -243,29 +295,111 @@
 
             <!-- 3. Descrição -->
             <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-              <div class="flex items-center space-x-3 mb-6">
-                <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
-                  <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                  </svg>
+              <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center space-x-3">
+                  <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <svg
+                      class="w-5 h-5 text-purple-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <h4 class="text-lg font-semibold text-gray-900">Descrição</h4>
                 </div>
-                <h4 class="text-lg font-semibold text-gray-900">Descrição</h4>
+                <button
+                  type="button"
+                  @click="generateDescription"
+                  :disabled="isGenerating"
+                  class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white text-sm font-medium rounded-lg hover:from-purple-600 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                >
+                  <svg
+                    v-if="isGenerating"
+                    class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    ></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  <svg
+                    v-else
+                    class="mr-2 h-4 w-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.898 20.572L16.5 21.75l-.398-1.178a3.375 3.375 0 00-2.456-2.456L12.5 18l1.178-.398a3.375 3.375 0 002.456-2.456L16.5 14.25l.398 1.178a3.375 3.375 0 002.456 2.456L20.5 18l-1.178.398a3.375 3.375 0 00-2.456 2.456z"
+                    />
+                  </svg>
+                  {{ isGenerating ? 'Gerando...' : 'Gerar com IA' }}
+                </button>
               </div>
-              
-              <div>
-                <label for="product-description" class="block text-sm font-medium text-gray-700 mb-2">
-                  Descrição do produto
-                </label>
-                <textarea
-                  id="product-description"
-                  v-model="form.description"
-                  rows="4"
-                  class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200 resize-none"
-                  placeholder="Descreva as características, benefícios e detalhes do produto..."
-                ></textarea>
-                <p class="mt-2 text-xs text-gray-500">
-                  Use HTML para formatação (negrito, itálico, listas, etc.)
-                </p>
+
+              <div class="space-y-6">
+                <!-- Descrição base para IA -->
+                <div>
+                  <label
+                    for="product-raw-description"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    Descrição base para IA
+                  </label>
+                  <textarea
+                    id="product-raw-description"
+                    v-model="form.raw_description"
+                    rows="3"
+                    class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200 resize-none"
+                    placeholder="Insira características, material, diferenciais, etc. para a IA gerar uma descrição otimizada..."
+                  ></textarea>
+                  <p class="mt-2 text-xs text-gray-500">
+                    Forneça informações básicas sobre o produto para a IA gerar uma descrição completa
+                  </p>
+                </div>
+
+                <!-- Descrição otimizada -->
+                <div>
+                  <label
+                    for="product-description"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    Descrição otimizada
+                  </label>
+                  <textarea
+                    id="product-description"
+                    v-model="form.description"
+                    rows="4"
+                    class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200 resize-none"
+                    placeholder="Descrição otimizada gerada pela IA ou editada manualmente..."
+                  ></textarea>
+                  <p class="mt-2 text-xs text-gray-500">
+                    Use HTML para formatação (negrito, itálico, listas, etc.)
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -273,14 +407,29 @@
             <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
               <div class="flex items-center space-x-3 mb-6">
                 <div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
-                  <svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  <svg
+                    class="w-5 h-5 text-orange-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                    ></path>
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    ></path>
                   </svg>
                 </div>
                 <h4 class="text-lg font-semibold text-gray-900">Opções</h4>
               </div>
-              
+
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-4">
                   <label class="flex items-center">
@@ -291,7 +440,7 @@
                     />
                     <span class="ml-2 text-sm text-gray-700">Produto ativo</span>
                   </label>
-                  
+
                   <label class="flex items-center">
                     <input
                       v-model="form.featured"
@@ -301,7 +450,7 @@
                     <span class="ml-2 text-sm text-gray-700">Produto em destaque</span>
                   </label>
                 </div>
-                
+
                 <div class="text-xs text-gray-500 space-y-2">
                   <p><strong>Produto ativo:</strong> Aparece nas buscas e listagens</p>
                   <p><strong>Produto em destaque:</strong> Aparece na página inicial</p>
@@ -323,9 +472,26 @@
                 :disabled="loading"
                 class="px-8 py-3 bg-gradient-to-r from-coral-soft to-coral-dark text-white font-medium rounded-lg hover:from-coral-dark hover:to-coral-soft transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
-                <svg v-if="loading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <svg
+                  v-if="loading"
+                  class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
                 </svg>
                 {{ isEditing ? 'Atualizar Produto' : 'Criar Produto' }}
               </button>
