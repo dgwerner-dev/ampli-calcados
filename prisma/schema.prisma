@@ -49,6 +49,7 @@ model Category {
 
   // Relacionamentos
   products Product[]
+  shippingCategories ShippingCategory[]
 
   @@map("categories")
 }
@@ -78,6 +79,7 @@ model Product {
   orderItems      OrderItem[]
   wishlistItems   WishlistItem[]
   reviews         Review[]
+  shippingProducts ShippingProduct[]
 
   @@map("products")
 }
@@ -210,5 +212,62 @@ model ShippingPromotion {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
+  // Relacionamentos
+  regions      ShippingRegion[]
+  products     ShippingProduct[]
+  categories   ShippingCategory[]
+
   @@map("shipping_promotions")
+}
+
+// Modelo de região para promoções de frete
+model ShippingRegion {
+  id                String   @id @default(cuid())
+  name              String
+  minOrderValue     Float    @default(0)
+  zipCodeStart      String?
+  zipCodeEnd        String?
+  isActive          Boolean  @default(true)
+  shippingPromotionId String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relacionamentos
+  shippingPromotion ShippingPromotion? @relation(fields: [shippingPromotionId], references: [id])
+
+  @@map("shipping_regions")
+}
+
+// Modelo de produto para promoções de frete
+model ShippingProduct {
+  id                String   @id @default(cuid())
+  productId         String
+  isActive          Boolean  @default(true)
+  shippingPromotionId String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relacionamentos
+  product           Product @relation(fields: [productId], references: [id])
+  shippingPromotion ShippingPromotion? @relation(fields: [shippingPromotionId], references: [id])
+
+  @@unique([productId, shippingPromotionId])
+  @@map("shipping_products")
+}
+
+// Modelo de categoria para promoções de frete
+model ShippingCategory {
+  id                String   @id @default(cuid())
+  categoryId        String
+  isActive          Boolean  @default(true)
+  shippingPromotionId String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relacionamentos
+  category          Category @relation(fields: [categoryId], references: [id])
+  shippingPromotion ShippingPromotion? @relation(fields: [shippingPromotionId], references: [id])
+
+  @@unique([categoryId, shippingPromotionId])
+  @@map("shipping_categories")
 }
