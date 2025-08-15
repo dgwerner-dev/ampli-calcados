@@ -189,13 +189,19 @@
               <!-- Pagination Summary -->
               <div class="flex items-center justify-between">
                 <div class="text-sm text-gray-500">
-                  Mostrando {{ products.length }} de {{ totalProducts }} no total
+                  Mostrando {{ paginationInfo.start }}-{{ paginationInfo.end }} de {{ paginationInfo.total }} no total
                 </div>
                 <div class="flex items-center space-x-2">
-                  <span class="text-sm text-gray-500">1/5</span>
+                  <span class="text-sm text-gray-500">{{ paginationInfo.currentPage }}/{{ paginationInfo.totalPages }}</span>
                   <button
-                    disabled
-                    class="p-2 text-gray-300 cursor-not-allowed"
+                    @click="goToPreviousPage"
+                    :disabled="paginationInfo.currentPage <= 1"
+                    :class="[
+                      'p-2 transition-colors',
+                      paginationInfo.currentPage <= 1
+                        ? 'text-gray-300 cursor-not-allowed'
+                        : 'text-gray-600 hover:text-gray-800'
+                    ]"
                     title="Página anterior"
                   >
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -208,7 +214,14 @@
                     </svg>
                   </button>
                   <button
-                    class="p-2 text-gray-600 hover:text-gray-800 transition-colors"
+                    @click="goToNextPage"
+                    :disabled="paginationInfo.currentPage >= paginationInfo.totalPages"
+                    :class="[
+                      'p-2 transition-colors',
+                      paginationInfo.currentPage >= paginationInfo.totalPages
+                        ? 'text-gray-300 cursor-not-allowed'
+                        : 'text-gray-600 hover:text-gray-800'
+                    ]"
                     title="Próxima página"
                   >
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -326,7 +339,7 @@
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                       <tr
-                        v-for="product in filteredProducts"
+                        v-for="product in paginatedProducts"
                         :key="product.id"
                         class="hover:bg-gray-50 group"
                       >
@@ -472,13 +485,19 @@
                 <div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
                   <div class="flex items-center justify-between">
                     <div class="text-sm text-gray-500">
-                      Mostrando {{ filteredProducts.length }} de {{ totalProducts }} no total
+                      Mostrando {{ paginationInfo.start }}-{{ paginationInfo.end }} de {{ paginationInfo.total }} no total
                     </div>
                     <div class="flex items-center space-x-2">
-                      <span class="text-sm text-gray-500">1/5</span>
+                      <span class="text-sm text-gray-500">{{ paginationInfo.currentPage }}/{{ paginationInfo.totalPages }}</span>
                       <button
-                        disabled
-                        class="p-2 text-gray-300 cursor-not-allowed"
+                        @click="goToPreviousPage"
+                        :disabled="paginationInfo.currentPage <= 1"
+                        :class="[
+                          'p-2 transition-colors',
+                          paginationInfo.currentPage <= 1
+                            ? 'text-gray-300 cursor-not-allowed'
+                            : 'text-gray-600 hover:text-gray-800'
+                        ]"
                         title="Página anterior"
                       >
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -491,7 +510,14 @@
                         </svg>
                       </button>
                       <button
-                        class="p-2 text-gray-600 hover:text-gray-800 transition-colors"
+                        @click="goToNextPage"
+                        :disabled="paginationInfo.currentPage >= paginationInfo.totalPages"
+                        :class="[
+                          'p-2 transition-colors',
+                          paginationInfo.currentPage >= paginationInfo.totalPages
+                            ? 'text-gray-300 cursor-not-allowed'
+                            : 'text-gray-600 hover:text-gray-800'
+                        ]"
                         title="Próxima página"
                       >
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1897,6 +1923,8 @@ const selectAllCoupons = ref(false);
 const selectedProducts = ref([]);
 const selectAllProducts = ref(false);
 const totalProducts = ref(0);
+const currentPage = ref(1);
+const pageSize = ref(20);
 
 // Novas variáveis para promoções de frete
 const showRegionSection = ref(false);
@@ -2209,6 +2237,29 @@ const toggleSelectAllProducts = () => {
   }
 };
 
+// Funções de paginação
+const goToPage = (page) => {
+  if (page >= 1 && page <= totalPages.value) {
+    currentPage.value = page;
+  }
+};
+
+const goToPreviousPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
+};
+
+const goToNextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+  }
+};
+
+const resetPagination = () => {
+  currentPage.value = 1;
+};
+
 const getCategoryName = categoryId => {
   const category = categories.value.find(cat => cat.id === categoryId);
   return category ? category.name : '-';
@@ -2278,6 +2329,33 @@ const filteredProducts = computed(() => {
   );
 });
 
+// Computed para produtos paginados
+const paginatedProducts = computed(() => {
+  const startIndex = (currentPage.value - 1) * pageSize.value;
+  const endIndex = startIndex + pageSize.value;
+  return filteredProducts.value.slice(startIndex, endIndex);
+});
+
+// Computed para total de páginas
+const totalPages = computed(() => {
+  return Math.ceil(filteredProducts.value.length / pageSize.value);
+});
+
+// Computed para informações de paginação
+const paginationInfo = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value + 1;
+  const end = Math.min(currentPage.value * pageSize.value, filteredProducts.value.length);
+  const total = filteredProducts.value.length;
+  
+  return {
+    start,
+    end,
+    total,
+    currentPage: currentPage.value,
+    totalPages: totalPages.value
+  };
+});
+
 const openCreateShippingPromotionModal = () => {
   editingShippingPromotion.value = null;
   showShippingPromotionModal.value = true;
@@ -2343,6 +2421,12 @@ const toggleProductSection = () => {
 
 const toggleCategorySection = () => {
   showCategorySection.value = !showCategorySection.value;
+};
+
+const searchProducts = () => {
+  // Resetar paginação ao buscar
+  resetPagination();
+  console.log('Buscando produtos:', productSearch.value);
 };
 
 const searchProductsShipping = () => {
@@ -2438,7 +2522,10 @@ watch(activeTab, () => {
   editingShippingPromotion.value = null;
 });
 
+// Resetar paginação quando a busca mudar
 watch(productSearch, () => {
+  resetPagination();
+});
   if (productSearchDebounceTimer) {
     clearTimeout(productSearchDebounceTimer);
   }
