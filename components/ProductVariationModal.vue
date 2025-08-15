@@ -14,7 +14,7 @@
         class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full border border-gray-100"
       >
         <!-- Header com gradiente -->
-        <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 px-6 py-4">
+        <div class="bg-gradient-to-r from-coral-soft to-coral-dark px-6 py-4">
           <div class="flex items-center justify-between">
             <div class="flex items-center space-x-3">
               <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
@@ -36,7 +36,7 @@
                 <h3 class="text-xl font-bold text-white">
                   {{ isEditing ? 'Editar Variação' : 'Nova Variação' }}
                 </h3>
-                <p class="text-indigo-100 text-sm">Configure as informações da variação do produto</p>
+                <p class="text-coral-100 text-sm">Configure as informações da variação do produto</p>
               </div>
             </div>
             <button
@@ -80,9 +80,9 @@
             <!-- Informações da variação -->
             <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
               <div class="flex items-center space-x-3 mb-6">
-                <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
+                <div class="w-8 h-8 bg-coral-100 rounded-lg flex items-center justify-center">
                   <svg
-                    class="w-5 h-5 text-indigo-600"
+                    class="w-5 h-5 text-coral-600"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -104,13 +104,13 @@
                   <label for="variation-size" class="block text-sm font-medium text-gray-700 mb-2">
                     Tamanho <span class="text-red-500">*</span>
                   </label>
-                  <select
-                    id="variation-size"
-                    v-model="form.size"
-                    required
-                    @change="updateProductCode"
-                    class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
-                  >
+                                     <select
+                     id="variation-size"
+                     v-model="form.size"
+                     required
+                     @change="updateProductCode"
+                     class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200"
+                   >
                     <option value="">Selecione o tamanho</option>
                     <option v-for="size in availableSizes" :key="size" :value="size">
                       {{ size }}
@@ -143,15 +143,15 @@
                   </label>
                   <div class="relative">
                     <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">R$</span>
-                    <input
-                      id="variation-cost-price"
-                      v-model="form.costPrice"
-                      type="number"
-                      step="0.01"
-                      min="0"
-                      class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
-                      placeholder="0,00"
-                    />
+                                         <input
+                       id="variation-cost-price"
+                       v-model="form.costPrice"
+                       type="number"
+                       step="0.01"
+                       min="0"
+                       class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200"
+                       placeholder="0,00"
+                     />
                   </div>
                 </div>
 
@@ -162,16 +162,16 @@
                   </label>
                   <div class="relative">
                     <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">R$</span>
-                    <input
-                      id="variation-sale-price"
-                      v-model="form.salePrice"
-                      type="number"
-                      step="0.01"
-                      min="0"
-                      required
-                      class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
-                      placeholder="0,00"
-                    />
+                                         <input
+                       id="variation-sale-price"
+                       v-model="form.salePrice"
+                       type="number"
+                       step="0.01"
+                       min="0"
+                       required
+                       class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200"
+                       placeholder="0,00"
+                     />
                   </div>
                 </div>
 
@@ -182,15 +182,15 @@
                   </label>
                   <div class="relative">
                     <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">R$</span>
-                    <input
-                      id="variation-promo-price"
-                      v-model="form.promoPrice"
-                      type="number"
-                      step="0.01"
-                      min="0"
-                      class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
-                      placeholder="0,00"
-                    />
+                                         <input
+                       id="variation-promo-price"
+                       v-model="form.promoPrice"
+                       type="number"
+                       step="0.01"
+                       min="0"
+                       class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200"
+                       placeholder="0,00"
+                     />
                   </div>
                   <p class="mt-2 text-xs text-gray-500">Deixe vazio se não houver promoção</p>
                 </div>
@@ -200,14 +200,14 @@
                   <label for="variation-quantity" class="block text-sm font-medium text-gray-700 mb-2">
                     Quantidade
                   </label>
-                  <input
-                    id="variation-quantity"
-                    v-model="form.quantity"
-                    type="number"
-                    min="0"
-                    class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
-                    placeholder="0"
-                  />
+                                     <input
+                     id="variation-quantity"
+                     v-model="form.quantity"
+                     type="number"
+                     min="0"
+                     class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200"
+                     placeholder="0"
+                   />
                 </div>
               </div>
             </div>
@@ -239,12 +239,12 @@
                   <label for="variation-availability" class="block text-sm font-medium text-gray-700 mb-2">
                     Disponibilidade <span class="text-red-500">*</span>
                   </label>
-                  <select
-                    id="variation-availability"
-                    v-model="form.availability"
-                    required
-                    class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
-                  >
+                                     <select
+                     id="variation-availability"
+                     v-model="form.availability"
+                     required
+                     class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200"
+                   >
                     <option value="">Selecione a disponibilidade</option>
                     <option v-for="days in availabilityOptions" :key="days" :value="days">
                       {{ days }} {{ days === 1 ? 'dia útil' : 'dias úteis' }}
@@ -257,11 +257,11 @@
                   <label for="variation-out-of-stock" class="block text-sm font-medium text-gray-700 mb-2">
                     Quando acabar o estoque
                   </label>
-                  <select
-                    id="variation-out-of-stock"
-                    v-model="form.outOfStockBehavior"
-                    class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
-                  >
+                                     <select
+                     id="variation-out-of-stock"
+                     v-model="form.outOfStockBehavior"
+                     class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200"
+                   >
                     <option value="unavailable">Tornar o produto indisponível</option>
                     <option value="immediate">Vender com disponibilidade imediata</option>
                     <option value="custom">Vender com disponibilidade personalizada</option>
@@ -273,12 +273,12 @@
                   <label for="variation-custom-availability" class="block text-sm font-medium text-gray-700 mb-2">
                     Disponibilidade personalizada <span class="text-red-500">*</span>
                   </label>
-                  <select
-                    id="variation-custom-availability"
-                    v-model="form.customAvailability"
-                    required
-                    class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
-                  >
+                                     <select
+                     id="variation-custom-availability"
+                     v-model="form.customAvailability"
+                     required
+                     class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200"
+                   >
                     <option value="">Selecione a disponibilidade</option>
                     <option v-for="days in availabilityOptions" :key="days" :value="days">
                       {{ days }} {{ days === 1 ? 'dia útil' : 'dias úteis' }}
@@ -297,11 +297,11 @@
               >
                 Cancelar
               </button>
-              <button
-                type="submit"
-                :disabled="loading"
-                class="px-8 py-3 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white font-medium rounded-lg hover:from-indigo-600 hover:to-indigo-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-              >
+                             <button
+                 type="submit"
+                 :disabled="loading"
+                 class="px-8 py-3 bg-gradient-to-r from-coral-soft to-coral-dark text-white font-medium rounded-lg hover:from-coral-dark hover:to-coral-soft transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+               >
                 <svg
                   v-if="loading"
                   class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
