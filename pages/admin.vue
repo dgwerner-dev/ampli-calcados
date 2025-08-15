@@ -189,10 +189,13 @@
               <!-- Pagination Summary -->
               <div class="flex items-center justify-between">
                 <div class="text-sm text-gray-500">
-                  Mostrando {{ paginationInfo.start }}-{{ paginationInfo.end }} de {{ paginationInfo.total }} no total
+                  Mostrando {{ paginationInfo.start }}-{{ paginationInfo.end }} de
+                  {{ paginationInfo.total }} no total
                 </div>
                 <div class="flex items-center space-x-2">
-                  <span class="text-sm text-gray-500">{{ paginationInfo.currentPage }}/{{ paginationInfo.totalPages }}</span>
+                  <span class="text-sm text-gray-500"
+                    >{{ paginationInfo.currentPage }}/{{ paginationInfo.totalPages }}</span
+                  >
                   <button
                     @click="goToPreviousPage"
                     :disabled="paginationInfo.currentPage <= 1"
@@ -200,7 +203,7 @@
                       'p-2 transition-colors',
                       paginationInfo.currentPage <= 1
                         ? 'text-gray-300 cursor-not-allowed'
-                        : 'text-gray-600 hover:text-gray-800'
+                        : 'text-gray-600 hover:text-gray-800',
                     ]"
                     title="Página anterior"
                   >
@@ -220,7 +223,7 @@
                       'p-2 transition-colors',
                       paginationInfo.currentPage >= paginationInfo.totalPages
                         ? 'text-gray-300 cursor-not-allowed'
-                        : 'text-gray-600 hover:text-gray-800'
+                        : 'text-gray-600 hover:text-gray-800',
                     ]"
                     title="Próxima página"
                   >
@@ -485,10 +488,13 @@
                 <div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
                   <div class="flex items-center justify-between">
                     <div class="text-sm text-gray-500">
-                      Mostrando {{ paginationInfo.start }}-{{ paginationInfo.end }} de {{ paginationInfo.total }} no total
+                      Mostrando {{ paginationInfo.start }}-{{ paginationInfo.end }} de
+                      {{ paginationInfo.total }} no total
                     </div>
                     <div class="flex items-center space-x-2">
-                      <span class="text-sm text-gray-500">{{ paginationInfo.currentPage }}/{{ paginationInfo.totalPages }}</span>
+                      <span class="text-sm text-gray-500"
+                        >{{ paginationInfo.currentPage }}/{{ paginationInfo.totalPages }}</span
+                      >
                       <button
                         @click="goToPreviousPage"
                         :disabled="paginationInfo.currentPage <= 1"
@@ -496,7 +502,7 @@
                           'p-2 transition-colors',
                           paginationInfo.currentPage <= 1
                             ? 'text-gray-300 cursor-not-allowed'
-                            : 'text-gray-600 hover:text-gray-800'
+                            : 'text-gray-600 hover:text-gray-800',
                         ]"
                         title="Página anterior"
                       >
@@ -516,7 +522,7 @@
                           'p-2 transition-colors',
                           paginationInfo.currentPage >= paginationInfo.totalPages
                             ? 'text-gray-300 cursor-not-allowed'
-                            : 'text-gray-600 hover:text-gray-800'
+                            : 'text-gray-600 hover:text-gray-800',
                         ]"
                         title="Próxima página"
                       >
@@ -2346,7 +2352,7 @@ const paginationInfo = computed(() => {
   const start = (currentPage.value - 1) * pageSize.value + 1;
   const end = Math.min(currentPage.value * pageSize.value, filteredProducts.value.length);
   const total = filteredProducts.value.length;
-  
+
   return {
     start,
     end,
@@ -2525,7 +2531,6 @@ watch(activeTab, () => {
 // Resetar paginação quando a busca mudar
 watch(productSearch, () => {
   resetPagination();
-});
   if (productSearchDebounceTimer) {
     clearTimeout(productSearchDebounceTimer);
   }
