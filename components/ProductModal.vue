@@ -377,7 +377,8 @@
                     placeholder="Insira características, material, diferenciais, etc. para a IA gerar uma descrição otimizada..."
                   ></textarea>
                   <p class="mt-2 text-xs text-gray-500">
-                    Forneça informações básicas sobre o produto para a IA gerar uma descrição completa
+                    Forneça informações básicas sobre o produto para a IA gerar uma descrição
+                    completa
                   </p>
                 </div>
 
@@ -523,13 +524,13 @@
                         scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        Preço
+                        Preço de venda
                       </th>
                       <th
                         scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        Estoque
+                        Quantidade
                       </th>
                       <th
                         scope="col"
@@ -553,9 +554,16 @@
                     >
                       <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex items-center space-x-3">
-                          <span class="text-sm font-medium text-gray-900">{{ variation.size }}</span>
+                          <span class="text-sm font-medium text-gray-900">{{
+                            variation.size
+                          }}</span>
                           <div class="w-6 h-6 bg-gray-200 rounded flex items-center justify-center">
-                            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg
+                              class="w-4 h-4 text-gray-500"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
                               <path
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
@@ -575,27 +583,10 @@
                         />
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="relative">
-                          <span class="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">R$</span>
-                          <input
-                            v-model="variation.price"
-                            type="number"
-                            step="0.01"
-                            min="0"
-                            class="text-sm text-gray-900 bg-transparent border-none focus:ring-0 focus:outline-none pl-6 w-20"
-                            placeholder="0,00"
-                          />
-                        </div>
+                        <span class="text-sm text-gray-900">R$ {{ variation.salePrice || '0,00' }}</span>
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
-                        <select
-                          v-model="variation.stock"
-                          class="text-sm text-gray-900 bg-transparent border-none focus:ring-0 focus:outline-none"
-                        >
-                          <option value="unlimited">Ilimitado</option>
-                          <option value="limited">Limitado</option>
-                          <option value="out">Esgotado</option>
-                        </select>
+                        <span class="text-sm text-gray-900">{{ variation.quantity || '0' }}</span>
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex items-center space-x-2">
@@ -604,20 +595,41 @@
                         </div>
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
-                        <button
-                          type="button"
-                          @click="removeProductVariation(index)"
-                          class="text-red-600 hover:text-red-800 transition-colors"
-                        >
-                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                            ></path>
-                          </svg>
-                        </button>
+                        <div class="flex items-center space-x-2">
+                          <button
+                            type="button"
+                            @click="editProductVariation(index)"
+                            class="text-blue-600 hover:text-blue-800 transition-colors"
+                          >
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                              ></path>
+                            </svg>
+                          </button>
+                          <button
+                            type="button"
+                            @click="removeProductVariation(index)"
+                            class="text-red-600 hover:text-red-800 transition-colors"
+                          >
+                            <svg
+                              class="w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                              ></path>
+                            </svg>
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   </tbody>
@@ -688,10 +700,20 @@
         </div>
       </div>
     </div>
+
+    <!-- Modal de Variações -->
+    <ProductVariationModal
+      :is-open="showVariationModal"
+      :variation="editingVariation"
+      :product-code="form.code"
+      @close="closeVariationModal"
+      @saved="handleVariationSaved"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
+import ProductVariationModal from './ProductVariationModal.vue';
 const props = defineProps({
   isOpen: {
     type: Boolean,
@@ -959,6 +981,10 @@ const handleSubmit = async () => {
   }
 };
 
+// Estados para modal de variações
+const showVariationModal = ref(false);
+const editingVariation = ref(null);
+
 // Métodos para variações do produto
 const addProductVariation = () => {
   if (productVariations.value.length >= 50) {
@@ -966,18 +992,38 @@ const addProductVariation = () => {
     return;
   }
 
-  const newVariation = {
-    size: '',
-    code: '',
-    price: form.value.price || '',
-    stock: 'unlimited',
-    isActive: true,
-  };
-
-  productVariations.value.push(newVariation);
+  editingVariation.value = null;
+  showVariationModal.value = true;
 };
 
-const removeProductVariation = (index) => {
+const editProductVariation = index => {
+  editingVariation.value = { ...productVariations.value[index], index };
+  showVariationModal.value = true;
+};
+
+const closeVariationModal = () => {
+  showVariationModal.value = false;
+  editingVariation.value = null;
+};
+
+const handleVariationSaved = variationData => {
+  if (editingVariation.value) {
+    // Editar variação existente
+    const index = editingVariation.value.index;
+    productVariations.value[index] = {
+      ...variationData,
+      isActive: true,
+    };
+  } else {
+    // Adicionar nova variação
+    productVariations.value.push({
+      ...variationData,
+      isActive: true,
+    });
+  }
+};
+
+const removeProductVariation = index => {
   productVariations.value.splice(index, 1);
 };
 
