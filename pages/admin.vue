@@ -341,7 +341,15 @@
                         <td class="w-2/5 px-3 py-4 whitespace-nowrap">
                           <div class="flex items-center">
                             <div class="flex-shrink-0 h-10 w-10">
+                              <img
+                                v-if="product.images && product.images.length > 0"
+                                :src="product.images[0]"
+                                :alt="`Imagem de ${product.name}`"
+                                class="h-10 w-10 rounded-lg object-cover border border-gray-200"
+                                @error="$event.target.style.display = 'none'"
+                              />
                               <div
+                                v-else
                                 class="h-10 w-10 rounded-lg bg-gray-200 flex items-center justify-center"
                               >
                                 <svg
