@@ -14,12 +14,7 @@
         :class="{ 'border-coral-soft bg-coral-50': isOpen }"
       />
       <div class="absolute inset-y-0 right-0 flex items-center pr-3">
-        <svg
-          class="w-5 h-5 text-gray-400"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
+        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
             stroke-linecap="round"
             stroke-linejoin="round"
@@ -34,18 +29,21 @@
     <div
       v-if="isOpen"
       class="absolute z-50 mt-1 w-full bg-white rounded-lg shadow-2xl border border-gray-200 p-4"
+      :class="shouldOpenUp ? 'bottom-full mb-1' : 'top-full'"
     >
       <!-- Header -->
       <div class="flex items-center justify-between mb-4">
-        <button
-          @click="previousMonth"
-          class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-        >
+        <button @click="previousMonth" class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
           <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            />
           </svg>
         </button>
-        
+
         <div class="flex items-center space-x-2">
           <select
             v-model="currentMonth"
@@ -66,13 +64,15 @@
             </option>
           </select>
         </div>
-        
-        <button
-          @click="nextMonth"
-          class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-        >
+
+        <button @click="nextMonth" class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
           <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5l7 7-7 7"
+            />
           </svg>
         </button>
       </div>
@@ -101,7 +101,7 @@
             'text-gray-900': date.isCurrentMonth && !date.isSelected && !date.isToday,
             'bg-coral-soft text-white hover:bg-coral-dark': date.isSelected,
             'bg-coral-100 text-coral-800 font-semibold': date.isToday && !date.isSelected,
-            'bg-red-50 text-red-600': date.isPast
+            'bg-red-50 text-red-600': date.isPast,
           }"
         >
           {{ date.day }}
@@ -200,25 +200,36 @@ const isOpen = ref(false);
 const currentDate = ref(new Date());
 const selectedTime = ref('12:00');
 const selectedMinute = ref('00');
+const shouldOpenUp = ref(false);
 
 // Computed
 const currentMonth = computed({
   get: () => currentDate.value.getMonth(),
-  set: (value) => {
+  set: value => {
     currentDate.value = new Date(currentDate.value.getFullYear(), value, 1);
-  }
+  },
 });
 
 const currentYear = computed({
   get: () => currentDate.value.getFullYear(),
-  set: (value) => {
+  set: value => {
     currentDate.value = new Date(value, currentDate.value.getMonth(), 1);
-  }
+  },
 });
 
 const months = [
-  'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-  'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+  'Janeiro',
+  'Fevereiro',
+  'Março',
+  'Abril',
+  'Maio',
+  'Junho',
+  'Julho',
+  'Agosto',
+  'Setembro',
+  'Outubro',
+  'Novembro',
+  'Dezembro',
 ];
 
 const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
@@ -234,46 +245,50 @@ const availableYears = computed(() => {
 
 const displayValue = computed(() => {
   if (!props.modelValue) return '';
-  
+
   const date = new Date(props.modelValue);
   if (isNaN(date.getTime())) return '';
-  
+
   const day = date.getDate().toString().padStart(2, '0');
   const month = (date.getMonth() + 1).toString().padStart(2, '0');
   const year = date.getFullYear();
-  
+
   if (props.includeTime) {
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
     return `${day}/${month}/${year} ${hours}:${minutes}`;
   }
-  
+
   return `${day}/${month}/${year}`;
 });
 
 const calendarDates = computed(() => {
   const year = currentYear.value;
   const month = currentMonth.value;
-  
+
   const firstDay = new Date(year, month, 1);
   const lastDay = new Date(year, month + 1, 0);
   const startDate = new Date(firstDay);
   startDate.setDate(startDate.getDate() - firstDay.getDay());
-  
+
   const dates = [];
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  
+
   for (let i = 0; i < 42; i++) {
     const date = new Date(startDate);
     date.setDate(startDate.getDate() + i);
-    
+
     const isCurrentMonth = date.getMonth() === month;
     const isToday = date.getTime() === today.getTime();
-    const isSelected = props.modelValue && new Date(props.modelValue).toDateString() === date.toDateString();
+    const isSelected =
+      props.modelValue && new Date(props.modelValue).toDateString() === date.toDateString();
     const isPast = date < today;
-    const isDisabled = props.disabled || (props.minDate && date < props.minDate) || (props.maxDate && date > props.maxDate);
-    
+    const isDisabled =
+      props.disabled ||
+      (props.minDate && date < props.minDate) ||
+      (props.maxDate && date > props.maxDate);
+
     dates.push({
       key: date.getTime(),
       day: date.getDate(),
@@ -282,16 +297,25 @@ const calendarDates = computed(() => {
       isToday,
       isSelected,
       isPast,
-      isDisabled
+      isDisabled,
     });
   }
-  
+
   return dates;
 });
 
 // Methods
 const toggleCalendar = () => {
   if (!props.disabled) {
+    if (!isOpen.value) {
+      // Check if there's enough space below, if not, open upwards
+      const rect = event.target.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceAbove = rect.top;
+      const calendarHeight = 400; // Approximate height of calendar
+      
+      shouldOpenUp.value = spaceBelow < calendarHeight && spaceAbove > calendarHeight;
+    }
     isOpen.value = !isOpen.value;
   }
 };
@@ -309,18 +333,18 @@ const nextMonth = () => {
   currentDate.value = new Date(currentYear.value, currentMonth.value + 1, 1);
 };
 
-const selectDate = (date) => {
+const selectDate = date => {
   if (date.isDisabled) return;
-  
+
   let selectedDate = new Date(date.date);
-  
+
   if (props.includeTime) {
     const [hours, minutes] = selectedTime.value.split(':');
     selectedDate.setHours(parseInt(hours), parseInt(selectedMinute.value), 0, 0);
   } else {
     selectedDate.setHours(12, 0, 0, 0);
   }
-  
+
   emit('update:modelValue', selectedDate.toISOString());
   isOpen.value = false;
 };
@@ -333,7 +357,7 @@ const selectToday = () => {
   } else {
     today.setHours(12, 0, 0, 0);
   }
-  
+
   emit('update:modelValue', today.toISOString());
   isOpen.value = false;
 };
@@ -344,7 +368,7 @@ const clearDate = () => {
 };
 
 // Close calendar when clicking outside
-const handleClickOutside = (event) => {
+const handleClickOutside = event => {
   if (!event.target.closest('.relative')) {
     isOpen.value = false;
   }
@@ -360,17 +384,21 @@ onUnmounted(() => {
 });
 
 // Watch for modelValue changes to update current date
-watch(() => props.modelValue, (newValue) => {
-  if (newValue) {
-    const date = new Date(newValue);
-    if (!isNaN(date.getTime())) {
-      currentDate.value = new Date(date.getFullYear(), date.getMonth(), 1);
-      
-      if (props.includeTime) {
-        selectedTime.value = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
-        selectedMinute.value = date.getMinutes().toString().padStart(2, '0');
+watch(
+  () => props.modelValue,
+  newValue => {
+    if (newValue) {
+      const date = new Date(newValue);
+      if (!isNaN(date.getTime())) {
+        currentDate.value = new Date(date.getFullYear(), date.getMonth(), 1);
+
+        if (props.includeTime) {
+          selectedTime.value = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+          selectedMinute.value = date.getMinutes().toString().padStart(2, '0');
+        }
       }
     }
-  }
-}, { immediate: true });
+  },
+  { immediate: true }
+);
 </script>
