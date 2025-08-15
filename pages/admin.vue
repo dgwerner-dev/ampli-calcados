@@ -1,5 +1,4 @@
 <template>
-
   <div class="min-h-screen bg-gray-50">
     <!-- Container principal com largura máxima e centralização -->
     <div class="max-w-7xl mx-auto px-4">
@@ -144,7 +143,7 @@
                 <div class="flex items-center space-x-3">
                   <button
                     @click="openCreateProductModal"
-                    class="inline-flex items-center rounded-lg border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700"
+                    class="inline-flex items-center rounded-lg border border-transparent bg-coral-soft px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-dark"
                   >
                     <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
@@ -172,7 +171,7 @@
                   </div>
                 </div>
                 <button
-                  class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
+                  class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-coral-soft hover:bg-coral-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-colors"
                 >
                   Buscar
                 </button>
@@ -903,7 +902,7 @@
                   </div>
                   <button
                     @click="searchCoupons"
-                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors"
+                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-coral-soft hover:bg-coral-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-colors"
                   >
                     Buscar
                   </button>
@@ -1454,7 +1453,7 @@
                       </div>
                       <button
                         @click="searchProductsShipping"
-                        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors"
+                        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-coral-soft hover:bg-coral-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-colors"
                       >
                         Buscar
                       </button>
@@ -1791,8 +1790,6 @@
               </div>
             </div>
 
-
-
             <!-- Category Modal -->
             <CategoryModal
               :is-open="showCategoryModal"
@@ -1821,7 +1818,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Product Modal (fora da estrutura principal) -->
   <ProductModal
     :is-open="showProductModal"
@@ -2414,8 +2411,6 @@ watch(activeTab, () => {
   editingCoupon.value = null;
   editingShippingPromotion.value = null;
 });
-
-
 
 watch(productSearch, () => {
   if (productSearchDebounceTimer) {
