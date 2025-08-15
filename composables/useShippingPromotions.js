@@ -1,5 +1,5 @@
 import { ref, computed } from 'vue';
-import { useSupabaseClient } from '#supabase/client';
+import { useSupabaseClient } from '@supabase/auth-helpers-nuxt';
 
 export const useShippingPromotions = () => {
   const supabase = useSupabaseClient();

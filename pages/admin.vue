@@ -2250,7 +2250,7 @@ const toggleSelectAllProducts = () => {
 };
 
 // Funções de paginação
-const goToPage = (page) => {
+const goToPage = page => {
   if (page >= 1 && page <= totalPages.value) {
     currentPage.value = page;
   }
@@ -2364,7 +2364,7 @@ const paginationInfo = computed(() => {
     end,
     total,
     currentPage: currentPage.value,
-    totalPages: totalPages.value
+    totalPages: totalPages.value,
   };
 });
 
@@ -2498,20 +2498,20 @@ const editRegion = async region => {
   try {
     const newName = prompt('Nome da região:', region.name);
     if (!newName) return;
-    
+
     const newMinOrderValue = parseFloat(prompt('Valor mínimo do pedido:', region.minOrderValue));
     if (isNaN(newMinOrderValue)) return;
-    
+
     const newZipCodeStart = prompt('CEP inicial (ex: 01000):', region.zipCodeStart);
     const newZipCodeEnd = prompt('CEP final (ex: 39999):', region.zipCodeEnd);
-    
+
     await updateShippingRegion(region.id, {
       name: newName,
       minOrderValue: newMinOrderValue,
       zipCodeStart: newZipCodeStart,
       zipCodeEnd: newZipCodeEnd,
     });
-    
+
     console.log('Região atualizada com sucesso');
   } catch (error) {
     console.error('Erro ao editar região:', error);
@@ -2523,7 +2523,7 @@ const toggleRegionStatus = async region => {
     await updateShippingRegion(region.id, {
       isActive: !region.isActive,
     });
-    
+
     console.log(`Região ${region.name} ${region.isActive ? 'desativada' : 'ativada'}`);
   } catch (error) {
     console.error('Erro ao alterar status da região:', error);
@@ -2569,12 +2569,13 @@ watch(productSearch, () => {
 });
 
 // Sincronizar dados das regiões
-watch(shippingRegions, (newRegions) => {
+watch(shippingRegions, newRegions => {
   regions.value = newRegions.map(region => ({
     ...region,
-    cepRange: region.zipCodeStart && region.zipCodeEnd 
-      ? `${region.zipCodeStart}-${region.zipCodeEnd}` 
-      : '-'
+    cepRange:
+      region.zipCodeStart && region.zipCodeEnd
+        ? `${region.zipCodeStart}-${region.zipCodeEnd}`
+        : '-',
   }));
 });
 
