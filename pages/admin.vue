@@ -1896,7 +1896,7 @@ const selectAllCoupons = ref(false);
 // Novas variáveis para tabela de produtos
 const selectedProducts = ref([]);
 const selectAllProducts = ref(false);
-const totalProducts = ref(189);
+const totalProducts = ref(0);
 
 // Novas variáveis para promoções de frete
 const showRegionSection = ref(false);
@@ -1933,6 +1933,7 @@ const loadProducts = async () => {
 
     if (fetchError) throw fetchError;
     products.value = data || [];
+    totalProducts.value = data?.length || 0;
   } catch (err) {
     productsError.value = err.message || 'Erro ao carregar produtos';
   } finally {
