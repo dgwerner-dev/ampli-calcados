@@ -520,43 +520,43 @@
               </div>
             </div>
 
-                         <!-- Categories Tab -->
-             <div v-if="activeTab === 'categories'" class="space-y-6">
-               <!-- Categories Header -->
-               <div class="flex items-center justify-between">
-                 <div class="flex items-center space-x-3 flex-1 max-w-2xl">
-                   <div class="flex-1">
-                     <input
-                       v-model="categorySearch"
-                       type="text"
-                       placeholder="Busque por nome da categoria"
-                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200"
-                     />
-                   </div>
-                   <button
-                     @click="searchCategories"
-                     class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-coral-soft hover:bg-coral-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-colors"
-                   >
-                     Buscar
-                   </button>
-                 </div>
-                 <div class="ml-4">
-                   <button
-                     @click="openCreateCategoryModal"
-                     class="inline-flex items-center rounded-lg border border-transparent bg-coral-soft px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-dark"
-                   >
-                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                       <path
-                         stroke-linecap="round"
-                         stroke-linejoin="round"
-                         stroke-width="2"
-                         d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                       ></path>
-                     </svg>
-                     Nova Categoria
-                   </button>
-                 </div>
-               </div>
+            <!-- Categories Tab -->
+            <div v-if="activeTab === 'categories'" class="space-y-6">
+              <!-- Categories Header -->
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3 flex-1 max-w-2xl">
+                  <div class="flex-1">
+                    <input
+                      v-model="categorySearch"
+                      type="text"
+                      placeholder="Busque por nome da categoria"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200"
+                    />
+                  </div>
+                  <button
+                    @click="searchCategories"
+                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-coral-soft hover:bg-coral-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-colors"
+                  >
+                    Buscar
+                  </button>
+                </div>
+                <div class="ml-4">
+                  <button
+                    @click="openCreateCategoryModal"
+                    class="inline-flex items-center rounded-lg border border-transparent bg-coral-soft px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-dark"
+                  >
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                      ></path>
+                    </svg>
+                    Nova Categoria
+                  </button>
+                </div>
+              </div>
 
               <!-- Categories Loading -->
               <div v-if="categoriesLoading" class="flex justify-center items-center py-12">
@@ -1183,8 +1183,7 @@
             <!-- Shipping Promotions Section -->
             <div v-if="activeMarketingSection === 'shipping'" class="space-y-8">
               <!-- Header -->
-              <div class="flex justify-between items-center">
-                <h3 class="text-lg font-semibold text-gray-900">Promoções de Frete</h3>
+              <div class="flex justify-end items-center">
                 <button
                   @click="openCreateShippingPromotionModal"
                   class="inline-flex items-center rounded-lg border border-transparent bg-coral-soft px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-dark"
