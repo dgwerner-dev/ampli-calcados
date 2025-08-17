@@ -54,10 +54,7 @@
                           >
                         </div>
 
-                        <!-- Description -->
-                        <p class="text-sm opacity-90 mb-4 leading-relaxed">
-                          {{ slide.description }}
-                        </p>
+
 
                         <!-- CTA Button -->
                         <NuxtLink
@@ -96,10 +93,7 @@
                       </button>
                     </div>
 
-                    <!-- Description -->
-                    <p class="text-gray-600 text-lg leading-relaxed max-w-lg">
-                      {{ slide.description }}
-                    </p>
+
 
                     <!-- Features -->
                     <div class="flex flex-wrap gap-3 text-sm">
