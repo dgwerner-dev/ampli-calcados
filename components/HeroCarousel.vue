@@ -5,13 +5,18 @@
         <!-- Loading State -->
         <div v-if="loading" class="flex items-center justify-center h-96 bg-gray-100 rounded-lg">
           <div class="text-center">
-            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-coral-soft mx-auto mb-4"></div>
+            <div
+              class="animate-spin rounded-full h-12 w-12 border-b-2 border-coral-soft mx-auto mb-4"
+            ></div>
             <p class="text-gray-600">Carregando produtos em destaque...</p>
           </div>
         </div>
-        
+
         <!-- Carousel Container -->
-        <div v-else-if="slides.length > 0" class="relative overflow-hidden rounded-lg bg-gray-200 shadow-lg">
+        <div
+          v-else-if="slides.length > 0"
+          class="relative overflow-hidden rounded-lg bg-gray-200 shadow-lg"
+        >
           <div
             class="flex transition-transform duration-500 ease-in-out"
             :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
@@ -26,21 +31,22 @@
                     <img
                       :src="slide.image"
                       :alt="slide.title"
-                      class="w-full h-full object-cover object-center rounded-lg"
+                      class="w-full h-full object-contain object-center rounded-lg"
                     />
                     <!-- Overlay for mobile text -->
                     <div
                       class="lg:hidden absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex items-end"
                     >
                       <div class="p-6 text-white w-full">
-
                         <!-- Title -->
                         <h2 class="text-3xl font-bold mb-2 leading-tight">{{ slide.title }}</h2>
 
                         <!-- Price -->
                         <div class="flex items-baseline space-x-2 mb-3">
                           <p class="text-2xl font-bold">{{ slide.price }}</p>
-                          <p v-if="slide.originalPrice" class="text-lg opacity-75 line-through">{{ slide.originalPrice }}</p>
+                          <p v-if="slide.originalPrice" class="text-lg opacity-75 line-through">
+                            {{ slide.originalPrice }}
+                          </p>
                           <span
                             v-if="slide.discount"
                             class="px-2 py-1 bg-red-500 text-white text-xs font-semibold rounded"
@@ -68,8 +74,6 @@
                 <!-- Product Info -->
                 <div class="lg:w-1/2 p-8 lg:p-12 flex flex-col justify-center">
                   <div class="space-y-8">
-
-
                     <!-- Title -->
                     <div class="flex items-start justify-between">
                       <div>
@@ -118,7 +122,7 @@
                         </div>
                         <span class="carousel-feature-text">Lançamento</span>
                       </div>
-                      
+
                       <!-- Couro Genuíno -->
                       <div class="carousel-feature-card card-couro">
                         <div class="carousel-feature-icon">
@@ -138,7 +142,7 @@
                         </div>
                         <span class="carousel-feature-text">Couro Genuíno</span>
                       </div>
-                      
+
                       <!-- Confortável -->
                       <div class="carousel-feature-card card-confortavel">
                         <div class="carousel-feature-icon">
@@ -158,7 +162,7 @@
                         </div>
                         <span class="carousel-feature-text">Confortável</span>
                       </div>
-                      
+
                       <!-- Pagamento Seguro -->
                       <div class="carousel-feature-card card-pagamento">
                         <div class="carousel-feature-icon">
@@ -267,15 +271,27 @@
             ></button>
           </div>
         </div>
-        
+
         <!-- No Featured Products State -->
         <div v-else class="flex items-center justify-center h-96 bg-gray-100 rounded-lg">
           <div class="text-center">
-            <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+            <svg
+              class="w-16 h-16 text-gray-400 mx-auto mb-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+              ></path>
             </svg>
             <h3 class="text-lg font-medium text-gray-900 mb-2">Nenhum produto em destaque</h3>
-            <p class="text-gray-600">Adicione produtos marcados como destaque no painel administrativo</p>
+            <p class="text-gray-600">
+              Adicione produtos marcados como destaque no painel administrativo
+            </p>
           </div>
         </div>
       </div>
@@ -300,7 +316,8 @@ const loadFeaturedProducts = async () => {
 
     const { data, error: fetchError } = await supabase
       .from('products')
-      .select(`
+      .select(
+        `
         id,
         name,
         description,
@@ -309,7 +326,8 @@ const loadFeaturedProducts = async () => {
         images,
         slug,
         category:categories(name)
-      `)
+      `
+      )
       .eq('featured', true)
       .eq('isActive', true)
       .order('createdAt', { ascending: false })
@@ -322,20 +340,19 @@ const loadFeaturedProducts = async () => {
       id: product.id,
       title: product.name,
       description: product.description || 'Produto em destaque da AMPLI CALÇADOS',
-      price: product.salePrice 
+      price: product.salePrice
         ? `R$ ${parseFloat(product.salePrice).toFixed(2).replace('.', ',')}`
         : `R$ ${product.price.toFixed(2).replace('.', ',')}`,
-      originalPrice: product.salePrice 
-        ? `R$ ${product.price.toFixed(2).replace('.', ',')}`
-        : null,
-      discount: product.salePrice 
+      originalPrice: product.salePrice ? `R$ ${product.price.toFixed(2).replace('.', ',')}` : null,
+      discount: product.salePrice
         ? Math.round(((product.price - parseFloat(product.salePrice)) / product.price) * 100)
         : null,
-      image: product.images && product.images.length > 0 
-        ? product.images[0] 
-        : '/images/placeholder-product.jpg',
+      image:
+        product.images && product.images.length > 0
+          ? product.images[0]
+          : '/images/placeholder-product.jpg',
       slug: product.slug,
-      category: product.category?.name
+      category: product.category?.name,
     }));
 
     // Se não houver produtos em destaque, usar produtos padrão
@@ -343,30 +360,31 @@ const loadFeaturedProducts = async () => {
       slides.value = [
         {
           title: 'Sandálias Flats Elegantes',
-          description: 'Sandálias de couro genuíno com textura de crocodilo. Design minimalista com tiras cruzadas e fivela no tornozelo.',
+          description:
+            'Sandálias de couro genuíno com textura de crocodilo. Design minimalista com tiras cruzadas e fivela no tornozelo.',
           price: 'R$ 299,90',
           image: '/images/placeholder-product.jpg',
-        }
+        },
       ];
     }
   } catch (err) {
     console.error('Erro ao carregar produtos em destaque:', err);
     error.value = err.message;
-    
+
     // Fallback para produtos padrão em caso de erro
     slides.value = [
       {
         title: 'Sandálias Flats Elegantes',
-        description: 'Sandálias de couro genuíno com textura de crocodilo. Design minimalista com tiras cruzadas e fivela no tornozelo.',
+        description:
+          'Sandálias de couro genuíno com textura de crocodilo. Design minimalista com tiras cruzadas e fivela no tornozelo.',
         price: 'R$ 299,90',
         image: '/images/placeholder-product.jpg',
-      }
+      },
     ];
   } finally {
     loading.value = false;
   }
 };
-
 
 const nextSlide = () => {
   currentSlide.value = (currentSlide.value + 1) % slides.value.length;
@@ -384,7 +402,7 @@ const goToSlide = index => {
 onMounted(() => {
   // Carregar produtos em destaque
   loadFeaturedProducts();
-  
+
   // Auto-play do carrossel
   setInterval(() => {
     nextSlide();
