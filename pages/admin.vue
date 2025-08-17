@@ -1883,7 +1883,7 @@
     @close="closeProductModal"
     @saved="handleProductSaved"
   />
-  
+
   <!-- Region Modal (fora da estrutura principal) -->
   <RegionModal
     :is-visible="showRegionModal"
@@ -2532,7 +2532,7 @@ const closeRegionModal = () => {
   editingRegion.value = null;
 };
 
-const handleRegionSaved = async (region) => {
+const handleRegionSaved = async region => {
   await loadShippingRegions();
   console.log('Região salva com sucesso:', region);
 };

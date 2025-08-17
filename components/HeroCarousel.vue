@@ -2,8 +2,16 @@
   <section class="pt-32 pb-16 bg-white">
     <div class="max-w-7xl mx-auto px-4">
       <div class="relative">
+        <!-- Loading State -->
+        <div v-if="loading" class="flex items-center justify-center h-96 bg-gray-100 rounded-lg">
+          <div class="text-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-coral-soft mx-auto mb-4"></div>
+            <p class="text-gray-600">Carregando produtos em destaque...</p>
+          </div>
+        </div>
+        
         <!-- Carousel Container -->
-        <div class="relative overflow-hidden rounded-lg bg-gray-200 shadow-lg">
+        <div v-else-if="slides.length > 0" class="relative overflow-hidden rounded-lg bg-gray-200 shadow-lg">
           <div
             class="flex transition-transform duration-500 ease-in-out"
             :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
@@ -32,10 +40,11 @@
                         <!-- Price -->
                         <div class="flex items-baseline space-x-2 mb-3">
                           <p class="text-2xl font-bold">{{ slide.price }}</p>
-                          <p class="text-lg opacity-75 line-through">R$ 399,90</p>
+                          <p v-if="slide.originalPrice" class="text-lg opacity-75 line-through">{{ slide.originalPrice }}</p>
                           <span
+                            v-if="slide.discount"
                             class="px-2 py-1 bg-red-500 text-white text-xs font-semibold rounded"
-                            >-25%</span
+                            >-{{ slide.discount }}%</span
                           >
                         </div>
 
@@ -45,11 +54,12 @@
                         </p>
 
                         <!-- CTA Button -->
-                        <button
-                          class="bg-coral-soft text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-coral-dark transition-colors duration-300"
+                        <NuxtLink
+                          :to="`/produto/${slide.slug}`"
+                          class="inline-block bg-coral-soft text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-coral-dark transition-colors duration-300"
                         >
                           COMPRE AGORA
-                        </button>
+                        </NuxtLink>
                       </div>
                     </div>
                   </div>
@@ -257,6 +267,17 @@
             ></button>
           </div>
         </div>
+        
+        <!-- No Featured Products State -->
+        <div v-else class="flex items-center justify-center h-96 bg-gray-100 rounded-lg">
+          <div class="text-center">
+            <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+            </svg>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">Nenhum produto em destaque</h3>
+            <p class="text-gray-600">Adicione produtos marcados como destaque no painel administrativo</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -265,56 +286,87 @@
 <script setup>
 const currentSlide = ref(0);
 
-const slides = ref([
-  {
-    title: 'Sandálias Flats Elegantes',
-    description:
-      'Sandálias de couro genuíno com textura de crocodilo. Design minimalista com tiras cruzadas e fivela no tornozelo. Perfeitas para o dia a dia com estilo.',
-    price: 'R$ 299,90',
-    image:
-      'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&h=600&fit=crop&crop=center',
-  },
-  {
-    title: 'Ballet Flats Clássicos',
-    description:
-      'Coleção de ballet flats em cores neutras. Design atemporal com laço delicado no bico. Conforto e elegância em cada passo.',
-    price: 'R$ 249,90',
-    image:
-      'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&h=600&fit=crop&crop=center',
-  },
-  {
-    title: 'Botas de Couro Premium',
-    description:
-      'Botas de cano médio em couro liso de alta qualidade. Salto baixo e robusto com cadarços. Ideal para o inverno com estilo.',
-    price: 'R$ 399,90',
-    image:
-      'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&h=600&fit=crop&crop=center',
-  },
-  {
-    title: 'Oxfords AMPLI',
-    description:
-      'Sapatos Oxford com recortes laterais elegantes. Disponíveis em preto e caramelo. Cadarços finos e sola de madeira. Marca AMPLI visível na palmilha.',
-    price: 'R$ 349,90',
-    image:
-      'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&h=600&fit=crop&crop=center',
-  },
-  {
-    title: 'Sandálias Block Heel',
-    description:
-      'Sandálias com salto bloco em couro marrom com detalhes em creme. Design sofisticado com tiras cruzadas e fivela no tornozelo.',
-    price: 'R$ 279,90',
-    image:
-      'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&h=600&fit=crop&crop=center',
-  },
-  {
-    title: 'Sandálias Coral Vibrante',
-    description:
-      'Sandálias em coral vibrante com múltiplas tiras finas. Salto baixo em madeira natural. Design versátil para qualquer ocasião.',
-    price: 'R$ 259,90',
-    image:
-      'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&h=600&fit=crop&crop=center',
-  },
-]);
+const slides = ref([]);
+const loading = ref(true);
+const error = ref(null);
+
+const supabase = useSupabaseClient();
+
+// Buscar produtos em destaque
+const loadFeaturedProducts = async () => {
+  try {
+    loading.value = true;
+    error.value = null;
+
+    const { data, error: fetchError } = await supabase
+      .from('products')
+      .select(`
+        id,
+        name,
+        description,
+        price,
+        salePrice,
+        images,
+        slug,
+        category:categories(name)
+      `)
+      .eq('featured', true)
+      .eq('isActive', true)
+      .order('createdAt', { ascending: false })
+      .limit(6);
+
+    if (fetchError) throw fetchError;
+
+    // Transformar produtos em slides
+    slides.value = (data || []).map(product => ({
+      id: product.id,
+      title: product.name,
+      description: product.description || 'Produto em destaque da AMPLI CALÇADOS',
+      price: product.salePrice 
+        ? `R$ ${parseFloat(product.salePrice).toFixed(2).replace('.', ',')}`
+        : `R$ ${product.price.toFixed(2).replace('.', ',')}`,
+      originalPrice: product.salePrice 
+        ? `R$ ${product.price.toFixed(2).replace('.', ',')}`
+        : null,
+      discount: product.salePrice 
+        ? Math.round(((product.price - parseFloat(product.salePrice)) / product.price) * 100)
+        : null,
+      image: product.images && product.images.length > 0 
+        ? product.images[0] 
+        : '/images/placeholder-product.jpg',
+      slug: product.slug,
+      category: product.category?.name
+    }));
+
+    // Se não houver produtos em destaque, usar produtos padrão
+    if (slides.value.length === 0) {
+      slides.value = [
+        {
+          title: 'Sandálias Flats Elegantes',
+          description: 'Sandálias de couro genuíno com textura de crocodilo. Design minimalista com tiras cruzadas e fivela no tornozelo.',
+          price: 'R$ 299,90',
+          image: '/images/placeholder-product.jpg',
+        }
+      ];
+    }
+  } catch (err) {
+    console.error('Erro ao carregar produtos em destaque:', err);
+    error.value = err.message;
+    
+    // Fallback para produtos padrão em caso de erro
+    slides.value = [
+      {
+        title: 'Sandálias Flats Elegantes',
+        description: 'Sandálias de couro genuíno com textura de crocodilo. Design minimalista com tiras cruzadas e fivela no tornozelo.',
+        price: 'R$ 299,90',
+        image: '/images/placeholder-product.jpg',
+      }
+    ];
+  } finally {
+    loading.value = false;
+  }
+};
+
 
 const nextSlide = () => {
   currentSlide.value = (currentSlide.value + 1) % slides.value.length;
@@ -330,6 +382,10 @@ const goToSlide = index => {
 
 // Auto-play carousel
 onMounted(() => {
+  // Carregar produtos em destaque
+  loadFeaturedProducts();
+  
+  // Auto-play do carrossel
   setInterval(() => {
     nextSlide();
   }, 5000);
