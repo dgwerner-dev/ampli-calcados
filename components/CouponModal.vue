@@ -797,6 +797,8 @@ const saveCoupon = async () => {
           id: generateId(), // Gerar ID único compatível com Prisma
           ...couponData,
           usedCount: 0,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
         },
       ]);
 
