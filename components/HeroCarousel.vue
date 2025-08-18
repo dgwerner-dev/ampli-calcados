@@ -54,8 +54,6 @@
                           >
                         </div>
 
-
-
                         <!-- CTA Button -->
                         <NuxtLink
                           :to="`/produto/${slide.slug}`"
@@ -92,8 +90,6 @@
                         </svg>
                       </button>
                     </div>
-
-
 
                     <!-- Features -->
                     <div class="flex flex-wrap gap-3 text-sm">

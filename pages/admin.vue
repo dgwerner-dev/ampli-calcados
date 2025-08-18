@@ -1718,7 +1718,7 @@
                           Cancelar
                         </button>
                         <button
-                          class="px-4 py-2 bg-teal-600 text-white font-medium rounded-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors"
+                          class="px-4 py-2 bg-coral-soft text-white font-medium rounded-md hover:bg-coral-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-colors"
                         >
                           Salvar alterações
                         </button>
@@ -1837,7 +1837,7 @@
                         Cancelar
                       </button>
                       <button
-                        class="px-4 py-2 bg-teal-600 text-white font-medium rounded-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors"
+                        class="px-4 py-2 bg-coral-soft text-white font-medium rounded-md hover:bg-coral-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-colors"
                       >
                         Salvar alterações
                       </button>
