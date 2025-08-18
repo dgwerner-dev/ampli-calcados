@@ -747,6 +747,13 @@ watch(
   }
 );
 
+// Função para gerar ID único no formato cuid
+const generateId = () => {
+  const timestamp = Date.now().toString(36);
+  const randomStr = Math.random().toString(36).substring(2);
+  return `c${timestamp}${randomStr}`;
+};
+
 const closeModal = () => {
   if (!saving.value) {
     emit('close');
@@ -784,9 +791,10 @@ const saveCoupon = async () => {
 
       if (error) throw error;
     } else {
-      // Create new coupon - não incluir id, deixar o banco gerar automaticamente
+      // Create new coupon - incluir id gerado
       const { error } = await supabase.from('coupons').insert([
         {
+          id: generateId(), // Gerar ID único compatível com Prisma
           ...couponData,
           usedCount: 0,
         },
