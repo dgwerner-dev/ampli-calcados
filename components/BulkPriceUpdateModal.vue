@@ -438,12 +438,17 @@ const handleSubmit = async () => {
       };
     });
 
-    // Atualizar produtos em lote
-    const { error: updateError } = await (supabase as any)
-      .from('products')
-      .upsert(updates, { onConflict: 'id' });
-    
-    if (updateError) throw updateError;
+    // Atualizar produtos em lote usando update individual
+    for (const update of updates) {
+      const { error: updateError } = await (supabase as any)
+        .from('products')
+        .update({ price: update.price })
+        .eq('id', update.id);
+      
+      if (updateError) {
+        throw updateError;
+      }
+    }
 
     successMessage.value = `${updates.length} produtos atualizados com sucesso!`;
     emit('updated');
