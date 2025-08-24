@@ -168,7 +168,21 @@
                     Filtros
                   </button>
                 </div>
-                <div class="ml-4">
+                <div class="ml-4 flex space-x-3">
+                  <button
+                    @click="openBulkPriceUpdateModal"
+                    class="inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+                  >
+                    <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
+                      ></path>
+                    </svg>
+                    Atualizar Preços
+                  </button>
                   <button
                     @click="openCreateProductModal"
                     class="inline-flex items-center rounded-lg border border-transparent bg-coral-soft px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-dark"
@@ -1891,12 +1905,20 @@
     @close="closeRegionModal"
     @saved="handleRegionSaved"
   />
+
+  <!-- Bulk Price Update Modal -->
+  <BulkPriceUpdateModal
+    :is-open="showBulkPriceUpdateModal"
+    @close="closeBulkPriceUpdateModal"
+    @updated="handleBulkPriceUpdated"
+  />
 </template>
 
 <script setup>
 import { ref, onMounted, watch, computed } from 'vue';
 import ProductModal from '~/components/ProductModal.vue';
 import RegionModal from '~/components/RegionModal.vue';
+import BulkPriceUpdateModal from '~/components/BulkPriceUpdateModal.vue';
 import { useShippingPromotions } from '~/composables/useShippingPromotions';
 
 // Estados
@@ -1919,6 +1941,7 @@ const showCategoryModal = ref(false);
 const showCouponModal = ref(false);
 const showShippingPromotionModal = ref(false);
 const showRegionModal = ref(false);
+const showBulkPriceUpdateModal = ref(false);
 const editingProduct = ref(null);
 const editingCategory = ref(null);
 const editingCoupon = ref(null);
@@ -2074,6 +2097,19 @@ const closeProductModal = () => {
 const handleProductSaved = () => {
   loadProducts();
   closeProductModal();
+};
+
+const openBulkPriceUpdateModal = () => {
+  showBulkPriceUpdateModal.value = true;
+};
+
+const closeBulkPriceUpdateModal = () => {
+  showBulkPriceUpdateModal.value = false;
+};
+
+const handleBulkPriceUpdated = () => {
+  loadProducts();
+  closeBulkPriceUpdateModal();
 };
 
 const deleteProduct = async product => {
