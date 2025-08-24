@@ -13,10 +13,7 @@
         </div>
 
         <!-- Carousel Container -->
-        <div
-          v-else-if="slides.length > 0"
-          class="relative overflow-hidden rounded-lg bg-gray-200 shadow-lg"
-        >
+        <div v-else-if="slides.length > 0" class="relative overflow-hidden rounded-lg shadow-lg">
           <div
             class="flex transition-transform duration-500 ease-in-out"
             :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
@@ -25,9 +22,7 @@
               <div class="flex flex-col lg:flex-row">
                 <!-- Product Image -->
                 <div class="lg:w-1/2 p-8 lg:p-12">
-                  <div
-                    class="relative h-80 lg:h-96 bg-gray-200 rounded-lg flex items-center justify-center"
-                  >
+                  <div class="relative h-80 lg:h-96 rounded-lg flex items-center justify-center">
                     <img
                       :src="slide.image"
                       :alt="slide.title"

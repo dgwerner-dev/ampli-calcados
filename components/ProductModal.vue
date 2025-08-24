@@ -517,13 +517,13 @@
                 <div
                   v-for="(image, index) in uploadedImages"
                   :key="index"
-                  class="relative group aspect-square bg-gray-100 rounded-lg overflow-hidden border-2 border-gray-200 hover:border-coral-soft transition-all duration-200"
+                  class="relative group aspect-square rounded-lg overflow-hidden border-2 border-gray-200 hover:border-coral-soft transition-all duration-200"
                 >
                   <!-- Imagem -->
                   <img
-                    :src="image.preview || image.url"
+                    :src="image.preview || image.url || ''"
                     :alt="`Imagem ${index + 1} do produto`"
-                    class="w-full h-full object-cover"
+                    class="w-full h-full object-contain"
                   />
 
                   <!-- Overlay com ações -->
@@ -932,16 +932,43 @@ const isEditing = computed(() => !!props.product);
 const loading = ref(false);
 const categoriesLoading = ref(false);
 const isGenerating = ref(false);
-const error = ref(null);
+const error = ref<string | null>(null);
 const successMessage = ref('');
-const categories = ref([]);
-const uploadedImages = ref([]);
+const categories = ref<Array<{ id: string; name: string }>>([]);
+const uploadedImages = ref<
+  Array<{ file: File | null; preview: string; uploading: boolean; url: string | null }>
+>([]);
 
 // Variações do produto
-const productVariations = ref([]);
+const productVariations = ref<
+  Array<{
+    size: string;
+    code: string;
+    salePrice: number;
+    quantity: number;
+    isActive: boolean;
+    index?: number;
+  }>
+>([]);
 
 // Formulário
-const form = ref({
+const form = ref<{
+  name: string;
+  slug: string;
+  code: string;
+  description: string;
+  raw_description: string;
+  price: string;
+  salePrice: string;
+  categoryId: string;
+  images: string[];
+  sizes: string;
+  colors: string;
+  inStock: boolean;
+  isActive: boolean;
+  featured: boolean;
+  id?: string;
+}>({
   name: '',
   slug: '',
   code: '',
@@ -1026,16 +1053,18 @@ const generateDescription = async () => {
 };
 
 // Funções para upload de imagens
-const handleFileUpload = event => {
-  const files = Array.from(event.target.files);
+const handleFileUpload = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  const files = Array.from(target.files || []);
 
-  files.forEach(file => {
+  files.forEach((file: File) => {
     if (file.type.startsWith('image/')) {
       const reader = new FileReader();
       reader.onload = e => {
+        const target = e.target as FileReader;
         uploadedImages.value.push({
           file: file,
-          preview: e.target.result,
+          preview: target.result as string,
           uploading: false,
           url: null,
         });
@@ -1045,11 +1074,11 @@ const handleFileUpload = event => {
   });
 };
 
-const removeImage = index => {
+const removeImage = (index: number) => {
   uploadedImages.value.splice(index, 1);
 };
 
-const previewImage = image => {
+const previewImage = (image: { preview: string; url: string | null }) => {
   // Abrir imagem em nova aba para visualização
   const imageUrl = image.preview || image.url;
   if (imageUrl) {
@@ -1059,8 +1088,10 @@ const previewImage = image => {
 
 const supabase = useSupabaseClient();
 
-const uploadImagesToSupabase = async (filesToUpload: any[]) => {
-  const uploadedUrls = [];
+const uploadImagesToSupabase = async (
+  filesToUpload: Array<{ file: File; preview: string; uploading: boolean; url: string | null }>
+) => {
+  const uploadedUrls: string[] = [];
 
   for (const image of filesToUpload) {
     const imageObject = uploadedImages.value.find(img => img.preview === image.preview);
@@ -1081,7 +1112,7 @@ const uploadImagesToSupabase = async (filesToUpload: any[]) => {
       } = supabase.storage.from('product-images').getPublicUrl(fileName);
 
       uploadedUrls.push(publicUrl);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Erro ao fazer upload da imagem:', err);
       throw new Error(`Erro ao fazer upload da imagem: ${err.message}`);
     } finally {
@@ -1105,7 +1136,7 @@ const loadCategories = async () => {
     if (categories.value.length === 0) {
       console.log('Nenhuma categoria encontrada. Considere cadastrar categorias primeiro.');
     }
-  } catch (err) {
+  } catch (err: any) {
     console.error('Erro ao carregar categorias:', err);
     error.value = 'Erro ao carregar categorias. Tente novamente.';
   } finally {
@@ -1123,10 +1154,17 @@ const handleSubmit = async () => {
       .filter(img => img.url && !img.file)
       .map(img => img.url);
 
-    const newImageFiles = uploadedImages.value.filter(img => img.file);
+    const newImageFiles = uploadedImages.value
+      .filter(img => img.file)
+      .map(img => ({
+        file: img.file!,
+        preview: img.preview,
+        uploading: img.uploading,
+        url: img.url,
+      }));
 
     // 2. Fazer upload apenas das novas imagens
-    let newImageUrls = [];
+    let newImageUrls: string[] = [];
     if (newImageFiles.length > 0) {
       newImageUrls = await uploadImagesToSupabase(newImageFiles);
     }
@@ -1135,9 +1173,14 @@ const handleSubmit = async () => {
 
     // Preparar dados
     const productData = {
-      ...form.value,
+      name: form.value.name,
+      slug: form.value.slug,
+      code: form.value.code,
+      description: form.value.description,
+      raw_description: form.value.raw_description,
       price: parseFloat(form.value.price),
       salePrice: form.value.salePrice ? parseFloat(form.value.salePrice) : null,
+      categoryId: form.value.categoryId,
       images: allImageUrls,
       sizes: form.value.sizes
         .split(',')
@@ -1147,17 +1190,19 @@ const handleSubmit = async () => {
         .split(',')
         .map(c => c.trim())
         .filter(c => c),
+      inStock: form.value.inStock,
+      isActive: form.value.isActive,
+      featured: form.value.featured,
     };
-    // Remover ID do form para não dar conflito no insert/update
-    delete productData.id;
 
     if (isEditing.value) {
       // Atualizar produto existente
-      const { data, error: updateError } = await supabase
+      const { data, error: updateError } = await (supabase
         .from('products')
+        // @ts-ignore
         .update(productData)
         .eq('id', props.product.id)
-        .select();
+        .select() as any);
 
       if (updateError) throw updateError;
       if (!data || data.length === 0) throw new Error('Falha ao atualizar o produto.');
@@ -1167,7 +1212,7 @@ const handleSubmit = async () => {
       // Criar novo produto
       const { data, error: createError } = await supabase
         .from('products')
-        .insert(productData)
+        .insert(productData as any)
         .select();
 
       if (createError) throw createError;
@@ -1180,7 +1225,7 @@ const handleSubmit = async () => {
     setTimeout(() => {
       closeModal();
     }, 1500);
-  } catch (err) {
+  } catch (err: any) {
     error.value = err.message || `Erro ao ${isEditing.value ? 'atualizar' : 'criar'} produto`;
   } finally {
     loading.value = false;
@@ -1189,7 +1234,7 @@ const handleSubmit = async () => {
 
 // Estados para modal de variações
 const showVariationModal = ref(false);
-const editingVariation = ref(null);
+const editingVariation = ref<Record<string, any> | undefined>(undefined);
 
 // Métodos para variações do produto
 const addProductVariation = () => {
@@ -1198,21 +1243,27 @@ const addProductVariation = () => {
     return;
   }
 
-  editingVariation.value = null;
+  editingVariation.value = undefined;
   showVariationModal.value = true;
 };
 
-const editProductVariation = index => {
+const editProductVariation = (index: number) => {
   editingVariation.value = { ...productVariations.value[index], index };
   showVariationModal.value = true;
 };
 
 const closeVariationModal = () => {
   showVariationModal.value = false;
-  editingVariation.value = null;
+  editingVariation.value = undefined;
 };
 
-const handleVariationSaved = variationData => {
+const handleVariationSaved = (variationData: {
+  size: string;
+  code: string;
+  salePrice: number;
+  quantity: number;
+  isActive: boolean;
+}) => {
   if (editingVariation.value) {
     // Editar variação existente
     const index = editingVariation.value.index;
@@ -1229,7 +1280,7 @@ const handleVariationSaved = variationData => {
   }
 };
 
-const removeProductVariation = index => {
+const removeProductVariation = (index: number) => {
   productVariations.value.splice(index, 1);
 };
 
@@ -1250,12 +1301,20 @@ watch(
         // Modo de edição: preencher formulário
         console.log('Preenchendo formulário com produto:', props.product);
         form.value = {
-          ...props.product,
+          name: props.product.name || '',
+          slug: props.product.slug || '',
           code: props.product.code || '',
+          description: props.product.description || '',
+          raw_description: props.product.raw_description || '',
           price: props.product.price?.toString() || '',
           salePrice: props.product.salePrice?.toString() || '',
+          categoryId: props.product.categoryId || '',
+          images: props.product.images || [],
           sizes: Array.isArray(props.product.sizes) ? props.product.sizes.join(', ') : '',
           colors: Array.isArray(props.product.colors) ? props.product.colors.join(', ') : '',
+          inStock: props.product.inStock ?? true,
+          isActive: props.product.isActive ?? true,
+          featured: props.product.featured ?? false,
         };
         console.log('Formulário preenchido:', form.value);
         // Preencher imagens se existirem

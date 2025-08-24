@@ -5,7 +5,14 @@ import dotenv from 'dotenv';
 // Carregar variáveis de ambiente
 dotenv.config();
 
-const prisma = new PrismaClient();
+// Usar a conexão direta para operações de seed
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: process.env.DIRECT_URL,
+    },
+  },
+});
 
 // Configuração do Supabase para criar usuário admin
 const supabaseUrl = process.env.SUPABASE_URL;
@@ -310,8 +317,11 @@ const siteData = {
 function generateSlug(name: string) {
   return name
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)+/g, '');
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // Remove acentos
+    .replace(/[^a-z0-9\s]+/g, '') // Remove caracteres especiais, mantém espaços
+    .replace(/\s+/g, '-') // Substitui espaços por hífens
+    .replace(/(^-|-$)+/g, ''); // Remove hífens no início e fim
 }
 
 async function createAdminUser() {
@@ -393,7 +403,7 @@ async function main() {
     });
     console.log(`Categoria ${categoryName} criada com id: ${category.id}`);
 
-    const productsToCreate = siteData[categoryName];
+    const productsToCreate = (siteData as any)[categoryName];
     for (const productData of productsToCreate) {
       console.log(`  - Criando produto: ${productData.name} (Código: ${productData.code})`);
       await prisma.product.create({

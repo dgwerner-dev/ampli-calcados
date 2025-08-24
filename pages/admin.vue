@@ -361,12 +361,12 @@
                                 v-if="product.images && product.images.length > 0"
                                 :src="product.images[0]"
                                 :alt="`Imagem de ${product.name}`"
-                                class="h-12 w-12 rounded-lg object-cover border border-gray-200"
+                                class="h-12 w-12 rounded-lg object-contain border border-gray-200"
                                 @error="$event.target.style.display = 'none'"
                               />
                               <div
                                 v-else
-                                class="h-12 w-12 rounded-lg bg-gray-200 flex items-center justify-center"
+                                class="h-12 w-12 rounded-lg flex items-center justify-center"
                               >
                                 <svg
                                   class="h-5 w-5 text-gray-400"

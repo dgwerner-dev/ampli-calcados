@@ -5,13 +5,20 @@
 
     <!-- Modal -->
     <div class="flex min-h-full items-center justify-center p-4">
-      <div class="relative w-full max-w-6xl transform overflow-hidden rounded-lg bg-white shadow-xl transition-all">
+      <div
+        class="relative w-full max-w-6xl transform overflow-hidden rounded-lg bg-white shadow-xl transition-all"
+      >
         <!-- Header -->
         <div class="flex items-center justify-between p-6 border-b border-gray-200">
           <h2 class="text-xl font-semibold text-gray-900">Produtos Cadastrados</h2>
           <button @click="closeModal" class="text-gray-400 hover:text-gray-600 transition-colors">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
             </svg>
           </button>
         </div>
@@ -29,7 +36,10 @@
           </div>
 
           <!-- Products Grid -->
-          <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-h-96 overflow-y-auto">
+          <div
+            v-else
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-h-96 overflow-y-auto"
+          >
             <div
               v-for="product in products"
               :key="product.id"
@@ -41,11 +51,21 @@
                   v-if="product.images && product.images.length > 0"
                   :src="product.images[0]"
                   :alt="product.name"
-                  class="w-full h-32 object-cover rounded-lg"
+                  class="w-full h-32 object-contain rounded-lg"
                 />
-                <div v-else class="w-full h-32 bg-gray-200 rounded-lg flex items-center justify-center">
-                  <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                <div v-else class="w-full h-32 rounded-lg flex items-center justify-center">
+                  <svg
+                    class="w-8 h-8 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    ></path>
                   </svg>
                 </div>
               </div>
@@ -54,7 +74,7 @@
               <div>
                 <h3 class="font-medium text-gray-900 mb-1">{{ product.name }}</h3>
                 <p class="text-sm text-gray-500 mb-2 line-clamp-2">{{ product.description }}</p>
-                
+
                 <!-- Price -->
                 <div class="flex items-center mb-2">
                   <span v-if="product.salePrice" class="line-through text-gray-500 text-sm">
@@ -70,9 +90,7 @@
                   <span
                     :class="[
                       'inline-flex items-center px-2 py-1 rounded-full text-xs font-medium',
-                      product.inStock
-                        ? 'bg-green-100 text-green-800'
-                        : 'bg-red-100 text-red-800'
+                      product.inStock ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800',
                     ]"
                   >
                     {{ product.inStock ? 'Em estoque' : 'Sem estoque' }}
@@ -92,7 +110,12 @@
                     class="text-coral-soft hover:text-coral-dark transition-colors"
                   >
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                      ></path>
                     </svg>
                   </button>
                   <button
@@ -100,7 +123,12 @@
                     class="text-red-600 hover:text-red-800 transition-colors"
                   >
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      ></path>
                     </svg>
                   </button>
                 </div>
@@ -110,8 +138,18 @@
 
           <!-- Empty State -->
           <div v-if="products.length === 0 && !loading" class="text-center py-12">
-            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+            <svg
+              class="mx-auto h-12 w-12 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+              ></path>
             </svg>
             <h3 class="mt-2 text-sm font-medium text-gray-900">Nenhum produto encontrado</h3>
             <p class="mt-1 text-sm text-gray-500">Comece criando seu primeiro produto.</p>
@@ -164,25 +202,22 @@ const loadProducts = async () => {
   }
 };
 
-const formatPrice = (price) => {
+const formatPrice = price => {
   return parseFloat(price).toFixed(2).replace('.', ',');
 };
 
-const editProduct = (product) => {
+const editProduct = product => {
   // Emitir evento para abrir modal de edição
   emit('edit-product', product);
 };
 
-const deleteProduct = async (product) => {
+const deleteProduct = async product => {
   if (!confirm(`Tem certeza que deseja excluir o produto "${product.name}"?`)) {
     return;
   }
 
   try {
-    const { error: deleteError } = await supabase
-      .from('products')
-      .delete()
-      .eq('id', product.id);
+    const { error: deleteError } = await supabase.from('products').delete().eq('id', product.id);
 
     if (deleteError) throw deleteError;
 
@@ -195,10 +230,10 @@ const deleteProduct = async (product) => {
 // Carregar produtos quando o modal abrir
 watch(
   () => props.isOpen,
-  (newValue) => {
+  newValue => {
     if (newValue) {
       loadProducts();
     }
   }
 );
-</script> 
+</script>
