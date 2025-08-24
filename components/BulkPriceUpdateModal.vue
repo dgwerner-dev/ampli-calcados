@@ -231,7 +231,7 @@
               <button
                 type="submit"
                 :disabled="loading || !form.categoryId || !form.updateType || !form.value"
-                class="px-8 py-3 bg-gradient-to-r from-coral-soft to-coral-dark text-white font-medium rounded-lg hover:from-coral-dark hover:to-coral-soft transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                class="px-8 py-3 bg-coral-soft hover:bg-coral-dark text-white font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
                 <svg
                   v-if="loading"
@@ -439,11 +439,10 @@ const handleSubmit = async () => {
     });
 
     // Atualizar produtos em lote
-    // @ts-ignore - Supabase type inference issue
-    const { error: updateError } = await supabase
+    const { error: updateError } = await (supabase as any)
       .from('products')
       .upsert(updates, { onConflict: 'id' });
-
+    
     if (updateError) throw updateError;
 
     successMessage.value = `${updates.length} produtos atualizados com sucesso!`;
@@ -454,7 +453,7 @@ const handleSubmit = async () => {
     }, 2000);
   } catch (err: any) {
     error.value = err.message || 'Erro ao atualizar preços';
-    notificationError(error.value);
+    notificationError(error.value || 'Erro ao atualizar preços');
   } finally {
     loading.value = false;
   }
