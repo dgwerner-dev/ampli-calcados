@@ -429,7 +429,8 @@ const handleSubmit = async () => {
     }
 
     // Calcular novos preços
-    const updates = (products as Array<{ id: string; price: number }>).map(product => {
+    const typedProducts = products as Array<{ id: string; price: number }>;
+    const updates = typedProducts.map(product => {
       const newPrice = calculateNewPrice(product.price);
       return {
         id: product.id,
@@ -438,9 +439,10 @@ const handleSubmit = async () => {
     });
 
     // Atualizar produtos em lote
+    // @ts-ignore - Supabase type inference issue
     const { error: updateError } = await supabase
       .from('products')
-      .upsert(updates as any, { onConflict: 'id' });
+      .upsert(updates, { onConflict: 'id' });
 
     if (updateError) throw updateError;
 
