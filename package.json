@@ -12,7 +12,8 @@
     "db:studio": "prisma studio",
     "db:seed": "prisma db seed",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "generate-favicons": "node scripts/generate-favicons.js"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
@@ -31,6 +32,7 @@
     "dotenv": "^17.2.1",
     "dotenv-cli": "^10.0.0",
     "prettier": "^3.6.2",
+    "sharp": "^0.34.3",
     "tsx": "^4.20.3",
     "uuid": "^11.1.0"
   },
