@@ -400,7 +400,7 @@ const loadPreviewProducts = async () => {
       .order('name');
 
     if (fetchError) throw fetchError;
-    previewProducts.value = data || [];
+    previewProducts.value = (data as Array<{ id: string; name: string; price: number }>) || [];
   } catch (err: any) {
     console.error('Erro ao carregar preview:', err);
     previewProducts.value = [];
@@ -429,7 +429,7 @@ const handleSubmit = async () => {
     }
 
     // Calcular novos preços
-    const updates = products.map(product => {
+    const updates = (products as Array<{ id: string; price: number }>).map(product => {
       const newPrice = calculateNewPrice(product.price);
       return {
         id: product.id,
@@ -438,10 +438,9 @@ const handleSubmit = async () => {
     });
 
     // Atualizar produtos em lote
-    // @ts-ignore - Supabase type inference issue
     const { error: updateError } = await supabase
       .from('products')
-      .upsert(updates, { onConflict: 'id' });
+      .upsert(updates as any, { onConflict: 'id' });
 
     if (updateError) throw updateError;
 
