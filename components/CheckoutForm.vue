@@ -27,9 +27,7 @@
           <h3 class="text-lg font-semibold mb-4">Dados Pessoais</h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">
-                Nome Completo *
-              </label>
+              <label class="block text-sm font-medium text-gray-700 mb-1"> Nome Completo * </label>
               <input
                 v-model="form.customer.name"
                 type="text"
@@ -38,9 +36,7 @@
               />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">
-                CPF *
-              </label>
+              <label class="block text-sm font-medium text-gray-700 mb-1"> CPF * </label>
               <input
                 v-model="form.customer.cpf"
                 type="text"
@@ -50,9 +46,7 @@
               />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">
-                Email *
-              </label>
+              <label class="block text-sm font-medium text-gray-700 mb-1"> Email * </label>
               <input
                 v-model="form.customer.email"
                 type="email"
@@ -61,9 +55,7 @@
               />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">
-                Telefone *
-              </label>
+              <label class="block text-sm font-medium text-gray-700 mb-1"> Telefone * </label>
               <input
                 v-model="form.customer.phone"
                 type="text"
@@ -80,9 +72,7 @@
           <h3 class="text-lg font-semibold mb-4">Endereço de Entrega</h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="md:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 mb-1">
-                CEP *
-              </label>
+              <label class="block text-sm font-medium text-gray-700 mb-1"> CEP * </label>
               <input
                 v-model="form.address.zipCode"
                 type="text"
@@ -93,9 +83,7 @@
               />
             </div>
             <div class="md:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 mb-1">
-                Rua *
-              </label>
+              <label class="block text-sm font-medium text-gray-700 mb-1"> Rua * </label>
               <input
                 v-model="form.address.street"
                 type="text"
@@ -104,9 +92,7 @@
               />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">
-                Número *
-              </label>
+              <label class="block text-sm font-medium text-gray-700 mb-1"> Número * </label>
               <input
                 v-model="form.address.number"
                 type="text"
@@ -115,9 +101,7 @@
               />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">
-                Complemento
-              </label>
+              <label class="block text-sm font-medium text-gray-700 mb-1"> Complemento </label>
               <input
                 v-model="form.address.complement"
                 type="text"
@@ -125,9 +109,7 @@
               />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">
-                Bairro *
-              </label>
+              <label class="block text-sm font-medium text-gray-700 mb-1"> Bairro * </label>
               <input
                 v-model="form.address.neighborhood"
                 type="text"
@@ -136,9 +118,7 @@
               />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">
-                Cidade *
-              </label>
+              <label class="block text-sm font-medium text-gray-700 mb-1"> Cidade * </label>
               <input
                 v-model="form.address.city"
                 type="text"
@@ -147,9 +127,7 @@
               />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">
-                Estado *
-              </label>
+              <label class="block text-sm font-medium text-gray-700 mb-1"> Estado * </label>
               <select
                 v-model="form.address.state"
                 required
@@ -230,9 +208,7 @@
               />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">
-                Nome no Cartão *
-              </label>
+              <label class="block text-sm font-medium text-gray-700 mb-1"> Nome no Cartão * </label>
               <input
                 v-model="form.card.holderName"
                 type="text"
@@ -241,9 +217,7 @@
               />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">
-                Validade *
-              </label>
+              <label class="block text-sm font-medium text-gray-700 mb-1"> Validade * </label>
               <input
                 v-model="form.card.expiry"
                 type="text"
@@ -254,9 +228,7 @@
               />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">
-                CVV *
-              </label>
+              <label class="block text-sm font-medium text-gray-700 mb-1"> CVV * </label>
               <input
                 v-model="form.card.cvv"
                 type="text"
@@ -266,9 +238,7 @@
               />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">
-                Parcelas *
-              </label>
+              <label class="block text-sm font-medium text-gray-700 mb-1"> Parcelas * </label>
               <select
                 v-model="form.installments"
                 required
@@ -317,27 +287,32 @@
 
       <!-- Modal PIX -->
       <div v-if="showPixModal" class="fixed inset-0 z-50 overflow-y-auto">
-        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-          <div class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity" @click="closePixModal"></div>
-          
-          <div class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full">
+        <div
+          class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+        >
+          <div
+            class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+            @click="closePixModal"
+          ></div>
+
+          <div
+            class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full"
+          >
             <div class="bg-white px-6 py-8">
               <div class="text-center">
                 <h3 class="text-lg font-semibold text-gray-900 mb-4">Pagamento PIX</h3>
                 <p class="text-sm text-gray-600 mb-6">
                   Escaneie o QR Code abaixo ou copie o código PIX para pagar
                 </p>
-                
+
                 <!-- QR Code -->
                 <div class="mb-6 flex justify-center">
                   <img :src="pixQrCode" alt="QR Code PIX" class="w-48 h-48" />
                 </div>
-                
+
                 <!-- Código PIX -->
                 <div class="mb-6">
-                  <label class="block text-sm font-medium text-gray-700 mb-2">
-                    Código PIX
-                  </label>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"> Código PIX </label>
                   <div class="flex">
                     <input
                       :value="pixCode"
@@ -353,10 +328,8 @@
                     </button>
                   </div>
                 </div>
-                
-                <div class="text-xs text-gray-500">
-                  O pagamento expira em 1 hora
-                </div>
+
+                <div class="text-xs text-gray-500">O pagamento expira em 1 hora</div>
               </div>
             </div>
           </div>
@@ -433,7 +406,7 @@ const searchCep = async () => {
         notificationError('CEP não encontrado');
         return;
       }
-      
+
       form.value.address.street = response.logradouro;
       form.value.address.neighborhood = response.bairro;
       form.value.address.city = response.localidade;
@@ -446,7 +419,7 @@ const searchCep = async () => {
 
 const processPayment = async () => {
   loading.value = true;
-  
+
   try {
     // Preparar dados do cartão
     let cardData = null;

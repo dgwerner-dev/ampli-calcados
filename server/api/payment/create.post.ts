@@ -1,7 +1,7 @@
 import { serverSupabaseUser } from '#supabase/server';
 import { usePagBank } from '~/composables/usePagBank';
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async event => {
   try {
     // Verificar autenticação
     const user = await serverSupabaseUser(event);
@@ -13,13 +13,7 @@ export default defineEventHandler(async (event) => {
     }
 
     const body = await readBody(event);
-    const { 
-      orderId, 
-      paymentMethod, 
-      cardData, 
-      installments = 1,
-      customerData 
-    } = body;
+    const { orderId, paymentMethod, cardData, installments = 1, customerData } = body;
 
     // Validar dados obrigatórios
     if (!orderId || !paymentMethod || !customerData) {
@@ -33,7 +27,8 @@ export default defineEventHandler(async (event) => {
     const supabase = useSupabaseClient();
     const { data: order, error: orderError } = await supabase
       .from('orders')
-      .select(`
+      .select(
+        `
         *,
         orderItems (
           *,
@@ -44,7 +39,8 @@ export default defineEventHandler(async (event) => {
             images
           )
         )
-      `)
+      `
+      )
       .eq('id', orderId)
       .eq('userId', user.id)
       .single();
@@ -63,11 +59,13 @@ export default defineEventHandler(async (event) => {
         name: customerData.name,
         email: customerData.email,
         tax_id: customerData.cpf.replace(/\D/g, ''),
-        phones: [{
-          country: '55',
-          area: customerData.phone.substring(0, 2),
-          number: customerData.phone.substring(2).replace(/\D/g, ''),
-        }],
+        phones: [
+          {
+            country: '55',
+            area: customerData.phone.substring(0, 2),
+            number: customerData.phone.substring(2).replace(/\D/g, ''),
+          },
+        ],
       },
       items: order.orderItems.map((item: any) => ({
         reference_id: item.productId,
@@ -86,35 +84,40 @@ export default defineEventHandler(async (event) => {
           postal_code: customerData.address.zipCode.replace(/\D/g, ''),
         },
       },
-      notification_urls: [
-        `${getRequestURL(event).origin}/api/payment/webhook`,
+      notification_urls: [`${getRequestURL(event).origin}/api/payment/webhook`],
+      charges: [
+        {
+          reference_id: `${orderId}-charge`,
+          description: `Pedido ${orderId}`,
+          amount: {
+            value: Math.round(order.total * 100), // PagBank usa centavos
+            currency: 'BRL',
+          },
+          payment_method:
+            paymentMethod === 'pix'
+              ? {
+                  type: 'pix',
+                  expires_in: 3600, // 1 hora
+                }
+              : {
+                  type: 'credit_card',
+                  installments,
+                  capture: true,
+                  card: cardData
+                    ? {
+                        number: cardData.number.replace(/\s/g, ''),
+                        exp_month: cardData.expMonth,
+                        exp_year: cardData.expYear,
+                        security_code: cardData.cvv,
+                        holder: {
+                          name: cardData.holderName,
+                        },
+                      }
+                    : undefined,
+                  soft_descriptor: 'BARTEZEN',
+                },
+        },
       ],
-      charges: [{
-        reference_id: `${orderId}-charge`,
-        description: `Pedido ${orderId}`,
-        amount: {
-          value: Math.round(order.total * 100), // PagBank usa centavos
-          currency: 'BRL',
-        },
-        payment_method: paymentMethod === 'pix' ? {
-          type: 'pix',
-          expires_in: 3600, // 1 hora
-        } : {
-          type: 'credit_card',
-          installments,
-          capture: true,
-          card: cardData ? {
-            number: cardData.number.replace(/\s/g, ''),
-            exp_month: cardData.expMonth,
-            exp_year: cardData.expYear,
-            security_code: cardData.cvv,
-            holder: {
-              name: cardData.holderName,
-            },
-          } : undefined,
-          soft_descriptor: 'BARTEZEN',
-        },
-      }],
     };
 
     // Criar pedido no PagBank
@@ -128,18 +131,16 @@ export default defineEventHandler(async (event) => {
     }
 
     // Salvar dados do pagamento no banco
-    const { error: paymentError } = await supabase
-      .from('payments')
-      .insert({
-        orderId,
-        userId: user.id,
-        pagBankOrderId: pagBankResponse.id,
-        pagBankChargeId: pagBankResponse.charges[0].id,
-        paymentMethod,
-        amount: order.total,
-        status: 'PENDING',
-        paymentData: pagBankResponse,
-      });
+    const { error: paymentError } = await supabase.from('payments').insert({
+      orderId,
+      userId: user.id,
+      pagBankOrderId: pagBankResponse.id,
+      pagBankChargeId: pagBankResponse.charges[0].id,
+      paymentMethod,
+      amount: order.total,
+      status: 'PENDING',
+      paymentData: pagBankResponse,
+    });
 
     if (paymentError) {
       console.error('Erro ao salvar dados do pagamento:', paymentError);
@@ -150,10 +151,9 @@ export default defineEventHandler(async (event) => {
       order: pagBankResponse,
       pixQrCode: paymentMethod === 'pix' ? pagBankResponse.charges[0].payment_method.pix : null,
     };
-
   } catch (error: any) {
     console.error('Erro ao processar pagamento:', error);
-    
+
     throw createError({
       statusCode: error.statusCode || 500,
       statusMessage: error.message || 'Erro ao processar pagamento',

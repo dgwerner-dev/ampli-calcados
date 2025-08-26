@@ -2,9 +2,16 @@
   <div class="min-h-screen bg-gray-50 flex items-center justify-center">
     <div class="max-w-md mx-auto text-center">
       <!-- Success Icon -->
-      <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-6">
+      <div
+        class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-6"
+      >
         <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M5 13l4 4L19 7"
+          ></path>
         </svg>
       </div>
 
@@ -17,7 +24,7 @@
       <!-- Order Details -->
       <div v-if="order" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
         <h2 class="text-lg font-semibold text-gray-900 mb-4">Detalhes do Pedido</h2>
-        
+
         <div class="space-y-3 text-left">
           <div class="flex justify-between">
             <span class="text-gray-600">Número do Pedido:</span>
@@ -45,17 +52,27 @@
           class="inline-flex items-center justify-center w-full px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-orange-500 hover:bg-orange-600 transition-colors"
         >
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+            ></path>
           </svg>
           Ver Meus Pedidos
         </NuxtLink>
-        
+
         <NuxtLink
           to="/"
           class="inline-flex items-center justify-center w-full px-6 py-3 border border-gray-300 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors"
         >
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+            ></path>
           </svg>
           Continuar Comprando
         </NuxtLink>
@@ -84,7 +101,7 @@ const order = ref<any>(null);
 const loadOrder = async () => {
   try {
     const orderId = route.query.orderId as string;
-    
+
     if (!orderId) return;
 
     // Buscar dados do pedido

@@ -39,12 +39,12 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     geminiApiKey: process.env.GEMINI_API_KEY,
-    
+
     // PagBank configuration
     pagbankAccessToken: process.env.PAGBANK_ACCESS_TOKEN,
     pagbankEnvironment: process.env.PAGBANK_ENVIRONMENT || 'sandbox',
     pagbankWebhookSecret: process.env.PAGBANK_WEBHOOK_SECRET,
-    
+
     public: {
       supabaseUrl: process.env.SUPABASE_URL,
       supabaseKey: process.env.SUPABASE_ANON_KEY,

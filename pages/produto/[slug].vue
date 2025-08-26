@@ -170,10 +170,34 @@
               <!-- Action buttons -->
               <div class="mt-6 flex flex-col gap-3">
                 <button
-                  type="submit"
-                  class="flex w-full items-center justify-center rounded-md border border-transparent bg-coral-soft py-3 px-8 text-base font-medium uppercase text-white hover:bg-coral-dark focus:outline-none focus:ring-2 focus:ring-coral-soft focus:ring-offset-2"
+                  type="button"
+                  @click="buyNow"
+                  :disabled="buyNowLoading"
+                  class="flex w-full items-center justify-center rounded-md border border-transparent bg-coral-soft py-3 px-8 text-base font-medium uppercase text-white hover:bg-coral-dark focus:outline-none focus:ring-2 focus:ring-coral-soft focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <svg
+                    v-if="buyNowLoading"
+                    class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    ></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  <svg
+                    v-else
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="currentColor"
@@ -183,7 +207,7 @@
                       d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.46-5.23c.18-.487.18-1.035 0-1.522a3.75 3.75 0 00-2.46-2.17H6.622L5.42 2.515A.75.75 0 004.646 2.25H2.25z"
                     />
                   </svg>
-                  Comprar Agora
+                  {{ buyNowLoading ? 'Processando...' : 'Comprar Agora' }}
                 </button>
                 <button
                   type="button"
@@ -289,6 +313,8 @@ const error = ref<string | null>(null);
 const product = ref<any>(null);
 const selectedImage = ref('');
 const selectedSize = ref('');
+const buyNowLoading = ref(false);
+const { success, error: notificationError } = useNotifications();
 
 const formatPrice = (price: number | null | undefined) => {
   if (typeof price !== 'number') return '0,00';
@@ -336,6 +362,58 @@ const fetchData = async () => {
     error.value = err.message;
   } finally {
     loading.value = false;
+  }
+};
+
+// Função para comprar agora
+const buyNow = async () => {
+  if (!product.value) return;
+  
+  buyNowLoading.value = true;
+  
+  try {
+    // Verificar se usuário está logado
+    const { data: { user } } = await useSupabaseClient().auth.getUser();
+    
+    if (!user) {
+      // Redirecionar para login
+      navigateTo('/login?redirect=' + encodeURIComponent(route.fullPath));
+      return;
+    }
+
+    // Validar se tamanho foi selecionado (se o produto tem tamanhos)
+    if (product.value.sizes && product.value.sizes.length > 0 && !selectedSize.value) {
+      notificationError('Selecione um tamanho antes de continuar');
+      return;
+    }
+
+    // Criar pedido
+    const response = await $fetch('/api/orders/create', {
+      method: 'POST',
+      body: {
+        productId: product.value.id,
+        quantity: 1,
+        size: selectedSize.value || null,
+        color: null, // Implementar seleção de cor se necessário
+      },
+    });
+
+    if (response.success) {
+      success('Pedido criado com sucesso!');
+      // Redirecionar para checkout
+      navigateTo(`/checkout?orderId=${response.order.id}`);
+    }
+  } catch (error: any) {
+    console.error('Erro ao criar pedido:', error);
+    
+    if (error.statusCode === 401) {
+      // Usuário não autenticado
+      navigateTo('/login?redirect=' + encodeURIComponent(route.fullPath));
+    } else {
+      notificationError(error.data?.statusMessage || 'Erro ao processar compra');
+    }
+  } finally {
+    buyNowLoading.value = false;
   }
 };
 

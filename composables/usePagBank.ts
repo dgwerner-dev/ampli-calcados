@@ -5,14 +5,14 @@ export const usePagBank = () => {
   // Configurações do PagBank
   const PAGBANK_API_URL = 'https://api.pagbank.com.br';
   const PAGBANK_SANDBOX_URL = 'https://sandbox.api.pagbank.com.br';
-  
+
   const isProduction = config.public.pagbankEnvironment === 'production';
   const baseUrl = isProduction ? PAGBANK_API_URL : PAGBANK_SANDBOX_URL;
-  
+
   // Headers padrão para requisições
   const getHeaders = () => ({
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${config.pagbankAccessToken}`,
+    Authorization: `Bearer ${config.pagbankAccessToken}`,
     'x-idempotency-key': crypto.randomUUID(),
   });
 
@@ -77,11 +77,13 @@ export const usePagBank = () => {
         headers: getHeaders(),
         body: orderData,
       });
-      
+
       return response;
     } catch (error: any) {
       console.error('Erro ao criar pedido no PagBank:', error);
-      throw new Error(error.data?.error_messages?.[0]?.description || 'Erro ao processar pagamento');
+      throw new Error(
+        error.data?.error_messages?.[0]?.description || 'Erro ao processar pagamento'
+      );
     }
   };
 
@@ -135,11 +137,13 @@ export const usePagBank = () => {
         headers: getHeaders(),
         body: orderData,
       });
-      
+
       return response;
     } catch (error: any) {
       console.error('Erro ao criar pedido PIX no PagBank:', error);
-      throw new Error(error.data?.error_messages?.[0]?.description || 'Erro ao processar pagamento PIX');
+      throw new Error(
+        error.data?.error_messages?.[0]?.description || 'Erro ao processar pagamento PIX'
+      );
     }
   };
 
@@ -150,7 +154,7 @@ export const usePagBank = () => {
         method: 'GET',
         headers: getHeaders(),
       });
-      
+
       return response;
     } catch (error: any) {
       console.error('Erro ao consultar status do pedido:', error);
@@ -162,13 +166,13 @@ export const usePagBank = () => {
   const capturePayment = async (chargeId: string, amount?: number) => {
     try {
       const body = amount ? { amount: { value: amount, currency: 'BRL' } } : {};
-      
+
       const response = await $fetch(`${baseUrl}/charges/${chargeId}/capture`, {
         method: 'POST',
         headers: getHeaders(),
         body,
       });
-      
+
       return response;
     } catch (error: any) {
       console.error('Erro ao capturar pagamento:', error);
@@ -180,13 +184,13 @@ export const usePagBank = () => {
   const cancelPayment = async (chargeId: string, amount?: number) => {
     try {
       const body = amount ? { amount: { value: amount, currency: 'BRL' } } : {};
-      
+
       const response = await $fetch(`${baseUrl}/charges/${chargeId}/cancel`, {
         method: 'POST',
         headers: getHeaders(),
         body,
       });
-      
+
       return response;
     } catch (error: any) {
       console.error('Erro ao cancelar pagamento:', error);
@@ -198,13 +202,13 @@ export const usePagBank = () => {
   const refundPayment = async (chargeId: string, amount?: number) => {
     try {
       const body = amount ? { amount: { value: amount, currency: 'BRL' } } : {};
-      
+
       const response = await $fetch(`${baseUrl}/charges/${chargeId}/refund`, {
         method: 'POST',
         headers: getHeaders(),
         body,
       });
-      
+
       return response;
     } catch (error: any) {
       console.error('Erro ao reembolsar pagamento:', error);
@@ -216,7 +220,7 @@ export const usePagBank = () => {
   const handleWebhook = async (webhookData: any) => {
     try {
       const { event, data } = webhookData;
-      
+
       switch (event) {
         case 'PAYMENT_RECEIVED':
           await handlePaymentReceived(data);
@@ -271,11 +275,8 @@ export const usePagBank = () => {
   // Atualizar status do pedido no banco
   const updateOrderStatus = async (orderId: string, status: string) => {
     try {
-      const { error } = await supabase
-        .from('orders')
-        .update({ status })
-        .eq('id', orderId);
-      
+      const { error } = await supabase.from('orders').update({ status }).eq('id', orderId);
+
       if (error) throw error;
     } catch (error: any) {
       console.error('Erro ao atualizar status do pedido:', error);

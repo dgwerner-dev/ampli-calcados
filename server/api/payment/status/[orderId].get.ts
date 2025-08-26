@@ -1,6 +1,6 @@
 import { serverSupabaseUser } from '#supabase/server';
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async event => {
   try {
     // Verificar autenticação
     const user = await serverSupabaseUser(event);
@@ -37,10 +37,9 @@ export default defineEventHandler(async (event) => {
       payment,
       pagBankStatus,
     };
-
   } catch (error: any) {
     console.error('Erro ao consultar status do pagamento:', error);
-    
+
     throw createError({
       statusCode: error.statusCode || 500,
       statusMessage: error.message || 'Erro ao consultar status',
