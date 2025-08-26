@@ -58,7 +58,7 @@ export default defineEventHandler(async event => {
     const typedProduct = product as any;
     console.log('✅ Produto encontrado:', typedProduct.name, 'Preço:', typedProduct.price);
 
-        // Verificar se o produto está em estoque
+    // Verificar se o produto está em estoque
     if (!typedProduct.inStock) {
       throw createError({
         statusCode: 400,
@@ -71,7 +71,7 @@ export default defineEventHandler(async event => {
     const shipping = 0; // Frete grátis ou calcular baseado no CEP
     const tax = 0; // Impostos se necessário
     const finalTotal = total + shipping + tax;
-    
+
     console.log('💰 Cálculo do total:', { total, shipping, tax, finalTotal });
 
     // Criar pedido
@@ -80,11 +80,11 @@ export default defineEventHandler(async event => {
       userId: user.id,
       status: 'PENDING',
       total: finalTotal,
-      shipping,
-      tax,
+      shipping: shipping,
+      tax: tax,
     };
     console.log('📋 Dados do pedido:', orderData);
-    
+
     const { data: order, error: orderError } = await (supabase as any)
       .from('orders')
       .insert(orderData)
@@ -98,7 +98,7 @@ export default defineEventHandler(async event => {
         statusMessage: `Erro ao criar pedido: ${orderError.message}`,
       });
     }
-    
+
     const typedOrder = order as any;
     console.log('✅ Pedido criado:', typedOrder.id);
 
@@ -113,7 +113,7 @@ export default defineEventHandler(async event => {
       color: color || null,
     };
     console.log('📋 Dados do item:', orderItemData);
-    
+
     // @ts-ignore - Supabase type inference issue
     const { error: orderItemError } = await supabase.from('orderItems').insert(orderItemData);
 
@@ -127,7 +127,7 @@ export default defineEventHandler(async event => {
         statusMessage: `Erro ao adicionar produto ao pedido: ${orderItemError.message}`,
       });
     }
-    
+
     console.log('✅ Item do pedido criado com sucesso');
 
     const result = {
@@ -138,7 +138,7 @@ export default defineEventHandler(async event => {
         status: typedOrder.status,
       },
     };
-    
+
     console.log('🎉 Pedido criado com sucesso:', result);
     return result;
   } catch (error: any) {
