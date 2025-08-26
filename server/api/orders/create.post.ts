@@ -1,6 +1,6 @@
-import { serverSupabaseUser } from '#supabase/server';
+import { serverSupabaseUser, serverSupabaseClient } from '#supabase/server';
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async event => {
   try {
     // Verificar autenticação
     const user = await serverSupabaseUser(event);
@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
       });
     }
 
-    const supabase = useSupabaseClient();
+    const supabase = await serverSupabaseClient(event);
 
     // Buscar dados do produto
     const { data: product, error: productError } = await supabase
@@ -73,16 +73,14 @@ export default defineEventHandler(async (event) => {
     }
 
     // Criar item do pedido
-    const { error: orderItemError } = await supabase
-      .from('orderItems')
-      .insert({
-        orderId: order.id,
-        productId,
-        quantity,
-        price: product.price,
-        size: size || null,
-        color: color || null,
-      });
+    const { error: orderItemError } = await supabase.from('orderItems').insert({
+      orderId: order.id,
+      productId,
+      quantity,
+      price: product.price,
+      size: size || null,
+      color: color || null,
+    });
 
     if (orderItemError) {
       // Se falhar ao criar item, deletar o pedido
@@ -101,10 +99,9 @@ export default defineEventHandler(async (event) => {
         status: order.status,
       },
     };
-
   } catch (error: any) {
     console.error('Erro ao criar pedido:', error);
-    
+
     throw createError({
       statusCode: error.statusCode || 500,
       statusMessage: error.message || 'Erro ao criar pedido',
