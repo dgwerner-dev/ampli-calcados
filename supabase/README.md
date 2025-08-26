@@ -53,18 +53,24 @@ SUPABASE_SERVICE_ROLE_KEY=sua_service_role_key_aqui
 - Use apenas para scripts administrativos como este
 - Mantenha essa chave segura e não a compartilhe
 
-## 📋 Políticas Restauradas
+## 📋 Políticas que serão restauradas:
 
-O script restaura as seguintes políticas:
+### **Tabelas Principais:**
+- **users** - Usuários veem apenas seu perfil
+- **categories** - Acesso público para leitura
+- **products** - Acesso público para leitura  
+- **orders** - Usuários gerenciam seus pedidos
+- **order_items** - Usuários gerenciam itens dos seus pedidos
+- **wishlist_items** - Usuários gerenciam sua lista
+- **reviews** - Públicos para leitura
+- **payments** - Usuários veem seus pagamentos
 
-- **users**: Usuários podem ver/editar apenas seu próprio perfil
-- **categories**: Acesso público para leitura, apenas admins para gerenciar
-- **products**: Acesso público para leitura, apenas admins para gerenciar
-- **orders**: Usuários podem gerenciar apenas seus próprios pedidos
-- **order_items**: Usuários podem gerenciar itens de seus próprios pedidos
-- **wishlist_items**: Usuários podem gerenciar apenas sua própria lista
-- **reviews**: Públicos para leitura, usuários podem gerenciar seus próprios
-- **payments**: Usuários podem ver/criar apenas seus próprios pagamentos
+### **Storage (Imagens):**
+- **storage.objects** - Upload, visualização e gerenciamento de imagens
+- **storage.buckets** - Bucket 'product-images' para imagens de produtos
+- **Políticas de upload** - Apenas usuários autenticados
+- **Políticas de visualização** - Públicas para todos
+- **Políticas de gerenciamento** - Apenas usuários autenticados
 
 ## 🧪 Verificação
 
