@@ -368,13 +368,15 @@ const fetchData = async () => {
 // Função para comprar agora
 const buyNow = async () => {
   if (!product.value) return;
-  
+
   buyNowLoading.value = true;
-  
+
   try {
     // Verificar se usuário está logado
-    const { data: { user } } = await useSupabaseClient().auth.getUser();
-    
+    const {
+      data: { user },
+    } = await useSupabaseClient().auth.getUser();
+
     if (!user) {
       // Redirecionar para login
       navigateTo('/login?redirect=' + encodeURIComponent(route.fullPath));
@@ -405,7 +407,7 @@ const buyNow = async () => {
     }
   } catch (error: any) {
     console.error('Erro ao criar pedido:', error);
-    
+
     if (error.statusCode === 401) {
       // Usuário não autenticado
       navigateTo('/login?redirect=' + encodeURIComponent(route.fullPath));
