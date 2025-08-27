@@ -39,25 +39,7 @@
     </div>
 
     <!-- Profile Form -->
-    <ClientOnly>
-      <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <!-- Conteúdo do perfil aqui -->
-        <template #fallback>
-          <div class="flex flex-col justify-center items-center py-16">
-            <div class="relative">
-              <div
-                class="animate-spin rounded-full h-16 w-16 border-4 border-coral-soft/20 border-t-coral-soft"
-              ></div>
-              <div
-                class="absolute inset-0 rounded-full border-4 border-transparent border-t-coral-dark animate-ping"
-              ></div>
-            </div>
-            <div class="mt-6 text-center">
-              <h3 class="text-lg font-semibold text-gray-900 mb-2">Carregando perfil...</h3>
-              <p class="text-gray-500">Aguarde um momento</p>
-            </div>
-          </div>
-        </template>
+    <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <!-- Coluna 1 - Dados Pessoais -->
       <div class="lg:col-span-1">
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
@@ -713,8 +695,6 @@
           </div>
         </div>
       </div>
-    </div>
-      </ClientOnly>
     </div>
   </div>
 </template>
