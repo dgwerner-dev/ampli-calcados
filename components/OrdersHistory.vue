@@ -424,24 +424,30 @@
                     <p class="text-lg font-bold text-coral-soft mt-2">
                       {{ formatPrice(Number(item.price) * item.quantity) }}
                     </p>
-                    
-                    <!-- Botão para adicionar este item específico ao carrinho -->
-                    <div class="mt-3">
-                      <button
-                        @click="addItemToCart(item)"
-                        class="inline-flex items-center px-4 py-2 border border-coral-soft text-sm font-medium rounded-lg text-coral-soft bg-white hover:bg-coral-soft hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-all duration-200"
+                  </div>
+
+                  <!-- Botão para adicionar este item específico ao carrinho -->
+                  <div class="flex-shrink-0 ml-4">
+                    <button
+                      @click="addItemToCart(item)"
+                      class="inline-flex items-center px-4 py-2 border border-coral-soft text-sm font-medium rounded-lg text-coral-soft bg-white hover:bg-coral-soft hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-all duration-200 shadow-sm"
+                      title="Adicionar ao carrinho"
+                    >
+                      <svg
+                        class="w-4 h-4 mr-2"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
                       >
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M12 4v16m8-8H4"
-                          ></path>
-                        </svg>
-                        Adicionar ao Carrinho
-                      </button>
-                    </div>
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                        ></path>
+                      </svg>
+                      <span class="hidden sm:inline">Adicionar</span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -874,18 +880,18 @@ const rateOrder = order => {
 };
 
 // Função para adicionar um item específico ao carrinho
-const addItemToCart = async (item) => {
+const addItemToCart = async item => {
   try {
     const { addToCart } = useCart();
     const { success } = useNotifications();
-    
+
     const result = await addToCart(
       item.product,
       item.quantity,
       item.size || undefined,
       item.color || undefined
     );
-    
+
     if (result.success) {
       success(`✅ ${item.product.name} adicionado ao carrinho!`);
     } else {
@@ -900,14 +906,14 @@ const addItemToCart = async (item) => {
 };
 
 // Função para adicionar mais itens ao pedido
-const addMoreItemsToOrder = async (order) => {
+const addMoreItemsToOrder = async order => {
   try {
     // Adicionar todos os itens do pedido ao carrinho
     const { addToCart } = useCart();
     const { success } = useNotifications();
-    
+
     let addedItems = 0;
-    
+
     for (const item of order.orderItems) {
       const result = await addToCart(
         item.product,
@@ -915,12 +921,12 @@ const addMoreItemsToOrder = async (order) => {
         item.size || undefined,
         item.color || undefined
       );
-      
+
       if (result.success) {
         addedItems++;
       }
     }
-    
+
     if (addedItems > 0) {
       success(`✅ ${addedItems} item(s) adicionado(s) ao carrinho!`);
       // Redirecionar para o carrinho
