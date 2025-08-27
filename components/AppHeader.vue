@@ -376,8 +376,11 @@ watch(user, () => {
 
 const filterBySize = (size: number) => {
   console.log('Filtrando por tamanho:', size);
-  // Lógica de filtro a ser implementada aqui
-  // Ex: router.push({ path: '/produtos', query: { tamanho: size } });
+  // Navegar para a página de produtos com filtro por tamanho
+  navigateTo({
+    path: '/produtos',
+    query: { tamanho: size.toString() }
+  });
 };
 
 const toggleMobileMenu = () => {
