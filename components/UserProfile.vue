@@ -55,31 +55,22 @@
             <div class="flex items-center space-x-6">
               <div class="flex-shrink-0">
                 <div class="relative">
-                  <!-- Avatar Image or Initials -->
-                  <ClientOnly>
-                    <div
-                      v-if="user?.avatar && user.avatar.trim() !== ''"
-                      class="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-lg"
-                    >
-                      <img
-                        :src="user.avatar"
-                        :alt="user?.name || 'Avatar'"
-                        class="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div
-                      v-else
-                      class="w-24 h-24 bg-gradient-to-br from-coral-soft to-coral-dark rounded-full flex items-center justify-center text-white text-2xl font-bold border-4 border-white shadow-lg"
-                    >
-                      {{ userInitials || 'U' }}
-                    </div>
-                  </ClientOnly>
-                  
-                  <!-- Fallback for SSR -->
+                                    <!-- Avatar Image or Initials -->
                   <div
+                    v-if="user?.avatar && user.avatar.trim() !== ''"
+                    class="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-lg"
+                  >
+                    <img
+                      :src="user.avatar"
+                      :alt="user?.name || 'Avatar'"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div
+                    v-else
                     class="w-24 h-24 bg-gradient-to-br from-coral-soft to-coral-dark rounded-full flex items-center justify-center text-white text-2xl font-bold border-4 border-white shadow-lg"
                   >
-                    U
+                    {{ userInitials || 'U' }}
                   </div>
 
                   <!-- Upload Button -->
@@ -139,17 +130,11 @@
                   @change="handleAvatarChange"
                 />
               </div>
-              <div class="flex-1">
-                <ClientOnly>
-                  <h3 class="text-lg font-semibold text-gray-900 mb-1">
-                    {{ user?.name || 'Usuário' }}
-                  </h3>
-                  <p class="text-gray-600">{{ user?.email || 'Carregando...' }}</p>
-                </ClientOnly>
-                
-                <!-- Fallback for SSR -->
-                <h3 class="text-lg font-semibold text-gray-900 mb-1">Usuário</h3>
-                <p class="text-gray-600">Carregando...</p>
+                            <div class="flex-1">
+                <h3 class="text-lg font-semibold text-gray-900 mb-1">
+                  {{ user?.name || 'Usuário' }}
+                </h3>
+                <p class="text-gray-600">{{ user?.email || 'Carregando...' }}</p>
 
                 <p class="text-sm text-gray-500 mt-1">
                   {{
@@ -176,30 +161,18 @@
               />
             </div>
 
-            <!-- Email Field (Read-only) -->
+                        <!-- Email Field (Read-only) -->
             <div>
               <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
                 E-mail
               </label>
-              <ClientOnly>
-                <input
-                  id="email"
-                  :value="user?.email || ''"
-                  type="email"
-                  disabled
-                  class="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-100 text-gray-500 cursor-not-allowed"
-                  :placeholder="user?.email ? 'Seu e-mail' : 'Carregando...'"
-                />
-              </ClientOnly>
-              
-              <!-- Fallback for SSR -->
               <input
                 id="email"
-                value=""
+                :value="user?.email || ''"
                 type="email"
                 disabled
                 class="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-100 text-gray-500 cursor-not-allowed"
-                placeholder="Carregando..."
+                :placeholder="user?.email ? 'Seu e-mail' : 'Carregando...'"
               />
               <p class="text-sm text-gray-500 mt-1">O e-mail não pode ser alterado</p>
             </div>
