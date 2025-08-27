@@ -267,11 +267,13 @@
                   d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
                 ></path>
               </svg>
-              <span
-                v-if="cartItemCount > 0"
-                class="absolute -top-1 -right-1 bg-coral-soft text-white text-xs rounded-full min-w-[16px] h-4 flex items-center justify-center px-1"
-                >{{ cartItemCount }}</span
-              >
+              <ClientOnly>
+                <span
+                  v-if="cartItemCount > 0"
+                  class="absolute -top-1 -right-1 bg-coral-soft text-white text-xs rounded-full min-w-[16px] h-4 flex items-center justify-center px-1"
+                  >{{ cartItemCount }}</span
+                >
+              </ClientOnly>
             </button>
 
             <!-- Mobile Menu Button -->
@@ -349,6 +351,15 @@ const navigateToCart = () => {
 const { user, signOut, initAuth, refreshUserState } = useAuth();
 const { itemCount: cartItemCount } = useCart();
 const supabase = useSupabaseClient();
+
+// Garantir que o carrinho seja inicializado no cliente
+onMounted(() => {
+  // Forçar inicialização do carrinho no cliente
+  if (process.client) {
+    const { loadCart } = useCart();
+    loadCart();
+  }
+});
 
 const loadCategories = async () => {
   try {
