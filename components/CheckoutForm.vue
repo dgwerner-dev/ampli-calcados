@@ -283,7 +283,7 @@
                   <div class="h-12 bg-gray-200 rounded-lg animate-pulse"></div>
                 </div>
               </div>
-              
+
               <!-- Dados Pessoais Reais -->
               <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -1468,7 +1468,7 @@ const loadUserProfile = async () => {
   loadingProfile.value = true;
   try {
     const profileData = await $fetch('/api/user/profile');
-    
+
     // Preencher dados pessoais do formulário
     if (profileData.name) {
       form.value.customer.name = profileData.name;
@@ -1482,7 +1482,7 @@ const loadUserProfile = async () => {
     if (profileData.phone) {
       form.value.customer.phone = profileData.phone;
     }
-    
+
     // Se não há endereço padrão salvo, mas há um no perfil, usar ele
     if (!selectedAddressId.value && profileData.address) {
       form.value.address = {
@@ -1494,11 +1494,11 @@ const loadUserProfile = async () => {
         city: profileData.address.city,
         state: profileData.address.state,
       };
-      
+
       // Calcular frete para o endereço do perfil
       await calculateShipping(profileData.address.cep.replace(/\D/g, ''));
     }
-    
+
     success('✅ Dados do perfil carregados com sucesso!');
   } catch (error) {
     console.error('Erro ao carregar dados do perfil:', error);

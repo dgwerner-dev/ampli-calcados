@@ -229,8 +229,9 @@
                 id="phone"
                 v-model="form.phone"
                 type="tel"
+                @input="formatPhone"
                 class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200 bg-gray-50 focus:bg-white"
-                placeholder="(11) 99999-9999"
+                placeholder="(11) 99999-9990"
               />
             </div>
 
@@ -831,6 +832,13 @@ const formatCpf = () => {
   value = value.replace(/(\d{3})(\d)/, '$1.$2');
   value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
   form.value.cpf = value;
+};
+
+const formatPhone = () => {
+  let value = form.value.phone.replace(/\D/g, '');
+  value = value.replace(/(\d{2})(\d)/, '($1) $2');
+  value = value.replace(/(\d{5})(\d)/, '$1-$2');
+  form.value.phone = value;
 };
 
 const handleAvatarChange = async event => {
