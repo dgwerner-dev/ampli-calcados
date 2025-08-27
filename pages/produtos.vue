@@ -35,7 +35,9 @@
                 <img
                   :src="product.images?.[0] || '/images/placeholder.jpg'"
                   :alt="product.name"
-                  class="w-full h-48 object-cover"
+                  class="w-full h-48 object-cover object-center"
+                  loading="lazy"
+                  @error="$event.target.src = '/images/placeholder.jpg'"
                 />
               </div>
               <div class="p-4 flex flex-col flex-grow">
@@ -149,17 +151,23 @@ const availableSizes = [40, 41, 42, 43];
 
 // Computed
 const filteredProducts = computed(() => {
+  console.log('🔍 Debug - selectedSize:', selectedSize.value);
+  console.log('🔍 Debug - products count:', products.value.length);
+  
   if (!selectedSize.value) {
+    console.log('🔍 Debug - no filter, returning all products');
     return products.value;
   }
 
-  return products.value.filter(product => {
-    return (
-      product.sizes &&
-      Array.isArray(product.sizes) &&
-      product.sizes.includes(selectedSize.value.toString())
-    );
+  const filtered = products.value.filter(product => {
+    const hasSizes = product.sizes && Array.isArray(product.sizes);
+    const includesSize = hasSizes && product.sizes.includes(selectedSize.value.toString());
+    console.log(`🔍 Debug - Product: ${product.name}, sizes: ${product.sizes}, includes ${selectedSize.value}: ${includesSize}`);
+    return includesSize;
   });
+  
+  console.log('🔍 Debug - filtered count:', filtered.length);
+  return filtered;
 });
 
 // Funções
