@@ -151,23 +151,17 @@ const availableSizes = [40, 41, 42, 43];
 
 // Computed
 const filteredProducts = computed(() => {
-  console.log('🔍 Debug - selectedSize:', selectedSize.value);
-  console.log('🔍 Debug - products count:', products.value.length);
-  
   if (!selectedSize.value) {
-    console.log('🔍 Debug - no filter, returning all products');
     return products.value;
   }
 
-  const filtered = products.value.filter(product => {
-    const hasSizes = product.sizes && Array.isArray(product.sizes);
-    const includesSize = hasSizes && product.sizes.includes(selectedSize.value.toString());
-    console.log(`🔍 Debug - Product: ${product.name}, sizes: ${product.sizes}, includes ${selectedSize.value}: ${includesSize}`);
-    return includesSize;
+  return products.value.filter(product => {
+    return (
+      product.sizes &&
+      Array.isArray(product.sizes) &&
+      product.sizes.includes(selectedSize.value.toString())
+    );
   });
-  
-  console.log('🔍 Debug - filtered count:', filtered.length);
-  return filtered;
 });
 
 // Funções
@@ -228,6 +222,18 @@ onMounted(async () => {
 
   await loadProducts();
 });
+
+// Watch para mudanças na rota
+watch(() => route.query.tamanho, (newTamanho) => {
+  if (newTamanho) {
+    const size = parseInt(newTamanho as string);
+    if (availableSizes.includes(size)) {
+      selectedSize.value = size;
+    }
+  } else {
+    selectedSize.value = null;
+  }
+}, { immediate: true });
 
 // Head
 useHead({
