@@ -343,9 +343,7 @@ const sizes = [40, 41, 42, 43];
 const categories = ref<any[]>([]);
 
 const navigateToCart = () => {
-  // Por enquanto, redirecionar para a página inicial
-  // TODO: Implementar página do carrinho
-  navigateTo('/');
+  navigateTo('/cart');
 };
 
 const { user, signOut, initAuth, refreshUserState } = useAuth();

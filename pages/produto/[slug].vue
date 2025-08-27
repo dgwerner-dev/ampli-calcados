@@ -392,8 +392,13 @@ const fetchData = async () => {
 
 // Função para adicionar ao carrinho
 const addToCart = async () => {
-  if (!product.value) return;
+  console.log('🛒 Função addToCart chamada');
+  if (!product.value) {
+    console.log('❌ Produto não encontrado');
+    return;
+  }
 
+  console.log('📦 Produto:', product.value);
   addToCartLoading.value = true;
 
   try {
