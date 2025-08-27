@@ -302,13 +302,10 @@ const getModalTitle = () => {
 
 const handleLogin = async () => {
   try {
-    console.log('🔐 Tentando fazer login...');
     await signIn(loginForm.value.email, loginForm.value.password);
-    console.log('✅ Login bem-sucedido!');
     // Exibir overlay de carregamento pós-login
     postLoginLoading.value = true;
     // Notificar header para atualizar estado imediatamente
-    console.log('📤 Emitindo evento login-success');
     emit('login-success');
     // Pequeno atraso para UX antes de fechar
     setTimeout(() => {
@@ -316,7 +313,6 @@ const handleLogin = async () => {
       closeModal();
     }, 1000);
   } catch (err) {
-    console.log('❌ Erro no login:', err);
     // Error já está sendo tratado no composable
   }
 };

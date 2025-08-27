@@ -40,13 +40,11 @@ export const useCart = () => {
   const saveCart = () => {
     if (process.client) {
       localStorage.setItem('cart', JSON.stringify(cart.value));
-      console.log('💾 Carrinho salvo:', cart.value);
     }
   };
 
   // Adicionar item ao carrinho
   const addToCart = async (product: any, quantity: number = 1, size?: string, color?: string) => {
-    console.log('🛒 Adicionando ao carrinho:', { product, quantity, size, color });
     loading.value = true;
     error.value = null;
 
@@ -133,7 +131,6 @@ export const useCart = () => {
   // Inicializar carrinho
   if (process.client) {
     loadCart();
-    console.log('🛒 Carrinho inicializado:', cart.value);
   }
 
   return {

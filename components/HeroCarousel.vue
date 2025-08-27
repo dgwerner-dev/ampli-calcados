@@ -336,16 +336,11 @@ const loadFeaturedProducts = async () => {
     loading.value = true;
     error.value = null;
 
-    console.log('🔄 Carregando produtos em destaque...');
-
     // Buscar produtos em destaque via API
     const data = await $fetch('/api/products/featured');
 
-    console.log('✅ Produtos carregados:', data);
-
     // Transformar produtos em slides
     slides.value = (data || []).map(product => {
-      console.log('🔄 Processando produto:', product.name);
       return {
         id: product.id,
         title: product.name,
@@ -368,7 +363,7 @@ const loadFeaturedProducts = async () => {
       };
     });
 
-    console.log('🎉 Slides criados:', slides.value.length);
+
 
     // Se não houver produtos em destaque, usar produtos padrão
     if (slides.value.length === 0) {

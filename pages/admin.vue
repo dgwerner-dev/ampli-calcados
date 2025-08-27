@@ -2461,7 +2461,6 @@ const loadCoupons = async () => {
 };
 
 const loadShippingPromotions = async () => {
-  console.log('Carregando promoções de frete...');
   shippingPromotionsLoading.value = true;
   shippingPromotionsError.value = null;
 
@@ -2473,7 +2472,6 @@ const loadShippingPromotions = async () => {
 
     if (fetchError) throw fetchError;
     shippingPromotions.value = data || [];
-    console.log('Promoções carregadas:', data);
   } catch (err) {
     console.error('Erro ao carregar promoções:', err);
     shippingPromotionsError.value = err.message || 'Erro ao carregar promoções de frete';
@@ -2774,12 +2772,10 @@ const toggleShippingPromotionsList = () => {
 const searchProducts = () => {
   // Resetar paginação ao buscar
   resetPagination();
-  console.log('Buscando produtos:', productSearch.value);
 };
 
 const searchProductsShipping = () => {
   // Implementar lógica de busca por produtos para promoções de frete
-  console.log('Buscando produtos para promoções de frete:', productSearchShipping.value);
 };
 
 const toggleSelectAllProductsShipping = () => {
@@ -2802,7 +2798,6 @@ const filteredProductsShipping = computed(() => {
 
 const editProductShipping = product => {
   // Implementar lógica de edição de produto para promoções de frete
-  console.log('Editando produto para promoção de frete:', product);
 };
 
 const deleteProductShipping = async product => {
@@ -2842,9 +2837,8 @@ const toggleFreeShippingAlert = () => {
 const saveFreeShippingAlert = async () => {
   freeShippingAlertLoading.value = true;
 
-  try {
-    await updateFreeShippingAlert(freeShippingAlert.value);
-    console.log('Alerta de frete grátis salvo com sucesso');
+      try {
+      await updateFreeShippingAlert(freeShippingAlert.value);
 
     // Recarregar informações de frete grátis no header
     if (process.client) {
@@ -2870,7 +2864,7 @@ const toggleRegionStatus = async region => {
       isActive: !region.isActive,
     });
 
-    console.log(`Região ${region.name} ${region.isActive ? 'desativada' : 'ativada'}`);
+
   } catch (error) {
     console.error('Erro ao alterar status da região:', error);
   }
@@ -2888,7 +2882,7 @@ const closeRegionModal = () => {
 
 const handleRegionSaved = async region => {
   await loadShippingRegions();
-  console.log('Região salva com sucesso:', region);
+  
 };
 
 // Carregar dados quando a página for montada

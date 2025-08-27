@@ -868,7 +868,6 @@ const collapseAllOrders = () => {
 
 const rateOrder = order => {
   // TODO: Implementar sistema de avaliação
-  console.log('Avaliar pedido:', order);
 };
 
 // Função para adicionar um item específico ao carrinho

@@ -414,7 +414,6 @@ watch(user, () => {
 });
 
 const filterBySize = (size: number) => {
-  console.log('Filtrando por tamanho:', size);
   // Navegar para a página de produtos com filtro por tamanho
   navigateTo({
     path: '/produtos',
@@ -482,10 +481,8 @@ const forceLogout = async () => {
 const handleLogout = forceLogout;
 
 const handleLoginSuccess = async () => {
-  console.log('🔔 Evento login-success recebido');
   // Forçar atualização do estado do usuário
   await refreshUserState();
-  console.log('✅ Estado do usuário atualizado:', user.value);
   success('Login realizado com sucesso!');
 };
 

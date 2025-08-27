@@ -1133,9 +1133,7 @@ const loadCategories = async () => {
     if (fetchError) throw fetchError;
     categories.value = data || [];
 
-    if (categories.value.length === 0) {
-      console.log('Nenhuma categoria encontrada. Considere cadastrar categorias primeiro.');
-    }
+
   } catch (err: any) {
     console.error('Erro ao carregar categorias:', err);
     error.value = 'Erro ao carregar categorias. Tente novamente.';
@@ -1292,14 +1290,10 @@ const resetVariations = () => {
 watch(
   () => props.isOpen,
   newValue => {
-    console.log('Modal isOpen changed:', newValue);
-    console.log('Product prop:', props.product);
-
     if (newValue) {
       loadCategories();
       if (props.product) {
         // Modo de edição: preencher formulário
-        console.log('Preenchendo formulário com produto:', props.product);
         form.value = {
           name: props.product.name || '',
           slug: props.product.slug || '',
@@ -1316,7 +1310,6 @@ watch(
           isActive: props.product.isActive ?? true,
           featured: props.product.featured ?? false,
         };
-        console.log('Formulário preenchido:', form.value);
         // Preencher imagens se existirem
         if (props.product.images && Array.isArray(props.product.images)) {
           uploadedImages.value = props.product.images.map(url => ({
@@ -1328,7 +1321,6 @@ watch(
         }
       } else {
         // Modo de criação: resetar formulário
-        console.log('Resetando formulário para criação');
         resetForm();
       }
     } else {

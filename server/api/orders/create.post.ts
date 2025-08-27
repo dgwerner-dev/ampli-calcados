@@ -5,11 +5,8 @@ export default defineEventHandler(async event => {
   const prisma = new PrismaClient();
 
   try {
-    console.log('🔄 Iniciando criação de pedido...');
-
     // Verificar autenticação
     const user = await serverSupabaseUser(event);
-    console.log('👤 Usuário autenticado:', user?.id);
 
     if (!user) {
       throw createError({
@@ -19,7 +16,6 @@ export default defineEventHandler(async event => {
     }
 
     const body = await readBody(event);
-    console.log('📦 Dados recebidos:', body);
 
     // Suportar tanto item único quanto múltiplos itens
     let items = [];
@@ -48,13 +44,8 @@ export default defineEventHandler(async event => {
     }
 
     const supabase = await serverSupabaseClient(event);
-    console.log('🔗 Cliente Supabase conectado');
 
     // Buscar dados de todos os produtos
-    console.log(
-      '🔍 Buscando produtos:',
-      items.map(item => item.productId)
-    );
 
     let total = 0;
     const products = [];
@@ -75,7 +66,6 @@ export default defineEventHandler(async event => {
       }
 
       const typedProduct = product as any;
-      console.log('✅ Produto encontrado:', typedProduct.name, 'Preço:', typedProduct.price);
 
       // Verificar se o produto está em estoque
       if (!typedProduct.inStock) {
@@ -101,10 +91,7 @@ export default defineEventHandler(async event => {
     const tax = 0; // Impostos se necessário
     const finalTotal = total + shipping + tax;
 
-    console.log('💰 Cálculo do total:', { total, shipping, tax, finalTotal });
-
     // Criar pedido usando Prisma
-    console.log('📝 Criando pedido...');
     const orderData = {
       userId: user.id,
       status: 'PENDING' as const,
@@ -112,16 +99,12 @@ export default defineEventHandler(async event => {
       shipping: shipping,
       tax: tax,
     };
-    console.log('📋 Dados do pedido:', orderData);
 
     const order = await prisma.order.create({
       data: orderData,
     });
 
-    console.log('✅ Pedido criado:', order.id);
-
     // Criar itens do pedido usando Prisma
-    console.log('📦 Criando itens do pedido...');
 
     for (const product of products) {
       const orderItemData = {
@@ -132,16 +115,11 @@ export default defineEventHandler(async event => {
         size: product.itemSize || null,
         color: product.itemColor || null,
       };
-      console.log('📋 Dados do item:', orderItemData);
 
       const orderItem = await prisma.orderItem.create({
         data: orderItemData,
       });
-
-      console.log('✅ Item do pedido criado:', orderItem.id);
     }
-
-    console.log('✅ Todos os itens do pedido criados com sucesso');
 
     const result = {
       success: true,
@@ -151,8 +129,6 @@ export default defineEventHandler(async event => {
         status: order.status,
       },
     };
-
-    console.log('🎉 Pedido criado com sucesso:', result);
     await prisma.$disconnect();
     return result;
   } catch (error: any) {
