@@ -41,18 +41,9 @@
           <div class="flex-shrink-0">
             <NuxtLink to="/" class="text-3xl font-bold text-coral-soft tracking-wide">
               <div class="flex items-center">
-                <svg class="h-8 w-auto text-coral-soft" viewBox="0 0 200 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <!-- A -->
-                  <path d="M10 35L20 5L30 35M15 25H25" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                  <!-- M -->
-                  <path d="M35 35V5L42 25L49 5V35" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                  <!-- P -->
-                  <path d="M55 5V35M55 5H65C67.5 5 69 6.5 69 9C69 11.5 67.5 13 65 13H55" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                  <!-- L -->
-                  <path d="M75 5V35H85" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                  <!-- I -->
-                  <path d="M95 5V35" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                </svg>
+                <span class="[font-family:Raleway] font-light uppercase tracking-[0.3em] text-black">
+                  AMPLI
+                </span>
                 <span class="[font-family:Raleway] font-thin uppercase tracking-[0.18em] ml-2">
                   CALÇADOS
                 </span>
