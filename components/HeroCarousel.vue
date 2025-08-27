@@ -181,11 +181,12 @@
                       </div>
 
                       <div class="flex flex-col sm:flex-row gap-4">
-                        <button
-                          class="btn-primary text-base font-semibold py-4 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                        <NuxtLink
+                          :to="`/produto/${slide.slug}`"
+                          class="btn-primary text-base font-semibold py-4 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 inline-flex items-center"
                         >
                           <svg
-                            class="w-5 h-5 mr-2 inline"
+                            class="w-5 h-5 mr-2"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -198,7 +199,7 @@
                             ></path>
                           </svg>
                           COMPRE AGORA
-                        </button>
+                        </NuxtLink>
                       </div>
                     </div>
                   </div>
@@ -342,6 +343,7 @@ const loadFeaturedProducts = async () => {
             'Sandálias de couro genuíno com textura de crocodilo. Design minimalista com tiras cruzadas e fivela no tornozelo.',
           price: 'R$ 299,90',
           image: '/images/placeholder-product.jpg',
+          slug: 'sandalias-flats-elegantes',
         },
       ];
     }
@@ -358,6 +360,7 @@ const loadFeaturedProducts = async () => {
           'Sandálias de couro genuíno com textura de crocodilo. Design minimalista com tiras cruzadas e fivela no tornozelo.',
         price: 'R$ 299,90',
         image: '/images/placeholder-product.jpg',
+        slug: 'sandalias-flats-elegantes',
       },
     ];
   } finally {
