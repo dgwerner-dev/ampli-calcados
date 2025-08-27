@@ -211,9 +211,33 @@
                 </button>
                 <button
                   type="button"
-                  class="flex w-full items-center justify-center rounded-md border-2 border-coral-soft py-3 px-8 text-base font-medium uppercase text-coral-soft hover:bg-coral-soft hover:text-white focus:outline-none focus:ring-2 focus:ring-coral-soft focus:ring-offset-2"
+                  @click="addToCart"
+                  :disabled="addToCartLoading"
+                  class="flex w-full items-center justify-center rounded-md border-2 border-coral-soft py-3 px-8 text-base font-medium uppercase text-coral-soft hover:bg-coral-soft hover:text-white focus:outline-none focus:ring-2 focus:ring-coral-soft focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <svg
+                    v-if="addToCartLoading"
+                    class="animate-spin mr-2 h-5 w-5"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    ></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  <svg
+                    v-else
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="currentColor"
@@ -226,7 +250,7 @@
                     />
                   </svg>
 
-                  Adicionar ao Carrinho
+                  {{ addToCartLoading ? 'Adicionando...' : 'Adicionar ao Carrinho' }}
                 </button>
               </div>
 
@@ -314,6 +338,7 @@ const product = ref<any>(null);
 const selectedImage = ref('');
 const selectedSize = ref('');
 const buyNowLoading = ref(false);
+const addToCartLoading = ref(false);
 const { success, error: notificationError } = useNotifications();
 
 const formatPrice = (price: number | null | undefined) => {
@@ -362,6 +387,40 @@ const fetchData = async () => {
     error.value = err.message;
   } finally {
     loading.value = false;
+  }
+};
+
+// Função para adicionar ao carrinho
+const addToCart = async () => {
+  if (!product.value) return;
+
+  addToCartLoading.value = true;
+
+  try {
+    // Validar se tamanho foi selecionado (se o produto tem tamanhos)
+    if (product.value.sizes && product.value.sizes.length > 0 && !selectedSize.value) {
+      notificationError('Selecione um tamanho antes de adicionar ao carrinho');
+      return;
+    }
+
+    const { addToCart: addToCartFn } = useCart();
+    const result = await addToCartFn(
+      product.value,
+      1,
+      selectedSize.value || undefined,
+      undefined // color - implementar se necessário
+    );
+
+    if (result.success) {
+      success('✅ Produto adicionado ao carrinho com sucesso!');
+    } else {
+      notificationError(result.error || 'Erro ao adicionar ao carrinho');
+    }
+  } catch (error: any) {
+    console.error('Erro ao adicionar ao carrinho:', error);
+    notificationError('Erro ao adicionar ao carrinho. Tente novamente.');
+  } finally {
+    addToCartLoading.value = false;
   }
 };
 

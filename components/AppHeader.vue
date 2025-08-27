@@ -251,6 +251,7 @@
 
             <!-- Cart -->
             <button
+              @click="navigateToCart"
               class="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200 relative"
             >
               <svg
@@ -267,8 +268,9 @@
                 ></path>
               </svg>
               <span
-                class="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full w-4 h-4 flex items-center justify-center"
-                >0</span
+                v-if="cartItemCount > 0"
+                class="absolute -top-1 -right-1 bg-coral-soft text-white text-xs rounded-full min-w-[16px] h-4 flex items-center justify-center px-1"
+                >{{ cartItemCount }}</span
               >
             </button>
 
@@ -338,9 +340,16 @@ const showAuthModal = ref(false);
 const showUserMenu = ref(false);
 const isLoggingOut = ref(false);
 const sizes = [40, 41, 42, 43];
-const categories = ref([]);
+const categories = ref<any[]>([]);
+
+const navigateToCart = () => {
+  // Por enquanto, redirecionar para a página inicial
+  // TODO: Implementar página do carrinho
+  navigateTo('/');
+};
 
 const { user, signOut, initAuth, refreshUserState } = useAuth();
+const { itemCount: cartItemCount } = useCart();
 const supabase = useSupabaseClient();
 
 const loadCategories = async () => {
