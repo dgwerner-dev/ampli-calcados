@@ -44,7 +44,7 @@
                 <span class="[font-family:Raleway] font-thin uppercase tracking-[0.18em]">
                   AMPLI
                 </span>
-                <span class="text-sm font-normal tracking-wide ml-2">
+                <span class="[font-family:Raleway] font-thin uppercase tracking-[0.18em] ml-2">
                   CALÇADOS
                 </span>
               </div>
