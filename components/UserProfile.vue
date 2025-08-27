@@ -57,7 +57,7 @@
                 <div class="relative">
                   <!-- Avatar Image or Initials -->
                   <div
-                    v-if="user?.avatar"
+                    v-if="user?.avatar && user.avatar.trim() !== ''"
                     class="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-lg"
                   >
                     <img
@@ -737,7 +737,7 @@ const newAddress = ref({
 
 // Computed
 const userInitials = computed(() => {
-  if (!user.value?.name) return 'U';
+  if (!user.value?.name || user.value.name.trim() === '') return 'U';
   return user.value.name
     .split(' ')
     .map(n => n[0])
