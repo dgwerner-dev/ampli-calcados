@@ -180,9 +180,7 @@
 
             <!-- CPF Field -->
             <div>
-              <label for="cpf" class="block text-sm font-medium text-gray-700 mb-2">
-                CPF
-              </label>
+              <label for="cpf" class="block text-sm font-medium text-gray-700 mb-2"> CPF </label>
               <input
                 id="cpf"
                 v-model="form.cpf"
