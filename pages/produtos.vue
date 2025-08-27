@@ -191,42 +191,26 @@ const availableSizes = [40, 41, 42, 43];
 
 // Computed
 const filteredProducts = computed(() => {
-  console.log('🔍 Debug - selectedSize:', selectedSize.value);
-  console.log('🔍 Debug - products count:', products.value.length);
-  
   if (!selectedSize.value) {
-    console.log('🔍 Debug - no filter, returning all products');
     return products.value;
   }
 
-  const filtered = products.value.filter(product => {
-    const hasSizes = product.sizes && Array.isArray(product.sizes);
-    const includesSize = hasSizes && product.sizes.includes(selectedSize.value.toString());
-    console.log(`🔍 Debug - Product: ${product.name}, sizes: ${product.sizes}, includes ${selectedSize.value}: ${includesSize}`);
-    return includesSize;
+  return products.value.filter(product => {
+    return product.sizes && Array.isArray(product.sizes) && product.sizes.includes(selectedSize.value.toString());
   });
-  
-  console.log('🔍 Debug - filtered count:', filtered.length);
-  return filtered;
 });
 
 // Funções
 const loadProducts = async () => {
-  console.log('🔄 Debug - loadProducts called');
   loading.value = true;
   try {
-    // Buscar todos os produtos (você pode criar uma API específica para isso)
-    console.log('🔄 Debug - fetching /api/products');
     const data = await $fetch('/api/products');
-    console.log('🔄 Debug - API response:', data);
     products.value = data || [];
-    console.log('🔄 Debug - products set:', products.value.length);
   } catch (err) {
-    console.error('❌ Erro ao carregar produtos:', err);
+    console.error('Erro ao carregar produtos:', err);
     notificationError('Erro ao carregar produtos');
   } finally {
     loading.value = false;
-    console.log('🔄 Debug - loading finished');
   }
 };
 
@@ -262,31 +246,18 @@ const addProductToCart = async (product: any) => {
 };
 
 // Inicialização
-onMounted(() => {
-  console.log('🚀 Debug - onMounted called');
+onMounted(async () => {
   // Verificar se há filtro na URL
   const tamanhoQuery = route.query.tamanho;
-  console.log('🚀 Debug - tamanhoQuery:', tamanhoQuery);
   if (tamanhoQuery) {
     const size = parseInt(tamanhoQuery as string);
-    console.log('🚀 Debug - parsed size:', size);
     if (availableSizes.includes(size)) {
       selectedSize.value = size;
-      console.log('🚀 Debug - selectedSize set to:', selectedSize.value);
     }
   }
 
-  loadProducts();
+  await loadProducts();
 });
-
-// Watch para debug
-watch(products, (newProducts) => {
-  console.log('👀 Debug - products changed:', newProducts.length);
-}, { immediate: true });
-
-watch(selectedSize, (newSize) => {
-  console.log('👀 Debug - selectedSize changed:', newSize);
-}, { immediate: true });
 
 // Head
 useHead({
