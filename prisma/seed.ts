@@ -353,9 +353,10 @@ async function createAdminUser() {
     }
 
     // Criar usuário admin
+    const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
     const { data: newUser, error: createError } = await supabase.auth.admin.createUser({
       email: 'admin@amplicalcados.com',
-      password: 'admin123',
+      password: adminPassword,
       email_confirm: true,
       user_metadata: {
         name: 'Administrador AMPLI',
@@ -370,7 +371,7 @@ async function createAdminUser() {
     console.log('✅ Usuário admin criado no Supabase Auth');
     console.log(`📧 Email: ${newUser.user.email}`);
     console.log(`🆔 ID: ${newUser.user.id}`);
-    console.log('🔑 Senha: admin123');
+    console.log('🔑 Senha: [CONFIGURADA VIA ENV]');
 
     return newUser.user.id;
   } catch (error) {
@@ -410,9 +411,10 @@ async function createTestUser() {
     }
 
     // Criar usuário de teste
+    const testPassword = process.env.TEST_PASSWORD || 'teste123';
     const { data: newUser, error: createError } = await supabase.auth.admin.createUser({
       email: 'teste@amplicalcados.com',
-      password: 'teste123',
+      password: testPassword,
       email_confirm: true,
       user_metadata: {
         name: 'Usuário Teste',
@@ -427,7 +429,7 @@ async function createTestUser() {
     console.log('✅ Usuário de teste criado no Supabase Auth');
     console.log(`📧 Email: ${newUser.user.email}`);
     console.log(`🆔 ID: ${newUser.user.id}`);
-    console.log('🔑 Senha: teste123');
+    console.log('🔑 Senha: [CONFIGURADA VIA ENV]');
 
     return newUser.user.id;
   } catch (error) {
@@ -530,7 +532,7 @@ async function main() {
     console.log('');
     console.log('🎯 USUÁRIO ADMIN CRIADO:');
     console.log('   - Email: admin@amplicalcados.com');
-    console.log('   - Senha: admin123');
+    console.log('   - Senha: [CONFIGURADA VIA ENV]');
     console.log('   - Role: ADMIN');
     console.log('');
   }
@@ -539,7 +541,7 @@ async function main() {
     console.log('');
     console.log('🎯 USUÁRIO DE TESTE CRIADO:');
     console.log('   - Email: teste@amplicalcados.com');
-    console.log('   - Senha: teste123');
+    console.log('   - Senha: [CONFIGURADA VIA ENV]');
     console.log('   - Role: USER');
     console.log('');
   }
