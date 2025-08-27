@@ -54,7 +54,12 @@
                   v-for="size in sizes"
                   :key="size"
                   @click="filterBySize(size)"
-                  class="px-3 py-1 border border-gray-200 rounded-full text-gray-700 hover:bg-coral-soft hover:text-white hover:border-coral-soft font-semibold transition-all duration-200 ease-in-out"
+                  :class="[
+                    'px-3 py-1 border rounded-full font-semibold transition-all duration-200 ease-in-out',
+                    isSizeSelected(size)
+                      ? 'bg-coral-soft text-white border-coral-soft'
+                      : 'border-gray-200 text-gray-700 hover:bg-coral-soft hover:text-white hover:border-coral-soft'
+                  ]"
                 >
                   {{ size }}
                 </button>
@@ -381,6 +386,12 @@ const filterBySize = (size: number) => {
     path: '/produtos',
     query: { tamanho: size.toString() },
   });
+};
+
+const isSizeSelected = (size: number) => {
+  const route = useRoute();
+  const tamanhoQuery = route.query.tamanho;
+  return tamanhoQuery && parseInt(tamanhoQuery as string) === size;
 };
 
 const toggleMobileMenu = () => {
