@@ -216,13 +216,31 @@
           <form @submit.prevent="processPayment" class="p-6 space-y-8">
             <!-- Dados do cliente -->
             <div>
-              <div class="flex items-center mb-4">
-                <div
-                  class="w-8 h-8 bg-coral-soft rounded-full flex items-center justify-center mr-3"
-                >
-                  <span class="text-white font-semibold text-sm">1</span>
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 bg-coral-soft rounded-full flex items-center justify-center mr-3"
+                  >
+                    <span class="text-white font-semibold text-sm">1</span>
+                  </div>
+                  <h3 class="text-lg font-semibold text-gray-900">Dados Pessoais</h3>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-900">Dados Pessoais</h3>
+                <button
+                  @click="loadUserProfile"
+                  type="button"
+                  class="text-sm text-coral-soft hover:text-coral-dark font-medium flex items-center"
+                  title="Carregar dados do perfil"
+                >
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                    ></path>
+                  </svg>
+                  Carregar Perfil
+                </button>
               </div>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -1372,9 +1390,49 @@ const saveNewAddress = async () => {
   }
 };
 
-// Carrega os endereços salvos quando o componente é montado
-onMounted(() => {
-  loadSavedAddresses();
+// Carrega os dados do perfil do usuário
+const loadUserProfile = async () => {
+  try {
+    const profileData = await $fetch('/api/user/profile');
+    
+    // Preencher dados pessoais do formulário
+    if (profileData.name) {
+      form.value.customer.name = profileData.name;
+    }
+    if (profileData.email) {
+      form.value.customer.email = profileData.email;
+    }
+    if (profileData.phone) {
+      form.value.customer.phone = profileData.phone;
+    }
+    
+    // Se não há endereço padrão salvo, mas há um no perfil, usar ele
+    if (!selectedAddressId.value && profileData.address) {
+      form.value.address = {
+        zipCode: profileData.address.cep,
+        street: profileData.address.street,
+        number: profileData.address.number,
+        complement: profileData.address.complement || '',
+        neighborhood: profileData.address.neighborhood,
+        city: profileData.address.city,
+        state: profileData.address.state,
+      };
+      
+      // Calcular frete para o endereço do perfil
+      await calculateShipping(profileData.address.cep.replace(/\D/g, ''));
+    }
+    
+    success('✅ Dados do perfil carregados com sucesso!');
+  } catch (error) {
+    console.error('Erro ao carregar dados do perfil:', error);
+    notificationError('Erro ao carregar dados do perfil. Tente novamente.');
+  }
+};
+
+// Carrega os endereços salvos e dados do perfil quando o componente é montado
+onMounted(async () => {
+  await loadSavedAddresses();
+  await loadUserProfile();
 });
 
 // Watcher para calcular frete quando o CEP é alterado
