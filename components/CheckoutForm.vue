@@ -1480,7 +1480,11 @@ const loadUserProfile = async () => {
       form.value.customer.cpf = profileData.cpf;
     }
     if (profileData.phone) {
+      // Aplicar formatação do telefone após carregar
       form.value.customer.phone = profileData.phone;
+      // Aguardar o próximo tick para garantir que o valor foi atualizado
+      await nextTick();
+      formatPhone();
     }
 
     // Se não há endereço padrão salvo, mas há um no perfil, usar ele
