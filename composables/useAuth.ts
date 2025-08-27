@@ -212,6 +212,10 @@ export const useAuth = () => {
       if (authError) throw authError;
 
       user.value = null;
+      
+      // Redirecionar para a página inicial após logout
+      const router = useRouter();
+      await router.push('/');
     } catch (err: any) {
       error.value = err.message || 'Erro ao fazer logout';
       throw err;

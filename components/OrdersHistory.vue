@@ -72,7 +72,7 @@
           </button>
         </div>
         <div class="text-sm text-gray-500 bg-gray-50 px-3 py-2 rounded-lg">
-          <span class="font-medium text-coral-soft">{{ expandedOrders.length }}</span> de 
+          <span class="font-medium text-coral-soft">{{ expandedOrders.length }}</span> de
           <span class="font-medium">{{ filteredOrders.length }}</span> pedidos expandidos
         </div>
       </div>
@@ -166,8 +166,12 @@
     <!-- Loading State -->
     <div v-if="loading" class="flex flex-col justify-center items-center py-16">
       <div class="relative">
-        <div class="animate-spin rounded-full h-16 w-16 border-4 border-coral-soft/20 border-t-coral-soft"></div>
-        <div class="absolute inset-0 rounded-full border-4 border-transparent border-t-coral-dark animate-ping"></div>
+        <div
+          class="animate-spin rounded-full h-16 w-16 border-4 border-coral-soft/20 border-t-coral-soft"
+        ></div>
+        <div
+          class="absolute inset-0 rounded-full border-4 border-transparent border-t-coral-dark animate-ping"
+        ></div>
       </div>
       <div class="mt-6 text-center">
         <h3 class="text-lg font-semibold text-gray-900 mb-2">Carregando seus pedidos...</h3>
@@ -177,14 +181,13 @@
 
     <!-- Error State -->
     <div v-else-if="error" class="text-center py-16">
-      <div class="bg-gradient-to-br from-red-50 to-red-100 border border-red-200 rounded-2xl p-8 max-w-md mx-auto">
-        <div class="bg-red-100 p-4 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center">
-          <svg
-            class="h-10 w-10 text-red-500"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+      <div
+        class="bg-gradient-to-br from-red-50 to-red-100 border border-red-200 rounded-2xl p-8 max-w-md mx-auto"
+      >
+        <div
+          class="bg-red-100 p-4 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center"
+        >
+          <svg class="h-10 w-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -200,7 +203,12 @@
           class="inline-flex items-center px-6 py-3 border border-transparent shadow-lg text-sm font-semibold rounded-xl text-white bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200"
         >
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+            ></path>
           </svg>
           Tentar novamente
         </button>
@@ -209,8 +217,12 @@
 
     <!-- Empty State -->
     <div v-else-if="filteredOrders.length === 0" class="text-center py-16">
-      <div class="bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-2xl p-8 max-w-md mx-auto shadow-lg">
-        <div class="bg-coral-soft/10 p-6 rounded-full w-24 h-24 mx-auto mb-6 flex items-center justify-center">
+      <div
+        class="bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-2xl p-8 max-w-md mx-auto shadow-lg"
+      >
+        <div
+          class="bg-coral-soft/10 p-6 rounded-full w-24 h-24 mx-auto mb-6 flex items-center justify-center"
+        >
           <svg
             class="h-12 w-12 text-coral-soft"
             fill="none"
@@ -244,7 +256,12 @@
           class="inline-flex items-center px-6 py-3 border border-transparent shadow-lg text-sm font-semibold rounded-xl text-white bg-gradient-to-r from-coral-soft to-coral-dark hover:from-coral-dark hover:to-coral-soft focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-all duration-200"
         >
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+            ></path>
           </svg>
           Fazer compras
         </NuxtLink>
@@ -283,17 +300,30 @@
               </button>
               <div class="flex items-center space-x-3">
                 <div class="bg-coral-soft/10 p-2 rounded-xl">
-                  <svg class="w-6 h-6 text-coral-soft" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                  <svg
+                    class="w-6 h-6 text-coral-soft"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                    ></path>
                   </svg>
                 </div>
                 <div>
-                  <h3 class="text-xl font-bold text-gray-900">
-                    Pedido #{{ order.id.slice(-8) }}
-                  </h3>
+                  <h3 class="text-xl font-bold text-gray-900">Pedido #{{ order.id.slice(-8) }}</h3>
                   <p class="text-sm text-gray-500 flex items-center">
                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      ></path>
                     </svg>
                     {{ formatDate(order.createdAt) }}
                   </p>
@@ -343,20 +373,50 @@
                     </h4>
                     <div class="flex flex-wrap gap-4 text-sm text-gray-600">
                       <span class="flex items-center">
-                        <svg class="w-4 h-4 mr-1 text-coral-soft" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                        <svg
+                          class="w-4 h-4 mr-1 text-coral-soft"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+                          ></path>
                         </svg>
                         Qtd: {{ item.quantity }}
                       </span>
                       <span v-if="item.size" class="flex items-center">
-                        <svg class="w-4 h-4 mr-1 text-coral-soft" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"></path>
+                        <svg
+                          class="w-4 h-4 mr-1 text-coral-soft"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"
+                          ></path>
                         </svg>
                         Tamanho: {{ item.size }}
                       </span>
                       <span v-if="item.color" class="flex items-center">
-                        <svg class="w-4 h-4 mr-1 text-coral-soft" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"></path>
+                        <svg
+                          class="w-4 h-4 mr-1 text-coral-soft"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"
+                          ></path>
                         </svg>
                         Cor: {{ item.color }}
                       </span>
@@ -371,10 +431,22 @@
 
             <!-- Order Summary -->
             <div class="mt-6 pt-6 border-t border-gray-200">
-              <div class="bg-gradient-to-r from-gray-50 to-white p-4 rounded-xl border border-gray-100">
+              <div
+                class="bg-gradient-to-r from-gray-50 to-white p-4 rounded-xl border border-gray-100"
+              >
                 <h4 class="font-semibold text-gray-900 mb-3 flex items-center">
-                  <svg class="w-5 h-5 mr-2 text-coral-soft" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                  <svg
+                    class="w-5 h-5 mr-2 text-coral-soft"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                    ></path>
                   </svg>
                   Resumo Financeiro
                 </h4>
@@ -383,12 +455,16 @@
                     <div class="flex justify-between text-sm">
                       <span class="text-gray-600">Subtotal:</span>
                       <span class="font-medium">{{
-                        formatPrice(Number(order.total) - Number(order.shipping) - Number(order.tax))
+                        formatPrice(
+                          Number(order.total) - Number(order.shipping) - Number(order.tax)
+                        )
                       }}</span>
                     </div>
                     <div v-if="Number(order.shipping) > 0" class="flex justify-between text-sm">
                       <span class="text-gray-600">Frete:</span>
-                      <span class="font-medium text-green-600">{{ formatPrice(order.shipping) }}</span>
+                      <span class="font-medium text-green-600">{{
+                        formatPrice(order.shipping)
+                      }}</span>
                     </div>
                     <div v-if="Number(order.tax) > 0" class="flex justify-between text-sm">
                       <span class="text-gray-600">Impostos:</span>
