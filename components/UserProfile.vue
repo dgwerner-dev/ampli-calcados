@@ -55,17 +55,53 @@
             <div class="flex items-center space-x-6">
               <div class="flex-shrink-0">
                 <div class="relative">
+                  <!-- Avatar Image or Initials -->
                   <div
-                    class="w-24 h-24 bg-gradient-to-br from-coral-soft to-coral-dark rounded-full flex items-center justify-center text-white text-2xl font-bold"
+                    v-if="user?.avatar"
+                    class="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-lg"
+                  >
+                    <img
+                      :src="user.avatar"
+                      :alt="user?.name || 'Avatar'"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div
+                    v-else
+                    class="w-24 h-24 bg-gradient-to-br from-coral-soft to-coral-dark rounded-full flex items-center justify-center text-white text-2xl font-bold border-4 border-white shadow-lg"
                   >
                     {{ userInitials }}
                   </div>
+                  
+                  <!-- Upload Button -->
                   <button
                     type="button"
                     @click="triggerFileUpload"
-                    class="absolute -bottom-2 -right-2 bg-white p-2 rounded-full shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-200"
+                    :disabled="uploadingAvatar"
+                    class="absolute -bottom-2 -right-2 bg-white p-2 rounded-full shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <svg
+                      v-if="uploadingAvatar"
+                      class="w-4 h-4 text-gray-600 animate-spin"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        class="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        stroke-width="4"
+                      ></circle>
+                      <path
+                        class="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    <svg
+                      v-else
                       class="w-4 h-4 text-gray-600"
                       fill="none"
                       stroke="currentColor"
@@ -100,7 +136,7 @@
                 </h3>
                 <p class="text-gray-600">{{ user?.email }}</p>
                 <p class="text-sm text-gray-500 mt-1">
-                  Clique no ícone da câmera para alterar sua foto
+                  {{ uploadingAvatar ? 'Enviando foto...' : 'Clique no ícone da câmera para alterar sua foto' }}
                 </p>
               </div>
             </div>
@@ -668,6 +704,7 @@ const loading = ref(false);
 const updating = ref(false);
 const searchingCep = ref(false);
 const savingAddress = ref(false);
+const uploadingAvatar = ref(false);
 const showNewAddressForm = ref(false);
 const savedAddresses = ref([]);
 const selectedAddressId = ref(null);
@@ -709,11 +746,50 @@ const triggerFileUpload = () => {
   fileInput.value?.click();
 };
 
-const handleAvatarChange = event => {
+const handleAvatarChange = async event => {
   const file = event.target.files[0];
-  if (file) {
-    // TODO: Implement avatar upload
-    console.log('Avatar file selected:', file);
+  if (!file) return;
+
+  // Validar tipo de arquivo
+  if (!file.type.startsWith('image/')) {
+    error('Apenas arquivos de imagem são permitidos');
+    return;
+  }
+
+  // Validar tamanho (máximo 5MB)
+  const maxSize = 5 * 1024 * 1024; // 5MB
+  if (file.size > maxSize) {
+    error('Arquivo muito grande. Máximo 5MB permitido');
+    return;
+  }
+
+  uploadingAvatar.value = true;
+  try {
+    // Criar FormData
+    const formData = new FormData();
+    formData.append('avatar', file);
+
+    // Enviar para a API
+    const response = await $fetch('/api/user/avatar', {
+      method: 'POST',
+      body: formData,
+    });
+
+    // Atualizar o avatar no estado do usuário
+    if (user.value) {
+      user.value.avatar = response.avatar;
+    }
+
+    success('Foto atualizada com sucesso!');
+  } catch (err) {
+    console.error('Erro ao fazer upload do avatar:', err);
+    error('Erro ao atualizar foto. Tente novamente.');
+  } finally {
+    uploadingAvatar.value = false;
+    // Limpar o input
+    if (fileInput.value) {
+      fileInput.value.value = '';
+    }
   }
 };
 
