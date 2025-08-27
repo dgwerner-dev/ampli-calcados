@@ -1,5 +1,6 @@
 <template>
-  <div class="min-h-screen bg-gray-50 pt-32">
+  <ClientOnly>
+    <div class="min-h-screen bg-gray-50 pt-32">
     <div class="max-w-7xl mx-auto px-4 py-8">
       <!-- Header da página -->
       <div class="mb-8">
@@ -7,7 +8,11 @@
           {{ selectedSize ? `Produtos - Tamanho ${selectedSize}` : 'Todos os Produtos' }}
         </h1>
         <p class="text-gray-600">
-          {{ selectedSize ? `Encontramos ${filteredProducts.length} produto(s) no tamanho ${selectedSize}` : 'Explore nossa coleção completa' }}
+          {{
+            selectedSize
+              ? `Encontramos ${filteredProducts.length} produto(s) no tamanho ${selectedSize}`
+              : 'Explore nossa coleção completa'
+          }}
         </p>
       </div>
 
@@ -24,7 +29,7 @@
                 'px-4 py-2 rounded-lg font-medium transition-all duration-200',
                 selectedSize === size
                   ? 'bg-coral-soft text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
               ]"
             >
               {{ size }}
@@ -35,7 +40,7 @@
                 'px-4 py-2 rounded-lg font-medium transition-all duration-200',
                 !selectedSize
                   ? 'bg-coral-soft text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
               ]"
             >
               Todos
@@ -57,7 +62,10 @@
       </div>
 
       <!-- Produtos -->
-      <div v-else-if="filteredProducts.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div
+        v-else-if="filteredProducts.length > 0"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+      >
         <div
           v-for="product in filteredProducts"
           :key="product.id"
@@ -70,12 +78,17 @@
                 :alt="product.name"
                 class="w-full h-48 object-cover"
               />
-              <div v-if="product.salePrice" class="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded text-sm font-medium">
+              <div
+                v-if="product.salePrice"
+                class="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded text-sm font-medium"
+              >
                 Oferta
               </div>
             </div>
             <div class="p-4">
-              <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">{{ product.name }}</h3>
+              <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
+                {{ product.name }}
+              </h3>
               <div class="flex items-center justify-between mb-3">
                 <div>
                   <p v-if="product.salePrice" class="text-2xl font-bold text-coral-soft">
@@ -92,12 +105,12 @@
                   Tamanhos: {{ product.sizes.join(', ') }}
                 </div>
               </div>
-                             <button
-                 @click.prevent="addProductToCart(product)"
-                 class="w-full bg-coral-soft text-white py-2 px-4 rounded-lg hover:bg-coral-dark transition-colors duration-200 font-medium"
-               >
-                 Adicionar ao Carrinho
-               </button>
+              <button
+                @click.prevent="addProductToCart(product)"
+                class="w-full bg-coral-soft text-white py-2 px-4 rounded-lg hover:bg-coral-dark transition-colors duration-200 font-medium"
+              >
+                Adicionar ao Carrinho
+              </button>
             </div>
           </NuxtLink>
         </div>
@@ -106,14 +119,32 @@
       <!-- Empty State -->
       <div v-else class="text-center py-16">
         <div class="bg-white rounded-lg p-8 max-w-md mx-auto">
-          <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+          <svg
+            class="mx-auto h-12 w-12 text-gray-400 mb-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+            />
           </svg>
           <h3 class="text-lg font-medium text-gray-900 mb-2">
-            {{ selectedSize ? `Nenhum produto disponível no tamanho ${selectedSize}` : 'Nenhum produto encontrado' }}
+            {{
+              selectedSize
+                ? `Nenhum produto disponível no tamanho ${selectedSize}`
+                : 'Nenhum produto encontrado'
+            }}
           </h3>
           <p class="text-gray-600 mb-6">
-            {{ selectedSize ? `Infelizmente não temos produtos no tamanho ${selectedSize} no momento. Tente outro tamanho ou explore nossa coleção completa.` : 'Tente ajustar os filtros ou explore nossa coleção.' }}
+            {{
+              selectedSize
+                ? `Infelizmente não temos produtos no tamanho ${selectedSize} no momento. Tente outro tamanho ou explore nossa coleção completa.`
+                : 'Tente ajustar os filtros ou explore nossa coleção.'
+            }}
           </p>
           <div class="flex flex-col sm:flex-row gap-3 justify-center">
             <button
@@ -134,6 +165,17 @@
       </div>
     </div>
   </div>
+  <template #fallback>
+    <div class="min-h-screen bg-gray-50 pt-32">
+      <div class="max-w-7xl mx-auto px-4 py-8">
+        <div class="text-center py-16">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-coral-soft mx-auto"></div>
+          <p class="mt-4 text-gray-600">Carregando produtos...</p>
+        </div>
+      </div>
+    </div>
+  </template>
+  </ClientOnly>
 </template>
 
 <script setup lang="ts">
@@ -149,27 +191,42 @@ const availableSizes = [40, 41, 42, 43];
 
 // Computed
 const filteredProducts = computed(() => {
+  console.log('🔍 Debug - selectedSize:', selectedSize.value);
+  console.log('🔍 Debug - products count:', products.value.length);
+  
   if (!selectedSize.value) {
+    console.log('🔍 Debug - no filter, returning all products');
     return products.value;
   }
-  
-  return products.value.filter(product => {
-    return product.sizes && product.sizes.includes(selectedSize.value.toString());
+
+  const filtered = products.value.filter(product => {
+    const hasSizes = product.sizes && Array.isArray(product.sizes);
+    const includesSize = hasSizes && product.sizes.includes(selectedSize.value.toString());
+    console.log(`🔍 Debug - Product: ${product.name}, sizes: ${product.sizes}, includes ${selectedSize.value}: ${includesSize}`);
+    return includesSize;
   });
+  
+  console.log('🔍 Debug - filtered count:', filtered.length);
+  return filtered;
 });
 
 // Funções
 const loadProducts = async () => {
+  console.log('🔄 Debug - loadProducts called');
   loading.value = true;
   try {
     // Buscar todos os produtos (você pode criar uma API específica para isso)
+    console.log('🔄 Debug - fetching /api/products');
     const data = await $fetch('/api/products');
+    console.log('🔄 Debug - API response:', data);
     products.value = data || [];
+    console.log('🔄 Debug - products set:', products.value.length);
   } catch (err) {
-    console.error('Erro ao carregar produtos:', err);
+    console.error('❌ Erro ao carregar produtos:', err);
     notificationError('Erro ao carregar produtos');
   } finally {
     loading.value = false;
+    console.log('🔄 Debug - loading finished');
   }
 };
 
@@ -177,7 +234,7 @@ const filterBySize = (size: number) => {
   selectedSize.value = size;
   // Atualizar URL
   navigateTo({
-    query: { ...route.query, tamanho: size.toString() }
+    query: { ...route.query, tamanho: size.toString() },
   });
 };
 
@@ -185,14 +242,14 @@ const clearFilter = () => {
   selectedSize.value = null;
   // Limpar query da URL
   navigateTo({
-    query: { ...route.query, tamanho: undefined }
+    query: { ...route.query, tamanho: undefined },
   });
 };
 
 const addProductToCart = async (product: any) => {
   try {
     const result = await addToCart(product, 1);
-    
+
     if (result.success) {
       success(`✅ ${product.name} adicionado ao carrinho!`);
     } else {
@@ -206,29 +263,42 @@ const addProductToCart = async (product: any) => {
 
 // Inicialização
 onMounted(() => {
+  console.log('🚀 Debug - onMounted called');
   // Verificar se há filtro na URL
   const tamanhoQuery = route.query.tamanho;
+  console.log('🚀 Debug - tamanhoQuery:', tamanhoQuery);
   if (tamanhoQuery) {
     const size = parseInt(tamanhoQuery as string);
+    console.log('🚀 Debug - parsed size:', size);
     if (availableSizes.includes(size)) {
       selectedSize.value = size;
+      console.log('🚀 Debug - selectedSize set to:', selectedSize.value);
     }
   }
-  
+
   loadProducts();
 });
 
+// Watch para debug
+watch(products, (newProducts) => {
+  console.log('👀 Debug - products changed:', newProducts.length);
+}, { immediate: true });
+
+watch(selectedSize, (newSize) => {
+  console.log('👀 Debug - selectedSize changed:', newSize);
+}, { immediate: true });
+
 // Head
 useHead({
-  title: computed(() => 
-    selectedSize.value 
+  title: computed(() =>
+    selectedSize.value
       ? `Produtos - Tamanho ${selectedSize.value} - AMPLI CALÇADOS`
       : 'Produtos - AMPLI CALÇADOS'
   ),
   meta: [
     {
       name: 'description',
-      content: computed(() => 
+      content: computed(() =>
         selectedSize.value
           ? `Encontre calçados no tamanho ${selectedSize.value} na AMPLI CALÇADOS`
           : 'Explore nossa coleção completa de calçados na AMPLI CALÇADOS'

@@ -379,7 +379,7 @@ const filterBySize = (size: number) => {
   // Navegar para a página de produtos com filtro por tamanho
   navigateTo({
     path: '/produtos',
-    query: { tamanho: size.toString() }
+    query: { tamanho: size.toString() },
   });
 };
 
