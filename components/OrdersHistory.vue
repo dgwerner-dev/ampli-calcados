@@ -424,6 +424,24 @@
                     <p class="text-lg font-bold text-coral-soft mt-2">
                       {{ formatPrice(Number(item.price) * item.quantity) }}
                     </p>
+                    
+                    <!-- Botão para adicionar este item específico ao carrinho -->
+                    <div class="mt-3">
+                      <button
+                        @click="addItemToCart(item)"
+                        class="inline-flex items-center px-4 py-2 border border-coral-soft text-sm font-medium rounded-lg text-coral-soft bg-white hover:bg-coral-soft hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-all duration-200"
+                      >
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 4v16m8-8H4"
+                          ></path>
+                        </svg>
+                        Adicionar ao Carrinho
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -484,6 +502,21 @@
             <!-- Order Actions -->
             <div class="mt-6 pt-6 border-t border-gray-200">
               <div class="flex flex-wrap justify-end gap-3">
+                <button
+                  v-if="order.status === 'PENDING'"
+                  @click="addMoreItemsToOrder(order)"
+                  class="inline-flex items-center px-6 py-3 border border-coral-soft shadow-lg text-sm font-semibold rounded-xl text-coral-soft bg-white hover:bg-coral-soft hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-all duration-200"
+                >
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 4v16m8-8H4"
+                    ></path>
+                  </svg>
+                  Adicionar Mais Itens
+                </button>
                 <button
                   v-if="order.status === 'PENDING'"
                   @click="finalizeOrder(order)"
@@ -838,5 +871,68 @@ const collapseAllOrders = () => {
 const rateOrder = order => {
   // TODO: Implementar sistema de avaliação
   console.log('Avaliar pedido:', order);
+};
+
+// Função para adicionar um item específico ao carrinho
+const addItemToCart = async (item) => {
+  try {
+    const { addToCart } = useCart();
+    const { success } = useNotifications();
+    
+    const result = await addToCart(
+      item.product,
+      item.quantity,
+      item.size || undefined,
+      item.color || undefined
+    );
+    
+    if (result.success) {
+      success(`✅ ${item.product.name} adicionado ao carrinho!`);
+    } else {
+      const { error } = useNotifications();
+      error(result.error || 'Erro ao adicionar item ao carrinho');
+    }
+  } catch (error) {
+    console.error('Erro ao adicionar item ao carrinho:', error);
+    const { error: notificationError } = useNotifications();
+    notificationError('Erro ao adicionar item ao carrinho. Tente novamente.');
+  }
+};
+
+// Função para adicionar mais itens ao pedido
+const addMoreItemsToOrder = async (order) => {
+  try {
+    // Adicionar todos os itens do pedido ao carrinho
+    const { addToCart } = useCart();
+    const { success } = useNotifications();
+    
+    let addedItems = 0;
+    
+    for (const item of order.orderItems) {
+      const result = await addToCart(
+        item.product,
+        item.quantity,
+        item.size || undefined,
+        item.color || undefined
+      );
+      
+      if (result.success) {
+        addedItems++;
+      }
+    }
+    
+    if (addedItems > 0) {
+      success(`✅ ${addedItems} item(s) adicionado(s) ao carrinho!`);
+      // Redirecionar para o carrinho
+      await navigateTo('/cart');
+    } else {
+      const { error } = useNotifications();
+      error('Erro ao adicionar itens ao carrinho. Tente novamente.');
+    }
+  } catch (error) {
+    console.error('Erro ao adicionar itens ao carrinho:', error);
+    const { error: notificationError } = useNotifications();
+    notificationError('Erro ao adicionar itens ao carrinho. Tente novamente.');
+  }
 };
 </script>
