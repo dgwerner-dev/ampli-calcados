@@ -35,7 +35,7 @@
                 <img
                   :src="product.images?.[0] || '/images/placeholder.jpg'"
                   :alt="product.name"
-                  class="w-full h-48 object-cover object-center"
+                  class="w-full h-48 object-contain bg-gray-100"
                   loading="lazy"
                   @error="$event.target.src = '/images/placeholder.jpg'"
                 />
