@@ -69,24 +69,24 @@
         <div
           v-for="product in filteredProducts"
           :key="product.id"
-          class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden"
+          class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden flex flex-col h-full"
         >
-          <NuxtLink :to="`/produto/${product.slug}`">
-            <div class="relative">
-              <img
-                :src="product.images?.[0] || '/images/placeholder.jpg'"
-                :alt="product.name"
-                class="w-full h-48 object-cover"
-              />
-              <div
-                v-if="product.salePrice"
-                class="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded text-sm font-medium"
-              >
-                Oferta
+                      <NuxtLink :to="`/produto/${product.slug}`" class="flex flex-col h-full">
+              <div class="relative flex-shrink-0">
+                <img
+                  :src="product.images?.[0] || '/images/placeholder.jpg'"
+                  :alt="product.name"
+                  class="w-full h-48 object-cover"
+                />
+                <div
+                  v-if="product.salePrice"
+                  class="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded text-sm font-medium"
+                >
+                  Oferta
+                </div>
               </div>
-            </div>
-            <div class="p-4">
-              <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
+              <div class="p-4 flex flex-col flex-grow">
+              <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 min-h-[3.5rem]">
                 {{ product.name }}
               </h3>
               <div class="flex items-center justify-between mb-3">
@@ -107,7 +107,7 @@
               </div>
               <button
                 @click.prevent="addProductToCart(product)"
-                class="w-full bg-coral-soft text-white py-2 px-4 rounded-lg hover:bg-coral-dark transition-colors duration-200 font-medium"
+                class="w-full bg-coral-soft text-white py-2 px-4 rounded-lg hover:bg-coral-dark transition-colors duration-200 font-medium mt-auto"
               >
                 Adicionar ao Carrinho
               </button>
