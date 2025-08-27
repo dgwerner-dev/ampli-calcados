@@ -1,37 +1,52 @@
 <template>
   <div class="max-w-7xl mx-auto px-4 py-8">
-    <!-- Header -->
-    <div class="bg-gray-100 p-4 rounded-t-lg border-b">
-      <h1 class="text-lg font-semibold text-gray-800 flex items-center">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6 mr-3 text-coral-dark"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path
-            d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.97 1.278h8.97a1 1 0 00.97-1.278L15.78 3H17a1 1 0 100-2H3zm12.378 5.422a1 1 0 01-1.414 1.414L12 9.879l-1.964 1.963a1 1 0 11-1.414-1.414l2.656-2.657a1 1 0 011.414 0l2.686 2.686z"
-          />
-          <path
-            fill-rule="evenodd"
-            d="M3.01 6.222a1 1 0 01.97-1.278h12.04a1 1 0 01.97 1.278l-1.028 4.11a2 2 0 01-1.94 1.544H6.008a2 2 0 01-1.94-1.544L3.01 6.222zM5 13a1 1 0 100 2h10a1 1 0 100-2H5z"
-            clip-rule="evenodd"
-          />
-        </svg>
-        MEUS PEDIDOS
-      </h1>
+    <!-- Header com gradiente -->
+    <div class="bg-gradient-to-r from-coral-soft to-coral-dark p-6 rounded-2xl shadow-lg mb-8">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <div class="bg-white/20 p-3 rounded-xl mr-4">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-8 w-8 text-white"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.97 1.278h8.97a1 1 0 00.97-1.278L15.78 3H17a1 1 0 100-2H3zm12.378 5.422a1 1 0 01-1.414 1.414L12 9.879l-1.964 1.963a1 1 0 11-1.414-1.414l2.656-2.657a1 1 0 011.414 0l2.686 2.686z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M3.01 6.222a1 1 0 01.97-1.278h12.04a1 1 0 01.97 1.278l-1.028 4.11a2 2 0 01-1.94 1.544H6.008a2 2 0 01-1.94-1.544L3.01 6.222zM5 13a1 1 0 100 2h10a1 1 0 100-2H5z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-2xl font-bold text-white mb-1">Meus Pedidos</h1>
+            <p class="text-white/80 text-sm">Acompanhe todos os seus pedidos e status de entrega</p>
+          </div>
+        </div>
+        <div class="hidden md:block">
+          <div class="bg-white/20 p-3 rounded-xl">
+            <div class="text-white text-center">
+              <div class="text-2xl font-bold">{{ filteredOrders.length }}</div>
+              <div class="text-xs opacity-80">Pedidos</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Filtros -->
-    <div class="bg-gray-100 p-4 rounded-b-lg">
+    <!-- Filtros com design moderno -->
+    <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 mb-8">
       <!-- Controles de expansão -->
-      <div class="flex items-center justify-between mb-4">
-        <div class="flex items-center space-x-2">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 gap-4">
+        <div class="flex flex-wrap items-center gap-3">
           <button
             @click="expandAllOrders"
-            class="inline-flex items-center px-3 py-1 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft"
+            class="inline-flex items-center px-4 py-2 text-sm font-medium text-coral-soft bg-coral-soft/10 border border-coral-soft/20 rounded-xl hover:bg-coral-soft hover:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft"
           >
-            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -43,9 +58,9 @@
           </button>
           <button
             @click="collapseAllOrders"
-            class="inline-flex items-center px-3 py-1 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft"
+            class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 border border-gray-200 rounded-xl hover:bg-gray-200 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
           >
-            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -56,16 +71,17 @@
             Colapsar Todos
           </button>
         </div>
-        <div class="text-sm text-gray-600">
-          {{ expandedOrders.length }} de {{ filteredOrders.length }} pedidos expandidos
+        <div class="text-sm text-gray-500 bg-gray-50 px-3 py-2 rounded-lg">
+          <span class="font-medium text-coral-soft">{{ expandedOrders.length }}</span> de 
+          <span class="font-medium">{{ filteredOrders.length }}</span> pedidos expandidos
         </div>
       </div>
 
-      <!-- Filtros existentes -->
-      <div class="flex items-center space-x-4">
+      <!-- Filtros existentes com design moderno -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <!-- Filtro por nome ou código do produto -->
-        <div class="relative flex-grow">
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-5 w-5 text-gray-400"
@@ -85,14 +101,14 @@
           <input
             v-model="productFilter"
             type="text"
-            placeholder="Digite o nome ou o código do produto"
-            class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-coral-soft focus:border-transparent"
+            placeholder="Buscar por produto..."
+            class="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200 bg-gray-50 focus:bg-white"
           />
         </div>
 
         <!-- Filtro por período -->
         <div class="relative">
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-5 w-5 text-gray-400"
@@ -108,7 +124,7 @@
           </div>
           <select
             v-model="periodFilter"
-            class="appearance-none w-full pl-10 pr-8 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-coral-soft focus:border-transparent bg-white"
+            class="appearance-none w-full pl-12 pr-8 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200 bg-gray-50 focus:bg-white"
           >
             <option value="3">Últimos 3 meses</option>
             <option value="6">Últimos 6 meses</option>
@@ -120,7 +136,7 @@
 
         <!-- Filtro por estado da entrega -->
         <div class="relative">
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-5 w-5 text-gray-400"
@@ -134,9 +150,9 @@
           </div>
           <select
             v-model="statusFilter"
-            class="appearance-none w-full pl-10 pr-8 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-coral-soft focus:border-transparent bg-white"
+            class="appearance-none w-full pl-12 pr-8 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200 bg-gray-50 focus:bg-white"
           >
-            <option value="all">Todos</option>
+            <option value="all">Todos os status</option>
             <option value="PENDING">Pendente</option>
             <option value="CONFIRMED">Confirmado</option>
             <option value="SHIPPED">Enviado</option>
@@ -148,78 +164,90 @@
     </div>
 
     <!-- Loading State -->
-    <div v-if="loading" class="flex justify-center items-center py-12">
-      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-coral-soft"></div>
-      <span class="ml-2 text-gray-600">Carregando pedidos...</span>
+    <div v-if="loading" class="flex flex-col justify-center items-center py-16">
+      <div class="relative">
+        <div class="animate-spin rounded-full h-16 w-16 border-4 border-coral-soft/20 border-t-coral-soft"></div>
+        <div class="absolute inset-0 rounded-full border-4 border-transparent border-t-coral-dark animate-ping"></div>
+      </div>
+      <div class="mt-6 text-center">
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">Carregando seus pedidos...</h3>
+        <p class="text-gray-500">Aguarde um momento enquanto buscamos suas informações</p>
+      </div>
     </div>
 
     <!-- Error State -->
-    <div v-else-if="error" class="text-center py-12">
-      <div class="bg-red-50 border border-red-200 rounded-lg p-6">
-        <svg
-          class="mx-auto h-12 w-12 text-red-400"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-          ></path>
-        </svg>
-        <h3 class="mt-2 text-sm font-medium text-red-800">Erro ao carregar pedidos</h3>
-        <p class="mt-1 text-sm text-red-700">{{ error }}</p>
-        <div class="mt-6">
-          <button
-            @click="getUserOrders"
-            class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+    <div v-else-if="error" class="text-center py-16">
+      <div class="bg-gradient-to-br from-red-50 to-red-100 border border-red-200 rounded-2xl p-8 max-w-md mx-auto">
+        <div class="bg-red-100 p-4 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+          <svg
+            class="h-10 w-10 text-red-500"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
           >
-            Tentar novamente
-          </button>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
         </div>
+        <h3 class="text-xl font-bold text-red-800 mb-2">Erro ao carregar pedidos</h3>
+        <p class="text-red-700 mb-6">{{ error }}</p>
+        <button
+          @click="getUserOrders"
+          class="inline-flex items-center px-6 py-3 border border-transparent shadow-lg text-sm font-semibold rounded-xl text-white bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200"
+        >
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+          </svg>
+          Tentar novamente
+        </button>
       </div>
     </div>
 
     <!-- Empty State -->
-    <div v-else-if="filteredOrders.length === 0" class="text-center py-12">
-      <div class="bg-gray-50 border border-gray-200 rounded-lg p-6">
-        <svg
-          class="mx-auto h-12 w-12 text-gray-400"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-          ></path>
-        </svg>
-        <h3 class="mt-2 text-sm font-medium text-gray-900">
+    <div v-else-if="filteredOrders.length === 0" class="text-center py-16">
+      <div class="bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-2xl p-8 max-w-md mx-auto shadow-lg">
+        <div class="bg-coral-soft/10 p-6 rounded-full w-24 h-24 mx-auto mb-6 flex items-center justify-center">
+          <svg
+            class="h-12 w-12 text-coral-soft"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+            ></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3">
           {{
             productFilter || periodFilter !== 'all' || statusFilter !== 'all'
-              ? 'Nenhum pedido encontrado com os filtros aplicados'
-              : 'Nenhum pedido encontrado'
+              ? 'Nenhum pedido encontrado'
+              : 'Nenhum pedido ainda'
           }}
         </h3>
-        <p class="mt-1 text-sm text-gray-500">
+        <p class="text-gray-600 mb-6">
           {{
             productFilter || periodFilter !== 'all' || statusFilter !== 'all'
-              ? 'Tente ajustar os filtros ou limpar a busca.'
-              : 'Você ainda não fez nenhum pedido.'
+              ? 'Tente ajustar os filtros ou limpar a busca para encontrar seus pedidos.'
+              : 'Que tal começar suas compras agora? Temos ótimas ofertas esperando por você!'
           }}
         </p>
-        <div class="mt-6">
-          <NuxtLink
-            to="/"
-            class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-coral-soft hover:bg-coral-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft"
-          >
-            Fazer compras
-          </NuxtLink>
-        </div>
+        <NuxtLink
+          to="/"
+          class="inline-flex items-center px-6 py-3 border border-transparent shadow-lg text-sm font-semibold rounded-xl text-white bg-gradient-to-r from-coral-soft to-coral-dark hover:from-coral-dark hover:to-coral-soft focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-all duration-200"
+        >
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+          </svg>
+          Fazer compras
+        </NuxtLink>
       </div>
     </div>
 
@@ -228,18 +256,18 @@
       <div
         v-for="order in filteredOrders"
         :key="order.id"
-        class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden"
+        class="bg-white border border-gray-100 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group"
       >
         <!-- Order Header -->
-        <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+        <div class="px-6 py-5 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
           <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-4">
               <button
                 @click="toggleOrderExpansion(order.id)"
-                class="text-gray-500 hover:text-gray-700 transition-colors"
+                class="p-2 text-gray-400 hover:text-coral-soft hover:bg-coral-soft/10 rounded-xl transition-all duration-200 group-hover:bg-coral-soft/5"
               >
                 <svg
-                  class="w-5 h-5 transform transition-transform"
+                  class="w-5 h-5 transform transition-transform duration-200"
                   :class="{ 'rotate-90': expandedOrders.includes(order.id) }"
                   fill="none"
                   stroke="currentColor"
@@ -253,17 +281,33 @@
                   ></path>
                 </svg>
               </button>
-              <div>
-                <h3 class="text-lg font-semibold text-gray-900">
-                  Pedido #{{ order.id.slice(-8) }}
-                </h3>
-                <p class="text-sm text-gray-600">{{ formatDate(order.createdAt) }}</p>
+              <div class="flex items-center space-x-3">
+                <div class="bg-coral-soft/10 p-2 rounded-xl">
+                  <svg class="w-6 h-6 text-coral-soft" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-xl font-bold text-gray-900">
+                    Pedido #{{ order.id.slice(-8) }}
+                  </h3>
+                  <p class="text-sm text-gray-500 flex items-center">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                    {{ formatDate(order.createdAt) }}
+                  </p>
+                </div>
               </div>
             </div>
-            <div class="flex items-center space-x-2">
+            <div class="flex items-center space-x-3">
+              <div class="text-right">
+                <p class="text-sm text-gray-500">Total</p>
+                <p class="text-lg font-bold text-gray-900">{{ formatPrice(order.total) }}</p>
+              </div>
               <span
                 :class="[
-                  'px-3 py-1 text-xs font-medium rounded-full',
+                  'px-4 py-2 text-sm font-semibold rounded-xl shadow-sm',
                   getOrderStatusColor(order.status),
                 ]"
               >
@@ -275,68 +319,100 @@
 
         <!-- Order Items (Collapsible) -->
         <div v-show="expandedOrders.includes(order.id)" class="animate-fade-in">
-          <div class="p-6">
+          <div class="p-6 bg-gray-50/50">
             <div class="space-y-4">
               <div
                 v-for="item in order.orderItems"
                 :key="item.id"
-                class="flex items-center space-x-4"
+                class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200"
               >
-                <!-- Product Image -->
-                <div class="flex-shrink-0">
-                  <img
-                    :src="item.product.images?.[0] || '/images/placeholder.jpg'"
-                    :alt="item.product.name"
-                    class="w-16 h-16 object-cover rounded-lg"
-                  />
-                </div>
+                <div class="flex items-center space-x-4">
+                  <!-- Product Image -->
+                  <div class="flex-shrink-0">
+                    <img
+                      :src="item.product.images?.[0] || '/images/placeholder.jpg'"
+                      :alt="item.product.name"
+                      class="w-20 h-20 object-cover rounded-xl shadow-sm"
+                    />
+                  </div>
 
-                <!-- Product Details -->
-                <div class="flex-1 min-w-0">
-                  <h4 class="text-sm font-medium text-gray-900 truncate">
-                    {{ item.product.name }}
-                  </h4>
-                  <p class="text-sm text-gray-500">
-                    Quantidade: {{ item.quantity }}
-                    <span v-if="item.size" class="ml-2">Tamanho: {{ item.size }}</span>
-                    <span v-if="item.color" class="ml-2">Cor: {{ item.color }}</span>
-                  </p>
-                  <p class="text-xs text-gray-500">
-                    {{ formatPrice(Number(item.price) * item.quantity) }}
-                  </p>
+                  <!-- Product Details -->
+                  <div class="flex-1 min-w-0">
+                    <h4 class="text-lg font-semibold text-gray-900 mb-2">
+                      {{ item.product.name }}
+                    </h4>
+                    <div class="flex flex-wrap gap-4 text-sm text-gray-600">
+                      <span class="flex items-center">
+                        <svg class="w-4 h-4 mr-1 text-coral-soft" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                        </svg>
+                        Qtd: {{ item.quantity }}
+                      </span>
+                      <span v-if="item.size" class="flex items-center">
+                        <svg class="w-4 h-4 mr-1 text-coral-soft" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"></path>
+                        </svg>
+                        Tamanho: {{ item.size }}
+                      </span>
+                      <span v-if="item.color" class="flex items-center">
+                        <svg class="w-4 h-4 mr-1 text-coral-soft" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"></path>
+                        </svg>
+                        Cor: {{ item.color }}
+                      </span>
+                    </div>
+                    <p class="text-lg font-bold text-coral-soft mt-2">
+                      {{ formatPrice(Number(item.price) * item.quantity) }}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
 
             <!-- Order Summary -->
             <div class="mt-6 pt-6 border-t border-gray-200">
-              <div class="flex justify-between items-center">
-                <div class="text-sm text-gray-600">
-                  <p>
-                    Subtotal:
-                    {{
-                      formatPrice(Number(order.total) - Number(order.shipping) - Number(order.tax))
-                    }}
-                  </p>
-                  <p v-if="Number(order.shipping) > 0">Frete: {{ formatPrice(order.shipping) }}</p>
-                  <p v-if="Number(order.tax) > 0">Impostos: {{ formatPrice(order.tax) }}</p>
-                </div>
-                <div class="text-right">
-                  <p class="text-lg font-bold text-gray-900">
-                    Total: {{ formatPrice(order.total) }}
-                  </p>
+              <div class="bg-gradient-to-r from-gray-50 to-white p-4 rounded-xl border border-gray-100">
+                <h4 class="font-semibold text-gray-900 mb-3 flex items-center">
+                  <svg class="w-5 h-5 mr-2 text-coral-soft" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                  </svg>
+                  Resumo Financeiro
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                      <span class="text-gray-600">Subtotal:</span>
+                      <span class="font-medium">{{
+                        formatPrice(Number(order.total) - Number(order.shipping) - Number(order.tax))
+                      }}</span>
+                    </div>
+                    <div v-if="Number(order.shipping) > 0" class="flex justify-between text-sm">
+                      <span class="text-gray-600">Frete:</span>
+                      <span class="font-medium text-green-600">{{ formatPrice(order.shipping) }}</span>
+                    </div>
+                    <div v-if="Number(order.tax) > 0" class="flex justify-between text-sm">
+                      <span class="text-gray-600">Impostos:</span>
+                      <span class="font-medium">{{ formatPrice(order.tax) }}</span>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <div class="text-2xl font-bold text-gray-900">
+                      {{ formatPrice(order.total) }}
+                    </div>
+                    <p class="text-sm text-gray-500">Total do Pedido</p>
+                  </div>
                 </div>
               </div>
             </div>
 
             <!-- Order Actions -->
             <div class="mt-6 pt-6 border-t border-gray-200">
-              <div class="flex justify-end space-x-3">
+              <div class="flex flex-wrap justify-end gap-3">
                 <button
                   v-if="order.status === 'PENDING'"
                   @click="finalizeOrder(order)"
                   :disabled="finalizingOrder === order.id"
-                  class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                  class="inline-flex items-center px-6 py-3 border border-transparent shadow-lg text-sm font-semibold rounded-xl text-white bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
                 >
                   <svg
                     v-if="finalizingOrder === order.id"
@@ -376,7 +452,7 @@
                 </button>
                 <button
                   @click="viewOrderDetails(order)"
-                  class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft"
+                  class="inline-flex items-center px-6 py-3 border border-gray-200 shadow-lg text-sm font-semibold rounded-xl text-gray-700 bg-white hover:bg-gray-50 hover:border-coral-soft focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-all duration-200"
                 >
                   <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
@@ -397,7 +473,7 @@
                 <button
                   v-if="order.status === 'DELIVERED'"
                   @click="rateOrder(order)"
-                  class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-coral-soft hover:bg-coral-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft"
+                  class="inline-flex items-center px-6 py-3 border border-transparent shadow-lg text-sm font-semibold rounded-xl text-white bg-gradient-to-r from-coral-soft to-coral-dark hover:from-coral-dark hover:to-coral-soft focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-all duration-200"
                 >
                   <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
@@ -407,7 +483,7 @@
                       d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
                     ></path>
                   </svg>
-                  Avaliar
+                  Avaliar Pedido
                 </button>
               </div>
             </div>
