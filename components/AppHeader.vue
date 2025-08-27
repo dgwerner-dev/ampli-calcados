@@ -144,7 +144,7 @@
                       </svg>
                       Meu Perfil
                     </button>
-                    
+
                     <button
                       type="button"
                       @mousedown.stop.prevent
