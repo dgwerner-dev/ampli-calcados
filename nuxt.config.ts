@@ -36,7 +36,7 @@ export default defineNuxtConfig({
         },
         {
           rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Raleway:wght@100;300&display=swap',
+          href: 'https://fonts.googleapis.com/css2?family=Inter:wght@100;300&display=swap',
         },
       ],
     },
