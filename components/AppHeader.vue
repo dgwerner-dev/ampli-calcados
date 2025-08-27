@@ -41,10 +41,10 @@
           <div class="flex-shrink-0">
             <NuxtLink to="/" class="text-3xl font-bold text-coral-soft tracking-wide">
               <div class="flex items-center">
-                <span class="[font-family:Raleway] font-thin uppercase tracking-[0.18em]">
+                <span class="[font-family:Inter] font-thin uppercase tracking-[0.18em]">
                   AMPLI
                 </span>
-                <span class="[font-family:Raleway] font-thin uppercase tracking-[0.18em] ml-2">
+                <span class="[font-family:Inter] font-thin uppercase tracking-[0.18em] ml-2">
                   CALÇADOS
                 </span>
               </div>
@@ -65,7 +65,7 @@
                     'px-3 py-1 border rounded-full font-semibold transition-all duration-200 ease-in-out',
                     isSizeSelected(size)
                       ? 'bg-coral-soft text-white border-coral-soft'
-                      : 'border-gray-200 text-gray-700 hover:bg-coral-soft hover:text-white hover:border-coral-soft'
+                      : 'border-gray-200 text-gray-700 hover:bg-coral-soft hover:text-white hover:border-coral-soft',
                   ]"
                 >
                   {{ size }}
