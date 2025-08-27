@@ -38,6 +38,7 @@ export default defineEventHandler(async event => {
       id: userData.id,
       email: userData.email,
       name: userData.name,
+      cpf: userData.cpf || '',
       avatar: userData.avatar,
       role: userData.role,
       phone: userData.profile?.phone || '',

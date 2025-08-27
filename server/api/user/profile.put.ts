@@ -29,6 +29,7 @@ export default defineEventHandler(async event => {
       where: { id: user.id },
       data: {
         name: body.name,
+        cpf: body.cpf || null,
       },
     });
 

@@ -178,6 +178,21 @@
               />
             </div>
 
+            <!-- CPF Field -->
+            <div>
+              <label for="cpf" class="block text-sm font-medium text-gray-700 mb-2">
+                CPF
+              </label>
+              <input
+                id="cpf"
+                v-model="form.cpf"
+                type="text"
+                @input="formatCpf"
+                class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200 bg-gray-50 focus:bg-white"
+                placeholder="000.000.000-00"
+              />
+            </div>
+
             <!-- Email Field (Read-only) -->
             <div>
               <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
@@ -777,6 +792,7 @@ const selectedAddressId = ref(null);
 // Form data
 const form = ref({
   name: '',
+  cpf: '',
   phone: '',
   dateOfBirth: '',
   newsletter: false,
@@ -809,6 +825,14 @@ const userInitials = computed(() => {
 // Methods
 const triggerFileUpload = () => {
   fileInput.value?.click();
+};
+
+const formatCpf = () => {
+  let value = form.value.cpf.replace(/\D/g, '');
+  value = value.replace(/(\d{3})(\d)/, '$1.$2');
+  value = value.replace(/(\d{3})(\d)/, '$1.$2');
+  value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+  form.value.cpf = value;
 };
 
 const handleAvatarChange = async event => {
@@ -973,6 +997,7 @@ const loadUserData = async () => {
 
     // Preencher formulário com dados do perfil
     form.value.name = profileData.name || '';
+    form.value.cpf = profileData.cpf || '';
     form.value.phone = profileData.phone || '';
     form.value.dateOfBirth = profileData.dateOfBirth
       ? new Date(profileData.dateOfBirth).toISOString().split('T')[0]
@@ -996,6 +1021,7 @@ const updateProfile = async () => {
     // Preparar dados para envio
     const profileData = {
       name: form.value.name,
+      cpf: form.value.cpf,
       phone: form.value.phone,
       dateOfBirth: form.value.dateOfBirth,
       newsletter: form.value.newsletter,

@@ -1394,7 +1394,7 @@ const saveNewAddress = async () => {
 const loadUserProfile = async () => {
   try {
     const profileData = await $fetch('/api/user/profile');
-    
+
     // Preencher dados pessoais do formulário
     if (profileData.name) {
       form.value.customer.name = profileData.name;
@@ -1402,10 +1402,13 @@ const loadUserProfile = async () => {
     if (profileData.email) {
       form.value.customer.email = profileData.email;
     }
+    if (profileData.cpf) {
+      form.value.customer.cpf = profileData.cpf;
+    }
     if (profileData.phone) {
       form.value.customer.phone = profileData.phone;
     }
-    
+
     // Se não há endereço padrão salvo, mas há um no perfil, usar ele
     if (!selectedAddressId.value && profileData.address) {
       form.value.address = {
@@ -1417,11 +1420,11 @@ const loadUserProfile = async () => {
         city: profileData.address.city,
         state: profileData.address.state,
       };
-      
+
       // Calcular frete para o endereço do perfil
       await calculateShipping(profileData.address.cep.replace(/\D/g, ''));
     }
-    
+
     success('✅ Dados do perfil carregados com sucesso!');
   } catch (error) {
     console.error('Erro ao carregar dados do perfil:', error);
