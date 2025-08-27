@@ -1,6 +1,9 @@
 import { serverSupabaseUser } from '#supabase/server';
+import { PrismaClient } from '@prisma/client';
 
 export default defineEventHandler(async (event) => {
+  const prisma = new PrismaClient();
+  
   try {
     const user = await serverSupabaseUser(event);
     
@@ -12,7 +15,6 @@ export default defineEventHandler(async (event) => {
     }
 
     const body = await readBody(event);
-    const prisma = usePrisma();
 
     // Validar dados obrigatórios
     if (!body.name) {
@@ -91,5 +93,7 @@ export default defineEventHandler(async (event) => {
       statusCode: 500,
       statusMessage: 'Erro interno do servidor',
     });
+  } finally {
+    await prisma.$disconnect();
   }
 });

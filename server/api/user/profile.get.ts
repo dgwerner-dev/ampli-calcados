@@ -1,6 +1,9 @@
 import { serverSupabaseUser } from '#supabase/server';
+import { PrismaClient } from '@prisma/client';
 
 export default defineEventHandler(async (event) => {
+  const prisma = new PrismaClient();
+  
   try {
     const user = await serverSupabaseUser(event);
     
@@ -10,8 +13,6 @@ export default defineEventHandler(async (event) => {
         statusMessage: 'Usuário não autenticado',
       });
     }
-
-    const prisma = usePrisma();
 
     // Buscar dados do usuário e perfil
     const userData = await prisma.user.findUnique({
@@ -61,5 +62,7 @@ export default defineEventHandler(async (event) => {
       statusCode: 500,
       statusMessage: 'Erro interno do servidor',
     });
+  } finally {
+    await prisma.$disconnect();
   }
 });
