@@ -398,6 +398,12 @@
                       <span class="font-medium text-gray-900">{{
                         address.name || 'Endereço Principal'
                       }}</span>
+                      <span
+                        v-if="address.isDefault"
+                        class="ml-2 inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800"
+                      >
+                        Principal
+                      </span>
                     </div>
                     <p class="text-sm text-gray-600 ml-7">
                       {{ address.street }}, {{ address.number }}
@@ -408,21 +414,39 @@
                     </p>
                     <p class="text-sm text-gray-600 ml-7">CEP: {{ address.zipCode }}</p>
                   </div>
-                  <button
-                    @click.stop="deleteAddress(address.id)"
-                    type="button"
-                    class="text-red-500 hover:text-red-700 ml-2"
-                    title="Excluir endereço"
-                  >
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                      ></path>
-                    </svg>
-                  </button>
+                  <div class="flex items-center space-x-2">
+                    <button
+                      v-if="!address.isDefault"
+                      @click.stop="setAsDefault(address.id)"
+                      type="button"
+                      class="text-coral-soft hover:text-coral-dark"
+                      title="Definir como principal"
+                    >
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 13l4 4L19 7"
+                        ></path>
+                      </svg>
+                    </button>
+                    <button
+                      @click.stop="deleteAddress(address.id)"
+                      type="button"
+                      class="text-red-500 hover:text-red-700"
+                      title="Excluir endereço"
+                    >
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        ></path>
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -845,6 +869,22 @@ const loadSavedAddresses = async () => {
 
 const selectAddress = address => {
   selectedAddressId.value = address.id;
+};
+
+const setAsDefault = async addressId => {
+  try {
+    await $fetch(`/api/addresses/${addressId}/set-default`, {
+      method: 'PATCH',
+    });
+
+    // Atualizar a lista de endereços
+    await loadSavedAddresses();
+
+    success('✅ Endereço definido como principal com sucesso!');
+  } catch (error) {
+    console.error('Erro ao definir endereço como principal:', error);
+    error('Erro ao definir endereço como principal. Tente novamente.');
+  }
 };
 
 const deleteAddress = async addressId => {
