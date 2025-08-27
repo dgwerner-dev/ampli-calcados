@@ -130,7 +130,7 @@ const loading = ref(true);
 const error = ref<string | null>(null);
 const order = ref<any>(null);
 
-// Carregar dados do pedido
+// Carregar dados do pedido ou carrinho
 const loadOrder = async () => {
   loading.value = true;
   error.value = null;
@@ -138,20 +138,45 @@ const loadOrder = async () => {
   try {
     const orderId = route.query.orderId as string;
 
-    if (!orderId) {
-      error.value = 'ID do pedido não fornecido';
-      return;
+    if (orderId) {
+      // Se temos um orderId, carregar pedido existente
+      const orderData = await $fetch(`/api/orders/${orderId}`);
+
+      if (!orderData) {
+        error.value = 'Pedido não encontrado';
+        return;
+      }
+
+      order.value = orderData;
+    } else {
+      // Se não temos orderId, usar dados do carrinho
+      const { cart, total, itemCount } = useCart();
+      
+      if (itemCount.value === 0) {
+        error.value = 'Carrinho vazio. Adicione produtos antes de finalizar a compra.';
+        return;
+      }
+
+      // Criar objeto de pedido a partir do carrinho
+      order.value = {
+        id: 'cart-' + Date.now(), // ID temporário
+        orderItems: cart.value.map(item => ({
+          id: item.id,
+          productId: item.productId,
+          quantity: item.quantity,
+          price: item.price,
+          size: item.size,
+          color: item.color,
+          product: item.product
+        })),
+        total: total.value,
+        shipping: 0,
+        tax: 0,
+        status: 'PENDING',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
     }
-
-    // Buscar dados do pedido via API
-    const orderData = await $fetch(`/api/orders/${orderId}`);
-
-    if (!orderData) {
-      error.value = 'Pedido não encontrado';
-      return;
-    }
-
-    order.value = orderData;
   } catch (err: any) {
     console.error('Erro ao carregar pedido:', err);
     error.value = 'Erro ao carregar dados do pedido';
@@ -161,10 +186,43 @@ const loadOrder = async () => {
 };
 
 // Handlers de pagamento
-const handlePaymentSuccess = (paymentData: any) => {
-  success('Pagamento realizado com sucesso!');
-  // Redirecionar para página de sucesso
-  navigateTo(`/payment-success?orderId=${order.value.id}`);
+const handlePaymentSuccess = async (paymentData: any) => {
+  try {
+    // Se o pedido veio do carrinho, criar o pedido no banco
+    if (order.value.id.startsWith('cart-')) {
+      const { clearCart } = useCart();
+      
+      // Criar pedido no banco de dados
+      const createdOrder = await $fetch('/api/orders/create', {
+        method: 'POST',
+        body: {
+          items: order.value.orderItems.map(item => ({
+            productId: item.productId,
+            quantity: item.quantity,
+            size: item.size,
+            color: item.color
+          }))
+        }
+      });
+
+      if (createdOrder.success) {
+        // Limpar carrinho após sucesso
+        clearCart();
+        success('Pagamento realizado com sucesso!');
+        // Redirecionar para página de sucesso com o ID real do pedido
+        navigateTo(`/payment-success?orderId=${createdOrder.order.id}`);
+      } else {
+        throw new Error('Erro ao criar pedido');
+      }
+    } else {
+      // Pedido já existente
+      success('Pagamento realizado com sucesso!');
+      navigateTo(`/payment-success?orderId=${order.value.id}`);
+    }
+  } catch (err) {
+    console.error('Erro ao processar pagamento:', err);
+    notificationError('Erro ao finalizar pedido. Tente novamente.');
+  }
 };
 
 const handlePaymentError = (error: any) => {
