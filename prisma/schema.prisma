@@ -9,21 +9,24 @@ datasource db {
 }
 
 model User {
-  id          String         @id @default(cuid())
-  email       String         @unique
-  name        String?
-  cpf         String?        @unique
-  avatar      String?
-  role        UserRole       @default(USER)
-  isActive    Boolean        @default(true)
-  dateOfBirth DateTime?
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
-  orders      Order[]
-  payments    Payment[]
-  reviews     Review[]
-  wishlist    WishlistItem[]
-  addresses   Address[]
+  id                String         @id @default(cuid())
+  email             String         @unique
+  name              String?
+  cpf               String?        @unique
+  avatar            String?
+  role              UserRole       @default(USER)
+  isActive          Boolean        @default(true)
+  dateOfBirth       DateTime?
+  phone             String?
+  newsletter        Boolean        @default(false)
+  smsNotifications  Boolean        @default(false)
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  orders            Order[]
+  payments          Payment[]
+  reviews           Review[]
+  wishlist          WishlistItem[]
+  addresses         Address[]
 
   @@map("users")
 }

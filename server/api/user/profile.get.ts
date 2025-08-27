@@ -14,11 +14,10 @@ export default defineEventHandler(async event => {
       });
     }
 
-    // Buscar dados do usuário e perfil
+    // Buscar dados do usuário
     const userData = await prisma.user.findUnique({
       where: { id: user.id },
       include: {
-        profile: true,
         addresses: {
           where: { isDefault: true },
           take: 1,
@@ -41,10 +40,10 @@ export default defineEventHandler(async event => {
       cpf: userData.cpf || '',
       avatar: userData.avatar,
       role: userData.role,
-      phone: userData.profile?.phone || '',
-      dateOfBirth: userData.profile?.dateOfBirth || null,
-      newsletter: userData.profile?.newsletter || false,
-      smsNotifications: userData.profile?.smsNotifications || false,
+      phone: userData.phone || '',
+      dateOfBirth: userData.dateOfBirth || null,
+      newsletter: userData.newsletter || false,
+      smsNotifications: userData.smsNotifications || false,
       address: userData.addresses[0]
         ? {
             cep: userData.addresses[0].zipCode,

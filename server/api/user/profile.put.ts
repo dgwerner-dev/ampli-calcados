@@ -24,29 +24,16 @@ export default defineEventHandler(async event => {
       });
     }
 
-    // Atualizar dados básicos do usuário
+    // Atualizar dados do usuário
     await prisma.user.update({
       where: { id: user.id },
       data: {
         name: body.name,
         cpf: body.cpf || null,
-      },
-    });
-
-    // Atualizar ou criar perfil do usuário
-    const profileData = {
-      phone: body.phone || null,
-      dateOfBirth: body.dateOfBirth ? new Date(body.dateOfBirth) : null,
-      newsletter: body.newsletter || false,
-      smsNotifications: body.smsNotifications || false,
-    };
-
-    await prisma.userProfile.upsert({
-      where: { userId: user.id },
-      update: profileData,
-      create: {
-        userId: user.id,
-        ...profileData,
+        phone: body.phone || null,
+        dateOfBirth: body.dateOfBirth ? new Date(body.dateOfBirth) : null,
+        newsletter: body.newsletter || false,
+        smsNotifications: body.smsNotifications || false,
       },
     });
 
