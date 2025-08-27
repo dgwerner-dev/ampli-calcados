@@ -41,7 +41,7 @@
           <div class="flex-shrink-0">
             <NuxtLink to="/" class="text-3xl font-bold text-coral-soft tracking-wide">
               <div class="flex items-center">
-                <span class="[font-family:Raleway] font-thin uppercase tracking-[0.18em]">
+                <span class="[font-family:Raleway] font-light uppercase tracking-[0.3em] text-black">
                   AMPLI
                 </span>
                 <span class="[font-family:Raleway] font-thin uppercase tracking-[0.18em] ml-2">
