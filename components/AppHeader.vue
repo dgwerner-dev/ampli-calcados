@@ -40,11 +40,13 @@
           <!-- Logo -->
           <div class="flex-shrink-0">
             <NuxtLink to="/" class="text-3xl font-bold text-coral-soft tracking-wide">
-              <div class="[font-family:Raleway] font-thin uppercase tracking-[0.18em]">
-                AMPLI
-              </div>
-              <div class="text-sm font-normal tracking-wide">
-                CALÇADOS
+              <div class="flex items-center">
+                <span class="[font-family:Raleway] font-thin uppercase tracking-[0.18em]">
+                  AMPLI
+                </span>
+                <span class="text-sm font-normal tracking-wide ml-2">
+                  CALÇADOS
+                </span>
               </div>
             </NuxtLink>
           </div>
