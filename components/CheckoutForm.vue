@@ -668,7 +668,7 @@
                     />
                   </div>
                 </div>
-                
+
                 <!-- Campo de Parcelas movido para baixo -->
                 <div class="mt-4">
                   <label class="block text-sm font-medium text-gray-700 mb-2">Parcelas *</label>

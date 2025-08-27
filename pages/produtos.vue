@@ -136,7 +136,7 @@ const { success, error: notificationError } = useNotifications();
 const loading = ref(false);
 const products = ref([]);
 const selectedSize = ref<number | null>(null);
-const availableSizes = [40, 41, 42, 43];
+const availableSizes = [35, 36, 37, 38, 39, 40];
 
 // Computed
 const filteredProducts = computed(() => {
@@ -145,7 +145,7 @@ const filteredProducts = computed(() => {
   }
   
   return products.value.filter(product => {
-    return product.sizes && product.sizes.includes(selectedSize.value);
+    return product.sizes && product.sizes.includes(selectedSize.value.toString());
   });
 });
 

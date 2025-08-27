@@ -341,7 +341,7 @@ const mobileMenuOpen = ref(false);
 const showAuthModal = ref(false);
 const showUserMenu = ref(false);
 const isLoggingOut = ref(false);
-const sizes = [40, 41, 42, 43];
+const sizes = [35, 36, 37, 38, 39, 40];
 const categories = ref<any[]>([]);
 
 const navigateToCart = () => {
