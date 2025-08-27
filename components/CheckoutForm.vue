@@ -21,8 +21,20 @@
           </div>
 
           <div class="p-6">
+            <!-- Loading Skeleton para Itens do Pedido -->
+            <div v-if="loadingProfile" class="space-y-4 mb-6">
+              <div v-for="i in 2" :key="i" class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-gray-200 rounded-lg animate-pulse"></div>
+                <div class="flex-1 space-y-2">
+                  <div class="h-4 bg-gray-200 rounded animate-pulse"></div>
+                  <div class="h-3 bg-gray-200 rounded w-2/3 animate-pulse"></div>
+                </div>
+                <div class="w-16 h-4 bg-gray-200 rounded animate-pulse"></div>
+              </div>
+            </div>
+
             <!-- Itens do pedido -->
-            <div class="space-y-4 mb-6">
+            <div v-else class="space-y-4 mb-6">
               <div v-for="item in orderItems" :key="item.id" class="flex items-center space-x-3">
                 <div
                   class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0"
@@ -64,13 +76,35 @@
 
             <!-- Subtotal -->
             <div class="border-t border-gray-200 pt-4">
-              <div class="flex justify-between items-center text-sm text-gray-600 mb-2">
+              <div v-if="loadingProfile" class="space-y-2">
+                <div class="flex justify-between items-center">
+                  <div class="h-4 bg-gray-200 rounded w-20 animate-pulse"></div>
+                  <div class="h-4 bg-gray-200 rounded w-16 animate-pulse"></div>
+                </div>
+              </div>
+              <div v-else class="flex justify-between items-center text-sm text-gray-600 mb-2">
                 <span>Subtotal</span>
                 <span>R$ {{ formatPrice(total) }}</span>
               </div>
 
               <!-- Opções de Frete -->
-              <div v-if="shippingOptions.length > 0" class="mb-4">
+              <div v-if="loadingProfile" class="mb-4">
+                <div class="space-y-2">
+                  <div class="h-4 bg-gray-200 rounded w-32 animate-pulse"></div>
+                  <div class="space-y-2">
+                    <div v-for="i in 2" :key="i" class="border border-gray-200 rounded-lg p-3">
+                      <div class="flex justify-between items-center">
+                        <div class="space-y-1">
+                          <div class="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
+                          <div class="h-3 bg-gray-200 rounded w-32 animate-pulse"></div>
+                        </div>
+                        <div class="h-4 bg-gray-200 rounded w-16 animate-pulse"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div v-else-if="shippingOptions.length > 0" class="mb-4">
                 <div class="flex justify-between items-center text-sm text-gray-600 mb-2">
                   <span>Opções de Frete</span>
                   <span v-if="loadingShipping" class="ml-2">
@@ -242,7 +276,16 @@
                   Carregar Perfil
                 </button>
               </div>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Loading Skeleton para Dados Pessoais -->
+              <div v-if="loadingProfile" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div v-for="i in 4" :key="i" class="space-y-2">
+                  <div class="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
+                  <div class="h-12 bg-gray-200 rounded-lg animate-pulse"></div>
+                </div>
+              </div>
+              
+              <!-- Dados Pessoais Reais -->
+              <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-2"
                     >Nome Completo *</label
@@ -318,8 +361,32 @@
                 </button>
               </div>
 
+              <!-- Loading Skeleton para Endereços -->
+              <div v-if="loadingProfile" class="mb-6">
+                <div class="space-y-2">
+                  <div class="h-4 bg-gray-200 rounded w-40 animate-pulse"></div>
+                  <div class="space-y-3">
+                    <div v-for="i in 2" :key="i" class="border-2 border-gray-200 rounded-lg p-4">
+                      <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                          <div class="flex items-center mb-2">
+                            <div class="w-4 h-4 border-2 border-gray-300 rounded-full mr-3"></div>
+                            <div class="h-4 bg-gray-200 rounded w-32 animate-pulse"></div>
+                          </div>
+                          <div class="ml-7 space-y-1">
+                            <div class="h-3 bg-gray-200 rounded w-48 animate-pulse"></div>
+                            <div class="h-3 bg-gray-200 rounded w-40 animate-pulse"></div>
+                            <div class="h-3 bg-gray-200 rounded w-24 animate-pulse"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <!-- Endereços salvos -->
-              <div class="mb-6">
+              <div v-else class="mb-6">
                 <div v-if="savedAddresses.length > 0">
                   <label class="block text-sm font-medium text-gray-700 mb-3"
                     >Escolha um endereço salvo:</label
@@ -421,8 +488,13 @@
               </div>
             </div>
 
+            <!-- Loading Skeleton para Botão de Pagamento -->
+            <div v-if="loadingProfile" class="pt-8">
+              <div class="w-full h-14 bg-gray-200 rounded-lg animate-pulse"></div>
+            </div>
+
             <!-- Botão de pagamento -->
-            <div class="pt-8">
+            <div v-else class="pt-8">
               <button
                 type="submit"
                 :disabled="loading"
@@ -987,6 +1059,7 @@ const { success, error: notificationError } = useNotifications();
 
 // Estados
 const loading = ref(false);
+const loadingProfile = ref(true);
 const showPixModal = ref(false);
 const pixQrCode = ref('');
 const pixCode = ref('');
@@ -1392,9 +1465,10 @@ const saveNewAddress = async () => {
 
 // Carrega os dados do perfil do usuário
 const loadUserProfile = async () => {
+  loadingProfile.value = true;
   try {
     const profileData = await $fetch('/api/user/profile');
-
+    
     // Preencher dados pessoais do formulário
     if (profileData.name) {
       form.value.customer.name = profileData.name;
@@ -1408,7 +1482,7 @@ const loadUserProfile = async () => {
     if (profileData.phone) {
       form.value.customer.phone = profileData.phone;
     }
-
+    
     // Se não há endereço padrão salvo, mas há um no perfil, usar ele
     if (!selectedAddressId.value && profileData.address) {
       form.value.address = {
@@ -1420,22 +1494,29 @@ const loadUserProfile = async () => {
         city: profileData.address.city,
         state: profileData.address.state,
       };
-
+      
       // Calcular frete para o endereço do perfil
       await calculateShipping(profileData.address.cep.replace(/\D/g, ''));
     }
-
+    
     success('✅ Dados do perfil carregados com sucesso!');
   } catch (error) {
     console.error('Erro ao carregar dados do perfil:', error);
     notificationError('Erro ao carregar dados do perfil. Tente novamente.');
+  } finally {
+    loadingProfile.value = false;
   }
 };
 
 // Carrega os endereços salvos e dados do perfil quando o componente é montado
 onMounted(async () => {
-  await loadSavedAddresses();
-  await loadUserProfile();
+  loadingProfile.value = true;
+  try {
+    await loadSavedAddresses();
+    await loadUserProfile();
+  } finally {
+    loadingProfile.value = false;
+  }
 });
 
 // Watcher para calcular frete quando o CEP é alterado
