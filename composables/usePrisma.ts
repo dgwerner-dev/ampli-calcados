@@ -143,14 +143,22 @@ export const useWishlistService = () => {
 
     // Remover da lista de desejos
     async removeFromWishlist(userId: string, productId: string) {
-      return await prisma.wishlistItem.delete({
+      const wishlistItem = await prisma.wishlistItem.findFirst({
         where: {
-          userId_productId: {
-            userId,
-            productId,
-          },
+          userId,
+          productId,
         },
       });
+
+      if (wishlistItem) {
+        return await prisma.wishlistItem.delete({
+          where: {
+            id: wishlistItem.id,
+          },
+        });
+      }
+
+      return null;
     },
 
     // Buscar lista de desejos do usuário
@@ -165,12 +173,10 @@ export const useWishlistService = () => {
 
     // Verificar se produto está na lista de desejos
     async isInWishlist(userId: string, productId: string) {
-      const item = await prisma.wishlistItem.findUnique({
+      const item = await prisma.wishlistItem.findFirst({
         where: {
-          userId_productId: {
-            userId,
-            productId,
-          },
+          userId,
+          productId,
         },
       });
       return !!item;

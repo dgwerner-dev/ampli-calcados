@@ -287,3 +287,14 @@ enum PaymentMethod {
   BOLETO
   BANK_TRANSFER
 }
+
+model Settings {
+  id                    String   @id @default(cuid())
+  key                   String   @unique
+  value                 String
+  description           String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@map("settings")
+}

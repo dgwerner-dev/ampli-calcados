@@ -1264,6 +1264,246 @@
                 </button>
               </div>
 
+              <!-- Lista de Promoções Criadas -->
+              <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="w-8 h-8 bg-coral-100 rounded-lg flex items-center justify-center">
+                        <svg
+                          class="w-5 h-5 text-coral-600"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                          ></path>
+                        </svg>
+                      </div>
+                      <div>
+                        <h4 class="text-lg font-semibold text-gray-900">Promoções de Frete</h4>
+                        <p class="text-sm text-gray-500">
+                          Gerencie todas as promoções de frete criadas
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      @click="toggleShippingPromotionsList"
+                      class="text-coral-soft hover:text-coral-dark transition-colors text-sm font-medium"
+                    >
+                      {{ showShippingPromotionsList ? 'Mostrar menos' : 'Mostrar mais' }}
+                    </button>
+                  </div>
+                </div>
+
+                <div v-if="showShippingPromotionsList" class="p-6">
+                  <!-- Loading State -->
+                  <div v-if="shippingPromotionsLoading" class="text-center py-8">
+                    <svg
+                      class="mx-auto h-8 w-8 animate-spin text-coral-soft"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        class="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        stroke-width="4"
+                      ></circle>
+                      <path
+                        class="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    <p class="mt-2 text-sm text-gray-500">Carregando promoções...</p>
+                  </div>
+
+                  <!-- Error State -->
+                  <div v-else-if="shippingPromotionsError" class="text-center py-8">
+                    <svg
+                      class="mx-auto h-12 w-12 text-red-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+                      ></path>
+                    </svg>
+                    <h3 class="mt-2 text-sm font-medium text-gray-900">
+                      Erro ao carregar promoções
+                    </h3>
+                    <p class="mt-1 text-sm text-gray-500">{{ shippingPromotionsError }}</p>
+                  </div>
+
+                  <!-- Promotions List -->
+                  <div v-else-if="shippingPromotions.length > 0" class="space-y-4">
+                    <div
+                      v-for="promotion in shippingPromotions"
+                      :key="promotion.id"
+                      class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+                    >
+                      <div class="flex items-center justify-between">
+                        <div class="flex-1">
+                          <div class="flex items-center space-x-3">
+                            <h5 class="text-lg font-medium text-gray-900">{{ promotion.name }}</h5>
+                            <span
+                              :class="[
+                                'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
+                                promotion.isActive
+                                  ? 'bg-green-100 text-green-800'
+                                  : 'bg-red-100 text-red-800',
+                              ]"
+                            >
+                              {{ promotion.isActive ? 'Ativa' : 'Inativa' }}
+                            </span>
+                            <span
+                              v-if="
+                                promotion.validUntil && new Date(promotion.validUntil) < new Date()
+                              "
+                              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800"
+                            >
+                              Expirada
+                            </span>
+                          </div>
+                          <p v-if="promotion.description" class="mt-1 text-sm text-gray-600">
+                            {{ promotion.description }}
+                          </p>
+                          <div class="mt-2 flex items-center space-x-4 text-sm text-gray-500">
+                            <span>Valor mínimo: R$ {{ formatPrice(promotion.minOrderValue) }}</span>
+                            <span v-if="promotion.freeShipping" class="text-green-600 font-medium">
+                              Frete grátis
+                            </span>
+                            <span
+                              v-else-if="promotion.discountValue > 0"
+                              class="text-blue-600 font-medium"
+                            >
+                              Desconto: R$ {{ formatPrice(promotion.discountValue) }}
+                            </span>
+                            <span v-if="promotion.validUntil">
+                              Válida até:
+                              {{ new Date(promotion.validUntil).toLocaleDateString('pt-BR') }}
+                            </span>
+                          </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                          <button
+                            @click="editShippingPromotion(promotion)"
+                            class="p-2 text-gray-400 hover:text-coral-600 transition-colors"
+                            title="Editar promoção"
+                          >
+                            <svg
+                              class="w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                              ></path>
+                            </svg>
+                          </button>
+                          <button
+                            @click="toggleShippingPromotionStatus(promotion)"
+                            :class="[
+                              'p-2 transition-colors',
+                              promotion.isActive
+                                ? 'text-red-400 hover:text-red-600'
+                                : 'text-green-400 hover:text-green-600',
+                            ]"
+                            :title="promotion.isActive ? 'Desativar promoção' : 'Ativar promoção'"
+                          >
+                            <svg
+                              v-if="promotion.isActive"
+                              class="w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L5.636 5.636"
+                              ></path>
+                            </svg>
+                            <svg
+                              v-else
+                              class="w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M5 13l4 4L19 7"
+                              ></path>
+                            </svg>
+                          </button>
+                          <button
+                            @click="deleteShippingPromotion(promotion)"
+                            class="p-2 text-gray-400 hover:text-red-600 transition-colors"
+                            title="Excluir promoção"
+                          >
+                            <svg
+                              class="w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                              ></path>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Empty State -->
+                  <div v-else class="text-center py-12">
+                    <svg
+                      class="mx-auto h-12 w-12 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                      ></path>
+                    </svg>
+                    <h3 class="mt-2 text-sm font-medium text-gray-900">
+                      Nenhuma promoção encontrada
+                    </h3>
+                    <p class="mt-1 text-sm text-gray-500">
+                      Comece criando sua primeira promoção de frete.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               <!-- 1. Por região -->
               <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
@@ -1856,14 +2096,32 @@
                     <!-- Action Buttons -->
                     <div class="flex justify-end space-x-3 pt-4">
                       <button
-                        class="px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-colors"
+                        @click="loadFreeShippingAlert"
+                        :disabled="freeShippingAlertLoading"
+                        class="px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         Cancelar
                       </button>
                       <button
-                        class="px-4 py-2 bg-coral-soft text-white font-medium rounded-md hover:bg-coral-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-colors"
+                        @click="saveFreeShippingAlert"
+                        :disabled="freeShippingAlertLoading"
+                        class="px-4 py-2 bg-coral-soft text-white font-medium rounded-md hover:bg-coral-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
                       >
-                        Salvar alterações
+                        <svg
+                          v-if="freeShippingAlertLoading"
+                          class="w-4 h-4 mr-2 animate-spin"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                          ></path>
+                        </svg>
+                        {{ freeShippingAlertLoading ? 'Salvando...' : 'Salvar alterações' }}
                       </button>
                     </div>
                   </div>
@@ -1929,7 +2187,9 @@ import { ref, onMounted, watch, computed } from 'vue';
 import ProductModal from '~/components/ProductModal.vue';
 import RegionModal from '~/components/RegionModal.vue';
 import BulkPriceUpdateModal from '~/components/BulkPriceUpdateModal.vue';
+import ShippingPromotionModal from '~/components/ShippingPromotionModal.vue';
 import { useShippingPromotions } from '~/composables/useShippingPromotions';
+import { useSettings } from '~/composables/useSettings';
 
 // Estados
 const activeTab = ref('products');
@@ -1957,7 +2217,7 @@ const editingCategory = ref(null);
 const editingCoupon = ref(null);
 const editingShippingPromotion = ref(null);
 const editingRegion = ref(null);
-const activeMarketingSection = ref('coupons');
+const activeMarketingSection = ref('shipping');
 const couponsLoading = ref(false);
 const shippingPromotionsLoading = ref(false);
 const productSearch = ref('');
@@ -1981,10 +2241,12 @@ const pageSize = ref(20);
 const showRegionSection = ref(false);
 const showProductSection = ref(false);
 const showCategorySection = ref(false);
+const showShippingPromotionsList = ref(true);
 const productSearchShipping = ref('');
 const selectedProductsShipping = ref([]);
 const selectAllProductsShipping = ref(false);
 const freeShippingAlert = ref(false);
+const freeShippingAlertLoading = ref(false);
 const regions = ref([]);
 
 // Inicializar composable de promoções de frete
@@ -1995,6 +2257,9 @@ const {
   updateShippingRegion,
   deleteShippingRegion,
 } = useShippingPromotions();
+
+// Inicializar composable de configurações
+const { getAllSettings, getFreeShippingAlert, updateFreeShippingAlert } = useSettings();
 
 const supabase = useSupabaseClient();
 const { isAdmin } = useAuth();
@@ -2196,6 +2461,7 @@ const loadCoupons = async () => {
 };
 
 const loadShippingPromotions = async () => {
+  console.log('Carregando promoções de frete...');
   shippingPromotionsLoading.value = true;
   shippingPromotionsError.value = null;
 
@@ -2207,7 +2473,9 @@ const loadShippingPromotions = async () => {
 
     if (fetchError) throw fetchError;
     shippingPromotions.value = data || [];
+    console.log('Promoções carregadas:', data);
   } catch (err) {
+    console.error('Erro ao carregar promoções:', err);
     shippingPromotionsError.value = err.message || 'Erro ao carregar promoções de frete';
   } finally {
     shippingPromotionsLoading.value = false;
@@ -2441,9 +2709,15 @@ const closeShippingPromotionModal = () => {
   editingShippingPromotion.value = null;
 };
 
-const handleShippingPromotionSaved = () => {
-  loadShippingPromotions();
+const handleShippingPromotionSaved = async () => {
+  await loadShippingPromotions();
   closeShippingPromotionModal();
+
+  // Recarregar informações de frete grátis no header
+  if (process.client) {
+    const { loadFreeShippingInfo } = useFreeShippingInfo();
+    await loadFreeShippingInfo();
+  }
 };
 
 const toggleShippingPromotionStatus = async promotion => {
@@ -2491,6 +2765,10 @@ const toggleProductSection = () => {
 
 const toggleCategorySection = () => {
   showCategorySection.value = !showCategorySection.value;
+};
+
+const toggleShippingPromotionsList = () => {
+  showShippingPromotionsList.value = !showShippingPromotionsList.value;
 };
 
 const searchProducts = () => {
@@ -2548,8 +2826,37 @@ const deleteProductShipping = async product => {
   }
 };
 
+const loadFreeShippingAlert = async () => {
+  try {
+    const settings = await getAllSettings();
+    freeShippingAlert.value = settings.free_shipping_alert?.value === 'true' || false;
+  } catch (err) {
+    console.error('Erro ao carregar alerta de frete grátis:', err);
+  }
+};
+
 const toggleFreeShippingAlert = () => {
   freeShippingAlert.value = !freeShippingAlert.value;
+};
+
+const saveFreeShippingAlert = async () => {
+  freeShippingAlertLoading.value = true;
+
+  try {
+    await updateFreeShippingAlert(freeShippingAlert.value);
+    console.log('Alerta de frete grátis salvo com sucesso');
+
+    // Recarregar informações de frete grátis no header
+    if (process.client) {
+      const { loadFreeShippingInfo } = useFreeShippingInfo();
+      await loadFreeShippingInfo();
+    }
+  } catch (err) {
+    console.error('Erro ao salvar alerta de frete grátis:', err);
+    alert('Erro ao salvar configuração: ' + err.message);
+  } finally {
+    freeShippingAlertLoading.value = false;
+  }
 };
 
 const editRegion = async region => {
@@ -2592,6 +2899,7 @@ onMounted(() => {
   loadCoupons();
   loadShippingPromotions();
   loadShippingRegions();
+  loadFreeShippingAlert();
 });
 
 // Resetar modais quando a aba mudar

@@ -842,14 +842,6 @@ const toggleOrderExpansion = orderId => {
 
 // Função para finalizar pedido pendente
 const finalizeOrder = async order => {
-  if (
-    !confirm(
-      'Tem certeza que deseja finalizar este pedido? Você será redirecionado para a tela de checkout.'
-    )
-  ) {
-    return;
-  }
-
   finalizingOrder.value = order.id;
 
   try {

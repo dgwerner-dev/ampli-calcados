@@ -19,9 +19,15 @@
           </button>
         </div>
         <div class="flex items-center space-x-6 text-gray-700 font-medium">
-          <span class="text-coral-soft font-semibold"
-            >Frete grátis nas compras acima de R$ 599</span
-          >
+          <ClientOnly fallback="Frete grátis em promoções especiais">
+            <span
+              :class="
+                freeShippingInfo?.hasPromotion ? 'text-coral-soft font-semibold' : 'text-gray-500'
+              "
+            >
+              {{ freeShippingMessage }}
+            </span>
+          </ClientOnly>
           <span class="hidden md:inline">|</span>
           <span class="hidden md:inline">Parcele em até 5x sem juros</span>
           <span class="hidden lg:inline">|</span>
@@ -41,7 +47,9 @@
           <div class="flex-shrink-0">
             <NuxtLink to="/" class="text-3xl font-bold text-coral-soft tracking-wide">
               <div class="flex items-center">
-                <span class="[font-family:Raleway] font-light uppercase tracking-[0.3em] text-black">
+                <span
+                  class="[font-family:Raleway] font-light uppercase tracking-[0.3em] text-black"
+                >
                   AMPLI
                 </span>
                 <span class="[font-family:Raleway] font-thin uppercase tracking-[0.18em] ml-2">
@@ -139,7 +147,7 @@
                       type="button"
                       @mousedown.stop.prevent
                       @click.stop.prevent="goTo('/profile')"
-                      class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors block cursor-pointer flex items-center"
+                      class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer flex items-center"
                     >
                       <svg
                         class="w-4 h-4 mr-2 flex-shrink-0"
@@ -161,7 +169,7 @@
                       type="button"
                       @mousedown.stop.prevent
                       @click.stop.prevent="goTo('/orders')"
-                      class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors block cursor-pointer flex items-center"
+                      class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer flex items-center"
                     >
                       <svg
                         class="w-4 h-4 mr-2 flex-shrink-0"
@@ -186,7 +194,7 @@
                       type="button"
                       @mousedown.stop.prevent
                       @click.stop.prevent="goTo('/admin')"
-                      class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors block cursor-pointer flex items-center"
+                      class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer flex items-center"
                     >
                       <svg
                         class="w-4 h-4 mr-2 flex-shrink-0"
@@ -206,9 +214,8 @@
                   </div>
 
                   <button
-                    @click="handleLogout"
-                    :disabled="isLoggingOut"
-                    class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                    @click="forceLogout"
+                    class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors flex items-center"
                   >
                     <svg
                       v-if="!isLoggingOut"
@@ -245,7 +252,10 @@
             </ClientOnly>
 
             <!-- Wishlist -->
-            <button class="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200">
+            <button
+              @click="navigateToWishlist"
+              class="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200 relative"
+            >
               <svg
                 class="w-5 h-5 text-gray-700"
                 fill="none"
@@ -259,6 +269,13 @@
                   d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                 ></path>
               </svg>
+              <ClientOnly>
+                <span
+                  v-if="wishlistCount > 0"
+                  class="absolute -top-1 -right-1 bg-coral-soft text-white text-xs rounded-full min-w-[16px] h-4 flex items-center justify-center px-1"
+                  >{{ wishlistCount }}</span
+                >
+              </ClientOnly>
             </button>
 
             <!-- Cart -->
@@ -360,16 +377,26 @@ const navigateToCart = () => {
   navigateTo('/cart');
 };
 
+const navigateToWishlist = () => {
+  navigateTo('/wishlist');
+};
+
 const { user, signOut, initAuth, refreshUserState } = useAuth();
 const { itemCount: cartItemCount } = useCart();
+const { wishlistCount, loadWishlist } = useWishlist();
 const supabase = useSupabaseClient();
 
-// Garantir que o carrinho seja inicializado no cliente
+// Garantir que o carrinho e wishlist sejam inicializados no cliente
 onMounted(() => {
   // Forçar inicialização do carrinho no cliente
   if (process.client) {
     const { loadCart } = useCart();
     loadCart();
+
+    // Só carregar wishlist se usuário estiver autenticado
+    if (user.value) {
+      loadWishlist();
+    }
   }
 });
 
@@ -415,18 +442,44 @@ const handleTopLoginClick = () => {
 
 const { success, error } = useNotifications();
 
-const handleLogout = async () => {
-  isLoggingOut.value = true;
-  try {
-    await signOut();
-    showUserMenu.value = false;
-    success('Logout realizado com sucesso!');
-  } catch (err) {
-    error('Erro ao fazer logout. Tente novamente.');
-  } finally {
-    isLoggingOut.value = false;
+// Informações de frete grátis
+const { freeShippingInfo, loadFreeShippingInfo } = useFreeShippingInfo();
+
+// Computed para garantir reatividade
+const freeShippingMessage = computed(() => {
+  if (freeShippingInfo.value?.hasPromotion) {
+    return freeShippingInfo.value.message;
   }
+  return 'Frete grátis em promoções especiais';
+});
+
+const forceLogout = async () => {
+  if (typeof window === 'undefined') return;
+  if (isLoggingOut.value) return;
+  isLoggingOut.value = true;
+
+  try {
+    // Logout real do Supabase
+    if (supabase?.auth?.signOut) {
+      await supabase.auth.signOut();
+    }
+  } catch (err) {
+    console.warn('Erro ao fazer signOut do Supabase:', err);
+  }
+
+  try {
+    user.value = null;
+    window.localStorage.removeItem('cart');
+    window.localStorage.removeItem('nuxt-storage');
+    window.sessionStorage.clear();
+  } catch (err) {
+    console.warn('Erro ao limpar storage:', err);
+  }
+
+  window.location.href = '/';
 };
+
+const handleLogout = forceLogout;
 
 const handleLoginSuccess = async () => {
   console.log('🔔 Evento login-success recebido');
@@ -448,6 +501,10 @@ const goTo = async (path: string) => {
 onMounted(() => {
   initAuth();
   loadCategories();
+  // Adicionar um pequeno delay para garantir que a API esteja disponível
+  setTimeout(() => {
+    loadFreeShippingInfo();
+  }, 100);
 
   // Abrir modal de login quando a página /login emitir evento
   const openModal = () => {
@@ -466,18 +523,26 @@ onMounted(() => {
   });
 });
 
-// Fechar menu do usuário quando clicar fora (ignorar clique no botão toggle)
+// Versão simplificada do fechar menu (sem interferir no logout)
 const handleOutsideClick = (e: MouseEvent) => {
   const menu = document.querySelector('[data-user-menu]');
   const toggle = document.querySelector('[data-user-toggle]');
   const target = e.target as Node;
+
+  // Só fechar se realmente clicou fora de tudo
   if (menu && !menu.contains(target) && toggle && !toggle.contains(target)) {
-    showUserMenu.value = false;
+    // Usar setTimeout para não interferir com outros clicks
+    setTimeout(() => {
+      showUserMenu.value = false;
+    }, 50);
   }
 };
 
 onMounted(() => {
-  document.addEventListener('click', handleOutsideClick);
+  // Adicionar listener com delay para não interferir
+  setTimeout(() => {
+    document.addEventListener('click', handleOutsideClick);
+  }, 100);
 });
 
 onBeforeUnmount(() => {

@@ -73,15 +73,48 @@
                         <div class="w-16 h-1 bg-coral-soft rounded-full"></div>
                       </div>
                       <button
-                        class="flex items-center justify-center p-3 border-2 border-gray-300 text-gray-700 rounded-full hover:border-coral-soft hover:text-coral-soft transition-all duration-300 ml-4"
+                        @click="toggleWishlist(slide.id)"
+                        :disabled="wishlistLoading === slide.id"
+                        :class="[
+                          'flex items-center justify-center p-3 border-2 rounded-full transition-all duration-300 ml-4 disabled:opacity-50',
+                          isInWishlist(slide.id)
+                            ? 'border-coral-soft text-coral-soft bg-coral-soft/10'
+                            : 'border-gray-300 text-gray-700 hover:border-coral-soft hover:text-coral-soft',
+                        ]"
+                        :title="
+                          isInWishlist(slide.id)
+                            ? 'Remover da lista de desejos'
+                            : 'Adicionar à lista de desejos'
+                        "
                       >
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg
+                          v-if="wishlistLoading !== slide.id"
+                          class="w-5 h-5"
+                          :class="isInWishlist(slide.id) ? 'fill-current' : ''"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
                           <path
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             stroke-width="2"
                             d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                           ></path>
+                        </svg>
+                        <svg
+                          v-else
+                          class="w-5 h-5 animate-spin"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                          />
                         </svg>
                       </button>
                     </div>
@@ -291,8 +324,11 @@ const currentSlide = ref(0);
 const slides = ref([]);
 const loading = ref(true);
 const error = ref(null);
+const wishlistLoading = ref(null);
 
 const supabase = useSupabaseClient();
+const { wishlist, isInWishlist, addToWishlist, removeFromWishlist, loadWishlist } = useWishlist();
+const { success, error: notificationError } = useNotifications();
 
 // Buscar produtos em destaque
 const loadFeaturedProducts = async () => {
@@ -380,11 +416,37 @@ const goToSlide = index => {
   currentSlide.value = index;
 };
 
+// Função para alternar wishlist
+const toggleWishlist = async productId => {
+  try {
+    wishlistLoading.value = productId;
+
+    if (isInWishlist(productId)) {
+      await removeFromWishlist(productId);
+      success('Produto removido da lista de desejos');
+    } else {
+      await addToWishlist(productId);
+      success('Produto adicionado à lista de desejos');
+    }
+  } catch (err) {
+    console.error('Erro ao atualizar wishlist:', err);
+    notificationError('Erro ao atualizar lista de desejos');
+  } finally {
+    wishlistLoading.value = null;
+  }
+};
+
 // Auto-play carousel
 onMounted(() => {
   // Carregar produtos em destaque apenas no cliente
   if (process.client) {
     loadFeaturedProducts();
+
+    // Só carregar wishlist se usuário estiver autenticado
+    const { user } = useAuth();
+    if (user.value) {
+      loadWishlist();
+    }
   }
 
   // Auto-play do carrossel

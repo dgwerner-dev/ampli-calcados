@@ -1,7 +1,7 @@
 export default defineEventHandler(async event => {
   try {
     const body = await readBody(event);
-    const { destinationCep, weight = 0.5 } = body;
+    const { destinationCep, weight = 0.5, orderTotal = 0 } = body;
 
     if (!destinationCep) {
       throw createError({
@@ -28,15 +28,97 @@ export default defineEventHandler(async event => {
     // Calcular opções de frete
     const shippingOptions = calculateShippingOptions(cleanOriginCep, cleanDestinationCep, weight);
 
-    return {
-      success: true,
-      shipping: {
-        originCep: originCep,
-        destinationCep: destinationCep,
-        weight: weight,
-        options: shippingOptions,
-      },
-    };
+    // Verificar promoções de frete
+    const { PrismaClient } = await import('@prisma/client');
+    const prisma = new PrismaClient();
+
+    try {
+      // Buscar promoções ativas
+      const activePromotions = await prisma.shippingPromotion.findMany({
+        where: {
+          isActive: true,
+          OR: [
+            {
+              validUntil: {
+                gte: new Date(),
+              },
+            },
+            {
+              validUntil: null,
+            },
+          ],
+        },
+        orderBy: {
+          minOrderValue: 'asc',
+        },
+      });
+
+      // Aplicar promoções às opções de frete
+      const updatedOptions = shippingOptions.map(option => {
+        let finalCost = option.cost;
+        let appliedPromotion = null;
+
+        for (const promotion of activePromotions) {
+          if (orderTotal >= promotion.minOrderValue) {
+            if (promotion.freeShipping) {
+              finalCost = 0;
+              appliedPromotion = promotion;
+              break;
+            } else if (promotion.discountValue > 0) {
+              finalCost = Math.max(0, finalCost - promotion.discountValue);
+              appliedPromotion = promotion;
+              break;
+            }
+          }
+        }
+
+        return {
+          ...option,
+          cost: finalCost,
+          originalCost: option.cost,
+          appliedPromotion,
+        };
+      });
+
+      // Buscar configuração do alerta de frete grátis
+      const freeShippingAlertSetting = await prisma.settings.findUnique({
+        where: { key: 'free_shipping_alert' },
+      });
+
+      const freeShippingAlertEnabled = freeShippingAlertSetting?.value === 'true';
+
+      // Calcular alerta de frete grátis
+      let freeShippingAlert = null;
+      if (freeShippingAlertEnabled) {
+        // Encontrar a promoção com menor valor mínimo
+        const freeShippingPromotions = activePromotions.filter(p => p.freeShipping);
+        
+        const minValuePromotion = freeShippingPromotions
+          .sort((a, b) => a.minOrderValue - b.minOrderValue)[0];
+
+        if (minValuePromotion && orderTotal < minValuePromotion.minOrderValue) {
+          const remaining = minValuePromotion.minOrderValue - orderTotal;
+          freeShippingAlert = {
+            message: `Adicione mais R$ ${remaining.toFixed(2)} para ganhar frete grátis!`,
+            remaining: remaining,
+            promotion: minValuePromotion,
+          };
+        }
+      }
+
+      return {
+        success: true,
+        shipping: {
+          originCep: originCep,
+          destinationCep: destinationCep,
+          weight: weight,
+          options: updatedOptions,
+          freeShippingAlert,
+        },
+      };
+    } finally {
+      await prisma.$disconnect();
+    }
   } catch (error: any) {
     console.error('Erro ao calcular frete:', error);
     throw createError({

@@ -401,18 +401,31 @@ const savePromotion = async () => {
     };
 
     if (props.promotion) {
-      // Update existing promotion
-      const { error } = await supabase
-        .from('shipping_promotions')
-        .update(promotionData)
-        .eq('id', props.promotion.id);
-
-      if (error) throw error;
+      // Update existing promotion usando API endpoint
+      try {
+        const response = await $fetch(`/api/shipping-promotions/${props.promotion.id}`, {
+          method: 'PUT',
+          body: promotionData,
+        });
+        console.log('Promoção atualizada com sucesso:', response);
+      } catch (apiError) {
+        console.error('Erro da API (update):', apiError);
+        throw apiError;
+      }
     } else {
-      // Create new promotion
-      const { error } = await supabase.from('shipping_promotions').insert([promotionData]);
+      // Create new promotion usando API endpoint
+      console.log('Dados da promoção sendo enviados:', promotionData);
 
-      if (error) throw error;
+      try {
+        const response = await $fetch('/api/shipping-promotions', {
+          method: 'POST',
+          body: promotionData,
+        });
+        console.log('Promoção criada com sucesso:', response);
+      } catch (apiError) {
+        console.error('Erro da API:', apiError);
+        throw apiError;
+      }
     }
 
     emit('saved');

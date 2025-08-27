@@ -252,6 +252,58 @@
 
                   {{ addToCartLoading ? 'Adicionando...' : 'Adicionar ao Carrinho' }}
                 </button>
+
+                <!-- Botão Wishlist -->
+                <button
+                  type="button"
+                  @click="toggleWishlist"
+                  :disabled="wishlistLoading"
+                  class="flex w-full items-center justify-center rounded-md border-2 border-gray-300 py-3 px-8 text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-coral-soft focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <svg
+                    v-if="wishlistLoading"
+                    class="animate-spin mr-2 h-5 w-5"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    ></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  <svg
+                    v-else
+                    class="mr-2 h-5 w-5"
+                    :class="isInWishlistComputed ? 'text-coral-soft fill-current' : 'text-gray-400'"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                    />
+                  </svg>
+                  {{
+                    wishlistLoading
+                      ? 'Processando...'
+                      : isInWishlistComputed
+                        ? 'Remover da Lista de Desejos'
+                        : 'Adicionar à Lista de Desejos'
+                  }}
+                </button>
               </div>
 
               <!-- Shipping calculator -->
@@ -339,7 +391,9 @@ const selectedImage = ref('');
 const selectedSize = ref('');
 const buyNowLoading = ref(false);
 const addToCartLoading = ref(false);
+const wishlistLoading = ref(false);
 const { success, error: notificationError } = useNotifications();
+const { wishlist, isInWishlist, addToWishlist, removeFromWishlist, loadWishlist } = useWishlist();
 
 const formatPrice = (price: number | null | undefined) => {
   if (typeof price !== 'number') return '0,00';
@@ -429,6 +483,33 @@ const addToCart = async () => {
   }
 };
 
+// Computed para verificar se está na wishlist
+const isInWishlistComputed = computed(() => {
+  return product.value ? isInWishlist(product.value.id) : false;
+});
+
+// Função para alternar wishlist
+const toggleWishlist = async () => {
+  if (!product.value) return;
+
+  wishlistLoading.value = true;
+
+  try {
+    if (isInWishlist(product.value.id)) {
+      await removeFromWishlist(product.value.id);
+      success('Produto removido da lista de desejos');
+    } else {
+      await addToWishlist(product.value.id);
+      success('Produto adicionado à lista de desejos');
+    }
+  } catch (error: any) {
+    console.error('Erro ao atualizar wishlist:', error);
+    notificationError('Erro ao atualizar lista de desejos');
+  } finally {
+    wishlistLoading.value = false;
+  }
+};
+
 // Função para comprar agora
 const buyNow = async () => {
   if (!product.value) return;
@@ -483,7 +564,14 @@ const buyNow = async () => {
   }
 };
 
-onMounted(fetchData);
+onMounted(async () => {
+  await fetchData();
+
+  // Carregar wishlist se o usuário estiver logado
+  if (process.client) {
+    loadWishlist();
+  }
+});
 
 useHead({
   title: computed(() => (product.value ? `${product.value.name} - AMPLI CALÇADOS` : 'Produto')),

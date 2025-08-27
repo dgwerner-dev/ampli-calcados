@@ -42,10 +42,24 @@
               class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             >
               <button
-                class="w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center hover:bg-gray-50 transition-colors"
+                @click.prevent="toggleWishlist(product.id)"
+                :disabled="wishlistLoading === product.id"
+                :class="[
+                  'w-8 h-8 rounded-full shadow-md flex items-center justify-center transition-colors disabled:opacity-50',
+                  isInWishlist(product.id)
+                    ? 'bg-coral-soft text-white'
+                    : 'bg-white text-gray-700 hover:bg-gray-50',
+                ]"
+                :title="
+                  isInWishlist(product.id)
+                    ? 'Remover da lista de desejos'
+                    : 'Adicionar à lista de desejos'
+                "
               >
                 <svg
-                  class="w-4 h-4 text-gray-700"
+                  v-if="wishlistLoading !== product.id"
+                  class="w-4 h-4"
+                  :class="isInWishlist(product.id) ? 'fill-current' : ''"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -56,6 +70,20 @@
                     stroke-width="2"
                     d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                   ></path>
+                </svg>
+                <svg
+                  v-else
+                  class="w-4 h-4 animate-spin"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                  />
                 </svg>
               </button>
             </div>
@@ -89,8 +117,44 @@ defineProps({
   },
 });
 
+const wishlistLoading = ref(null);
+
+const { wishlist, isInWishlist, addToWishlist, removeFromWishlist, loadWishlist } = useWishlist();
+const { success, error: notificationError } = useNotifications();
+
 const formatPrice = price => {
   if (typeof price !== 'number') return '0,00';
   return price.toFixed(2).replace('.', ',');
 };
+
+// Função para alternar wishlist
+const toggleWishlist = async productId => {
+  try {
+    wishlistLoading.value = productId;
+
+    if (isInWishlist(productId)) {
+      await removeFromWishlist(productId);
+      success('Produto removido da lista de desejos');
+    } else {
+      await addToWishlist(productId);
+      success('Produto adicionado à lista de desejos');
+    }
+  } catch (err) {
+    console.error('Erro ao atualizar wishlist:', err);
+    notificationError('Erro ao atualizar lista de desejos');
+  } finally {
+    wishlistLoading.value = null;
+  }
+};
+
+// Carregar wishlist quando o componente for montado
+onMounted(() => {
+  if (process.client) {
+    // Só carregar wishlist se usuário estiver autenticado
+    const { user } = useAuth();
+    if (user.value) {
+      loadWishlist();
+    }
+  }
+});
 </script>

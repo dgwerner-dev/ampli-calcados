@@ -162,11 +162,29 @@
                           <div class="flex items-center space-x-2">
                             <span class="text-lg">{{ option.icon }}</span>
                             <span class="font-medium text-gray-900">{{ option.name }}</span>
+                            <span
+                              v-if="option.appliedPromotion"
+                              class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800"
+                            >
+                              Promoção
+                            </span>
                           </div>
                           <p class="text-xs text-gray-500">{{ option.description }}</p>
+                          <p
+                            v-if="option.appliedPromotion"
+                            class="text-xs text-green-600 font-medium"
+                          >
+                            {{ option.appliedPromotion.name }}
+                          </p>
                         </div>
                       </div>
                       <div class="text-right">
+                        <div
+                          v-if="option.appliedPromotion && option.originalCost !== option.cost"
+                          class="text-xs text-gray-400 line-through"
+                        >
+                          R$ {{ formatPrice(option.originalCost) }}
+                        </div>
                         <div class="font-semibold text-gray-900">
                           R$ {{ formatPrice(option.cost) }}
                         </div>
@@ -177,6 +195,38 @@
                           útil{{ option.estimatedDays > 1 ? 'eis' : '' }}
                         </div>
                       </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Alerta de Frete Grátis -->
+                <div
+                  v-if="freeShippingAlert"
+                  class="mt-4 p-3 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg"
+                >
+                  <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                      <svg
+                        class="w-5 h-5 text-green-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+                        ></path>
+                      </svg>
+                    </div>
+                    <div class="ml-3">
+                      <p class="text-sm font-medium text-green-800">
+                        {{ freeShippingAlert.message }}
+                      </p>
+                      <p v-if="freeShippingAlert.promotion" class="text-xs text-green-600 mt-1">
+                        Promoção: {{ freeShippingAlert.promotion.name }}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -1068,6 +1118,7 @@ const loadingCep = ref(false);
 const shippingOptions = ref<any[]>([]);
 const selectedShippingOption = ref<any>(null);
 const loadingShipping = ref(false);
+const freeShippingAlert = ref<any>(null);
 
 // Formulário
 const form = ref({
@@ -1362,11 +1413,17 @@ const calculateShipping = async (cep: string) => {
       return acc + (item.product.weight || 0.5) * item.quantity;
     }, 0);
 
+    // Calcular valor total do pedido
+    const orderTotal = props.orderItems.reduce((acc, item) => {
+      return acc + item.product.price * item.quantity;
+    }, 0);
+
     const response = await $fetch('/api/shipping/calculate', {
       method: 'POST',
       body: {
         destinationCep: cep,
         weight: totalWeight,
+        orderTotal: orderTotal,
       },
     });
 
@@ -1375,6 +1432,13 @@ const calculateShipping = async (cep: string) => {
       // Selecionar PAC como padrão
       selectedShippingOption.value =
         shippingOptions.value.find(option => option.id === 'pac') || shippingOptions.value[0];
+
+      // Atualizar alerta de frete grátis
+      if (response.shipping.freeShippingAlert) {
+        freeShippingAlert.value = response.shipping.freeShippingAlert;
+      } else {
+        freeShippingAlert.value = null;
+      }
     }
   } catch (error: any) {
     console.error('Erro ao calcular frete:', error);
@@ -1390,6 +1454,7 @@ const calculateShipping = async (cep: string) => {
       },
     ];
     selectedShippingOption.value = shippingOptions.value[0];
+    freeShippingAlert.value = null;
   } finally {
     loadingShipping.value = false;
   }

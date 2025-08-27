@@ -208,14 +208,29 @@ export const useAuth = () => {
     error.value = null;
 
     try {
+      // Fazer logout no Supabase
       const { error: authError } = await supabase.auth.signOut();
       if (authError) throw authError;
 
+      // Limpar estado do usuário imediatamente
       user.value = null;
-      
-      // Redirecionar para a página inicial após logout
-      const router = useRouter();
-      await router.push('/');
+      loading.value = false;
+      error.value = null;
+
+      // Limpar localStorage se existir
+      if (process.client) {
+        try {
+          localStorage.removeItem('cart');
+          localStorage.removeItem('nuxt-storage');
+        } catch (err) {
+          console.warn('Erro ao limpar localStorage:', err);
+        }
+      }
+
+      // Forçar refresh da página para garantir limpeza completa dos estados
+      if (process.client) {
+        window.location.href = '/';
+      }
     } catch (err: any) {
       error.value = err.message || 'Erro ao fazer logout';
       throw err;

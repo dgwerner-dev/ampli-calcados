@@ -41,9 +41,56 @@
                 />
               </div>
               <div class="p-4 flex flex-col flex-grow">
-                <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 min-h-[3.5rem]">
-                  {{ product.name }}
-                </h3>
+                <div class="flex justify-between items-start mb-2">
+                  <h3
+                    class="text-lg font-semibold text-gray-900 line-clamp-2 min-h-[3.5rem] flex-1"
+                  >
+                    {{ product.name }}
+                  </h3>
+                  <!-- Botão Wishlist -->
+                  <button
+                    @click.prevent="toggleWishlist(product.id)"
+                    :disabled="wishlistLoading === product.id"
+                    class="ml-2 p-1 hover:bg-gray-100 rounded-full transition-colors duration-200 disabled:opacity-50"
+                    :title="
+                      isInWishlist(product.id)
+                        ? 'Remover da lista de desejos'
+                        : 'Adicionar à lista de desejos'
+                    "
+                  >
+                    <svg
+                      v-if="wishlistLoading !== product.id"
+                      class="w-5 h-5"
+                      :class="
+                        isInWishlist(product.id) ? 'text-coral-soft fill-current' : 'text-gray-400'
+                      "
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                      />
+                    </svg>
+                    <svg
+                      v-else
+                      class="w-5 h-5 text-gray-400 animate-spin"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                      />
+                    </svg>
+                  </button>
+                </div>
                 <div class="flex items-center justify-between mb-3">
                   <div>
                     <p v-if="product.salePrice" class="text-2xl font-bold text-coral-soft">
@@ -141,6 +188,7 @@
 <script setup lang="ts">
 const route = useRoute();
 const { addToCart } = useCart();
+const { wishlist, isInWishlist, addToWishlist, removeFromWishlist, loadWishlist } = useWishlist();
 const { success, error: notificationError } = useNotifications();
 
 // Estados
@@ -148,6 +196,7 @@ const loading = ref(false);
 const products = ref([]);
 const selectedSize = ref<number | null>(null);
 const availableSizes = [40, 41, 42, 43];
+const wishlistLoading = ref(null);
 
 // Computed
 const filteredProducts = computed(() => {
@@ -209,6 +258,25 @@ const addProductToCart = async (product: any) => {
   }
 };
 
+const toggleWishlist = async (productId: string) => {
+  try {
+    wishlistLoading.value = productId;
+
+    if (isInWishlist(productId)) {
+      await removeFromWishlist(productId);
+      success('Produto removido da lista de desejos');
+    } else {
+      await addToWishlist(productId);
+      success('Produto adicionado à lista de desejos');
+    }
+  } catch (err) {
+    console.error('Erro ao atualizar wishlist:', err);
+    notificationError('Erro ao atualizar lista de desejos');
+  } finally {
+    wishlistLoading.value = null;
+  }
+};
+
 // Inicialização
 onMounted(async () => {
   // Verificar se há filtro na URL
@@ -221,19 +289,28 @@ onMounted(async () => {
   }
 
   await loadProducts();
+
+  // Carregar wishlist se o usuário estiver logado
+  if (process.client) {
+    loadWishlist();
+  }
 });
 
 // Watch para mudanças na rota
-watch(() => route.query.tamanho, (newTamanho) => {
-  if (newTamanho) {
-    const size = parseInt(newTamanho as string);
-    if (availableSizes.includes(size)) {
-      selectedSize.value = size;
+watch(
+  () => route.query.tamanho,
+  newTamanho => {
+    if (newTamanho) {
+      const size = parseInt(newTamanho as string);
+      if (availableSizes.includes(size)) {
+        selectedSize.value = size;
+      }
+    } else {
+      selectedSize.value = null;
     }
-  } else {
-    selectedSize.value = null;
-  }
-}, { immediate: true });
+  },
+  { immediate: true }
+);
 
 // Head
 useHead({
