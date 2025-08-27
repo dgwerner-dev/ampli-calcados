@@ -69,6 +69,9 @@
               <p class="text-sm text-gray-500">{{ itemCount }} item(s)</p>
             </div>
             <div class="flex space-x-3">
+              <NuxtLink to="/" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+                Continuar Comprando
+              </NuxtLink>
               <button @click="clearCart" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
                 Limpar Carrinho
               </button>
@@ -79,12 +82,103 @@
           </div>
         </div>
       </div>
+
+      <!-- Seção de Produtos Recomendados -->
+      <div class="mt-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Produtos Recomendados</h2>
+        <div v-if="loadingProducts" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div v-for="i in 4" :key="i" class="bg-white rounded-lg shadow-md p-4 animate-pulse">
+            <div class="bg-gray-200 h-48 rounded-lg mb-4"></div>
+            <div class="space-y-2">
+              <div class="bg-gray-200 h-4 rounded"></div>
+              <div class="bg-gray-200 h-4 rounded w-2/3"></div>
+              <div class="bg-gray-200 h-6 rounded w-1/2"></div>
+            </div>
+          </div>
+        </div>
+        <div v-else-if="recommendedProducts.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div v-for="product in recommendedProducts" :key="product.id" class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
+            <div class="relative">
+              <img 
+                :src="product.images?.[0] || '/images/placeholder.jpg'" 
+                :alt="product.name"
+                class="w-full h-48 object-cover rounded-t-lg"
+              />
+              <button
+                @click="addProductToCart(product)"
+                class="absolute top-2 right-2 bg-coral-soft text-white p-2 rounded-full hover:bg-coral-dark transition-colors duration-200 shadow-lg"
+                title="Adicionar ao carrinho"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+              </button>
+            </div>
+            <div class="p-4">
+              <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">{{ product.name }}</h3>
+              <p class="text-2xl font-bold text-coral-soft mb-3">
+                R$ {{ (product.salePrice || product.price).toFixed(2) }}
+              </p>
+              <NuxtLink 
+                :to="`/produto/${product.slug}`"
+                class="block w-full text-center px-4 py-2 border border-coral-soft text-coral-soft rounded-md hover:bg-coral-soft hover:text-white transition-colors duration-200"
+              >
+                Ver Produto
+              </NuxtLink>
+            </div>
+          </div>
+        </div>
+        <div v-else class="text-center py-8">
+          <p class="text-gray-500">Nenhum produto recomendado disponível no momento.</p>
+        </div>
+      </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const { cart, total, itemCount, isEmpty, removeFromCart, updateQuantity, clearCart } = useCart();
+const { cart, total, itemCount, isEmpty, removeFromCart, updateQuantity, clearCart, addToCart } = useCart();
+const { success, error: notificationError } = useNotifications();
+
+// Estado para produtos recomendados
+const recommendedProducts = ref([]);
+const loadingProducts = ref(false);
+
+// Carregar produtos recomendados
+const loadRecommendedProducts = async () => {
+  loadingProducts.value = true;
+  try {
+    const data = await $fetch('/api/products/featured');
+    recommendedProducts.value = data || [];
+  } catch (err) {
+    console.error('Erro ao carregar produtos recomendados:', err);
+    recommendedProducts.value = [];
+  } finally {
+    loadingProducts.value = false;
+  }
+};
+
+// Adicionar produto ao carrinho
+const addProductToCart = async (product) => {
+  try {
+    const result = await addToCart(product, 1);
+    
+    if (result.success) {
+      success(`✅ ${product.name} adicionado ao carrinho!`);
+    } else {
+      notificationError(result.error || 'Erro ao adicionar produto ao carrinho');
+    }
+  } catch (err) {
+    console.error('Erro ao adicionar produto ao carrinho:', err);
+    notificationError('Erro ao adicionar produto ao carrinho. Tente novamente.');
+  }
+};
+
+// Carregar produtos recomendados quando a página for montada
+onMounted(() => {
+  loadRecommendedProducts();
+});
 
 useHead({
   title: 'Carrinho de Compras - AMPLI CALÇADOS',
