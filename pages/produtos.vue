@@ -2,48 +2,17 @@
   <ClientOnly>
     <div class="min-h-screen bg-gray-50 pt-32">
       <div class="max-w-7xl mx-auto px-4 py-8">
-                 <!-- Header da página -->
-         <div class="mb-8">
-           <h1 class="text-3xl font-bold text-gray-900 mb-2">
-             {{ !selectedSize ? 'Todos os Produtos' : '' }}
-           </h1>
-           <p class="text-gray-600">
-             {{ !selectedSize ? 'Explore nossa coleção completa' : '' }}
-           </p>
-         </div>
-
-        <!-- Filtros -->
-        <div class="bg-white p-6 rounded-lg shadow-sm mb-8">
-          <div class="flex flex-wrap items-center gap-4">
-            <span class="text-gray-700 font-medium">Filtrar por tamanho:</span>
-            <div class="flex flex-wrap gap-2">
-              <button
-                v-for="size in availableSizes"
-                :key="size"
-                @click="filterBySize(size)"
-                :class="[
-                  'px-4 py-2 rounded-lg font-medium transition-all duration-200',
-                  selectedSize === size
-                    ? 'bg-coral-soft text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
-                ]"
-              >
-                {{ size }}
-              </button>
-              <button
-                @click="clearFilter"
-                :class="[
-                  'px-4 py-2 rounded-lg font-medium transition-all duration-200',
-                  !selectedSize
-                    ? 'bg-coral-soft text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
-                ]"
-              >
-                Todos
-              </button>
-            </div>
-          </div>
+        <!-- Header da página -->
+        <div class="mb-8">
+          <h1 class="text-3xl font-bold text-gray-900 mb-2">
+            {{ !selectedSize ? 'Todos os Produtos' : '' }}
+          </h1>
+          <p class="text-gray-600">
+            {{ !selectedSize ? 'Explore nossa coleção completa' : '' }}
+          </p>
         </div>
+
+        
 
         <!-- Loading -->
         <div v-if="loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
