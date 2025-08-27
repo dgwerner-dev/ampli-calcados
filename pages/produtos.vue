@@ -101,7 +101,7 @@
                     R$ {{ product.price.toFixed(2) }}
                   </p>
                 </div>
-                <div v-if="product.sizes && product.sizes.length > 0" class="text-sm text-gray-600">
+                <div v-if="!selectedSize && product.sizes && product.sizes.length > 0" class="text-sm text-gray-600">
                   Tamanhos: {{ product.sizes.join(', ') }}
                 </div>
               </div>
