@@ -2,19 +2,17 @@
   <ClientOnly>
     <div class="min-h-screen bg-gray-50 pt-32">
       <div class="max-w-7xl mx-auto px-4 py-8">
-        <!-- Header da página -->
-        <div class="mb-8">
-          <h1 class="text-3xl font-bold text-gray-900 mb-2">
-            {{ !selectedSize ? 'Todos os Produtos' : '' }}
-          </h1>
-          <p class="text-gray-600">
-            {{ !selectedSize ? 'Explore nossa coleção completa' : '' }}
-          </p>
-        </div>
+                 <!-- Header da página -->
+         <div v-if="!selectedSize" class="mb-8">
+           <h1 class="text-3xl font-bold text-gray-900 mb-2">
+             Todos os Produtos
+           </h1>
+           <p class="text-gray-600">
+             Explore nossa coleção completa
+           </p>
+         </div>
 
-        
-
-        <!-- Loading -->
+         <!-- Loading -->
         <div v-if="loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div v-for="i in 8" :key="i" class="bg-white rounded-lg shadow-sm p-4 animate-pulse">
             <div class="bg-gray-200 h-48 rounded-lg mb-4"></div>
