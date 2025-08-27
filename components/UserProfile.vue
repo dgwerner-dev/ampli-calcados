@@ -272,7 +272,12 @@
               <button
                 type="submit"
                 :disabled="updating"
-                class="flex-1 inline-flex justify-center items-center px-6 py-3 border border-transparent shadow-lg text-sm font-semibold rounded-xl text-white bg-gradient-to-r from-coral-soft to-coral-dark hover:from-coral-dark hover:to-coral-soft focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                class="flex-1 inline-flex justify-center items-center px-6 py-3 border border-transparent shadow-lg text-sm font-semibold rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                :class="
+                  saved
+                    ? 'text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500'
+                    : 'text-white bg-gradient-to-r from-coral-soft to-coral-dark hover:from-coral-dark hover:to-coral-soft focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft'
+                "
               >
                 <svg
                   v-if="updating"
@@ -308,7 +313,7 @@
                     d="M5 13l4 4L19 7"
                   ></path>
                 </svg>
-                {{ updating ? 'Salvando...' : 'Salvar Alterações' }}
+                {{ updating ? 'Salvando...' : saved ? '✅ Salvo!' : 'Salvar Alterações' }}
               </button>
 
               <button
@@ -737,6 +742,7 @@ const { success, error } = useNotifications();
 const fileInput = ref(null);
 const loading = ref(false);
 const updating = ref(false);
+const saved = ref(false);
 const searchingCep = ref(false);
 const savingAddress = ref(false);
 const uploadingAvatar = ref(false);
@@ -815,7 +821,7 @@ const handleAvatarChange = async event => {
       user.value.avatar = response.avatar;
     }
 
-    success('Foto atualizada com sucesso!');
+    success('✅ Foto atualizada com sucesso! As alterações foram salvas.');
   } catch (err) {
     console.error('Erro ao fazer upload do avatar:', err);
     error('Erro ao atualizar foto. Tente novamente.');
@@ -849,7 +855,7 @@ const deleteAddress = async addressId => {
       if (selectedAddressId.value === addressId) {
         selectedAddressId.value = null;
       }
-      success('Endereço excluído com sucesso!');
+      success('✅ Endereço excluído com sucesso! As alterações foram salvas.');
     } catch (error) {
       console.error('Erro ao excluir endereço:', error);
       error('Erro ao excluir endereço');
@@ -911,7 +917,7 @@ const saveNewAddress = async () => {
       state: '',
     };
 
-    success('Endereço salvo com sucesso!');
+    success('✅ Endereço salvo com sucesso! As alterações foram salvas.');
   } catch (err) {
     console.error('Erro ao salvar endereço:', err);
     error('Erro ao salvar endereço. Tente novamente.');
@@ -967,7 +973,11 @@ const updateProfile = async () => {
       name: form.value.name,
     });
 
-    success('Perfil atualizado com sucesso!');
+    success('✅ Perfil atualizado com sucesso! As alterações foram salvas.');
+    saved.value = true;
+    setTimeout(() => {
+      saved.value = false;
+    }, 3000);
   } catch (err) {
     console.error('Erro ao atualizar perfil:', err);
     error('Erro ao atualizar perfil. Tente novamente.');
