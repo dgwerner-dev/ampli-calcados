@@ -132,7 +132,6 @@
           <p class="text-gray-500">Nenhum produto recomendado disponível no momento.</p>
         </div>
       </div>
-      </div>
     </div>
   </div>
 </template>
