@@ -78,12 +78,6 @@
                   :alt="product.name"
                   class="w-full h-48 object-cover"
                 />
-                <div
-                  v-if="product.salePrice"
-                  class="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded text-sm font-medium"
-                >
-                  Oferta
-                </div>
               </div>
               <div class="p-4 flex flex-col flex-grow">
               <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 min-h-[3.5rem]">
