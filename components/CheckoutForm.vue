@@ -1,338 +1,945 @@
 <template>
-  <div class="max-w-2xl mx-auto p-6">
-    <div class="bg-white rounded-lg shadow-lg p-6">
-      <h2 class="text-2xl font-bold text-gray-900 mb-6">Finalizar Compra</h2>
-
-      <!-- Resumo do pedido -->
-      <div class="mb-6 p-4 bg-gray-50 rounded-lg">
-        <h3 class="text-lg font-semibold mb-3">Resumo do Pedido</h3>
-        <div class="space-y-2">
-          <div v-for="item in orderItems" :key="item.id" class="flex justify-between">
-            <span>{{ item.product.name }} ({{ item.quantity }}x)</span>
-            <span>R$ {{ formatPrice(item.price * item.quantity) }}</span>
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Coluna 1 - Resumo do Pedido -->
+      <div class="lg:col-span-1">
+        <div
+          class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden sticky top-8"
+        >
+          <div class="bg-gradient-to-r from-coral-soft to-coral-dark px-6 py-4">
+            <h3 class="text-lg font-bold text-white flex items-center">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                ></path>
+              </svg>
+              Resumo do Pedido
+            </h3>
           </div>
-          <div class="border-t pt-2 mt-2">
-            <div class="flex justify-between font-semibold">
-              <span>Total</span>
-              <span>R$ {{ formatPrice(total) }}</span>
+
+          <div class="p-6">
+            <!-- Itens do pedido -->
+            <div class="space-y-4 mb-6">
+              <div v-for="item in orderItems" :key="item.id" class="flex items-center space-x-3">
+                <div
+                  class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0"
+                >
+                  <img
+                    v-if="item.product.images && item.product.images.length > 0"
+                    :src="item.product.images[0]"
+                    :alt="item.product.name"
+                    class="w-8 h-8 object-cover rounded"
+                  />
+                  <svg
+                    v-else
+                    class="w-6 h-6 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 002 2v12a2 2 0 002 2z"
+                    ></path>
+                  </svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h4 class="text-sm font-medium text-gray-900 truncate">
+                    {{ item.product.name }}
+                  </h4>
+                  <p class="text-xs text-gray-500">
+                    Tamanho: {{ item.size || 'N/A' }} | Qtd: {{ item.quantity }}
+                  </p>
+                </div>
+                <div class="text-sm font-semibold text-gray-900">
+                  R$ {{ formatPrice(item.price * item.quantity) }}
+                </div>
+              </div>
+            </div>
+
+            <!-- Subtotal -->
+            <div class="border-t border-gray-200 pt-4">
+              <div class="flex justify-between items-center text-sm text-gray-600 mb-2">
+                <span>Subtotal</span>
+                <span>R$ {{ formatPrice(total) }}</span>
+              </div>
+
+              <!-- Opções de Frete -->
+              <div v-if="shippingOptions.length > 0" class="mb-4">
+                <div class="flex justify-between items-center text-sm text-gray-600 mb-2">
+                  <span>Opções de Frete</span>
+                  <span v-if="loadingShipping" class="ml-2">
+                    <svg
+                      class="animate-spin h-3 w-3 text-coral-soft"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        class="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        stroke-width="4"
+                      ></circle>
+                      <path
+                        class="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                  </span>
+                </div>
+
+                <div class="space-y-2">
+                  <div
+                    v-for="option in shippingOptions"
+                    :key="option.id"
+                    class="border-2 rounded-lg p-3 cursor-pointer transition-all duration-200"
+                    :class="
+                      selectedShippingOption?.id === option.id
+                        ? 'border-coral-soft bg-coral-soft/5'
+                        : 'border-gray-200 hover:border-gray-300'
+                    "
+                    @click="selectedShippingOption = option"
+                  >
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center space-x-3">
+                        <div
+                          class="w-4 h-4 border-2 rounded-full flex items-center justify-center"
+                          :class="
+                            selectedShippingOption?.id === option.id
+                              ? 'border-coral-soft'
+                              : 'border-gray-300'
+                          "
+                        >
+                          <div
+                            v-if="selectedShippingOption?.id === option.id"
+                            class="w-2 h-2 bg-coral-soft rounded-full"
+                          ></div>
+                        </div>
+                        <div>
+                          <div class="flex items-center space-x-2">
+                            <span class="text-lg">{{ option.icon }}</span>
+                            <span class="font-medium text-gray-900">{{ option.name }}</span>
+                          </div>
+                          <p class="text-xs text-gray-500">{{ option.description }}</p>
+                        </div>
+                      </div>
+                      <div class="text-right">
+                        <div class="font-semibold text-gray-900">
+                          R$ {{ formatPrice(option.cost) }}
+                        </div>
+                        <div class="text-xs text-gray-500">
+                          {{ option.estimatedDays }} dia{{
+                            option.estimatedDays > 1 ? 's' : ''
+                          }}
+                          útil{{ option.estimatedDays > 1 ? 'eis' : '' }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Total -->
+            <div class="border-t border-gray-200 pt-4">
+              <div class="flex justify-between items-center text-lg font-bold text-gray-900">
+                <span>Total</span>
+                <span>R$ {{ formatPrice(total + (selectedShippingOption?.cost || 0)) }}</span>
+              </div>
+            </div>
+
+            <!-- Informações de segurança -->
+            <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+              <div class="flex items-center text-sm text-gray-600">
+                <svg
+                  class="w-4 h-4 mr-2 text-green-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+                Pagamento 100% seguro
+              </div>
+              <div class="flex items-center text-sm text-gray-600 mt-1">
+                <svg
+                  class="w-4 h-4 mr-2 text-green-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+                Dados criptografados
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Formulário de pagamento -->
-      <form @submit.prevent="processPayment" class="space-y-6">
-        <!-- Dados do cliente -->
-        <div>
-          <h3 class="text-lg font-semibold mb-4">Dados Pessoais</h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1"> Nome Completo * </label>
-              <input
-                v-model="form.customer.name"
-                type="text"
-                required
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1"> CPF * </label>
-              <input
-                v-model="form.customer.cpf"
-                type="text"
-                required
-                v-mask="'###.###.###-##'"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1"> Email * </label>
-              <input
-                v-model="form.customer.email"
-                type="email"
-                required
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1"> Telefone * </label>
-              <input
-                v-model="form.customer.phone"
-                type="text"
-                required
-                v-mask="'(##) #####-####'"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-              />
-            </div>
+      <!-- Coluna 2 - Dados Pessoais -->
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+          <div class="bg-gradient-to-r from-coral-soft to-coral-dark px-6 py-4">
+            <h2 class="text-xl font-bold text-white flex items-center">
+              <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                ></path>
+              </svg>
+              Dados Pessoais
+            </h2>
           </div>
-        </div>
 
-        <!-- Endereço de entrega -->
-        <div>
-          <h3 class="text-lg font-semibold mb-4">Endereço de Entrega</h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="md:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 mb-1"> CEP * </label>
-              <input
-                v-model="form.address.zipCode"
-                type="text"
-                required
-                v-mask="'#####-###'"
-                @blur="searchCep"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-              />
-            </div>
-            <div class="md:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 mb-1"> Rua * </label>
-              <input
-                v-model="form.address.street"
-                type="text"
-                required
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-              />
-            </div>
+          <form @submit.prevent="processPayment" class="p-6 space-y-8">
+            <!-- Dados do cliente -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1"> Número * </label>
-              <input
-                v-model="form.address.number"
-                type="text"
-                required
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1"> Complemento </label>
-              <input
-                v-model="form.address.complement"
-                type="text"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1"> Bairro * </label>
-              <input
-                v-model="form.address.neighborhood"
-                type="text"
-                required
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1"> Cidade * </label>
-              <input
-                v-model="form.address.city"
-                type="text"
-                required
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1"> Estado * </label>
-              <select
-                v-model="form.address.state"
-                required
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-              >
-                <option value="">Selecione...</option>
-                <option value="AC">Acre</option>
-                <option value="AL">Alagoas</option>
-                <option value="AP">Amapá</option>
-                <option value="AM">Amazonas</option>
-                <option value="BA">Bahia</option>
-                <option value="CE">Ceará</option>
-                <option value="DF">Distrito Federal</option>
-                <option value="ES">Espírito Santo</option>
-                <option value="GO">Goiás</option>
-                <option value="MA">Maranhão</option>
-                <option value="MT">Mato Grosso</option>
-                <option value="MS">Mato Grosso do Sul</option>
-                <option value="MG">Minas Gerais</option>
-                <option value="PA">Pará</option>
-                <option value="PB">Paraíba</option>
-                <option value="PR">Paraná</option>
-                <option value="PE">Pernambuco</option>
-                <option value="PI">Piauí</option>
-                <option value="RJ">Rio de Janeiro</option>
-                <option value="RN">Rio Grande do Norte</option>
-                <option value="RS">Rio Grande do Sul</option>
-                <option value="RO">Rondônia</option>
-                <option value="RR">Roraima</option>
-                <option value="SC">Santa Catarina</option>
-                <option value="SP">São Paulo</option>
-                <option value="SE">Sergipe</option>
-                <option value="TO">Tocantins</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <!-- Método de pagamento -->
-        <div>
-          <h3 class="text-lg font-semibold mb-4">Método de Pagamento</h3>
-          <div class="space-y-3">
-            <label class="flex items-center">
-              <input
-                v-model="form.paymentMethod"
-                value="credit_card"
-                type="radio"
-                class="h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300"
-              />
-              <span class="ml-2 text-sm text-gray-700">Cartão de Crédito</span>
-            </label>
-            <label class="flex items-center">
-              <input
-                v-model="form.paymentMethod"
-                value="pix"
-                type="radio"
-                class="h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300"
-              />
-              <span class="ml-2 text-sm text-gray-700">PIX</span>
-            </label>
-          </div>
-        </div>
-
-        <!-- Dados do cartão (se selecionado) -->
-        <div v-if="form.paymentMethod === 'credit_card'">
-          <h3 class="text-lg font-semibold mb-4">Dados do Cartão</h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="md:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 mb-1">
-                Número do Cartão *
-              </label>
-              <input
-                v-model="form.card.number"
-                type="text"
-                required
-                v-mask="'#### #### #### ####'"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1"> Nome no Cartão * </label>
-              <input
-                v-model="form.card.holderName"
-                type="text"
-                required
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1"> Validade * </label>
-              <input
-                v-model="form.card.expiry"
-                type="text"
-                required
-                v-mask="'##/##'"
-                placeholder="MM/AA"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1"> CVV * </label>
-              <input
-                v-model="form.card.cvv"
-                type="text"
-                required
-                v-mask="'###'"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1"> Parcelas * </label>
-              <select
-                v-model="form.installments"
-                required
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-              >
-                <option v-for="i in 12" :key="i" :value="i">
-                  {{ i }}x de R$ {{ formatPrice(total / i) }}
-                </option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <!-- Botão de pagamento -->
-        <div class="pt-6">
-          <button
-            type="submit"
-            :disabled="loading"
-            class="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <svg
-              v-if="loading"
-              class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                class="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                stroke-width="4"
-              ></circle>
-              <path
-                class="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
-            </svg>
-            {{ loading ? 'Processando...' : `Pagar R$ ${formatPrice(total)}` }}
-          </button>
-        </div>
-      </form>
-
-      <!-- Modal PIX -->
-      <div v-if="showPixModal" class="fixed inset-0 z-50 overflow-y-auto">
-        <div
-          class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
-        >
-          <div
-            class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
-            @click="closePixModal"
-          ></div>
-
-          <div
-            class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full"
-          >
-            <div class="bg-white px-6 py-8">
-              <div class="text-center">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">Pagamento PIX</h3>
-                <p class="text-sm text-gray-600 mb-6">
-                  Escaneie o QR Code abaixo ou copie o código PIX para pagar
-                </p>
-
-                <!-- QR Code -->
-                <div class="mb-6 flex justify-center">
-                  <img :src="pixQrCode" alt="QR Code PIX" class="w-48 h-48" />
+              <div class="flex items-center mb-4">
+                <div
+                  class="w-8 h-8 bg-coral-soft rounded-full flex items-center justify-center mr-3"
+                >
+                  <span class="text-white font-semibold text-sm">1</span>
                 </div>
+                <h3 class="text-lg font-semibold text-gray-900">Dados Pessoais</h3>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >Nome Completo *</label
+                  >
+                  <input
+                    v-model="form.customer.name"
+                    type="text"
+                    required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                    placeholder="Digite seu nome completo"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">CPF *</label>
+                  <input
+                    v-model="form.customer.cpf"
+                    type="text"
+                    required
+                    @input="formatCpf"
+                    placeholder="000.000.000-00"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                  <input
+                    v-model="form.customer.email"
+                    type="email"
+                    required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                    placeholder="seu@email.com"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Telefone *</label>
+                  <input
+                    v-model="form.customer.phone"
+                    type="text"
+                    required
+                    @input="formatPhone"
+                    placeholder="(00) 00000-0000"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                  />
+                </div>
+              </div>
+            </div>
 
-                <!-- Código PIX -->
-                <div class="mb-6">
-                  <label class="block text-sm font-medium text-gray-700 mb-2"> Código PIX </label>
-                  <div class="flex">
-                    <input
-                      :value="pixCode"
-                      type="text"
-                      readonly
-                      class="flex-1 px-3 py-2 border border-gray-300 rounded-l-lg bg-gray-50 text-sm"
-                    />
-                    <button
-                      @click="copyPixCode"
-                      class="px-4 py-2 bg-orange-500 text-white rounded-r-lg hover:bg-orange-600 transition-colors"
+            <!-- Endereço de entrega -->
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 bg-coral-soft rounded-full flex items-center justify-center mr-3"
+                  >
+                    <span class="text-white font-semibold text-sm">2</span>
+                  </div>
+                  <h3 class="text-lg font-semibold text-gray-900">Endereço de Entrega</h3>
+                </div>
+                <button
+                  @click="showNewAddressModal = true"
+                  type="button"
+                  class="text-sm text-coral-soft hover:text-coral-dark font-medium flex items-center"
+                >
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                    ></path>
+                  </svg>
+                  Novo Endereço
+                </button>
+              </div>
+
+              <!-- Endereços salvos -->
+              <div class="mb-6">
+                <div v-if="savedAddresses.length > 0">
+                  <label class="block text-sm font-medium text-gray-700 mb-3"
+                    >Escolha um endereço salvo:</label
+                  >
+                  <div class="space-y-3">
+                    <div
+                      v-for="address in savedAddresses"
+                      :key="address.id"
+                      class="border-2 rounded-lg p-4 cursor-pointer transition-all duration-200"
+                      :class="
+                        selectedAddressId === address.id
+                          ? 'border-coral-soft bg-coral-soft/5'
+                          : 'border-gray-200 hover:border-gray-300'
+                      "
+                      @click="selectAddress(address)"
                     >
-                      Copiar
-                    </button>
+                      <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                          <div class="flex items-center mb-2">
+                            <div
+                              class="w-4 h-4 border-2 rounded-full mr-3 flex items-center justify-center"
+                              :class="
+                                selectedAddressId === address.id
+                                  ? 'border-coral-soft'
+                                  : 'border-gray-300'
+                              "
+                            >
+                              <div
+                                v-if="selectedAddressId === address.id"
+                                class="w-2 h-2 bg-coral-soft rounded-full"
+                              ></div>
+                            </div>
+                            <span class="font-medium text-gray-900">{{ address.name }}</span>
+                          </div>
+                          <p class="text-sm text-gray-600 ml-7">
+                            {{ address.street }}, {{ address.number }}
+                            <span v-if="address.complement">- {{ address.complement }}</span>
+                          </p>
+                          <p class="text-sm text-gray-600 ml-7">
+                            {{ address.neighborhood }}, {{ address.city }} - {{ address.state }}
+                          </p>
+                          <p class="text-sm text-gray-600 ml-7">CEP: {{ address.zipCode }}</p>
+                        </div>
+                        <button
+                          @click.stop="deleteAddress(address.id)"
+                          type="button"
+                          class="text-red-500 hover:text-red-700 ml-2"
+                          title="Excluir endereço"
+                        >
+                          <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                            ></path>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                <div class="text-xs text-gray-500">O pagamento expira em 1 hora</div>
+                <!-- Mensagem quando não há endereços -->
+                <div v-else class="text-center py-8">
+                  <div
+                    class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4"
+                  >
+                    <svg
+                      class="w-8 h-8 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                      ></path>
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <h3 class="text-lg font-medium text-gray-900 mb-2">Nenhum endereço salvo</h3>
+                  <p class="text-gray-600 mb-4">
+                    Clique em "Novo Endereço" para cadastrar seu primeiro endereço de entrega.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Botão de pagamento -->
+            <div class="pt-8">
+              <button
+                type="submit"
+                :disabled="loading"
+                class="w-full bg-gradient-to-r from-coral-soft to-coral-dark hover:from-coral-dark hover:to-coral-soft text-white font-semibold py-4 px-6 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+              >
+                <svg
+                  v-if="loading"
+                  class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                {{
+                  loading
+                    ? 'Processando...'
+                    : `Finalizar - R$ ${formatPrice(total + (selectedShippingOption?.cost || 0))}`
+                }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Coluna 3 - Métodos de Pagamento -->
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+          <div class="bg-gradient-to-r from-coral-soft to-coral-dark px-6 py-4">
+            <h2 class="text-xl font-bold text-white flex items-center">
+              <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+                ></path>
+              </svg>
+              Método de Pagamento
+            </h2>
+          </div>
+
+          <div class="p-6">
+            <div class="grid grid-cols-1 gap-4 mb-6">
+              <label class="relative cursor-pointer">
+                <input
+                  v-model="form.paymentMethod"
+                  value="credit_card"
+                  type="radio"
+                  class="sr-only"
+                />
+                <div
+                  class="border-2 rounded-lg p-4 transition-all duration-200"
+                  :class="
+                    form.paymentMethod === 'credit_card'
+                      ? 'border-coral-soft bg-coral-soft/5'
+                      : 'border-gray-200 hover:border-gray-300'
+                  "
+                >
+                  <div class="flex items-center">
+                    <div
+                      class="w-5 h-5 border-2 rounded-full mr-3 flex items-center justify-center"
+                      :class="
+                        form.paymentMethod === 'credit_card'
+                          ? 'border-coral-soft'
+                          : 'border-gray-300'
+                      "
+                    >
+                      <div
+                        v-if="form.paymentMethod === 'credit_card'"
+                        class="w-3 h-3 bg-coral-soft rounded-full"
+                      ></div>
+                    </div>
+                    <div>
+                      <div class="font-medium text-gray-900">Cartão de Crédito</div>
+                      <div class="text-sm text-gray-500">Pague com segurança</div>
+                    </div>
+                  </div>
+                </div>
+              </label>
+
+              <label class="relative cursor-pointer">
+                <input v-model="form.paymentMethod" value="pix" type="radio" class="sr-only" />
+                <div
+                  class="border-2 rounded-lg p-4 transition-all duration-200"
+                  :class="
+                    form.paymentMethod === 'pix'
+                      ? 'border-coral-soft bg-coral-soft/5'
+                      : 'border-gray-200 hover:border-gray-300'
+                  "
+                >
+                  <div class="flex items-center">
+                    <div
+                      class="w-5 h-5 border-2 rounded-full mr-3 flex items-center justify-center"
+                      :class="
+                        form.paymentMethod === 'pix' ? 'border-coral-soft' : 'border-gray-300'
+                      "
+                    >
+                      <div
+                        v-if="form.paymentMethod === 'pix'"
+                        class="w-3 h-3 bg-coral-soft rounded-full"
+                      ></div>
+                    </div>
+                    <div>
+                      <div class="font-medium text-gray-900">PIX</div>
+                      <div class="text-sm text-gray-500">Pagamento instantâneo</div>
+                    </div>
+                  </div>
+                </div>
+              </label>
+            </div>
+
+            <!-- Dados do cartão (se selecionado) -->
+            <div v-if="form.paymentMethod === 'credit_card'" class="animate-fade-in space-y-4">
+              <h3 class="text-lg font-semibold text-gray-900">Dados do Cartão</h3>
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >Número do Cartão *</label
+                  >
+                  <input
+                    v-model="form.card.number"
+                    type="text"
+                    required
+                    @input="formatCardNumber"
+                    placeholder="0000 0000 0000 0000"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >Nome no Cartão *</label
+                  >
+                  <input
+                    v-model="form.card.holderName"
+                    type="text"
+                    required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                    placeholder="Nome como está no cartão"
+                  />
+                </div>
+                <div class="grid grid-cols-3 gap-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Validade *</label>
+                    <input
+                      v-model="form.card.expiry"
+                      type="text"
+                      required
+                      @input="formatExpiry"
+                      placeholder="MM/AA"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">CVV *</label>
+                    <input
+                      v-model="form.card.cvv"
+                      type="text"
+                      required
+                      @input="formatCvv"
+                      placeholder="000"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Parcelas *</label>
+                    <select
+                      v-model="form.installments"
+                      required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                    >
+                      <option v-for="i in 12" :key="i" :value="i">
+                        {{ i }}x de R$ {{ formatPrice(total / i) }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Novo Endereço -->
+    <div v-if="showNewAddressModal" class="fixed inset-0 z-50 overflow-y-auto">
+      <div
+        class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+      >
+        <!-- Background overlay com blur -->
+        <div
+          class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+          @click="closeNewAddressModal"
+        ></div>
+
+        <!-- Modal panel modernizado -->
+        <div
+          class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full border border-gray-100"
+        >
+          <!-- Header com gradiente -->
+          <div class="bg-gradient-to-r from-coral-soft to-coral-dark px-6 py-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                  <svg
+                    class="w-6 h-6 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    ></path>
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                    ></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-xl font-bold text-white">Novo Endereço</h3>
+                  <p class="text-coral-100 text-sm">Cadastre um novo endereço de entrega</p>
+                </div>
+              </div>
+              <button
+                @click="closeNewAddressModal"
+                class="text-white/80 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
+              >
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="bg-gray-50 px-6 py-8">
+            <form @submit.prevent="saveNewAddress" class="space-y-6">
+              <!-- Informações do endereço -->
+              <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                <div class="flex items-center space-x-3 mb-6">
+                  <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <svg
+                      class="w-5 h-5 text-blue-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                      ></path>
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <h4 class="text-lg font-semibold text-gray-900">Informações do endereço</h4>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                      Nome do Endereço <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                      v-model="newAddress.name"
+                      type="text"
+                      placeholder="Ex: Casa, Trabalho, etc."
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                    />
+                  </div>
+                  <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                      CEP <span class="text-red-500">*</span>
+                    </label>
+                    <div class="relative">
+                      <input
+                        v-model="newAddress.zipCode"
+                        type="text"
+                        required
+                        @input="formatNewAddressCep"
+                        @blur="searchNewAddressCep"
+                        placeholder="00000-000"
+                        class="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                      />
+                      <div
+                        v-if="loadingCep"
+                        class="absolute inset-y-0 right-0 flex items-center pr-3"
+                      >
+                        <svg
+                          class="animate-spin h-5 w-5 text-coral-soft"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            class="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            stroke-width="4"
+                          ></circle>
+                          <path
+                            class="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
+                        </svg>
+                      </div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">
+                      <svg
+                        class="w-3 h-3 inline mr-1"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        ></path>
+                      </svg>
+                      Digite o CEP e os dados serão preenchidos automaticamente
+                    </p>
+                  </div>
+                  <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                      Rua <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                      v-model="newAddress.street"
+                      type="text"
+                      required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                      placeholder="Nome da rua"
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                      Número <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                      v-model="newAddress.number"
+                      type="text"
+                      required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                      placeholder="123"
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Complemento</label>
+                    <input
+                      v-model="newAddress.complement"
+                      type="text"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                      placeholder="Apto, bloco, etc."
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                      Bairro <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                      v-model="newAddress.neighborhood"
+                      type="text"
+                      required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                      placeholder="Nome do bairro"
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                      Cidade <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                      v-model="newAddress.city"
+                      type="text"
+                      required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                      placeholder="Nome da cidade"
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                      Estado <span class="text-red-500">*</span>
+                    </label>
+                    <select
+                      v-model="newAddress.state"
+                      required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                    >
+                      <option value="">Selecione...</option>
+                      <option value="AC">Acre</option>
+                      <option value="AL">Alagoas</option>
+                      <option value="AP">Amapá</option>
+                      <option value="AM">Amazonas</option>
+                      <option value="BA">Bahia</option>
+                      <option value="CE">Ceará</option>
+                      <option value="DF">Distrito Federal</option>
+                      <option value="ES">Espírito Santo</option>
+                      <option value="GO">Goiás</option>
+                      <option value="MA">Maranhão</option>
+                      <option value="MT">Mato Grosso</option>
+                      <option value="MS">Mato Grosso do Sul</option>
+                      <option value="MG">Minas Gerais</option>
+                      <option value="PA">Pará</option>
+                      <option value="PB">Paraíba</option>
+                      <option value="PR">Paraná</option>
+                      <option value="PE">Pernambuco</option>
+                      <option value="PI">Piauí</option>
+                      <option value="RJ">Rio de Janeiro</option>
+                      <option value="RN">Rio Grande do Norte</option>
+                      <option value="RS">Rio Grande do Sul</option>
+                      <option value="RO">Rondônia</option>
+                      <option value="RR">Roraima</option>
+                      <option value="SC">Santa Catarina</option>
+                      <option value="SP">São Paulo</option>
+                      <option value="SE">Sergipe</option>
+                      <option value="TO">Tocantins</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Botões de ação -->
+              <div class="flex justify-end space-x-4">
+                <button
+                  @click="closeNewAddressModal"
+                  type="button"
+                  class="px-6 py-3 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  class="px-8 py-3 bg-gradient-to-r from-coral-soft to-coral-dark text-white rounded-lg hover:from-coral-dark hover:to-coral-soft transition-all font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                >
+                  Salvar Endereço
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal PIX -->
+    <div
+      v-if="showPixModal"
+      class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50"
+      @click="closePixModal"
+    >
+      <div
+        class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white"
+        @click.stop
+      >
+        <!-- Header do Modal -->
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-xl font-bold text-gray-900">Pagamento PIX</h3>
+          <button
+            @click="closePixModal"
+            class="text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Conteúdo do Modal -->
+        <div class="text-center">
+          <p class="text-sm text-gray-600 mb-6">
+            Escaneie o QR Code abaixo ou copie o código PIX para pagar
+          </p>
+
+          <!-- QR Code -->
+          <div class="mb-6 flex justify-center">
+            <img :src="pixQrCode" alt="QR Code PIX" class="w-48 h-48" />
+          </div>
+
+          <!-- Código PIX -->
+          <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2"> Código PIX </label>
+            <div class="flex">
+              <input
+                :value="pixCode"
+                type="text"
+                readonly
+                class="flex-1 px-3 py-2 border border-gray-300 rounded-l-lg bg-gray-50 text-sm"
+              />
+              <button
+                @click="copyPixCode"
+                class="px-4 py-2 bg-orange-500 text-white rounded-r-lg hover:bg-orange-600 transition-colors"
+              >
+                Copiar
+              </button>
+            </div>
+          </div>
+
+          <div class="text-xs text-gray-500">O pagamento expira em 1 hora</div>
         </div>
       </div>
     </div>
@@ -340,13 +947,14 @@
 </template>
 
 <script setup lang="ts">
+import type { PropType } from 'vue';
 const props = defineProps({
   orderId: {
     type: String,
     required: true,
   },
   orderItems: {
-    type: Array,
+    type: Array as PropType<any[]>,
     required: true,
   },
   total: {
@@ -364,6 +972,13 @@ const loading = ref(false);
 const showPixModal = ref(false);
 const pixQrCode = ref('');
 const pixCode = ref('');
+const showNewAddressModal = ref(false);
+const savedAddresses = ref<any[]>([]);
+const selectedAddressId = ref<string | null>(null);
+const loadingCep = ref(false);
+const shippingOptions = ref<any[]>([]);
+const selectedShippingOption = ref<any>(null);
+const loadingShipping = ref(false);
 
 // Formulário
 const form = ref({
@@ -392,27 +1007,88 @@ const form = ref({
   installments: 1,
 });
 
+// Novo endereço
+const newAddress = ref({
+  name: '',
+  zipCode: '',
+  street: '',
+  number: '',
+  complement: '',
+  neighborhood: '',
+  city: '',
+  state: '',
+});
+
 // Métodos
-const formatPrice = (price: number) => {
-  return price.toFixed(2).replace('.', ',');
+const formatPrice = (price: any) => {
+  const numPrice = typeof price === 'number' ? price : parseFloat(price) || 0;
+  return numPrice.toFixed(2).replace('.', ',');
+};
+
+// Funções de formatação nativas
+const formatCpf = () => {
+  let value = form.value.customer.cpf.replace(/\D/g, '');
+  value = value.replace(/(\d{3})(\d)/, '$1.$2');
+  value = value.replace(/(\d{3})(\d)/, '$1.$2');
+  value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+  form.value.customer.cpf = value;
+};
+
+const formatPhone = () => {
+  let value = form.value.customer.phone.replace(/\D/g, '');
+  value = value.replace(/(\d{2})(\d)/, '($1) $2');
+  value = value.replace(/(\d{5})(\d)/, '$1-$2');
+  form.value.customer.phone = value;
+};
+
+const formatCep = () => {
+  let value = form.value.address.zipCode.replace(/\D/g, '');
+  value = value.replace(/(\d{5})(\d)/, '$1-$2');
+  form.value.address.zipCode = value;
+};
+
+const formatCardNumber = () => {
+  let value = form.value.card.number.replace(/\D/g, '');
+  value = value.replace(/(\d{4})(\d)/g, '$1 $2');
+  form.value.card.number = value;
+};
+
+const formatExpiry = () => {
+  let value = form.value.card.expiry.replace(/\D/g, '');
+  value = value.replace(/(\d{2})(\d)/, '$1/$2');
+  form.value.card.expiry = value;
+};
+
+const formatCvv = () => {
+  let value = form.value.card.cvv.replace(/\D/g, '');
+  form.value.card.cvv = value;
 };
 
 const searchCep = async () => {
   const cep = form.value.address.zipCode.replace(/\D/g, '');
   if (cep.length === 8) {
+    loadingCep.value = true;
     try {
-      const response = await $fetch(`https://viacep.com.br/ws/${cep}/json/`);
-      if (response.erro) {
-        notificationError('CEP não encontrado');
-        return;
-      }
+      // Usar endpoint local para evitar CORS
+      const response = (await $fetch(`/api/cep/${cep}`)) as any;
 
-      form.value.address.street = response.logradouro;
-      form.value.address.neighborhood = response.bairro;
-      form.value.address.city = response.localidade;
-      form.value.address.state = response.uf;
-    } catch (error) {
+      if (response && response.logradouro) {
+        form.value.address.street = response.logradouro;
+        form.value.address.neighborhood = response.bairro;
+        form.value.address.city = response.localidade;
+        form.value.address.state = response.uf;
+        success('Endereço encontrado e preenchido automaticamente!');
+
+        // Calcular frete após preencher o endereço
+        await calculateShipping(cep);
+      } else {
+        notificationError('CEP não encontrado');
+      }
+    } catch (error: any) {
       console.error('Erro ao buscar CEP:', error);
+      notificationError(error.data?.statusMessage || 'Erro ao buscar CEP. Tente novamente.');
+    } finally {
+      loadingCep.value = false;
     }
   }
 };
@@ -452,14 +1128,16 @@ const processPayment = async () => {
         cardData,
         installments: form.value.installments,
         customerData,
+        shippingOption: selectedShippingOption.value,
       },
     });
 
     if (response.success) {
       if (form.value.paymentMethod === 'pix') {
         // Mostrar modal PIX
-        pixQrCode.value = response.order.charges[0].payment_method.pix.qr_codes[0].links[0].href;
-        pixCode.value = response.order.charges[0].payment_method.pix.qr_codes[0].text;
+        const orderData = response.order as any;
+        pixQrCode.value = orderData.charges[0].payment_method.pix.qr_codes[0].links[0].href;
+        pixCode.value = orderData.charges[0].payment_method.pix.qr_codes[0].text;
         showPixModal.value = true;
       } else {
         // Pagamento com cartão
@@ -490,4 +1168,222 @@ const closePixModal = () => {
   pixQrCode.value = '';
   pixCode.value = '';
 };
+
+// Funções para gerenciar endereços
+const loadSavedAddresses = async () => {
+  try {
+    const response = await $fetch('/api/addresses');
+    savedAddresses.value = response.addresses;
+  } catch (error) {
+    console.error('Erro ao carregar endereços:', error);
+  }
+};
+
+const selectAddress = async (address: any) => {
+  selectedAddressId.value = address.id;
+  // Preenche o formulário com os dados do endereço selecionado
+  form.value.address = {
+    zipCode: address.zipCode,
+    street: address.street,
+    number: address.number,
+    complement: address.complement || '',
+    neighborhood: address.neighborhood,
+    city: address.city,
+    state: address.state,
+  };
+
+  // Calcular frete para o endereço selecionado
+  await calculateShipping(address.zipCode.replace(/\D/g, ''));
+};
+
+const deleteAddress = async (addressId: string) => {
+  if (confirm('Tem certeza que deseja excluir este endereço?')) {
+    try {
+      await $fetch(`/api/addresses/${addressId}`, { method: 'DELETE' });
+
+      savedAddresses.value = savedAddresses.value.filter(addr => addr.id !== addressId);
+      if (selectedAddressId.value === addressId) {
+        selectedAddressId.value = null;
+        // Limpa o formulário
+        form.value.address = {
+          zipCode: '',
+          street: '',
+          number: '',
+          complement: '',
+          neighborhood: '',
+          city: '',
+          state: '',
+        };
+      }
+      success('Endereço excluído com sucesso!');
+    } catch (error) {
+      console.error('Erro ao excluir endereço:', error);
+      notificationError('Erro ao excluir endereço');
+    }
+  }
+};
+
+const formatNewAddressCep = () => {
+  let value = newAddress.value.zipCode.replace(/\D/g, '');
+  value = value.replace(/(\d{5})(\d)/, '$1-$2');
+  newAddress.value.zipCode = value;
+};
+
+const searchNewAddressCep = async () => {
+  const cep = newAddress.value.zipCode.replace(/\D/g, '');
+  if (cep.length === 8) {
+    loadingCep.value = true;
+    try {
+      // Usar endpoint local para evitar CORS
+      const response = (await $fetch(`/api/cep/${cep}`)) as any;
+
+      if (response && response.logradouro) {
+        newAddress.value.street = response.logradouro;
+        newAddress.value.neighborhood = response.bairro;
+        newAddress.value.city = response.localidade;
+        newAddress.value.state = response.uf;
+        success('Endereço encontrado e preenchido automaticamente!');
+
+        // Calcular frete após preencher o endereço
+        await calculateShipping(cep);
+      } else {
+        notificationError('CEP não encontrado');
+      }
+    } catch (error: any) {
+      console.error('Erro ao buscar CEP:', error);
+      notificationError(error.data?.statusMessage || 'Erro ao buscar CEP. Tente novamente.');
+    } finally {
+      loadingCep.value = false;
+    }
+  }
+};
+
+const calculateShipping = async (cep: string) => {
+  if (!cep || cep.length !== 8) return;
+
+  loadingShipping.value = true;
+  try {
+    // Calcular peso total dos itens
+    const totalWeight = props.orderItems.reduce((acc, item) => {
+      return acc + (item.product.weight || 0.5) * item.quantity;
+    }, 0);
+
+    const response = await $fetch('/api/shipping/calculate', {
+      method: 'POST',
+      body: {
+        destinationCep: cep,
+        weight: totalWeight,
+      },
+    });
+
+    if (response.success) {
+      shippingOptions.value = response.shipping.options;
+      // Selecionar PAC como padrão
+      selectedShippingOption.value =
+        shippingOptions.value.find(option => option.id === 'pac') || shippingOptions.value[0];
+    }
+  } catch (error: any) {
+    console.error('Erro ao calcular frete:', error);
+    // Em caso de erro, usar opções padrão
+    shippingOptions.value = [
+      {
+        id: 'pac',
+        name: 'PAC',
+        description: 'Entrega econômica',
+        cost: 15.0,
+        estimatedDays: 3,
+        icon: '📦',
+      },
+    ];
+    selectedShippingOption.value = shippingOptions.value[0];
+  } finally {
+    loadingShipping.value = false;
+  }
+};
+
+const closeNewAddressModal = () => {
+  showNewAddressModal.value = false;
+  // Limpa o formulário
+  newAddress.value = {
+    name: '',
+    zipCode: '',
+    street: '',
+    number: '',
+    complement: '',
+    neighborhood: '',
+    city: '',
+    state: '',
+  };
+};
+
+const saveNewAddress = async () => {
+  // Validação básica
+  if (
+    !newAddress.value.name ||
+    !newAddress.value.zipCode ||
+    !newAddress.value.street ||
+    !newAddress.value.number ||
+    !newAddress.value.neighborhood ||
+    !newAddress.value.city ||
+    !newAddress.value.state
+  ) {
+    notificationError('Preencha todos os campos obrigatórios');
+    return;
+  }
+
+  try {
+    const response = await $fetch('/api/addresses', {
+      method: 'POST',
+      body: newAddress.value,
+    });
+
+    const savedAddress = response.address;
+    savedAddresses.value.push(savedAddress);
+    selectedAddressId.value = savedAddress.id;
+
+    // Preenche o formulário com o novo endereço
+    form.value.address = {
+      zipCode: savedAddress.zipCode,
+      street: savedAddress.street,
+      number: savedAddress.number,
+      complement: savedAddress.complement || '',
+      neighborhood: savedAddress.neighborhood,
+      city: savedAddress.city,
+      state: savedAddress.state,
+    };
+
+    // Limpa o formulário de novo endereço
+    newAddress.value = {
+      name: '',
+      zipCode: '',
+      street: '',
+      number: '',
+      complement: '',
+      neighborhood: '',
+      city: '',
+      state: '',
+    };
+
+    showNewAddressModal.value = false;
+    success('Endereço salvo com sucesso!');
+  } catch (error) {
+    console.error('Erro ao salvar endereço:', error);
+    notificationError('Erro ao salvar endereço');
+  }
+};
+
+// Carrega os endereços salvos quando o componente é montado
+onMounted(() => {
+  loadSavedAddresses();
+});
+
+// Watcher para calcular frete quando o CEP é alterado
+watch(
+  () => form.value.address.zipCode,
+  async newCep => {
+    if (newCep && newCep.replace(/\D/g, '').length === 8) {
+      await calculateShipping(newCep.replace(/\D/g, ''));
+    }
+  }
+);
 </script>

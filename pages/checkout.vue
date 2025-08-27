@@ -1,76 +1,127 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 py-8">
-      <!-- Header -->
-      <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900">Checkout</h1>
-        <p class="text-gray-600 mt-2">Finalize sua compra de forma segura</p>
-      </div>
-
-      <!-- Loading -->
-      <div v-if="loading" class="flex justify-center items-center py-12">
-        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
-      </div>
-
-      <!-- Error -->
-      <div v-else-if="error" class="bg-red-50 border border-red-200 rounded-lg p-6">
-        <div class="flex items-center space-x-2">
-          <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <div class="min-h-screen bg-neutral-light">
+    <!-- Breadcrumb -->
+    <div class="bg-white border-b border-gray-100">
+      <div class="max-w-7xl mx-auto px-4 py-3">
+        <nav class="flex items-center space-x-2 text-sm">
+          <NuxtLink to="/" class="text-gray-500 hover:text-coral-soft transition-colors">
+            Início
+          </NuxtLink>
+          <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="2"
-              d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              d="M9 5l7 7-7 7"
             ></path>
           </svg>
-          <p class="text-red-600 font-medium">{{ error }}</p>
+          <span class="text-coral-soft font-medium">Checkout</span>
+        </nav>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 py-8">
+      <!-- Loading -->
+      <div v-if="loading" class="flex flex-col items-center justify-center py-16">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-coral-soft mb-4"></div>
+        <p class="text-gray-600 font-medium">Carregando dados do pedido...</p>
+      </div>
+
+      <!-- Error -->
+      <div v-else-if="error" class="max-w-2xl mx-auto">
+        <div class="bg-red-50 border border-red-200 rounded-xl p-8 text-center">
+          <div
+            class="inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4"
+          >
+            <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-red-800 mb-2">Erro ao carregar pedido</h3>
+          <p class="text-red-600 mb-6">{{ error }}</p>
+          <button
+            @click="loadOrder"
+            class="inline-flex items-center px-6 py-3 bg-coral-soft text-white font-medium rounded-lg hover:bg-coral-dark transition-colors"
+          >
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              ></path>
+            </svg>
+            Tentar novamente
+          </button>
         </div>
-        <button @click="loadOrder" class="mt-4 text-red-600 hover:text-red-800 underline">
-          Tentar novamente
-        </button>
       </div>
 
       <!-- Checkout Form -->
-      <div v-else-if="order">
+      <div v-else-if="order" class="animate-fade-in">
         <CheckoutForm
           :order-id="order.id"
           :order-items="order.orderItems"
-          :total="order.total"
+          :total="Number(order.total)"
           @payment-success="handlePaymentSuccess"
           @payment-error="handlePaymentError"
         />
       </div>
 
       <!-- Order not found -->
-      <div v-else class="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-        <div class="flex items-center space-x-2">
-          <svg
-            class="w-5 h-5 text-yellow-500"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+      <div v-else class="max-w-2xl mx-auto">
+        <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-8 text-center">
+          <div
+            class="inline-flex items-center justify-center w-16 h-16 bg-yellow-100 rounded-full mb-4"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
-            ></path>
-          </svg>
-          <p class="text-yellow-600 font-medium">Pedido não encontrado</p>
+            <svg
+              class="w-8 h-8 text-yellow-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-yellow-800 mb-2">Pedido não encontrado</h3>
+          <p class="text-yellow-600 mb-6">
+            O pedido que você está tentando finalizar não foi encontrado ou não pertence a você.
+          </p>
+          <NuxtLink
+            to="/"
+            class="inline-flex items-center px-6 py-3 bg-coral-soft text-white font-medium rounded-lg hover:bg-coral-dark transition-colors"
+          >
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              ></path>
+            </svg>
+            Voltar para a loja
+          </NuxtLink>
         </div>
-        <p class="text-yellow-600 mt-2">
-          O pedido que você está tentando finalizar não foi encontrado.
-        </p>
-        <NuxtLink to="/" class="mt-4 inline-block text-yellow-600 hover:text-yellow-800 underline">
-          Voltar para a loja
-        </NuxtLink>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  middleware: 'auth',
+  requiresAuth: true,
+});
+
 const route = useRoute();
 const { success, error: notificationError } = useNotifications();
 
@@ -92,28 +143,10 @@ const loadOrder = async () => {
       return;
     }
 
-    // Buscar dados do pedido
-    const supabase = useSupabaseClient();
-    const { data: orderData, error: orderError } = await supabase
-      .from('orders')
-      .select(
-        `
-        *,
-        orderItems (
-          *,
-          product (
-            id,
-            name,
-            price,
-            images
-          )
-        )
-      `
-      )
-      .eq('id', orderId)
-      .single();
+    // Buscar dados do pedido via API
+    const orderData = await $fetch(`/api/orders/${orderId}`);
 
-    if (orderError || !orderData) {
+    if (!orderData) {
       error.value = 'Pedido não encontrado';
       return;
     }

@@ -1,5 +1,6 @@
 import { serverSupabaseUser } from '#supabase/server';
 import { usePagBank } from '~/composables/usePagBank';
+import { PrismaClient } from '@prisma/client';
 
 export default defineEventHandler(async event => {
   try {
@@ -23,29 +24,32 @@ export default defineEventHandler(async event => {
       });
     }
 
-    // Buscar dados do pedido
-    const supabase = useSupabaseClient();
-    const { data: order, error: orderError } = await supabase
-      .from('orders')
-      .select(
-        `
-        *,
-        orderItems (
-          *,
-          product (
-            id,
-            name,
-            price,
-            images
-          )
-        )
-      `
-      )
-      .eq('id', orderId)
-      .eq('userId', user.id)
-      .single();
+    // Buscar dados do pedido via Prisma
+    const prisma = new PrismaClient();
+    const order = await prisma.order.findFirst({
+      where: {
+        id: orderId,
+        userId: user.id,
+      },
+      include: {
+        orderItems: {
+          include: {
+            product: {
+              select: {
+                id: true,
+                name: true,
+                price: true,
+                images: true,
+              },
+            },
+          },
+        },
+      },
+    });
 
-    if (orderError || !order) {
+    await prisma.$disconnect();
+
+    if (!order) {
       throw createError({
         statusCode: 404,
         statusMessage: 'Pedido não encontrado',

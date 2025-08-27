@@ -16,7 +16,7 @@ const prisma = new PrismaClient({
 
 // Configuração do Supabase para criar usuário admin
 const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_KEY;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 // Dados extraídos do site com códigos dos produtos
 const siteData = {
@@ -379,11 +379,69 @@ async function createAdminUser() {
   }
 }
 
+async function createTestUser() {
+  if (!supabaseUrl || !supabaseServiceKey) {
+    console.log(
+      '⚠️  Variáveis de ambiente do Supabase não encontradas, pulando criação do usuário de teste'
+    );
+    return null;
+  }
+
+  try {
+    console.log('🔧 Criando usuário de teste no Supabase...');
+
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+    // Verificar se o usuário de teste já existe
+    const { data: existingUsers, error: listError } = await supabase.auth.admin.listUsers();
+
+    if (listError) {
+      console.log('⚠️  Erro ao verificar usuários existentes:', listError.message);
+      return null;
+    }
+
+    const testUserExists = existingUsers.users.find(
+      user => user.email === 'teste@amplicalcados.com'
+    );
+
+    if (testUserExists) {
+      console.log('✅ Usuário de teste já existe no Supabase Auth');
+      return testUserExists.id;
+    }
+
+    // Criar usuário de teste
+    const { data: newUser, error: createError } = await supabase.auth.admin.createUser({
+      email: 'teste@amplicalcados.com',
+      password: 'teste123',
+      email_confirm: true,
+      user_metadata: {
+        name: 'Usuário Teste',
+      },
+    });
+
+    if (createError) {
+      console.log('⚠️  Erro ao criar usuário de teste:', createError.message);
+      return null;
+    }
+
+    console.log('✅ Usuário de teste criado no Supabase Auth');
+    console.log(`📧 Email: ${newUser.user.email}`);
+    console.log(`🆔 ID: ${newUser.user.id}`);
+    console.log('🔑 Senha: teste123');
+
+    return newUser.user.id;
+  } catch (error) {
+    console.log('⚠️  Erro ao criar usuário de teste:', error);
+    return null;
+  }
+}
+
 async function main() {
   console.log('Iniciando o processo de seeding...');
 
-  // 1. Criar usuário admin no Supabase
+  // 1. Criar usuários no Supabase
   const adminUserId = await createAdminUser();
+  const testUserId = await createTestUser();
 
   // 2. Limpar dados existentes
   console.log('Limpando tabelas de produtos e categorias...');
@@ -425,7 +483,7 @@ async function main() {
     console.log(`${productsToCreate.length} produtos criados para a categoria ${categoryName}.`);
   }
 
-  // 4. Criar usuário admin na tabela users se o ID foi obtido
+  // 4. Criar usuários na tabela users se os IDs foram obtidos
   if (adminUserId) {
     try {
       console.log('Criando usuário admin na tabela users...');
@@ -446,6 +504,26 @@ async function main() {
     }
   }
 
+  if (testUserId) {
+    try {
+      console.log('Criando usuário de teste na tabela users...');
+
+      await prisma.user.create({
+        data: {
+          id: testUserId,
+          email: 'teste@amplicalcados.com',
+          name: 'Usuário Teste',
+          role: 'USER',
+          isActive: true,
+        },
+      });
+
+      console.log('✅ Usuário de teste criado na tabela users');
+    } catch (error) {
+      console.log('⚠️  Erro ao criar usuário de teste na tabela users:', error);
+    }
+  }
+
   console.log('Seeding concluído com sucesso!');
 
   if (adminUserId) {
@@ -455,7 +533,19 @@ async function main() {
     console.log('   - Senha: admin123');
     console.log('   - Role: ADMIN');
     console.log('');
-    console.log('⚠️  IMPORTANTE: Altere a senha no primeiro login!');
+  }
+
+  if (testUserId) {
+    console.log('');
+    console.log('🎯 USUÁRIO DE TESTE CRIADO:');
+    console.log('   - Email: teste@amplicalcados.com');
+    console.log('   - Senha: teste123');
+    console.log('   - Role: USER');
+    console.log('');
+  }
+
+  if (adminUserId || testUserId) {
+    console.log('⚠️  IMPORTANTE: Altere as senhas no primeiro login!');
   }
 }
 

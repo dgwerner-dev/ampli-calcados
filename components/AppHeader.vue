@@ -323,12 +323,7 @@ const supabase = useSupabaseClient();
 
 const loadCategories = async () => {
   try {
-    const { data, error } = await supabase
-      .from('categories')
-      .select('id, name, slug')
-      .order('name', { ascending: true });
-
-    if (error) throw error;
+    const data = await $fetch('/api/categories');
     categories.value = data;
   } catch (err) {
     console.error('Erro ao carregar categorias:', err);

@@ -299,46 +299,39 @@ const loadFeaturedProducts = async () => {
     loading.value = true;
     error.value = null;
 
-    const { data, error: fetchError } = await supabase
-      .from('products')
-      .select(
-        `
-        id,
-        name,
-        description,
-        price,
-        salePrice,
-        images,
-        slug,
-        category:categories(name)
-      `
-      )
-      .eq('featured', true)
-      .eq('isActive', true)
-      .order('createdAt', { ascending: false })
-      .limit(6);
+    console.log('🔄 Carregando produtos em destaque...');
 
-    if (fetchError) throw fetchError;
+    // Buscar produtos em destaque via API
+    const data = await $fetch('/api/products/featured');
+
+    console.log('✅ Produtos carregados:', data);
 
     // Transformar produtos em slides
-    slides.value = (data || []).map(product => ({
-      id: product.id,
-      title: product.name,
-      description: product.description || 'Produto em destaque da AMPLI CALÇADOS',
-      price: product.salePrice
-        ? `R$ ${parseFloat(product.salePrice).toFixed(2).replace('.', ',')}`
-        : `R$ ${product.price.toFixed(2).replace('.', ',')}`,
-      originalPrice: product.salePrice ? `R$ ${product.price.toFixed(2).replace('.', ',')}` : null,
-      discount: product.salePrice
-        ? Math.round(((product.price - parseFloat(product.salePrice)) / product.price) * 100)
-        : null,
-      image:
-        product.images && product.images.length > 0
-          ? product.images[0]
-          : '/images/placeholder-product.jpg',
-      slug: product.slug,
-      category: product.category?.name,
-    }));
+    slides.value = (data || []).map(product => {
+      console.log('🔄 Processando produto:', product.name);
+      return {
+        id: product.id,
+        title: product.name,
+        description: product.description || 'Produto em destaque da AMPLI CALÇADOS',
+        price: product.salePrice
+          ? `R$ ${parseFloat(product.salePrice).toFixed(2).replace('.', ',')}`
+          : `R$ ${product.price.toFixed(2).replace('.', ',')}`,
+        originalPrice: product.salePrice
+          ? `R$ ${product.price.toFixed(2).replace('.', ',')}`
+          : null,
+        discount: product.salePrice
+          ? Math.round(((product.price - parseFloat(product.salePrice)) / product.price) * 100)
+          : null,
+        image:
+          product.images && product.images.length > 0
+            ? product.images[0]
+            : '/images/placeholder-product.jpg',
+        slug: product.slug,
+        category: product.category?.name,
+      };
+    });
+
+    console.log('🎉 Slides criados:', slides.value.length);
 
     // Se não houver produtos em destaque, usar produtos padrão
     if (slides.value.length === 0) {
@@ -353,7 +346,8 @@ const loadFeaturedProducts = async () => {
       ];
     }
   } catch (err) {
-    console.error('Erro ao carregar produtos em destaque:', err);
+    console.error('❌ Erro ao carregar produtos em destaque:', err);
+    console.error('📋 Stack trace:', err.stack);
     error.value = err.message;
 
     // Fallback para produtos padrão em caso de erro
@@ -385,8 +379,10 @@ const goToSlide = index => {
 
 // Auto-play carousel
 onMounted(() => {
-  // Carregar produtos em destaque
-  loadFeaturedProducts();
+  // Carregar produtos em destaque apenas no cliente
+  if (process.client) {
+    loadFeaturedProducts();
+  }
 
   // Auto-play do carrossel
   setInterval(() => {

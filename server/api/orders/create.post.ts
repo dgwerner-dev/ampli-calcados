@@ -1,6 +1,9 @@
 import { serverSupabaseUser, serverSupabaseClient } from '#supabase/server';
+import { PrismaClient } from '@prisma/client';
 
 export default defineEventHandler(async event => {
+  const prisma = new PrismaClient();
+
   try {
     console.log('🔄 Iniciando criação de pedido...');
 
@@ -74,38 +77,27 @@ export default defineEventHandler(async event => {
 
     console.log('💰 Cálculo do total:', { total, shipping, tax, finalTotal });
 
-    // Criar pedido
+    // Criar pedido usando Prisma
     console.log('📝 Criando pedido...');
     const orderData = {
       userId: user.id,
-      status: 'PENDING',
+      status: 'PENDING' as const,
       total: finalTotal,
       shipping: shipping,
       tax: tax,
     };
     console.log('📋 Dados do pedido:', orderData);
 
-    const { data: order, error: orderError } = await (supabase as any)
-      .from('orders')
-      .insert(orderData)
-      .select()
-      .single();
+    const order = await prisma.order.create({
+      data: orderData,
+    });
 
-    if (orderError) {
-      console.error('❌ Erro ao criar pedido:', orderError);
-      throw createError({
-        statusCode: 500,
-        statusMessage: `Erro ao criar pedido: ${orderError.message}`,
-      });
-    }
+    console.log('✅ Pedido criado:', order.id);
 
-    const typedOrder = order as any;
-    console.log('✅ Pedido criado:', typedOrder.id);
-
-    // Criar item do pedido
+    // Criar item do pedido usando Prisma
     console.log('📦 Criando item do pedido...');
     const orderItemData = {
-      orderId: typedOrder.id,
+      orderId: order.id,
       productId,
       quantity,
       price: typedProduct.price,
@@ -114,34 +106,28 @@ export default defineEventHandler(async event => {
     };
     console.log('📋 Dados do item:', orderItemData);
 
-    // @ts-ignore - Supabase type inference issue
-    const { error: orderItemError } = await supabase.from('orderItems').insert(orderItemData);
+    const orderItem = await prisma.orderItem.create({
+      data: orderItemData,
+    });
 
-    if (orderItemError) {
-      console.error('❌ Erro ao criar item do pedido:', orderItemError);
-      // Se falhar ao criar item, deletar o pedido
-      console.log('🗑️ Deletando pedido devido ao erro...');
-      await supabase.from('orders').delete().eq('id', typedOrder.id);
-      throw createError({
-        statusCode: 500,
-        statusMessage: `Erro ao adicionar produto ao pedido: ${orderItemError.message}`,
-      });
-    }
+    console.log('✅ Item do pedido criado:', orderItem.id);
 
     console.log('✅ Item do pedido criado com sucesso');
 
     const result = {
       success: true,
       order: {
-        id: typedOrder.id,
+        id: order.id,
         total: finalTotal,
-        status: typedOrder.status,
+        status: order.status,
       },
     };
 
     console.log('🎉 Pedido criado com sucesso:', result);
+    await prisma.$disconnect();
     return result;
   } catch (error: any) {
+    await prisma.$disconnect();
     console.error('❌ Erro ao criar pedido:', error);
     console.error('📋 Stack trace:', error.stack);
 

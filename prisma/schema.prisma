@@ -1,6 +1,3 @@
-// This is your Prisma schema file for AMPLI CALÇADOS
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,135 +8,110 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-// Modelo de usuário (estende o auth.users do Supabase)
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  avatar    String?
-  role      UserRole @default(USER)
-  isActive  Boolean  @default(true)
+  id          String         @id @default(cuid())
+  email       String         @unique
+  name        String?
+  avatar      String?
+  role        UserRole       @default(USER)
+  isActive    Boolean        @default(true)
   dateOfBirth DateTime?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Relacionamentos
-  orders    Order[]
-  wishlist  WishlistItem[]
-  reviews   Review[]
-  payments  Payment[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  orders      Order[]
+  payments    Payment[]
+  reviews     Review[]
+  wishlist    WishlistItem[]
+  addresses   Address[]
 
   @@map("users")
 }
 
-// Enum para roles de usuário
-enum UserRole {
-  USER
-  ADMIN
-}
-
-// Modelo de categoria de produtos
 model Category {
-  id          String    @id @default(cuid())
-  name        String
-  slug        String    @unique
-  description String?
-  image       String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-
-  // Relacionamentos
-  products Product[]
+  id                 String             @id @default(cuid())
+  name               String
+  slug               String             @unique
+  description        String?
+  image              String?
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  products           Product[]
   shippingCategories ShippingCategory[]
 
   @@map("categories")
 }
 
-// Modelo de produto
 model Product {
-  id              String   @id @default(cuid())
-  code            String?
-  name            String
-  slug            String   @unique
-  description     String?
-  raw_description String?
-  price           Float
-  salePrice       Decimal? @db.Decimal(10, 2)
-  images          String[] // URLs das imagens
-  sizes           String[] // Tamanhos disponíveis
-  colors          String[] // Cores disponíveis
-  inStock         Boolean  @default(true)
-  isActive        Boolean  @default(true)
-  featured        Boolean  @default(false)
-  categoryId      String
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-
-  // Relacionamentos
-  category        Category     @relation(fields: [categoryId], references: [id])
-  orderItems      OrderItem[]
-  wishlistItems   WishlistItem[]
-  reviews         Review[]
+  id               String            @id @default(cuid())
+  code             String?
+  name             String
+  slug             String            @unique
+  description      String?
+  raw_description  String?
+  price            Float
+  salePrice        Decimal?          @db.Decimal(10, 2)
+  images           String[]
+  sizes            String[]
+  colors           String[]
+  inStock          Boolean           @default(true)
+  isActive         Boolean           @default(true)
+  featured         Boolean           @default(false)
+  categoryId       String
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  orderItems       OrderItem[]
+  category         Category          @relation(fields: [categoryId], references: [id])
+  reviews          Review[]
   shippingProducts ShippingProduct[]
+  wishlistItems    WishlistItem[]
 
   @@map("products")
 }
 
-// Modelo de pedido
 model Order {
-  id        String      @id @default(cuid())
-  userId    String
-  couponId  String?
-  status    OrderStatus @default(PENDING)
-  total     Decimal     @db.Decimal(10, 2)
-  shipping  Decimal     @db.Decimal(10, 2)
-  tax       Decimal     @db.Decimal(10, 2)
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-
-  // Relacionamentos
-  user       User        @relation(fields: [userId], references: [id])
-  coupon     Coupon?     @relation(fields: [couponId], references: [id])
+  id         String      @id @default(cuid())
+  userId     String
+  couponId   String?
+  status     OrderStatus @default(PENDING)
+  total      Decimal     @db.Decimal(10, 2)
+  shipping   Decimal     @db.Decimal(10, 2)
+  tax        Decimal     @db.Decimal(10, 2)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
   orderItems OrderItem[]
+  coupon     Coupon?     @relation(fields: [couponId], references: [id])
+  user       User        @relation(fields: [userId], references: [id])
   payments   Payment[]
 
   @@map("orders")
 }
 
-// Modelo de item do pedido
 model OrderItem {
-  id        String   @id @default(cuid())
+  id        String  @id @default(cuid())
   orderId   String
   productId String
   quantity  Int
   price     Decimal @db.Decimal(10, 2)
   size      String?
   color     String?
-
-  // Relacionamentos
-  order   Order   @relation(fields: [orderId], references: [id])
-  product Product @relation(fields: [productId], references: [id])
+  order     Order   @relation(fields: [orderId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
 
   @@map("order_items")
 }
 
-// Modelo de item da lista de desejos
 model WishlistItem {
   id        String   @id @default(cuid())
   userId    String
   productId String
   createdAt DateTime @default(now())
-
-  // Relacionamentos
-  user    User    @relation(fields: [userId], references: [id])
-  product Product @relation(fields: [productId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, productId])
-
   @@map("wishlist_items")
 }
 
-// Modelo de avaliação
 model Review {
   id        String   @id @default(cuid())
   userId    String
@@ -148,133 +120,98 @@ model Review {
   comment   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  // Relacionamentos
-  user    User    @relation(fields: [userId], references: [id])
-  product Product @relation(fields: [productId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, productId])
-
   @@map("reviews")
 }
 
-// Enum para status do pedido
-enum OrderStatus {
-  PENDING
-  CONFIRMED
-  SHIPPED
-  DELIVERED
-  CANCELLED
-}
-
-// Enum para tipo de desconto
-enum DiscountType {
-  PERCENTAGE
-  FIXED
-  FREE_SHIPPING
-}
-
-// Modelo de cupom de desconto
 model Coupon {
-  id                    String       @id @default(cuid())
-  name                  String
-  description           String?
-  code                  String       @unique
-  discountType          DiscountType
-  discountValue         Float?
-  minOrderValue         Float?
-  usageLimit            Int?
-  usagePerCustomer      Int          @default(1)
-  usedCount             Int          @default(0)
-  validUntil            DateTime?
-  isActive              Boolean      @default(true)
-  productRestriction    String       @default("ALL_PRODUCTS")
-  customerRestriction   String       @default("ALL_CUSTOMERS")
-  isAccumulative        Boolean      @default(false)
-  applyToTotal          Boolean      @default(true)
-  createdAt             DateTime     @default(now())
-  updatedAt             DateTime     @updatedAt
-
-  // Relacionamentos
-  orders Order[]
+  id                  String       @id @default(cuid())
+  name                String
+  description         String?
+  code                String       @unique
+  discountType        DiscountType
+  discountValue       Float?
+  minOrderValue       Float?
+  usageLimit          Int?
+  usagePerCustomer    Int          @default(1)
+  usedCount           Int          @default(0)
+  validUntil          DateTime?
+  isActive            Boolean      @default(true)
+  productRestriction  String       @default("ALL_PRODUCTS")
+  customerRestriction String       @default("ALL_CUSTOMERS")
+  isAccumulative      Boolean      @default(false)
+  applyToTotal        Boolean      @default(true)
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+  orders              Order[]
 
   @@map("coupons")
 }
 
-// Modelo de promoção de frete
 model ShippingPromotion {
-  id            String   @id @default(cuid())
+  id            String             @id @default(cuid())
   name          String
   description   String?
   minOrderValue Float
-  freeShipping  Boolean  @default(true)
-  discountValue Float    @default(0)
+  freeShipping  Boolean            @default(true)
+  discountValue Float              @default(0)
   validUntil    DateTime?
-  isActive      Boolean  @default(true)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  // Relacionamentos
-  regions      ShippingRegion[]
-  products     ShippingProduct[]
-  categories   ShippingCategory[]
+  isActive      Boolean            @default(true)
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  categories    ShippingCategory[]
+  products      ShippingProduct[]
+  regions       ShippingRegion[]
 
   @@map("shipping_promotions")
 }
 
-// Modelo de região para promoções de frete
 model ShippingRegion {
-  id                String   @id @default(cuid())
-  name              String
-  minOrderValue     Float    @default(0)
-  zipCodeStart      String?
-  zipCodeEnd        String?
-  isActive          Boolean  @default(true)
+  id                  String             @id @default(cuid())
+  name                String
+  minOrderValue       Float              @default(0)
+  zipCodeStart        String?
+  zipCodeEnd          String?
+  isActive            Boolean            @default(true)
   shippingPromotionId String?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-
-  // Relacionamentos
-  shippingPromotion ShippingPromotion? @relation(fields: [shippingPromotionId], references: [id])
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  shippingPromotion   ShippingPromotion? @relation(fields: [shippingPromotionId], references: [id])
 
   @@map("shipping_regions")
 }
 
-// Modelo de produto para promoções de frete
 model ShippingProduct {
-  id                String   @id @default(cuid())
-  productId         String
-  isActive          Boolean  @default(true)
+  id                  String             @id @default(cuid())
+  productId           String
+  isActive            Boolean            @default(true)
   shippingPromotionId String?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-
-  // Relacionamentos
-  product           Product @relation(fields: [productId], references: [id])
-  shippingPromotion ShippingPromotion? @relation(fields: [shippingPromotionId], references: [id])
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  product             Product            @relation(fields: [productId], references: [id])
+  shippingPromotion   ShippingPromotion? @relation(fields: [shippingPromotionId], references: [id])
 
   @@unique([productId, shippingPromotionId])
   @@map("shipping_products")
 }
 
-// Modelo de categoria para promoções de frete
 model ShippingCategory {
-  id                String   @id @default(cuid())
-  categoryId        String
-  isActive          Boolean  @default(true)
+  id                  String             @id @default(cuid())
+  categoryId          String
+  isActive            Boolean            @default(true)
   shippingPromotionId String?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-
-  // Relacionamentos
-  category          Category @relation(fields: [categoryId], references: [id])
-  shippingPromotion ShippingPromotion? @relation(fields: [shippingPromotionId], references: [id])
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  category            Category           @relation(fields: [categoryId], references: [id])
+  shippingPromotion   ShippingPromotion? @relation(fields: [shippingPromotionId], references: [id])
 
   @@unique([categoryId, shippingPromotionId])
   @@map("shipping_categories")
 }
 
-// Modelo de pagamento
 model Payment {
   id              String        @id @default(cuid())
   orderId         String
@@ -287,15 +224,50 @@ model Payment {
   paymentData     Json?
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
-
-  // Relacionamentos
   order           Order         @relation(fields: [orderId], references: [id])
   user            User          @relation(fields: [userId], references: [id])
 
   @@map("payments")
 }
 
-// Enum para status do pagamento
+model Address {
+  id            String   @id @default(cuid())
+  userId        String
+  name          String
+  zipCode       String
+  street        String
+  number        String
+  complement    String?
+  neighborhood  String
+  city          String
+  state         String
+  isDefault     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User     @relation(fields: [userId], references: [id])
+
+  @@map("addresses")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+  FREE_SHIPPING
+}
+
 enum PaymentStatus {
   PENDING
   APPROVED
@@ -304,7 +276,6 @@ enum PaymentStatus {
   REFUNDED
 }
 
-// Enum para método de pagamento
 enum PaymentMethod {
   CREDIT_CARD
   DEBIT_CARD

@@ -1,5 +1,15 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div v-if="!isAdmin" class="min-h-screen bg-gray-50 flex items-center justify-center">
+    <div class="text-center">
+      <h1 class="text-2xl font-bold text-red-600 mb-4">Acesso Negado</h1>
+      <p class="text-gray-600 mb-4">Você não tem permissão para acessar esta área.</p>
+      <NuxtLink to="/" class="text-coral-soft hover:text-coral-dark">
+        Voltar para a página inicial
+      </NuxtLink>
+    </div>
+  </div>
+
+  <div v-else class="min-h-screen bg-gray-50">
     <!-- Container principal com largura máxima e centralização -->
     <div class="max-w-7xl mx-auto px-4">
       <div class="flex h-screen">
@@ -1987,6 +1997,7 @@ const {
 } = useShippingPromotions();
 
 const supabase = useSupabaseClient();
+const { isAdmin } = useAuth();
 
 let productSearchDebounceTimer = null;
 let userSearchDebounceTimer = null;
@@ -2640,6 +2651,7 @@ watch(activeMarketingSection, newSection => {
 definePageMeta({
   middleware: 'auth',
   requiresAuth: true,
+  requiresAdmin: true,
 });
 
 useHead({

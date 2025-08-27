@@ -1,3 +1,5 @@
+import { PrismaClient } from '@prisma/client';
+
 export const usePagBank = () => {
   const config = useRuntimeConfig();
   const supabase = useSupabaseClient();
@@ -275,9 +277,14 @@ export const usePagBank = () => {
   // Atualizar status do pedido no banco
   const updateOrderStatus = async (orderId: string, status: string) => {
     try {
-      const { error } = await supabase.from('orders').update({ status }).eq('id', orderId);
+      const prisma = new PrismaClient();
 
-      if (error) throw error;
+      await prisma.order.update({
+        where: { id: orderId },
+        data: { status: status as any },
+      });
+
+      await prisma.$disconnect();
     } catch (error: any) {
       console.error('Erro ao atualizar status do pedido:', error);
       throw error;

@@ -10,5 +10,15 @@ export default defineNuxtRouteMiddleware(to => {
         return navigateTo('/');
       }
     }
+
+    // Verificar se a rota requer role de admin
+    if (to.meta.requiresAdmin) {
+      const { isAdmin } = useAuth();
+
+      // Se não for admin, redirecionar para home
+      if (!isAdmin.value) {
+        return navigateTo('/');
+      }
+    }
   }
 });

@@ -45,6 +45,9 @@ export default defineNuxtConfig({
     pagbankEnvironment: process.env.PAGBANK_ENVIRONMENT || 'sandbox',
     pagbankWebhookSecret: process.env.PAGBANK_WEBHOOK_SECRET,
 
+    // Correios API configuration
+    correiosAccessCode: process.env.CORREIOS_ACCESS_CODE,
+
     public: {
       supabaseUrl: process.env.SUPABASE_URL,
       supabaseKey: process.env.SUPABASE_ANON_KEY,

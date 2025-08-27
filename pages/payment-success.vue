@@ -104,16 +104,12 @@ const loadOrder = async () => {
 
     if (!orderId) return;
 
-    // Buscar dados do pedido
-    const supabase = useSupabaseClient();
-    const { data: orderData, error: orderError } = await supabase
-      .from('orders')
-      .select('*')
-      .eq('id', orderId)
-      .single();
-
-    if (!orderError && orderData) {
+    // Buscar dados do pedido via API
+    try {
+      const orderData = await $fetch(`/api/orders/${orderId}`);
       order.value = orderData;
+    } catch (error) {
+      console.error('Erro ao carregar pedido:', error);
     }
   } catch (error) {
     console.error('Erro ao carregar pedido:', error);
