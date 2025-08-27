@@ -1,12 +1,12 @@
 import { serverSupabaseUser } from '#supabase/server';
 import { PrismaClient } from '@prisma/client';
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async event => {
   const prisma = new PrismaClient();
-  
+
   try {
     const user = await serverSupabaseUser(event);
-    
+
     if (!user) {
       throw createError({
         statusCode: 401,

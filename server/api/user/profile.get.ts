@@ -1,12 +1,12 @@
 import { serverSupabaseUser } from '#supabase/server';
 import { PrismaClient } from '@prisma/client';
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async event => {
   const prisma = new PrismaClient();
-  
+
   try {
     const user = await serverSupabaseUser(event);
-    
+
     if (!user) {
       throw createError({
         statusCode: 401,
@@ -44,15 +44,17 @@ export default defineEventHandler(async (event) => {
       dateOfBirth: userData.profile?.dateOfBirth || null,
       newsletter: userData.profile?.newsletter || false,
       smsNotifications: userData.profile?.smsNotifications || false,
-      address: userData.addresses[0] ? {
-        cep: userData.addresses[0].zipCode,
-        street: userData.addresses[0].street,
-        number: userData.addresses[0].number,
-        complement: userData.addresses[0].complement || '',
-        neighborhood: userData.addresses[0].neighborhood,
-        city: userData.addresses[0].city,
-        state: userData.addresses[0].state,
-      } : null,
+      address: userData.addresses[0]
+        ? {
+            cep: userData.addresses[0].zipCode,
+            street: userData.addresses[0].street,
+            number: userData.addresses[0].number,
+            complement: userData.addresses[0].complement || '',
+            neighborhood: userData.addresses[0].neighborhood,
+            city: userData.addresses[0].city,
+            state: userData.addresses[0].state,
+          }
+        : null,
     };
 
     return profileData;
