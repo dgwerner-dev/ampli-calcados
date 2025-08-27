@@ -151,7 +151,7 @@ const loadOrder = async () => {
     } else {
       // Se não temos orderId, usar dados do carrinho
       const { cart, total, itemCount } = useCart();
-      
+
       if (itemCount.value === 0) {
         error.value = 'Carrinho vazio. Adicione produtos antes de finalizar a compra.';
         return;
@@ -167,14 +167,14 @@ const loadOrder = async () => {
           price: item.price,
           size: item.size,
           color: item.color,
-          product: item.product
+          product: item.product,
         })),
         total: total.value,
         shipping: 0,
         tax: 0,
         status: 'PENDING',
         createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date().toISOString(),
       };
     }
   } catch (err: any) {
@@ -191,7 +191,7 @@ const handlePaymentSuccess = async (paymentData: any) => {
     // Se o pedido veio do carrinho, criar o pedido no banco
     if (order.value.id.startsWith('cart-')) {
       const { clearCart } = useCart();
-      
+
       // Criar pedido no banco de dados
       const createdOrder = await $fetch('/api/orders/create', {
         method: 'POST',
@@ -200,9 +200,9 @@ const handlePaymentSuccess = async (paymentData: any) => {
             productId: item.productId,
             quantity: item.quantity,
             size: item.size,
-            color: item.color
-          }))
-        }
+            color: item.color,
+          })),
+        },
       });
 
       if (createdOrder.success) {

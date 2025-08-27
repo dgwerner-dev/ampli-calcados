@@ -23,7 +23,7 @@ export default defineEventHandler(async event => {
 
     // Suportar tanto item único quanto múltiplos itens
     let items = [];
-    
+
     if (body.items && Array.isArray(body.items)) {
       // Múltiplos itens (do carrinho)
       items = body.items;
@@ -51,8 +51,11 @@ export default defineEventHandler(async event => {
     console.log('🔗 Cliente Supabase conectado');
 
     // Buscar dados de todos os produtos
-    console.log('🔍 Buscando produtos:', items.map(item => item.productId));
-    
+    console.log(
+      '🔍 Buscando produtos:',
+      items.map(item => item.productId)
+    );
+
     let total = 0;
     const products = [];
 
@@ -85,12 +88,12 @@ export default defineEventHandler(async event => {
       // Calcular subtotal do item
       const itemTotal = typedProduct.price * item.quantity;
       total += itemTotal;
-      
+
       products.push({
         ...typedProduct,
         itemQuantity: item.quantity,
         itemSize: item.size,
-        itemColor: item.color
+        itemColor: item.color,
       });
     }
 
@@ -119,7 +122,7 @@ export default defineEventHandler(async event => {
 
     // Criar itens do pedido usando Prisma
     console.log('📦 Criando itens do pedido...');
-    
+
     for (const product of products) {
       const orderItemData = {
         orderId: order.id,

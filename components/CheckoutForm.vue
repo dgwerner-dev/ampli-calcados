@@ -524,7 +524,7 @@
                 {{
                   loading
                     ? 'Processando...'
-                    : `Finalizar - R$ ${formatPrice(total + (selectedShippingOption?.cost || 0))}`
+                    : `Comprar Agora`
                 }}
               </button>
             </div>
@@ -1265,8 +1265,13 @@ const loadSavedAddresses = async () => {
   try {
     const response = await $fetch('/api/addresses');
     savedAddresses.value = response.addresses;
-  } catch (error) {
+  } catch (error: any) {
     console.error('Erro ao carregar endereços:', error);
+    // Se o erro for de autenticação, não mostrar erro para o usuário
+    // pois pode ser que o usuário ainda não esteja logado
+    if (error.statusCode !== 401) {
+      notificationError('Erro ao carregar endereços salvos');
+    }
   }
 };
 
@@ -1504,9 +1509,13 @@ const loadUserProfile = async () => {
     }
 
     success('✅ Dados do perfil carregados com sucesso!');
-  } catch (error) {
+  } catch (error: any) {
     console.error('Erro ao carregar dados do perfil:', error);
-    notificationError('Erro ao carregar dados do perfil. Tente novamente.');
+    // Se o erro for de autenticação, não mostrar erro para o usuário
+    // pois pode ser que o usuário ainda não esteja logado
+    if (error.statusCode !== 401) {
+      notificationError('Erro ao carregar dados do perfil. Tente novamente.');
+    }
   } finally {
     loadingProfile.value = false;
   }
