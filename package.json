@@ -13,7 +13,11 @@
     "db:seed": "prisma db seed",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "generate-favicons": "node scripts/generate-favicons.js"
+    "generate-favicons": "node scripts/generate-favicons.js",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
@@ -29,12 +33,18 @@
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
+    "@nuxt/test-utils": "^3.19.2",
+    "@vitest/ui": "^3.2.4",
+    "@vue/test-utils": "^2.4.6",
     "dotenv": "^17.2.1",
     "dotenv-cli": "^10.0.0",
+    "happy-dom": "^18.0.1",
+    "jsdom": "^26.1.0",
     "prettier": "^3.6.2",
     "sharp": "^0.34.3",
     "tsx": "^4.20.3",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+    "vitest": "^3.2.4"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
