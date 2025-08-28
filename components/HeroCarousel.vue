@@ -363,8 +363,6 @@ const loadFeaturedProducts = async () => {
       };
     });
 
-
-
     // Se não houver produtos em destaque, usar produtos padrão
     if (slides.value.length === 0) {
       slides.value = [

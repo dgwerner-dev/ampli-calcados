@@ -1132,8 +1132,6 @@ const loadCategories = async () => {
 
     if (fetchError) throw fetchError;
     categories.value = data || [];
-
-
   } catch (err: any) {
     console.error('Erro ao carregar categorias:', err);
     error.value = 'Erro ao carregar categorias. Tente novamente.';

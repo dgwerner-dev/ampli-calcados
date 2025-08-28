@@ -51,10 +51,7 @@ export const useCart = () => {
     try {
       // Verificar se o produto já está no carrinho
       const existingItemIndex = cart.value.findIndex(
-        item => 
-          item.productId === product.id && 
-          item.size === size && 
-          item.color === color
+        item => item.productId === product.id && item.size === size && item.color === color
       );
 
       if (existingItemIndex !== -1) {
@@ -117,7 +114,7 @@ export const useCart = () => {
 
   // Calcular total
   const total = computed(() => {
-    return cart.value.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    return cart.value.reduce((sum, item) => sum + item.price * item.quantity, 0);
   });
 
   // Contar itens

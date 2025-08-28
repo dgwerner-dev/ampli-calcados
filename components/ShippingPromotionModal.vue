@@ -407,21 +407,18 @@ const savePromotion = async () => {
           method: 'PUT',
           body: promotionData,
         });
-
       } catch (apiError) {
         console.error('Erro da API (update):', apiError);
         throw apiError;
       }
     } else {
       // Create new promotion usando API endpoint
-      
 
       try {
         const response = await $fetch('/api/shipping-promotions', {
           method: 'POST',
           body: promotionData,
         });
-
       } catch (apiError) {
         console.error('Erro da API:', apiError);
         throw apiError;

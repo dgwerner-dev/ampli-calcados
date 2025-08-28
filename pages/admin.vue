@@ -2837,8 +2837,8 @@ const toggleFreeShippingAlert = () => {
 const saveFreeShippingAlert = async () => {
   freeShippingAlertLoading.value = true;
 
-      try {
-      await updateFreeShippingAlert(freeShippingAlert.value);
+  try {
+    await updateFreeShippingAlert(freeShippingAlert.value);
 
     // Recarregar informações de frete grátis no header
     if (process.client) {
@@ -2863,8 +2863,6 @@ const toggleRegionStatus = async region => {
     await updateShippingRegion(region.id, {
       isActive: !region.isActive,
     });
-
-
   } catch (error) {
     console.error('Erro ao alterar status da região:', error);
   }
@@ -2882,7 +2880,6 @@ const closeRegionModal = () => {
 
 const handleRegionSaved = async region => {
   await loadShippingRegions();
-  
 };
 
 // Carregar dados quando a página for montada
