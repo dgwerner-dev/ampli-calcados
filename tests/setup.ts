@@ -1,27 +1,37 @@
-import { vi } from 'vitest'
+import { vi } from 'vitest';
 
 // Mock global objects
-global.fetch = vi.fn()
+global.fetch = vi.fn();
 global.localStorage = {
   getItem: vi.fn(),
   setItem: vi.fn(),
   removeItem: vi.fn(),
   clear: vi.fn(),
   length: 0,
-  key: vi.fn()
-}
+  key: vi.fn(),
+};
 
 // Mock window object
 Object.defineProperty(window, 'location', {
   value: { href: 'http://localhost:3000' },
-  writable: true
-})
+  writable: true,
+});
 
 // Mock process.client
 global.process = {
   ...global.process,
-  client: true
-}
+  client: true,
+};
+
+// Mock Vue composables globally
+vi.mock('vue', () => ({
+  ref: (value: any) => ({ value }),
+  computed: (fn: any) => ({ value: fn() }),
+  readonly: (value: any) => ({ value }),
+  watch: vi.fn(),
+  onMounted: vi.fn(),
+  nextTick: vi.fn(),
+}));
 
 // Mock Supabase
 vi.mock('@supabase/supabase-js', () => ({
@@ -29,23 +39,30 @@ vi.mock('@supabase/supabase-js', () => ({
     auth: {
       getSession: vi.fn(() => Promise.resolve({ data: { session: null }, error: null })),
       signOut: vi.fn(() => Promise.resolve({ error: null })),
-      signInWithPassword: vi.fn(() => Promise.resolve({ data: { user: null }, error: null }))
-    }
-  }))
-}))
+      signInWithPassword: vi.fn(() => Promise.resolve({ data: { user: null }, error: null })),
+    },
+  })),
+}));
 
 // Mock Nuxt composables
 vi.mock('#app', () => ({
   useState: vi.fn((key, defaultFn) => {
-    const { ref } = require('vue')
-    return ref(defaultFn ? defaultFn() : null)
+    const { ref } = require('vue');
+    return ref(defaultFn ? defaultFn() : null);
   }),
   useSupabaseClient: vi.fn(() => ({
     auth: {
       getSession: vi.fn(() => Promise.resolve({ data: { session: null }, error: null })),
       signOut: vi.fn(() => Promise.resolve({ error: null })),
-      signInWithPassword: vi.fn(() => Promise.resolve({ data: { user: null }, error: null }))
-    }
+      signInWithPassword: vi.fn(() => Promise.resolve({ data: { user: null }, error: null })),
+    },
+    from: vi.fn(() => ({
+      select: vi.fn(() => ({
+        eq: vi.fn(() => ({
+          single: vi.fn(() => Promise.resolve({ data: null, error: null })),
+        })),
+      })),
+    })),
   })),
-  $fetch: vi.fn()
-}))
+  $fetch: vi.fn(),
+}));
