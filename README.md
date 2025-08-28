@@ -5,6 +5,7 @@ E-commerce completo da AMPLI CALÇADOS desenvolvido com **Nuxt.js**, Tailwind CS
 ## 🚀 Funcionalidades Implementadas
 
 ### ✅ **Sistema de Autenticação Completo**
+
 - **Login/Registro** com email e senha
 - **Recuperação de senha** por email
 - **Sessões persistentes** com Supabase
@@ -14,6 +15,7 @@ E-commerce completo da AMPLI CALÇADOS desenvolvido com **Nuxt.js**, Tailwind CS
 - **Logout seguro** com invalidação de sessão
 
 ### ✅ **Sistema de Carrinho Avançado**
+
 - **Carrinho persistente** em localStorage
 - **Adicionar/remover produtos** com cores e tamanhos
 - **Cálculo automático** de totais
@@ -22,6 +24,7 @@ E-commerce completo da AMPLI CALÇADOS desenvolvido com **Nuxt.js**, Tailwind CS
 - **Interface responsiva** com animações
 
 ### ✅ **Lista de Desejos (Wishlist)**
+
 - **Adicionar/remover** produtos da wishlist
 - **Sincronização** com banco de dados
 - **Contador visual** no header
@@ -30,6 +33,7 @@ E-commerce completo da AMPLI CALÇADOS desenvolvido com **Nuxt.js**, Tailwind CS
 - **Persistência** por usuário
 
 ### ✅ **Sistema de Promoções de Frete**
+
 - **Promoções dinâmicas** configuráveis
 - **Frete grátis** com valor mínimo
 - **Alertas visuais** durante checkout
@@ -38,6 +42,7 @@ E-commerce completo da AMPLI CALÇADOS desenvolvido com **Nuxt.js**, Tailwind CS
 - **Mensagens dinâmicas** no header
 
 ### ✅ **Sistema de Notificações**
+
 - **Notificações toast** em tempo real
 - **Tipos variados**: sucesso, erro, aviso, info
 - **Auto-remoção** configurável
@@ -46,6 +51,7 @@ E-commerce completo da AMPLI CALÇADOS desenvolvido com **Nuxt.js**, Tailwind CS
 - **Integração** com todas as ações
 
 ### ✅ **Sistema de Pedidos**
+
 - **Criação de pedidos** com produtos
 - **Histórico completo** por usuário
 - **Status de pedidos** rastreável
@@ -54,6 +60,7 @@ E-commerce completo da AMPLI CALÇADOS desenvolvido com **Nuxt.js**, Tailwind CS
 - **Integração** com sistema de frete
 
 ### ✅ **Sistema de Configurações**
+
 - **Configurações globais** do sistema
 - **Alertas de frete grátis** configuráveis
 - **Persistência** em banco de dados
@@ -61,6 +68,7 @@ E-commerce completo da AMPLI CALÇADOS desenvolvido com **Nuxt.js**, Tailwind CS
 - **Integração** com checkout
 
 ### ✅ **Sistema de Testes Completo**
+
 - **39 testes** implementados e funcionando
 - **Cobertura** de composables, API e utilitários
 - **Vitest** configurado com happy-dom
@@ -71,23 +79,27 @@ E-commerce completo da AMPLI CALÇADOS desenvolvido com **Nuxt.js**, Tailwind CS
 ## 🛠️ Tecnologias Utilizadas
 
 ### **Frontend**
+
 - **Nuxt.js 3** - Framework Vue.js com SSR
 - **Vue.js 3** - Framework reativo
 - **Tailwind CSS** - Framework CSS utilitário
 - **TypeScript** - Tipagem estática
 
 ### **Backend & Banco de Dados**
+
 - **Supabase** - Backend-as-a-Service
 - **PostgreSQL** - Banco de dados relacional
 - **Prisma** - ORM para TypeScript
 - **Node.js** - Runtime JavaScript
 
 ### **Autenticação & Segurança**
+
 - **Supabase Auth** - Sistema de autenticação
 - **JWT Tokens** - Autenticação stateless
 - **Row Level Security** - Segurança no banco
 
 ### **Testes**
+
 - **Vitest** - Framework de testes
 - **Happy-DOM** - Ambiente DOM para testes
 - **@vue/test-utils** - Utilitários para testes Vue
@@ -151,6 +163,7 @@ amplicalcados/
 ## 🎯 Funcionalidades Detalhadas
 
 ### **Sistema de Autenticação**
+
 - **Login/Registro**: Interface moderna com validação
 - **Recuperação de senha**: Fluxo completo por email
 - **Perfis de usuário**: Edição de dados pessoais
@@ -158,6 +171,7 @@ amplicalcados/
 - **Sessões**: Persistência e invalidação segura
 
 ### **Carrinho de Compras**
+
 - **Produtos**: Adição com cores e tamanhos
 - **Quantidades**: Controle individual por item
 - **Totais**: Cálculo automático com promoções
@@ -165,6 +179,7 @@ amplicalcados/
 - **Checkout**: Integração com sistema de pedidos
 
 ### **Lista de Desejos**
+
 - **Gerenciamento**: Adicionar/remover produtos
 - **Sincronização**: Banco de dados em tempo real
 - **Interface**: Botões integrados em produtos
@@ -172,6 +187,7 @@ amplicalcados/
 - **Contador**: Indicador visual no header
 
 ### **Promoções de Frete**
+
 - **Configuração**: Interface administrativa
 - **Frete grátis**: Valor mínimo configurável
 - **Alertas**: Mensagens durante checkout
@@ -179,6 +195,7 @@ amplicalcados/
 - **Dinâmico**: Mensagens no header atualizadas
 
 ### **Sistema de Pedidos**
+
 - **Criação**: Pedidos com produtos do carrinho
 - **Histórico**: Visualização completa por usuário
 - **Status**: Rastreamento de pedidos
@@ -186,6 +203,7 @@ amplicalcados/
 - **Integração**: Com sistema de frete e notificações
 
 ### **Notificações**
+
 - **Tipos**: Sucesso, erro, aviso, informação
 - **Posicionamento**: Configurável
 - **Auto-remoção**: Tempo configurável
@@ -195,17 +213,20 @@ amplicalcados/
 ## 🧪 Sistema de Testes
 
 ### **Cobertura Atual**
+
 - **39 testes** implementados
 - **100% de taxa de sucesso**
 - **7 arquivos de teste**
 - **Cobertura completa** de funcionalidades principais
 
 ### **Tipos de Testes**
+
 - **Composables**: Estrutura e métodos
 - **API**: Endpoints e respostas
 - **Utilitários**: Funções auxiliares
 
 ### **Comandos de Teste**
+
 ```bash
 # Executar todos os testes
 npm run test:run
@@ -223,16 +244,19 @@ npm run test:coverage
 ## 🚀 Instalação e Execução
 
 ### **1. Pré-requisitos**
+
 - Node.js 18+
 - npm ou yarn
 - Conta no Supabase
 
 ### **2. Instalar Dependências**
+
 ```bash
 npm install
 ```
 
 ### **3. Configurar Variáveis de Ambiente**
+
 ```bash
 # Copiar arquivo de exemplo
 cp .env.example .env
@@ -244,6 +268,7 @@ SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 ```
 
 ### **4. Configurar Banco de Dados**
+
 ```bash
 # Gerar cliente Prisma
 npx prisma generate
@@ -253,16 +278,19 @@ npx prisma db push
 ```
 
 ### **5. Executar em Desenvolvimento**
+
 ```bash
 npm run dev
 ```
 
 ### **6. Executar Testes**
+
 ```bash
 npm run test:run
 ```
 
 ### **7. Build para Produção**
+
 ```bash
 npm run build
 npm run preview
@@ -271,6 +299,7 @@ npm run preview
 ## 🔧 Configurações
 
 ### **Nuxt.js (nuxt.config.ts)**
+
 - **SSR** habilitado
 - **Tailwind CSS** integrado
 - **Supabase** configurado
@@ -278,6 +307,7 @@ npm run preview
 - **Vitest** configurado
 
 ### **Banco de Dados (prisma/schema.prisma)**
+
 - **Usuários** e perfis
 - **Produtos** e categorias
 - **Pedidos** e itens
@@ -285,6 +315,7 @@ npm run preview
 - **Configurações** do sistema
 
 ### **Testes (vitest.config.ts)**
+
 - **Happy-DOM** como ambiente
 - **Mocks globais** configurados
 - **Aliases** de path configurados
@@ -293,24 +324,28 @@ npm run preview
 ## 📱 Componentes Principais
 
 ### **AppHeader.vue**
+
 - Navegação responsiva
 - Sistema de autenticação
 - Carrinho e wishlist
 - Mensagens de frete dinâmicas
 
 ### **AuthModal.vue**
+
 - Login e registro
 - Recuperação de senha
 - Validação de formulários
 - Feedback visual
 
 ### **ProductModal.vue**
+
 - Detalhes do produto
 - Seleção de cores/tamanhos
 - Adição ao carrinho/wishlist
 - Galeria de imagens
 
 ### **CheckoutForm.vue**
+
 - Formulário de checkout
 - Cálculo de frete
 - Aplicação de promoções
@@ -319,17 +354,20 @@ npm run preview
 ## 🎨 Design System
 
 ### **Cores**
+
 - **Coral**: `#f47763` (primária)
 - **Coral Dark**: `#d95b4e` (hover)
 - **Neutral**: Tons de cinza
 - **Preto**: Textos principais
 
 ### **Tipografia**
+
 - **Fonte**: Nunito (Google Fonts)
 - **Pesos**: 300-800
 - **Responsiva**: Escala automática
 
 ### **Layout**
+
 - **Container**: max-w-7xl
 - **Espaçamento**: Sistema consistente
 - **Breakpoints**: Mobile-first
@@ -337,12 +375,14 @@ npm run preview
 ## 🔐 Segurança
 
 ### **Autenticação**
+
 - **JWT Tokens** seguros
 - **Row Level Security** no banco
 - **Validação** de formulários
 - **Proteção** de rotas
 
 ### **Dados**
+
 - **Criptografia** de senhas
 - **Sanitização** de inputs
 - **Validação** de dados
@@ -351,6 +391,7 @@ npm run preview
 ## 🚀 Deploy
 
 ### **Vercel (Recomendado)**
+
 ```bash
 # Instalar Vercel CLI
 npm i -g vercel
@@ -360,6 +401,7 @@ vercel
 ```
 
 ### **Netlify**
+
 ```bash
 # Build
 npm run build
@@ -371,18 +413,21 @@ netlify deploy --prod --dir=.output/public
 ## 📈 Métricas e Performance
 
 ### **Testes**
+
 - **39 testes** implementados
 - **100% de taxa de sucesso**
 - **Cobertura** de funcionalidades principais
 - **Tempo de execução**: ~1.17s
 
 ### **Performance**
+
 - **SSR** para melhor SEO
 - **Code splitting** automático
 - **Lazy loading** de imagens
 - **Bundle optimization**
 
 ### **SEO**
+
 - **Meta tags** dinâmicas
 - **Structured data**
 - **Sitemap** automático
@@ -391,6 +436,7 @@ netlify deploy --prod --dir=.output/public
 ## 🔄 Próximos Passos
 
 ### **Melhorias Planejadas**
+
 1. **Testes E2E** com Playwright
 2. **PWA** capabilities
 3. **Notificações push**
@@ -399,6 +445,7 @@ netlify deploy --prod --dir=.output/public
 6. **Busca inteligente**
 
 ### **Funcionalidades Futuras**
+
 1. **Chat de suporte**
 2. **Sistema de cupons**
 3. **Programa de fidelidade**
