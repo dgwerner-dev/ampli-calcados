@@ -43,13 +43,17 @@ export const useWishlist = () => {
 
   // Carregar wishlist com cache e otimizações
   const loadWishlist = async (forceRefresh = false) => {
+    console.log('🔄 loadWishlist chamado', { forceRefresh });
+    
     // Se já está carregando, retornar a promise existente
     if (loadingPromise && !forceRefresh) {
+      console.log('⏭️ Já está carregando, retornando promise existente');
       return loadingPromise;
     }
 
     // Verificar cache primeiro (se não for refresh forçado)
     if (!forceRefresh && isCacheValid()) {
+      console.log('📦 Usando cache válido');
       wishlist.value = cache!.items;
       return;
     }
@@ -59,12 +63,18 @@ export const useWishlist = () => {
         loading.value = true;
         error.value = null;
 
+        console.log('🌐 Fazendo requisição para /api/wishlist...');
+        
         // Buscar wishlist via API com timeout
         const response = await $fetch('/api/wishlist', {
           timeout: 3000, // 3 segundos de timeout
         });
 
+        console.log('📥 Resposta da API:', response);
+
         const items = response.items || [];
+
+        console.log('📊 Itens recebidos:', items.length);
 
         // Atualizar cache
         cache = {
@@ -74,7 +84,15 @@ export const useWishlist = () => {
         };
 
         wishlist.value = items;
+        console.log('✅ Wishlist atualizada com sucesso:', items.length, 'itens');
       } catch (error: any) {
+        console.error('❌ Erro ao carregar wishlist:', error);
+        console.error('📋 Detalhes do erro:', {
+          statusCode: error.statusCode,
+          message: error.message,
+          data: error.data
+        });
+        
         // Se o erro for de autenticação, limpar wishlist silenciosamente
         if (
           error.statusCode === 401 ||
@@ -88,7 +106,6 @@ export const useWishlist = () => {
         }
 
         // Para outros erros, logar mas não fazer throw
-        console.error('Erro ao carregar wishlist:', error);
         error.value = error.message || 'Erro ao carregar wishlist';
 
         // Se há cache expirado, usar como fallback
@@ -97,6 +114,7 @@ export const useWishlist = () => {
           console.log('⚠️ Usando wishlist em cache como fallback');
         } else {
           wishlist.value = [];
+          console.log('📭 Wishlist vazia após erro');
         }
       } finally {
         loading.value = false;
