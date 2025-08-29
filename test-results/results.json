@@ -83,7 +83,7 @@
           "specs": [
             {
               "title": "deve exibir grade de produtos na página inicial",
-              "ok": false,
+              "ok": true,
               "tags": [],
               "tests": [
                 {
@@ -96,32 +96,32 @@
                     {
                       "workerIndex": 0,
                       "parallelIndex": 0,
-                      "status": "failed",
-                      "duration": 9118,
+                      "status": "interrupted",
+                      "duration": 3502,
                       "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m failed\n\nLocator:  locator('[data-testid=\"products-grid\"]')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"products-grid\"]')\u001b[22m\n\u001b[2m    8 × locator resolved to <div data-testid=\"products-grid\" class=\"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"hidden\"\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m failed\n\nLocator:  locator('[data-testid=\"products-grid\"]')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"products-grid\"]')\u001b[22m\n\u001b[2m    8 × locator resolved to <div data-testid=\"products-grid\" class=\"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"hidden\"\u001b[22m\n\n    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/products.spec.ts:9:65",
+                        "message": "Error: page.goto: Test ended.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: page.goto: Test ended.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n\n    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/products.spec.ts:5:16",
                         "location": {
                           "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/products.spec.ts",
-                          "column": 65,
-                          "line": 9
+                          "column": 16,
+                          "line": 5
                         },
-                        "snippet": "\u001b[0m \u001b[90m  7 |\u001b[39m\n \u001b[90m  8 |\u001b[39m   test(\u001b[32m'deve exibir grade de produtos na página inicial'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m  9 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"products-grid\"]'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 10 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 11 |\u001b[39m\n \u001b[90m 12 |\u001b[39m   test(\u001b[32m'deve exibir cards de produtos'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                        "snippet": "\u001b[0m \u001b[90m 3 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Produtos'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m 4 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 5 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m   |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 6 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 7 |\u001b[39m\n \u001b[90m 8 |\u001b[39m   test(\u001b[32m'deve exibir grade de produtos na página inicial'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
                       },
                       "errors": [
                         {
                           "location": {
                             "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/products.spec.ts",
-                            "column": 65,
-                            "line": 9
+                            "column": 16,
+                            "line": 5
                           },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m failed\n\nLocator:  locator('[data-testid=\"products-grid\"]')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"products-grid\"]')\u001b[22m\n\u001b[2m    8 × locator resolved to <div data-testid=\"products-grid\" class=\"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"hidden\"\u001b[22m\n\n\n\u001b[0m \u001b[90m  7 |\u001b[39m\n \u001b[90m  8 |\u001b[39m   test(\u001b[32m'deve exibir grade de produtos na página inicial'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m  9 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"products-grid\"]'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 10 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 11 |\u001b[39m\n \u001b[90m 12 |\u001b[39m   test(\u001b[32m'deve exibir cards de produtos'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/products.spec.ts:9:65\u001b[22m"
+                          "message": "Error: page.goto: Test ended.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 3 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Produtos'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m 4 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 5 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m   |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 6 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 7 |\u001b[39m\n \u001b[90m 8 |\u001b[39m   test(\u001b[32m'deve exibir grade de produtos na página inicial'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/products.spec.ts:5:16\u001b[22m"
                         }
                       ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-08-29T19:54:48.725Z",
+                      "startTime": "2025-08-29T20:19:19.551Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -133,21 +133,16 @@
                           "name": "video",
                           "contentType": "video/webm",
                           "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/products-Produtos-deve-exi-7cd09--produtos-na-página-inicial-chromium/video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/products-Produtos-deve-exi-7cd09--produtos-na-página-inicial-chromium/error-context.md"
                         }
                       ],
                       "errorLocation": {
                         "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/products.spec.ts",
-                        "column": 65,
-                        "line": 9
+                        "column": 16,
+                        "line": 5
                       }
                     }
                   ],
-                  "status": "unexpected"
+                  "status": "skipped"
                 }
               ],
               "id": "000c94276132c4f97581-4e1a01826f04593c3e96",
@@ -162,11 +157,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-08-29T19:54:20.294Z",
-    "duration": 39579.34,
+    "startTime": "2025-08-29T20:19:09.600Z",
+    "duration": 14195.09,
     "expected": 0,
-    "skipped": 0,
-    "unexpected": 1,
+    "skipped": 1,
+    "unexpected": 0,
     "flaky": 0
   }
 }

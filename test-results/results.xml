@@ -1,52 +1,8 @@
-<testsuites id="" name="" tests="1" failures="1" skipped="0" errors="0" time="39.579339999999995">
-<testsuite name="products.spec.ts" timestamp="2025-08-29T19:54:47.570Z" hostname="chromium" tests="1" failures="1" skipped="0" time="9.118" errors="0">
-<testcase name="Produtos › deve exibir grade de produtos na página inicial" classname="products.spec.ts" time="9.118">
-<failure message="products.spec.ts:8:3 deve exibir grade de produtos na página inicial" type="FAILURE">
-<![CDATA[  [chromium] › products.spec.ts:8:3 › Produtos › deve exibir grade de produtos na página inicial ───
-
-    Error: expect(locator).toBeVisible() failed
-
-    Locator:  locator('[data-testid="products-grid"]')
-    Expected: visible
-    Received: hidden
-    Timeout:  5000ms
-
-    Call log:
-      - Expect "toBeVisible" with timeout 5000ms
-      - waiting for locator('[data-testid="products-grid"]')
-        8 × locator resolved to <div data-testid="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">…</div>
-          - unexpected value "hidden"
-
-
-       7 |
-       8 |   test('deve exibir grade de produtos na página inicial', async ({ page }) => {
-    >  9 |     await expect(page.locator('[data-testid="products-grid"]')).toBeVisible();
-         |                                                                 ^
-      10 |   });
-      11 |
-      12 |   test('deve exibir cards de produtos', async ({ page }) => {
-        at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/products.spec.ts:9:65
-
-    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
-    ../../test-results/products-Produtos-deve-exi-7cd09--produtos-na-página-inicial-chromium/test-failed-1.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-
-    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
-    ../../test-results/products-Produtos-deve-exi-7cd09--produtos-na-página-inicial-chromium/video.webm
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-
-    Error Context: ../../test-results/products-Produtos-deve-exi-7cd09--produtos-na-página-inicial-chromium/error-context.md
-]]>
-</failure>
-<system-out>
-<![CDATA[
-[[ATTACHMENT|products-Produtos-deve-exi-7cd09--produtos-na-página-inicial-chromium/test-failed-1.png]]
-
-[[ATTACHMENT|products-Produtos-deve-exi-7cd09--produtos-na-página-inicial-chromium/video.webm]]
-
-[[ATTACHMENT|products-Produtos-deve-exi-7cd09--produtos-na-página-inicial-chromium/error-context.md]]
-]]>
-</system-out>
+<testsuites id="" name="" tests="1" failures="0" skipped="1" errors="0" time="14.19509">
+<testsuite name="products.spec.ts" timestamp="2025-08-29T20:19:18.898Z" hostname="chromium" tests="1" failures="0" skipped="1" time="3.502" errors="0">
+<testcase name="Produtos › deve exibir grade de produtos na página inicial" classname="products.spec.ts" time="3.502">
+<skipped>
+</skipped>
 </testcase>
 </testsuite>
 </testsuites>
