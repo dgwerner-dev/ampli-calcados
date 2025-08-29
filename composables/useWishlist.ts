@@ -65,9 +65,19 @@ export const useWishlist = () => {
 
         console.log('🌐 Fazendo requisição para /api/wishlist...');
         
+        // Obter token de acesso do Supabase
+        const { $supabase } = useNuxtApp();
+        const { data: { session } } = await $supabase.auth.getSession();
+        const accessToken = session?.access_token;
+        
+        console.log('🔑 Token de acesso:', accessToken ? 'Presente' : 'Ausente');
+        
         // Buscar wishlist via API com timeout
         const response = await $fetch('/api/wishlist', {
           timeout: 3000, // 3 segundos de timeout
+          headers: accessToken ? {
+            'Authorization': `Bearer ${accessToken}`
+          } : {}
         });
 
         console.log('📥 Resposta da API:', response);

@@ -5,7 +5,24 @@ export default defineEventHandler(async event => {
   try {
     console.log('🔍 Verificando autenticação na API wishlist...');
     
-    const user = await serverSupabaseUser(event);
+    // Tentar obter usuário via serverSupabaseUser
+    let user = await serverSupabaseUser(event);
+    
+    // Se não conseguir via serverSupabaseUser, tentar via headers
+    if (!user) {
+      console.log('⚠️ serverSupabaseUser falhou, tentando via headers...');
+      const headers = getHeaders(event);
+      const authHeader = headers.authorization;
+      
+      if (authHeader && authHeader.startsWith('Bearer ')) {
+        const token = authHeader.substring(7);
+        console.log('🔑 Token encontrado nos headers');
+        
+        // Aqui você poderia validar o token JWT do Supabase
+        // Por enquanto, vamos apenas logar
+        console.log('📝 Token recebido:', token.substring(0, 20) + '...');
+      }
+    }
     
     console.log('👤 Usuário encontrado:', user ? {
       id: user.id,
