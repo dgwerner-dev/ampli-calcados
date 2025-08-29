@@ -217,6 +217,14 @@ export const useAuth = () => {
       loading.value = false;
       error.value = null;
 
+      // Limpar wishlist
+      try {
+        const { clearWishlist } = useWishlist();
+        clearWishlist();
+      } catch (err) {
+        console.warn('Erro ao limpar wishlist:', err);
+      }
+
       // Limpar localStorage se existir
       if (process.client) {
         try {

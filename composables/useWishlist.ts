@@ -76,7 +76,8 @@ export const useWishlist = () => {
         wishlist.value = items;
       } catch (error: any) {
         // Se o erro for de autenticação, limpar wishlist silenciosamente
-        if (error.statusCode === 401 || error.message?.includes('Auth session missing')) {
+        if (error.statusCode === 401 || error.statusCode === 500 || error.message?.includes('Auth session missing')) {
+          console.log('🔐 Usuário não autenticado, limpando wishlist');
           wishlist.value = [];
           cache = null;
           return;
@@ -223,6 +224,17 @@ export const useWishlist = () => {
       });
     }
   };
+
+  // Watcher para limpar wishlist quando usuário não estiver autenticado
+  const { user } = useAuth();
+  
+  watch(user, (newUser) => {
+    if (!newUser) {
+      console.log('🔐 Usuário deslogado, limpando wishlist');
+      wishlist.value = [];
+      cache = null;
+    }
+  });
 
   return {
     // Estados

@@ -400,6 +400,13 @@ onMounted(() => {
   }
 });
 
+// Watcher para carregar wishlist quando usuário fizer login
+watch(user, (newUser) => {
+  if (process.client && newUser) {
+    loadWishlistAsync();
+  }
+});
+
 const loadCategories = async () => {
   try {
     const data = await $fetch('/api/categories');
