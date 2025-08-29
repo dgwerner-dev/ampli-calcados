@@ -1,0 +1,569 @@
+<testsuites id="" name="" tests="40" failures="10" skipped="30" errors="0" time="138.25682400000002">
+<testsuite name="auth.spec.ts" timestamp="2025-08-29T16:00:02.144Z" hostname="chromium" tests="10" failures="8" skipped="2" time="431.603" errors="0">
+<testcase name="Autenticação › deve exibir botão de login quando usuário não está logado" classname="auth.spec.ts" time="42.124">
+<failure message="auth.spec.ts:10:3 deve exibir botão de login quando usuário não está logado" type="FAILURE">
+<![CDATA[  [chromium] › auth.spec.ts:10:3 › Autenticação › deve exibir botão de login quando usuário não está logado 
+
+    Test timeout of 30000ms exceeded while running "beforeEach" hook.
+
+      4 |
+      5 | test.describe('Autenticação', () => {
+    > 6 |   test.beforeEach(async ({ page }) => {
+        |        ^
+      7 |     await page.goto('/');
+      8 |   });
+      9 |
+        at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:6:8
+
+    Error: page.goto: Test timeout of 30000ms exceeded.
+    Call log:
+      - navigating to "http://localhost:3000/", waiting until "load"
+
+
+       5 | test.describe('Autenticação', () => {
+       6 |   test.beforeEach(async ({ page }) => {
+    >  7 |     await page.goto('/');
+         |                ^
+       8 |   });
+       9 |
+      10 |   test('deve exibir botão de login quando usuário não está logado', async ({ page }) => {
+        at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:7:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../test-results/auth-Autenticação-deve-exi-52b37-ndo-usuário-não-está-logado-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../test-results/auth-Autenticação-deve-exi-52b37-ndo-usuário-não-está-logado-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../test-results/auth-Autenticação-deve-exi-52b37-ndo-usuário-não-está-logado-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-Autenticação-deve-exi-52b37-ndo-usuário-não-está-logado-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|auth-Autenticação-deve-exi-52b37-ndo-usuário-não-está-logado-chromium/video.webm]]
+
+[[ATTACHMENT|auth-Autenticação-deve-exi-52b37-ndo-usuário-não-está-logado-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Autenticação › deve abrir modal de login ao clicar no botão" classname="auth.spec.ts" time="42.881">
+<failure message="auth.spec.ts:15:3 deve abrir modal de login ao clicar no botão" type="FAILURE">
+<![CDATA[  [chromium] › auth.spec.ts:15:3 › Autenticação › deve abrir modal de login ao clicar no botão ─────
+
+    Test timeout of 30000ms exceeded while running "beforeEach" hook.
+
+      4 |
+      5 | test.describe('Autenticação', () => {
+    > 6 |   test.beforeEach(async ({ page }) => {
+        |        ^
+      7 |     await page.goto('/');
+      8 |   });
+      9 |
+        at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:6:8
+
+    Error: page.goto: Test timeout of 30000ms exceeded.
+    Call log:
+      - navigating to "http://localhost:3000/", waiting until "load"
+
+
+       5 | test.describe('Autenticação', () => {
+       6 |   test.beforeEach(async ({ page }) => {
+    >  7 |     await page.goto('/');
+         |                ^
+       8 |   });
+       9 |
+      10 |   test('deve exibir botão de login quando usuário não está logado', async ({ page }) => {
+        at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:7:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../test-results/auth-Autenticação-deve-abr-bd0c3-de-login-ao-clicar-no-botão-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../test-results/auth-Autenticação-deve-abr-bd0c3-de-login-ao-clicar-no-botão-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../test-results/auth-Autenticação-deve-abr-bd0c3-de-login-ao-clicar-no-botão-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-Autenticação-deve-abr-bd0c3-de-login-ao-clicar-no-botão-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|auth-Autenticação-deve-abr-bd0c3-de-login-ao-clicar-no-botão-chromium/video.webm]]
+
+[[ATTACHMENT|auth-Autenticação-deve-abr-bd0c3-de-login-ao-clicar-no-botão-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Autenticação › deve alternar entre login e registro" classname="auth.spec.ts" time="41.177">
+<failure message="auth.spec.ts:24:3 deve alternar entre login e registro" type="FAILURE">
+<![CDATA[  [chromium] › auth.spec.ts:24:3 › Autenticação › deve alternar entre login e registro ─────────────
+
+    Test timeout of 30000ms exceeded while running "beforeEach" hook.
+
+      4 |
+      5 | test.describe('Autenticação', () => {
+    > 6 |   test.beforeEach(async ({ page }) => {
+        |        ^
+      7 |     await page.goto('/');
+      8 |   });
+      9 |
+        at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:6:8
+
+    Error: page.goto: Test timeout of 30000ms exceeded.
+    Call log:
+      - navigating to "http://localhost:3000/", waiting until "load"
+
+
+       5 | test.describe('Autenticação', () => {
+       6 |   test.beforeEach(async ({ page }) => {
+    >  7 |     await page.goto('/');
+         |                ^
+       8 |   });
+       9 |
+      10 |   test('deve exibir botão de login quando usuário não está logado', async ({ page }) => {
+        at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:7:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../test-results/auth-Autenticação-deve-alternar-entre-login-e-registro-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../test-results/auth-Autenticação-deve-alternar-entre-login-e-registro-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../test-results/auth-Autenticação-deve-alternar-entre-login-e-registro-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-Autenticação-deve-alternar-entre-login-e-registro-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|auth-Autenticação-deve-alternar-entre-login-e-registro-chromium/video.webm]]
+
+[[ATTACHMENT|auth-Autenticação-deve-alternar-entre-login-e-registro-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Autenticação › deve exibir botão &quot;Esqueci minha senha&quot; apenas no modo login" classname="auth.spec.ts" time="42.698">
+<failure message="auth.spec.ts:41:3 deve exibir botão &quot;Esqueci minha senha&quot; apenas no modo login" type="FAILURE">
+<![CDATA[  [chromium] › auth.spec.ts:41:3 › Autenticação › deve exibir botão "Esqueci minha senha" apenas no modo login 
+
+    Test timeout of 30000ms exceeded while running "beforeEach" hook.
+
+      4 |
+      5 | test.describe('Autenticação', () => {
+    > 6 |   test.beforeEach(async ({ page }) => {
+        |        ^
+      7 |     await page.goto('/');
+      8 |   });
+      9 |
+        at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:6:8
+
+    Error: page.goto: Test timeout of 30000ms exceeded.
+    Call log:
+      - navigating to "http://localhost:3000/", waiting until "load"
+
+
+       5 | test.describe('Autenticação', () => {
+       6 |   test.beforeEach(async ({ page }) => {
+    >  7 |     await page.goto('/');
+         |                ^
+       8 |   });
+       9 |
+      10 |   test('deve exibir botão de login quando usuário não está logado', async ({ page }) => {
+        at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:7:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../test-results/auth-Autenticação-deve-exi-e31a9--senha-apenas-no-modo-login-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../test-results/auth-Autenticação-deve-exi-e31a9--senha-apenas-no-modo-login-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../test-results/auth-Autenticação-deve-exi-e31a9--senha-apenas-no-modo-login-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-Autenticação-deve-exi-e31a9--senha-apenas-no-modo-login-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|auth-Autenticação-deve-exi-e31a9--senha-apenas-no-modo-login-chromium/video.webm]]
+
+[[ATTACHMENT|auth-Autenticação-deve-exi-e31a9--senha-apenas-no-modo-login-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Autenticação › deve validar campos obrigatórios no login" classname="auth.spec.ts" time="50.962">
+<failure message="auth.spec.ts:52:3 deve validar campos obrigatórios no login" type="FAILURE">
+<![CDATA[  [chromium] › auth.spec.ts:52:3 › Autenticação › deve validar campos obrigatórios no login ────────
+
+    Test timeout of 30000ms exceeded while running "beforeEach" hook.
+
+      4 |
+      5 | test.describe('Autenticação', () => {
+    > 6 |   test.beforeEach(async ({ page }) => {
+        |        ^
+      7 |     await page.goto('/');
+      8 |   });
+      9 |
+        at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:6:8
+
+    Error: page.goto: Test timeout of 30000ms exceeded.
+    Call log:
+      - navigating to "http://localhost:3000/", waiting until "load"
+
+
+       5 | test.describe('Autenticação', () => {
+       6 |   test.beforeEach(async ({ page }) => {
+    >  7 |     await page.goto('/');
+         |                ^
+       8 |   });
+       9 |
+      10 |   test('deve exibir botão de login quando usuário não está logado', async ({ page }) => {
+        at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:7:16
+
+    Error Context: ../../test-results/auth-Autenticação-deve-validar-campos-obrigatórios-no-login-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-Autenticação-deve-validar-campos-obrigatórios-no-login-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Autenticação › deve validar campos obrigatórios no registro" classname="auth.spec.ts" time="52.812">
+<failure message="auth.spec.ts:66:3 deve validar campos obrigatórios no registro" type="FAILURE">
+<![CDATA[  [chromium] › auth.spec.ts:66:3 › Autenticação › deve validar campos obrigatórios no registro ─────
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for locator('[data-testid="login-button"]')
+
+
+      65 |
+      66 |   test('deve validar campos obrigatórios no registro', async ({ page }) => {
+    > 67 |     await page.click('[data-testid="login-button"]');
+         |                ^
+      68 |     await page.click('[data-testid="toggle-mode-button"]');
+      69 |     
+      70 |     // Tentar submeter sem preencher
+        at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:67:16
+
+    Error Context: ../../test-results/auth-Autenticação-deve-val-19213-os-obrigatórios-no-registro-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-Autenticação-deve-val-19213-os-obrigatórios-no-registro-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Autenticação › deve fechar modal ao clicar no X" classname="auth.spec.ts" time="51.732">
+<failure message="auth.spec.ts:83:3 deve fechar modal ao clicar no X" type="FAILURE">
+<![CDATA[  [chromium] › auth.spec.ts:83:3 › Autenticação › deve fechar modal ao clicar no X ─────────────────
+
+    Test timeout of 30000ms exceeded while running "beforeEach" hook.
+
+      4 |
+      5 | test.describe('Autenticação', () => {
+    > 6 |   test.beforeEach(async ({ page }) => {
+        |        ^
+      7 |     await page.goto('/');
+      8 |   });
+      9 |
+        at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:6:8
+
+    Error: page.goto: Test timeout of 30000ms exceeded.
+    Call log:
+      - navigating to "http://localhost:3000/", waiting until "load"
+
+
+       5 | test.describe('Autenticação', () => {
+       6 |   test.beforeEach(async ({ page }) => {
+    >  7 |     await page.goto('/');
+         |                ^
+       8 |   });
+       9 |
+      10 |   test('deve exibir botão de login quando usuário não está logado', async ({ page }) => {
+        at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:7:16
+
+    Error Context: ../../test-results/auth-Autenticação-deve-fechar-modal-ao-clicar-no-X-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-Autenticação-deve-fechar-modal-ao-clicar-no-X-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Autenticação › deve fechar modal ao clicar fora dele" classname="auth.spec.ts" time="51.465">
+<failure message="auth.spec.ts:91:3 deve fechar modal ao clicar fora dele" type="FAILURE">
+<![CDATA[  [chromium] › auth.spec.ts:91:3 › Autenticação › deve fechar modal ao clicar fora dele ────────────
+
+    Test timeout of 30000ms exceeded while running "beforeEach" hook.
+
+      4 |
+      5 | test.describe('Autenticação', () => {
+    > 6 |   test.beforeEach(async ({ page }) => {
+        |        ^
+      7 |     await page.goto('/');
+      8 |   });
+      9 |
+        at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:6:8
+
+    Error: page.goto: Test timeout of 30000ms exceeded.
+    Call log:
+      - navigating to "http://localhost:3000/", waiting until "load"
+
+
+       5 | test.describe('Autenticação', () => {
+       6 |   test.beforeEach(async ({ page }) => {
+    >  7 |     await page.goto('/');
+         |                ^
+       8 |   });
+       9 |
+      10 |   test('deve exibir botão de login quando usuário não está logado', async ({ page }) => {
+        at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:7:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../test-results/auth-Autenticação-deve-fechar-modal-ao-clicar-fora-dele-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../test-results/auth-Autenticação-deve-fechar-modal-ao-clicar-fora-dele-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-Autenticação-deve-fechar-modal-ao-clicar-fora-dele-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|auth-Autenticação-deve-fechar-modal-ao-clicar-fora-dele-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Autenticação › deve aceitar email válido no campo de email" classname="auth.spec.ts" time="27.953">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Autenticação › deve aceitar senha no campo de senha" classname="auth.spec.ts" time="27.799">
+<skipped>
+</skipped>
+</testcase>
+</testsuite>
+<testsuite name="cart.spec.ts" timestamp="2025-08-29T16:00:02.144Z" hostname="chromium" tests="14" failures="2" skipped="12" time="47.348" errors="0">
+<testcase name="Carrinho de Compras › deve exibir ícone do carrinho no cabeçalho" classname="cart.spec.ts" time="6.892">
+<failure message="cart.spec.ts:8:3 deve exibir ícone do carrinho no cabeçalho" type="FAILURE">
+<![CDATA[  [chromium] › cart.spec.ts:8:3 › Carrinho de Compras › deve exibir ícone do carrinho no cabeçalho ─
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  locator('[data-testid="cart-button"]')
+    Expected: visible
+    Received: <element(s) not found>
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for locator('[data-testid="cart-button"]')
+
+
+       7 |
+       8 |   test('deve exibir ícone do carrinho no cabeçalho', async ({ page }) => {
+    >  9 |     await expect(page.locator('[data-testid="cart-button"]')).toBeVisible();
+         |                                                               ^
+      10 |   });
+      11 |
+      12 |   test('deve exibir contador zero quando carrinho está vazio', async ({ page }) => {
+        at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/cart.spec.ts:9:63
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../test-results/cart-Carrinho-de-Compras-d-6cbda-ne-do-carrinho-no-cabeçalho-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../test-results/cart-Carrinho-de-Compras-d-6cbda-ne-do-carrinho-no-cabeçalho-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../test-results/cart-Carrinho-de-Compras-d-6cbda-ne-do-carrinho-no-cabeçalho-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|cart-Carrinho-de-Compras-d-6cbda-ne-do-carrinho-no-cabeçalho-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|cart-Carrinho-de-Compras-d-6cbda-ne-do-carrinho-no-cabeçalho-chromium/video.webm]]
+
+[[ATTACHMENT|cart-Carrinho-de-Compras-d-6cbda-ne-do-carrinho-no-cabeçalho-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Carrinho de Compras › deve exibir contador zero quando carrinho está vazio" classname="cart.spec.ts" time="7.07">
+<failure message="cart.spec.ts:12:3 deve exibir contador zero quando carrinho está vazio" type="FAILURE">
+<![CDATA[  [chromium] › cart.spec.ts:12:3 › Carrinho de Compras › deve exibir contador zero quando carrinho está vazio 
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator: locator('.cart-count')
+    Expected string: "0"
+    Received: <element(s) not found>
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toHaveText" with timeout 5000ms
+      - waiting for locator('.cart-count')
+
+
+      12 |   test('deve exibir contador zero quando carrinho está vazio', async ({ page }) => {
+      13 |     const cartCount = page.locator('.cart-count');
+    > 14 |     await expect(cartCount).toHaveText('0');
+         |                             ^
+      15 |   });
+      16 |
+      17 |   test('deve adicionar produto ao carrinho', async ({ page }) => {
+        at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/cart.spec.ts:14:29
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../test-results/cart-Carrinho-de-Compras-d-1958c--quando-carrinho-está-vazio-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../test-results/cart-Carrinho-de-Compras-d-1958c--quando-carrinho-está-vazio-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../test-results/cart-Carrinho-de-Compras-d-1958c--quando-carrinho-está-vazio-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|cart-Carrinho-de-Compras-d-1958c--quando-carrinho-está-vazio-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|cart-Carrinho-de-Compras-d-1958c--quando-carrinho-está-vazio-chromium/video.webm]]
+
+[[ATTACHMENT|cart-Carrinho-de-Compras-d-1958c--quando-carrinho-está-vazio-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Carrinho de Compras › deve adicionar produto ao carrinho" classname="cart.spec.ts" time="16.202">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Carrinho de Compras › deve abrir modal de produto ao tentar adicionar" classname="cart.spec.ts" time="17.184">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Carrinho de Compras › deve permitir seleção de cor no modal de produto" classname="cart.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Carrinho de Compras › deve permitir seleção de tamanho no modal de produto" classname="cart.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Carrinho de Compras › deve habilitar botão de adicionar após selecionar cor e tamanho" classname="cart.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Carrinho de Compras › deve adicionar produto ao carrinho com cor e tamanho selecionados" classname="cart.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Carrinho de Compras › deve exibir notificação de sucesso ao adicionar produto" classname="cart.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Carrinho de Compras › deve fechar modal após adicionar produto" classname="cart.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Carrinho de Compras › deve permitir adicionar múltiplos produtos" classname="cart.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Carrinho de Compras › deve exibir total do carrinho corretamente" classname="cart.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Carrinho de Compras › deve navegar para checkout ao clicar no carrinho" classname="cart.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Carrinho de Compras › deve exibir mensagem de carrinho vazio quando apropriado" classname="cart.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+</testsuite>
+<testsuite name="products.spec.ts" timestamp="2025-08-29T16:00:02.144Z" hostname="chromium" tests="16" failures="0" skipped="16" time="0" errors="0">
+<testcase name="Produtos › deve exibir grade de produtos na página inicial" classname="products.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Produtos › deve exibir cards de produtos" classname="products.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Produtos › deve exibir informações básicas do produto" classname="products.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Produtos › deve exibir imagem do produto" classname="products.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Produtos › deve exibir opções de cores do produto" classname="products.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Produtos › deve ter botão &quot;Adicionar ao Carrinho&quot;" classname="products.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Produtos › deve ter botão de wishlist" classname="products.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Produtos › deve ter botão &quot;Ver Detalhes&quot;" classname="products.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Produtos › deve abrir modal de produto ao clicar em &quot;Ver Detalhes&quot;" classname="products.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Produtos › deve exibir funcionalidade de ordenação" classname="products.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Produtos › deve ordenar produtos por nome" classname="products.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Produtos › deve ordenar produtos por preço" classname="products.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Produtos › deve exibir mensagem quando não há produtos" classname="products.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Produtos › deve navegar para página de produtos" classname="products.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Produtos › deve exibir preços formatados corretamente" classname="products.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Produtos › deve ter estrutura responsiva" classname="products.spec.ts" time="0">
+<skipped>
+</skipped>
+</testcase>
+</testsuite>
+</testsuites>

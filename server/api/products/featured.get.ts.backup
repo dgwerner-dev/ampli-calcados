@@ -4,22 +4,13 @@ export default defineEventHandler(async event => {
   try {
     const prisma = new PrismaClient();
 
-    // Buscar produtos em destaque com otimizações
+    // Buscar produtos em destaque
     const products = await prisma.product.findMany({
       where: {
         featured: true,
         isActive: true,
       },
-      select: {
-        id: true,
-        name: true,
-        description: true,
-        price: true,
-        salePrice: true,
-        images: true,
-        slug: true,
-        featured: true,
-        isActive: true,
+      include: {
         category: {
           select: {
             name: true,

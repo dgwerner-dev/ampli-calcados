@@ -1,0 +1,1681 @@
+{
+  "config": {
+    "configFile": "/Users/dwerner/Repos/bartezen/amplicalcados/playwright.config.ts",
+    "rootDir": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/global-setup.ts",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ],
+      [
+        "junit",
+        {
+          "outputFile": "test-results/results.xml"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.55.0",
+    "workers": 4,
+    "webServer": {
+      "command": "npm run dev",
+      "url": "http://localhost:3000",
+      "reuseExistingServer": true,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "auth.spec.ts",
+      "file": "auth.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Autenticação",
+          "file": "auth.spec.ts",
+          "line": 5,
+          "column": 6,
+          "specs": [
+            {
+              "title": "deve exibir botão de login quando usuário não está logado",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "timedOut",
+                      "duration": 42124,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:6:8",
+                        "location": {
+                          "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                          "column": 8,
+                          "line": 6
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 4 |\u001b[39m\n \u001b[90m 5 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Autenticação'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 6 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m   |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 7 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 8 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 9 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                            "column": 8,
+                            "line": 6
+                          },
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n\n\u001b[0m \u001b[90m 4 |\u001b[39m\n \u001b[90m 5 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Autenticação'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 6 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m   |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 7 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 8 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 9 |\u001b[39m\u001b[0m\n\u001b[2m    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:6:8\u001b[22m"
+                        },
+                        {
+                          "location": {
+                            "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                            "column": 16,
+                            "line": 7
+                          },
+                          "message": "Error: page.goto: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n\n\n\u001b[0m \u001b[90m  5 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Autenticação'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m  6 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m  7 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m  8 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m  9 |\u001b[39m\n \u001b[90m 10 |\u001b[39m   test(\u001b[32m'deve exibir botão de login quando usuário não está logado'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:7:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-29T16:00:03.671Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/auth-Autenticação-deve-exi-52b37-ndo-usuário-não-está-logado-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/auth-Autenticação-deve-exi-52b37-ndo-usuário-não-está-logado-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/auth-Autenticação-deve-exi-52b37-ndo-usuário-não-está-logado-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                        "column": 8,
+                        "line": 6
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-5d94d6a5cfbcb0db465c",
+              "file": "auth.spec.ts",
+              "line": 10,
+              "column": 3
+            },
+            {
+              "title": "deve abrir modal de login ao clicar no botão",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "timedOut",
+                      "duration": 42881,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:6:8",
+                        "location": {
+                          "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                          "column": 8,
+                          "line": 6
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 4 |\u001b[39m\n \u001b[90m 5 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Autenticação'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 6 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m   |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 7 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 8 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 9 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                            "column": 8,
+                            "line": 6
+                          },
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n\n\u001b[0m \u001b[90m 4 |\u001b[39m\n \u001b[90m 5 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Autenticação'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 6 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m   |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 7 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 8 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 9 |\u001b[39m\u001b[0m\n\u001b[2m    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:6:8\u001b[22m"
+                        },
+                        {
+                          "location": {
+                            "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                            "column": 16,
+                            "line": 7
+                          },
+                          "message": "Error: page.goto: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n\n\n\u001b[0m \u001b[90m  5 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Autenticação'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m  6 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m  7 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m  8 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m  9 |\u001b[39m\n \u001b[90m 10 |\u001b[39m   test(\u001b[32m'deve exibir botão de login quando usuário não está logado'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:7:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-29T16:00:03.739Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/auth-Autenticação-deve-abr-bd0c3-de-login-ao-clicar-no-botão-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/auth-Autenticação-deve-abr-bd0c3-de-login-ao-clicar-no-botão-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/auth-Autenticação-deve-abr-bd0c3-de-login-ao-clicar-no-botão-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                        "column": 8,
+                        "line": 6
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-e978b529913d291c2956",
+              "file": "auth.spec.ts",
+              "line": 15,
+              "column": 3
+            },
+            {
+              "title": "deve alternar entre login e registro",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "timedOut",
+                      "duration": 41177,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:6:8",
+                        "location": {
+                          "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                          "column": 8,
+                          "line": 6
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 4 |\u001b[39m\n \u001b[90m 5 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Autenticação'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 6 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m   |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 7 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 8 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 9 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                            "column": 8,
+                            "line": 6
+                          },
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n\n\u001b[0m \u001b[90m 4 |\u001b[39m\n \u001b[90m 5 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Autenticação'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 6 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m   |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 7 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 8 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 9 |\u001b[39m\u001b[0m\n\u001b[2m    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:6:8\u001b[22m"
+                        },
+                        {
+                          "location": {
+                            "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                            "column": 16,
+                            "line": 7
+                          },
+                          "message": "Error: page.goto: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n\n\n\u001b[0m \u001b[90m  5 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Autenticação'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m  6 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m  7 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m  8 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m  9 |\u001b[39m\n \u001b[90m 10 |\u001b[39m   test(\u001b[32m'deve exibir botão de login quando usuário não está logado'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:7:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-29T16:00:03.680Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/auth-Autenticação-deve-alternar-entre-login-e-registro-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/auth-Autenticação-deve-alternar-entre-login-e-registro-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/auth-Autenticação-deve-alternar-entre-login-e-registro-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                        "column": 8,
+                        "line": 6
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-6d0bf1dbc267335d64b9",
+              "file": "auth.spec.ts",
+              "line": 24,
+              "column": 3
+            },
+            {
+              "title": "deve exibir botão \"Esqueci minha senha\" apenas no modo login",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "timedOut",
+                      "duration": 42698,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:6:8",
+                        "location": {
+                          "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                          "column": 8,
+                          "line": 6
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 4 |\u001b[39m\n \u001b[90m 5 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Autenticação'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 6 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m   |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 7 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 8 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 9 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                            "column": 8,
+                            "line": 6
+                          },
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n\n\u001b[0m \u001b[90m 4 |\u001b[39m\n \u001b[90m 5 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Autenticação'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 6 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m   |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 7 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 8 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 9 |\u001b[39m\u001b[0m\n\u001b[2m    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:6:8\u001b[22m"
+                        },
+                        {
+                          "location": {
+                            "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                            "column": 16,
+                            "line": 7
+                          },
+                          "message": "Error: page.goto: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n\n\n\u001b[0m \u001b[90m  5 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Autenticação'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m  6 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m  7 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m  8 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m  9 |\u001b[39m\n \u001b[90m 10 |\u001b[39m   test(\u001b[32m'deve exibir botão de login quando usuário não está logado'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:7:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-29T16:00:03.688Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/auth-Autenticação-deve-exi-e31a9--senha-apenas-no-modo-login-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/auth-Autenticação-deve-exi-e31a9--senha-apenas-no-modo-login-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/auth-Autenticação-deve-exi-e31a9--senha-apenas-no-modo-login-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                        "column": 8,
+                        "line": 6
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-5ce9c87e0426e161431e",
+              "file": "auth.spec.ts",
+              "line": 41,
+              "column": 3
+            },
+            {
+              "title": "deve validar campos obrigatórios no login",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 2,
+                      "status": "timedOut",
+                      "duration": 50962,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:6:8",
+                        "location": {
+                          "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                          "column": 8,
+                          "line": 6
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 4 |\u001b[39m\n \u001b[90m 5 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Autenticação'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 6 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m   |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 7 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 8 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 9 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                            "column": 8,
+                            "line": 6
+                          },
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n\n\u001b[0m \u001b[90m 4 |\u001b[39m\n \u001b[90m 5 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Autenticação'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 6 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m   |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 7 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 8 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 9 |\u001b[39m\u001b[0m\n\u001b[2m    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:6:8\u001b[22m"
+                        },
+                        {
+                          "location": {
+                            "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                            "column": 16,
+                            "line": 7
+                          },
+                          "message": "Error: page.goto: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n\n\n\u001b[0m \u001b[90m  5 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Autenticação'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m  6 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m  7 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m  8 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m  9 |\u001b[39m\n \u001b[90m 10 |\u001b[39m   test(\u001b[32m'deve exibir botão de login quando usuário não está logado'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:7:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-29T16:00:49.158Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/auth-Autenticação-deve-validar-campos-obrigatórios-no-login-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                        "column": 8,
+                        "line": 6
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-7efd431bab49f66a1d54",
+              "file": "auth.spec.ts",
+              "line": 52,
+              "column": 3
+            },
+            {
+              "title": "deve validar campos obrigatórios no registro",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 3,
+                      "status": "timedOut",
+                      "duration": 52812,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                            "column": 16,
+                            "line": 67
+                          },
+                          "message": "Error: page.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"login-button\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 65 |\u001b[39m\n \u001b[90m 66 |\u001b[39m   test(\u001b[32m'deve validar campos obrigatórios no registro'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 67 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-testid=\"login-button\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 68 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-testid=\"toggle-mode-button\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 69 |\u001b[39m     \n \u001b[90m 70 |\u001b[39m     \u001b[90m// Tentar submeter sem preencher\u001b[39m\u001b[0m\n\u001b[2m    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:67:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-29T16:00:49.153Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/auth-Autenticação-deve-val-19213-os-obrigatórios-no-registro-chromium/error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-3653fb5f05a27d90469d",
+              "file": "auth.spec.ts",
+              "line": 66,
+              "column": 3
+            },
+            {
+              "title": "deve fechar modal ao clicar no X",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 1,
+                      "status": "timedOut",
+                      "duration": 51732,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:6:8",
+                        "location": {
+                          "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                          "column": 8,
+                          "line": 6
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 4 |\u001b[39m\n \u001b[90m 5 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Autenticação'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 6 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m   |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 7 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 8 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 9 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                            "column": 8,
+                            "line": 6
+                          },
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n\n\u001b[0m \u001b[90m 4 |\u001b[39m\n \u001b[90m 5 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Autenticação'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 6 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m   |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 7 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 8 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 9 |\u001b[39m\u001b[0m\n\u001b[2m    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:6:8\u001b[22m"
+                        },
+                        {
+                          "location": {
+                            "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                            "column": 16,
+                            "line": 7
+                          },
+                          "message": "Error: page.goto: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n\n\n\u001b[0m \u001b[90m  5 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Autenticação'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m  6 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m  7 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m  8 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m  9 |\u001b[39m\n \u001b[90m 10 |\u001b[39m   test(\u001b[32m'deve exibir botão de login quando usuário não está logado'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:7:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-29T16:00:49.388Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/auth-Autenticação-deve-fechar-modal-ao-clicar-no-X-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                        "column": 8,
+                        "line": 6
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-414c63572da5e0242f7d",
+              "file": "auth.spec.ts",
+              "line": 83,
+              "column": 3
+            },
+            {
+              "title": "deve fechar modal ao clicar fora dele",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "timedOut",
+                      "duration": 51465,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:6:8",
+                        "location": {
+                          "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                          "column": 8,
+                          "line": 6
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 4 |\u001b[39m\n \u001b[90m 5 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Autenticação'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 6 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m   |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 7 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 8 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 9 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                            "column": 8,
+                            "line": 6
+                          },
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n\n\u001b[0m \u001b[90m 4 |\u001b[39m\n \u001b[90m 5 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Autenticação'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 6 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m   |\u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 7 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 8 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 9 |\u001b[39m\u001b[0m\n\u001b[2m    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:6:8\u001b[22m"
+                        },
+                        {
+                          "location": {
+                            "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                            "column": 16,
+                            "line": 7
+                          },
+                          "message": "Error: page.goto: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n\n\n\u001b[0m \u001b[90m  5 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Autenticação'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m  6 |\u001b[39m   test\u001b[33m.\u001b[39mbeforeEach(\u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m  7 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m  8 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m  9 |\u001b[39m\n \u001b[90m 10 |\u001b[39m   test(\u001b[32m'deve exibir botão de login quando usuário não está logado'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:7:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-29T16:00:49.939Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/auth-Autenticação-deve-fechar-modal-ao-clicar-fora-dele-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/auth-Autenticação-deve-fechar-modal-ao-clicar-fora-dele-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                        "column": 8,
+                        "line": 6
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-42e7bd9e9f0d1da3d477",
+              "file": "auth.spec.ts",
+              "line": 91,
+              "column": 3
+            },
+            {
+              "title": "deve aceitar email válido no campo de email",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 1,
+                      "status": "interrupted",
+                      "duration": 27953,
+                      "error": {
+                        "message": "Error: page.click: Test ended.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"login-button\"]')\u001b[22m\n",
+                        "stack": "Error: page.click: Test ended.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"login-button\"]')\u001b[22m\n\n    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:101:16",
+                        "location": {
+                          "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                          "column": 16,
+                          "line": 101
+                        },
+                        "snippet": "\u001b[0m \u001b[90m  99 |\u001b[39m\n \u001b[90m 100 |\u001b[39m   test(\u001b[32m'deve aceitar email válido no campo de email'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 101 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-testid=\"login-button\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 102 |\u001b[39m     \n \u001b[90m 103 |\u001b[39m     \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"email-input\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 104 |\u001b[39m     \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[32m'test@example.com'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                            "column": 16,
+                            "line": 101
+                          },
+                          "message": "Error: page.click: Test ended.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"login-button\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m  99 |\u001b[39m\n \u001b[90m 100 |\u001b[39m   test(\u001b[32m'deve aceitar email válido no campo de email'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 101 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-testid=\"login-button\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 102 |\u001b[39m     \n \u001b[90m 103 |\u001b[39m     \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"email-input\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 104 |\u001b[39m     \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[32m'test@example.com'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:101:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-29T16:01:43.771Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/auth-Autenticação-deve-ace-47976-il-válido-no-campo-de-email-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/auth-Autenticação-deve-ace-47976-il-válido-no-campo-de-email-chromium/video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                        "column": 16,
+                        "line": 101
+                      }
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-cb77b2085f8649afff32",
+              "file": "auth.spec.ts",
+              "line": 100,
+              "column": 3
+            },
+            {
+              "title": "deve aceitar senha no campo de senha",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 3,
+                      "status": "interrupted",
+                      "duration": 27799,
+                      "error": {
+                        "message": "Error: page.click: Test ended.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"login-button\"]')\u001b[22m\n",
+                        "stack": "Error: page.click: Test ended.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"login-button\"]')\u001b[22m\n\n    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:110:16",
+                        "location": {
+                          "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                          "column": 16,
+                          "line": 110
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 108 |\u001b[39m\n \u001b[90m 109 |\u001b[39m   test(\u001b[32m'deve aceitar senha no campo de senha'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 110 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-testid=\"login-button\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 111 |\u001b[39m     \n \u001b[90m 112 |\u001b[39m     \u001b[36mconst\u001b[39m passwordInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"password-input\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 113 |\u001b[39m     \u001b[36mawait\u001b[39m passwordInput\u001b[33m.\u001b[39mfill(\u001b[32m'password123'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                            "column": 16,
+                            "line": 110
+                          },
+                          "message": "Error: page.click: Test ended.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"login-button\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 108 |\u001b[39m\n \u001b[90m 109 |\u001b[39m   test(\u001b[32m'deve aceitar senha no campo de senha'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 110 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-testid=\"login-button\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 111 |\u001b[39m     \n \u001b[90m 112 |\u001b[39m     \u001b[36mconst\u001b[39m passwordInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"password-input\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 113 |\u001b[39m     \u001b[36mawait\u001b[39m passwordInput\u001b[33m.\u001b[39mfill(\u001b[32m'password123'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts:110:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-29T16:01:43.878Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/auth-Autenticação-deve-aceitar-senha-no-campo-de-senha-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/auth-Autenticação-deve-aceitar-senha-no-campo-de-senha-chromium/video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/auth.spec.ts",
+                        "column": 16,
+                        "line": 110
+                      }
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-c2b7f99f94ca694497d5",
+              "file": "auth.spec.ts",
+              "line": 109,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "cart.spec.ts",
+      "file": "cart.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Carrinho de Compras",
+          "file": "cart.spec.ts",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "deve exibir ícone do carrinho no cabeçalho",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 6892,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m failed\n\nLocator:  locator('[data-testid=\"cart-button\"]')\nExpected: visible\nReceived: <element(s) not found>\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"cart-button\"]')\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m failed\n\nLocator:  locator('[data-testid=\"cart-button\"]')\nExpected: visible\nReceived: <element(s) not found>\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"cart-button\"]')\u001b[22m\n\n    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/cart.spec.ts:9:63",
+                        "location": {
+                          "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/cart.spec.ts",
+                          "column": 63,
+                          "line": 9
+                        },
+                        "snippet": "\u001b[0m \u001b[90m  7 |\u001b[39m\n \u001b[90m  8 |\u001b[39m   test(\u001b[32m'deve exibir ícone do carrinho no cabeçalho'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m  9 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"cart-button\"]'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 10 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 11 |\u001b[39m\n \u001b[90m 12 |\u001b[39m   test(\u001b[32m'deve exibir contador zero quando carrinho está vazio'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/cart.spec.ts",
+                            "column": 63,
+                            "line": 9
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m failed\n\nLocator:  locator('[data-testid=\"cart-button\"]')\nExpected: visible\nReceived: <element(s) not found>\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"cart-button\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m  7 |\u001b[39m\n \u001b[90m  8 |\u001b[39m   test(\u001b[32m'deve exibir ícone do carrinho no cabeçalho'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m  9 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"cart-button\"]'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 10 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 11 |\u001b[39m\n \u001b[90m 12 |\u001b[39m   test(\u001b[32m'deve exibir contador zero quando carrinho está vazio'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/cart.spec.ts:9:63\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-29T16:01:43.934Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/cart-Carrinho-de-Compras-d-6cbda-ne-do-carrinho-no-cabeçalho-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/cart-Carrinho-de-Compras-d-6cbda-ne-do-carrinho-no-cabeçalho-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/cart-Carrinho-de-Compras-d-6cbda-ne-do-carrinho-no-cabeçalho-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/cart.spec.ts",
+                        "column": 63,
+                        "line": 9
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "1981448f0b79506fb670-9d775faab4153ba5853f",
+              "file": "cart.spec.ts",
+              "line": 8,
+              "column": 3
+            },
+            {
+              "title": "deve exibir contador zero quando carrinho está vazio",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 7070,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.cart-count')\nExpected string: \u001b[32m\"0\"\u001b[39m\nReceived: <element(s) not found>\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.cart-count')\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.cart-count')\nExpected string: \u001b[32m\"0\"\u001b[39m\nReceived: <element(s) not found>\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.cart-count')\u001b[22m\n\n    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/cart.spec.ts:14:29",
+                        "location": {
+                          "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/cart.spec.ts",
+                          "column": 29,
+                          "line": 14
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 12 |\u001b[39m   test(\u001b[32m'deve exibir contador zero quando carrinho está vazio'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 13 |\u001b[39m     \u001b[36mconst\u001b[39m cartCount \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'.cart-count'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 14 |\u001b[39m     \u001b[36mawait\u001b[39m expect(cartCount)\u001b[33m.\u001b[39mtoHaveText(\u001b[32m'0'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 15 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 16 |\u001b[39m\n \u001b[90m 17 |\u001b[39m   test(\u001b[32m'deve adicionar produto ao carrinho'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/cart.spec.ts",
+                            "column": 29,
+                            "line": 14
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.cart-count')\nExpected string: \u001b[32m\"0\"\u001b[39m\nReceived: <element(s) not found>\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.cart-count')\u001b[22m\n\n\n\u001b[0m \u001b[90m 12 |\u001b[39m   test(\u001b[32m'deve exibir contador zero quando carrinho está vazio'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 13 |\u001b[39m     \u001b[36mconst\u001b[39m cartCount \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'.cart-count'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 14 |\u001b[39m     \u001b[36mawait\u001b[39m expect(cartCount)\u001b[33m.\u001b[39mtoHaveText(\u001b[32m'0'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 15 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 16 |\u001b[39m\n \u001b[90m 17 |\u001b[39m   test(\u001b[32m'deve adicionar produto ao carrinho'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/cart.spec.ts:14:29\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-29T16:01:43.995Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/cart-Carrinho-de-Compras-d-1958c--quando-carrinho-está-vazio-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/cart-Carrinho-de-Compras-d-1958c--quando-carrinho-está-vazio-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/cart-Carrinho-de-Compras-d-1958c--quando-carrinho-está-vazio-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/cart.spec.ts",
+                        "column": 29,
+                        "line": 14
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "1981448f0b79506fb670-53b174785b2d7dc2d0f7",
+              "file": "cart.spec.ts",
+              "line": 12,
+              "column": 3
+            },
+            {
+              "title": "deve adicionar produto ao carrinho",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 12,
+                      "parallelIndex": 0,
+                      "status": "interrupted",
+                      "duration": 16202,
+                      "error": {
+                        "message": "Error: page.click: Test ended.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"add-to-cart-button\"]')\u001b[22m\n",
+                        "stack": "Error: page.click: Test ended.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"add-to-cart-button\"]')\u001b[22m\n\n    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/cart.spec.ts:19:16",
+                        "location": {
+                          "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/cart.spec.ts",
+                          "column": 16,
+                          "line": 19
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 17 |\u001b[39m   test(\u001b[32m'deve adicionar produto ao carrinho'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 18 |\u001b[39m     \u001b[90m// Clicar no primeiro botão \"Adicionar ao Carrinho\"\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-testid=\"add-to-cart-button\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 20 |\u001b[39m     \n \u001b[90m 21 |\u001b[39m     \u001b[90m// Aguardar notificação de sucesso\u001b[39m\n \u001b[90m 22 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/cart.spec.ts",
+                            "column": 16,
+                            "line": 19
+                          },
+                          "message": "Error: page.click: Test ended.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"add-to-cart-button\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 17 |\u001b[39m   test(\u001b[32m'deve adicionar produto ao carrinho'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 18 |\u001b[39m     \u001b[90m// Clicar no primeiro botão \"Adicionar ao Carrinho\"\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-testid=\"add-to-cart-button\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 20 |\u001b[39m     \n \u001b[90m 21 |\u001b[39m     \u001b[90m// Aguardar notificação de sucesso\u001b[39m\n \u001b[90m 22 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/cart.spec.ts:19:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-29T16:01:54.000Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/cart-Carrinho-de-Compras-deve-adicionar-produto-ao-carrinho-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/cart-Carrinho-de-Compras-deve-adicionar-produto-ao-carrinho-chromium/video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/cart.spec.ts",
+                        "column": 16,
+                        "line": 19
+                      }
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "1981448f0b79506fb670-054a775729540a164fc6",
+              "file": "cart.spec.ts",
+              "line": 17,
+              "column": 3
+            },
+            {
+              "title": "deve abrir modal de produto ao tentar adicionar",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 13,
+                      "parallelIndex": 2,
+                      "status": "interrupted",
+                      "duration": 17184,
+                      "error": {
+                        "message": "Error: page.click: Test ended.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"add-to-cart-button\"]')\u001b[22m\n",
+                        "stack": "Error: page.click: Test ended.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"add-to-cart-button\"]')\u001b[22m\n\n    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/cart.spec.ts:31:16",
+                        "location": {
+                          "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/cart.spec.ts",
+                          "column": 16,
+                          "line": 31
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 29 |\u001b[39m   test(\u001b[32m'deve abrir modal de produto ao tentar adicionar'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 30 |\u001b[39m     \u001b[90m// Clicar no primeiro botão \"Adicionar ao Carrinho\"\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 31 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-testid=\"add-to-cart-button\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 32 |\u001b[39m     \n \u001b[90m 33 |\u001b[39m     \u001b[90m// Verificar se o modal de produto foi aberto\u001b[39m\n \u001b[90m 34 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'.product-modal'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/cart.spec.ts",
+                            "column": 16,
+                            "line": 31
+                          },
+                          "message": "Error: page.click: Test ended.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"add-to-cart-button\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 29 |\u001b[39m   test(\u001b[32m'deve abrir modal de produto ao tentar adicionar'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 30 |\u001b[39m     \u001b[90m// Clicar no primeiro botão \"Adicionar ao Carrinho\"\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 31 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-testid=\"add-to-cart-button\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 32 |\u001b[39m     \n \u001b[90m 33 |\u001b[39m     \u001b[90m// Verificar se o modal de produto foi aberto\u001b[39m\n \u001b[90m 34 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'.product-modal'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/cart.spec.ts:31:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-29T16:01:54.013Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/cart-Carrinho-de-Compras-d-26163-produto-ao-tentar-adicionar-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/dwerner/Repos/bartezen/amplicalcados/test-results/cart-Carrinho-de-Compras-d-26163-produto-ao-tentar-adicionar-chromium/video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/dwerner/Repos/bartezen/amplicalcados/tests/e2e/cart.spec.ts",
+                        "column": 16,
+                        "line": 31
+                      }
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "1981448f0b79506fb670-6364a07e5dc50591ba68",
+              "file": "cart.spec.ts",
+              "line": 29,
+              "column": 3
+            },
+            {
+              "title": "deve permitir seleção de cor no modal de produto",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "1981448f0b79506fb670-2294a375f2ee9feb47aa",
+              "file": "cart.spec.ts",
+              "line": 37,
+              "column": 3
+            },
+            {
+              "title": "deve permitir seleção de tamanho no modal de produto",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "1981448f0b79506fb670-cc427fa981e6d6b2cf9b",
+              "file": "cart.spec.ts",
+              "line": 48,
+              "column": 3
+            },
+            {
+              "title": "deve habilitar botão de adicionar após selecionar cor e tamanho",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "1981448f0b79506fb670-0478bbdd6101637aa22b",
+              "file": "cart.spec.ts",
+              "line": 59,
+              "column": 3
+            },
+            {
+              "title": "deve adicionar produto ao carrinho com cor e tamanho selecionados",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "1981448f0b79506fb670-8990ab69a910838827c1",
+              "file": "cart.spec.ts",
+              "line": 77,
+              "column": 3
+            },
+            {
+              "title": "deve exibir notificação de sucesso ao adicionar produto",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "1981448f0b79506fb670-339a5a46b943a82c60b6",
+              "file": "cart.spec.ts",
+              "line": 95,
+              "column": 3
+            },
+            {
+              "title": "deve fechar modal após adicionar produto",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "1981448f0b79506fb670-2d7a406286947c36eff9",
+              "file": "cart.spec.ts",
+              "line": 109,
+              "column": 3
+            },
+            {
+              "title": "deve permitir adicionar múltiplos produtos",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "1981448f0b79506fb670-a70b2f58496845587e95",
+              "file": "cart.spec.ts",
+              "line": 126,
+              "column": 3
+            },
+            {
+              "title": "deve exibir total do carrinho corretamente",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "1981448f0b79506fb670-69cd2ebacb9b3ad0dc6b",
+              "file": "cart.spec.ts",
+              "line": 150,
+              "column": 3
+            },
+            {
+              "title": "deve navegar para checkout ao clicar no carrinho",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "1981448f0b79506fb670-9fe26992f6448b50ccd7",
+              "file": "cart.spec.ts",
+              "line": 166,
+              "column": 3
+            },
+            {
+              "title": "deve exibir mensagem de carrinho vazio quando apropriado",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "1981448f0b79506fb670-45e2d3ac15e2b3d63e8e",
+              "file": "cart.spec.ts",
+              "line": 181,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "products.spec.ts",
+      "file": "products.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Produtos",
+          "file": "products.spec.ts",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "deve exibir grade de produtos na página inicial",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "000c94276132c4f97581-4e1a01826f04593c3e96",
+              "file": "products.spec.ts",
+              "line": 8,
+              "column": 3
+            },
+            {
+              "title": "deve exibir cards de produtos",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "000c94276132c4f97581-e68227c151922fb1fbed",
+              "file": "products.spec.ts",
+              "line": 12,
+              "column": 3
+            },
+            {
+              "title": "deve exibir informações básicas do produto",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "000c94276132c4f97581-10297753517adde3070d",
+              "file": "products.spec.ts",
+              "line": 17,
+              "column": 3
+            },
+            {
+              "title": "deve exibir imagem do produto",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "000c94276132c4f97581-59550e82e0173853e341",
+              "file": "products.spec.ts",
+              "line": 25,
+              "column": 3
+            },
+            {
+              "title": "deve exibir opções de cores do produto",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "000c94276132c4f97581-320ac0fe9281e6b86d09",
+              "file": "products.spec.ts",
+              "line": 33,
+              "column": 3
+            },
+            {
+              "title": "deve ter botão \"Adicionar ao Carrinho\"",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "000c94276132c4f97581-12f15b1c81bb9d89d399",
+              "file": "products.spec.ts",
+              "line": 38,
+              "column": 3
+            },
+            {
+              "title": "deve ter botão de wishlist",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "000c94276132c4f97581-3ce792b9e5b2dc0ee481",
+              "file": "products.spec.ts",
+              "line": 44,
+              "column": 3
+            },
+            {
+              "title": "deve ter botão \"Ver Detalhes\"",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "000c94276132c4f97581-142f2b3481a2d17c38f1",
+              "file": "products.spec.ts",
+              "line": 49,
+              "column": 3
+            },
+            {
+              "title": "deve abrir modal de produto ao clicar em \"Ver Detalhes\"",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "000c94276132c4f97581-1ab58b2f81ad12ff2099",
+              "file": "products.spec.ts",
+              "line": 55,
+              "column": 3
+            },
+            {
+              "title": "deve exibir funcionalidade de ordenação",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "000c94276132c4f97581-f11cfbc074f1f1a55202",
+              "file": "products.spec.ts",
+              "line": 62,
+              "column": 3
+            },
+            {
+              "title": "deve ordenar produtos por nome",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "000c94276132c4f97581-094eb0274ff438d4261d",
+              "file": "products.spec.ts",
+              "line": 72,
+              "column": 3
+            },
+            {
+              "title": "deve ordenar produtos por preço",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "000c94276132c4f97581-d0fc4b6f923aca9eb66d",
+              "file": "products.spec.ts",
+              "line": 86,
+              "column": 3
+            },
+            {
+              "title": "deve exibir mensagem quando não há produtos",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "000c94276132c4f97581-bb2849406eebf27bfcfc",
+              "file": "products.spec.ts",
+              "line": 104,
+              "column": 3
+            },
+            {
+              "title": "deve navegar para página de produtos",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "000c94276132c4f97581-7bdef2da794075a93fa4",
+              "file": "products.spec.ts",
+              "line": 115,
+              "column": 3
+            },
+            {
+              "title": "deve exibir preços formatados corretamente",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "000c94276132c4f97581-fe70e818854ee9a8afa9",
+              "file": "products.spec.ts",
+              "line": 121,
+              "column": 3
+            },
+            {
+              "title": "deve ter estrutura responsiva",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "000c94276132c4f97581-55a71359a7c30b79ab27",
+              "file": "products.spec.ts",
+              "line": 129,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-08-29T15:59:53.872Z",
+    "duration": 138256.82400000002,
+    "expected": 0,
+    "skipped": 30,
+    "unexpected": 10,
+    "flaky": 0
+  }
+}
