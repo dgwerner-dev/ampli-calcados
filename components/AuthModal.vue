@@ -50,7 +50,7 @@
           </div>
 
           <!-- Login Form -->
-          <form v-if="mode === 'login'" @submit.prevent="handleLogin" class="space-y-4">
+          <form v-if="mode === 'login'" @submit.prevent="handleLogin" class="space-y-4" data-testid="auth-form">
             <div>
               <label for="login-email" class="block text-sm font-medium text-gray-700 mb-1">
                 Email
@@ -62,6 +62,7 @@
                 required
                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral-soft focus:border-transparent"
                 placeholder="seu@email.com"
+                data-testid="email-input"
               />
             </div>
 
@@ -76,6 +77,7 @@
                 required
                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral-soft focus:border-transparent"
                 placeholder="Sua senha"
+                data-testid="password-input"
               />
             </div>
 
@@ -84,6 +86,7 @@
                 type="button"
                 @click="setMode('forgot-password')"
                 class="text-sm text-coral-soft hover:text-coral-dark transition-colors"
+                data-testid="forgot-password-button"
               >
                 Esqueceu a senha?
               </button>

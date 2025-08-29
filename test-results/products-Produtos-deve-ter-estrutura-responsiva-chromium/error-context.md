@@ -1,0 +1,223 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e4]:
+    - banner [ref=e5]:
+      - generic [ref=e7]:
+        - generic [ref=e8]:
+          - link "Clube AMPLI" [ref=e9] [cursor=pointer]:
+            - /url: "#"
+          - generic [ref=e10]: "|"
+          - button "Login" [ref=e11] [cursor=pointer]
+        - generic [ref=e13]: Frete grátis para compras acima de R$ 599,00
+      - generic [ref=e16]:
+        - link "AMPLI CALÇADOS" [ref=e18] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e19] [cursor=pointer]:
+            - generic [ref=e20] [cursor=pointer]: AMPLI
+            - generic [ref=e21] [cursor=pointer]: CALÇADOS
+        - generic [ref=e22]:
+          - generic [ref=e23]:
+            - generic [ref=e24]: "Compre por tamanho:"
+            - generic [ref=e25]:
+              - button "40" [ref=e26] [cursor=pointer]
+              - button "41" [ref=e27] [cursor=pointer]
+              - button "42" [ref=e28] [cursor=pointer]
+              - button "43" [ref=e29] [cursor=pointer]
+          - button [ref=e30] [cursor=pointer]:
+            - img [ref=e31] [cursor=pointer]
+          - button [ref=e33] [cursor=pointer]:
+            - img [ref=e34] [cursor=pointer]
+          - button [ref=e36] [cursor=pointer]:
+            - img [ref=e37] [cursor=pointer]
+    - main [ref=e39]:
+      - generic [ref=e44]:
+        - generic [ref=e45]:
+          - generic [ref=e47]:
+            - generic [ref=e49]:
+              - img "Rasteira H Preta" [ref=e50]
+              - generic [ref=e52]:
+                - heading "Rasteira H Preta" [level=2] [ref=e53]
+                - paragraph [ref=e55]: R$ 229,90
+                - link "COMPRE AGORA" [ref=e56] [cursor=pointer]:
+                  - /url: /produto/rasteira-h-preta
+            - generic [ref=e58]:
+              - generic [ref=e59]:
+                - heading "Rasteira H Preta" [level=2] [ref=e61]
+                - button "Adicionar à lista de desejos" [ref=e63] [cursor=pointer]:
+                  - img [ref=e64] [cursor=pointer]
+              - generic [ref=e66]:
+                - generic [ref=e67]:
+                  - img [ref=e69]
+                  - generic [ref=e71]: Lançamento
+                - generic [ref=e72]:
+                  - img [ref=e74]
+                  - generic [ref=e76]: Couro Genuíno
+                - generic [ref=e77]:
+                  - img [ref=e79]
+                  - generic [ref=e81]: Confortável
+                - generic [ref=e82]:
+                  - img [ref=e84]
+                  - generic [ref=e86]: Pagamento Seguro
+              - generic [ref=e87]:
+                - paragraph [ref=e89]: R$ 229,90
+                - link "COMPRE AGORA" [ref=e91] [cursor=pointer]:
+                  - /url: /produto/rasteira-h-preta
+                  - img [ref=e92] [cursor=pointer]
+                  - text: COMPRE AGORA
+          - generic [ref=e95]:
+            - generic [ref=e97]:
+              - img "Oxford em Couro Vinho" [ref=e98]
+              - generic [ref=e100]:
+                - heading "Oxford em Couro Vinho" [level=2] [ref=e101]
+                - paragraph [ref=e103]: R$ 299,90
+                - link "COMPRE AGORA" [ref=e104] [cursor=pointer]:
+                  - /url: /produto/oxford-em-couro-vinho
+            - generic [ref=e106]:
+              - generic [ref=e107]:
+                - heading "Oxford em Couro Vinho" [level=2] [ref=e109]
+                - button "Adicionar à lista de desejos" [ref=e111] [cursor=pointer]:
+                  - img [ref=e112] [cursor=pointer]
+              - generic [ref=e114]:
+                - generic [ref=e115]:
+                  - img [ref=e117]
+                  - generic [ref=e119]: Lançamento
+                - generic [ref=e120]:
+                  - img [ref=e122]
+                  - generic [ref=e124]: Couro Genuíno
+                - generic [ref=e125]:
+                  - img [ref=e127]
+                  - generic [ref=e129]: Confortável
+                - generic [ref=e130]:
+                  - img [ref=e132]
+                  - generic [ref=e134]: Pagamento Seguro
+              - generic [ref=e135]:
+                - paragraph [ref=e137]: R$ 299,90
+                - link "COMPRE AGORA" [ref=e139] [cursor=pointer]:
+                  - /url: /produto/oxford-em-couro-vinho
+                  - img [ref=e140] [cursor=pointer]
+                  - text: COMPRE AGORA
+          - generic [ref=e143]:
+            - generic [ref=e145]:
+              - img "Oxford em Couro Preto" [ref=e146]
+              - generic [ref=e148]:
+                - heading "Oxford em Couro Preto" [level=2] [ref=e149]
+                - paragraph [ref=e151]: R$ 299,90
+                - link "COMPRE AGORA" [ref=e152] [cursor=pointer]:
+                  - /url: /produto/oxford-em-couro-preto
+            - generic [ref=e154]:
+              - generic [ref=e155]:
+                - heading "Oxford em Couro Preto" [level=2] [ref=e157]
+                - button "Adicionar à lista de desejos" [ref=e159] [cursor=pointer]:
+                  - img [ref=e160] [cursor=pointer]
+              - generic [ref=e162]:
+                - generic [ref=e163]:
+                  - img [ref=e165]
+                  - generic [ref=e167]: Lançamento
+                - generic [ref=e168]:
+                  - img [ref=e170]
+                  - generic [ref=e172]: Couro Genuíno
+                - generic [ref=e173]:
+                  - img [ref=e175]
+                  - generic [ref=e177]: Confortável
+                - generic [ref=e178]:
+                  - img [ref=e180]
+                  - generic [ref=e182]: Pagamento Seguro
+              - generic [ref=e183]:
+                - paragraph [ref=e185]: R$ 299,90
+                - link "COMPRE AGORA" [ref=e187] [cursor=pointer]:
+                  - /url: /produto/oxford-em-couro-preto
+                  - img [ref=e188] [cursor=pointer]
+                  - text: COMPRE AGORA
+          - generic [ref=e191]:
+            - generic [ref=e193]:
+              - img "Oxford em Couro Vermelho" [ref=e194]
+              - generic [ref=e196]:
+                - heading "Oxford em Couro Vermelho" [level=2] [ref=e197]
+                - paragraph [ref=e199]: R$ 299,90
+                - link "COMPRE AGORA" [ref=e200] [cursor=pointer]:
+                  - /url: /produto/oxford-em-couro-vermelho
+            - generic [ref=e202]:
+              - generic [ref=e203]:
+                - heading "Oxford em Couro Vermelho" [level=2] [ref=e205]
+                - button "Adicionar à lista de desejos" [ref=e207] [cursor=pointer]:
+                  - img [ref=e208] [cursor=pointer]
+              - generic [ref=e210]:
+                - generic [ref=e211]:
+                  - img [ref=e213]
+                  - generic [ref=e215]: Lançamento
+                - generic [ref=e216]:
+                  - img [ref=e218]
+                  - generic [ref=e220]: Couro Genuíno
+                - generic [ref=e221]:
+                  - img [ref=e223]
+                  - generic [ref=e225]: Confortável
+                - generic [ref=e226]:
+                  - img [ref=e228]
+                  - generic [ref=e230]: Pagamento Seguro
+              - generic [ref=e231]:
+                - paragraph [ref=e233]: R$ 299,90
+                - link "COMPRE AGORA" [ref=e235] [cursor=pointer]:
+                  - /url: /produto/oxford-em-couro-vermelho
+                  - img [ref=e236] [cursor=pointer]
+                  - text: COMPRE AGORA
+          - generic [ref=e239]:
+            - generic [ref=e241]:
+              - img "Oxford em Couro Azul" [ref=e242]
+              - generic [ref=e244]:
+                - heading "Oxford em Couro Azul" [level=2] [ref=e245]
+                - paragraph [ref=e247]: R$ 299,90
+                - link "COMPRE AGORA" [ref=e248] [cursor=pointer]:
+                  - /url: /produto/oxford-em-couro-azul
+            - generic [ref=e250]:
+              - generic [ref=e251]:
+                - heading "Oxford em Couro Azul" [level=2] [ref=e253]
+                - button "Adicionar à lista de desejos" [ref=e255] [cursor=pointer]:
+                  - img [ref=e256] [cursor=pointer]
+              - generic [ref=e258]:
+                - generic [ref=e259]:
+                  - img [ref=e261]
+                  - generic [ref=e263]: Lançamento
+                - generic [ref=e264]:
+                  - img [ref=e266]
+                  - generic [ref=e268]: Couro Genuíno
+                - generic [ref=e269]:
+                  - img [ref=e271]
+                  - generic [ref=e273]: Confortável
+                - generic [ref=e274]:
+                  - img [ref=e276]
+                  - generic [ref=e278]: Pagamento Seguro
+              - generic [ref=e279]:
+                - paragraph [ref=e281]: R$ 299,90
+                - link "COMPRE AGORA" [ref=e283] [cursor=pointer]:
+                  - /url: /produto/oxford-em-couro-azul
+                  - img [ref=e284] [cursor=pointer]
+                  - text: COMPRE AGORA
+        - button [ref=e286] [cursor=pointer]:
+          - img [ref=e287] [cursor=pointer]
+        - button [ref=e289] [cursor=pointer]:
+          - img [ref=e290] [cursor=pointer]
+        - generic [ref=e292]:
+          - button [ref=e293] [cursor=pointer]
+          - button [ref=e294] [cursor=pointer]
+          - button [ref=e295] [cursor=pointer]
+          - button [ref=e296] [cursor=pointer]
+          - button [ref=e297] [cursor=pointer]
+  - generic:
+    - img
+  - generic:
+    - generic:
+      - generic:
+        - button "Go to parent" [disabled]
+        - button "Open in editor"
+        - button "Close"
+  - generic [ref=e299]:
+    - button "Toggle Nuxt DevTools" [ref=e300] [cursor=pointer]:
+      - img [ref=e301] [cursor=pointer]
+    - generic "Page load time" [ref=e304]:
+      - generic [ref=e305]: "63"
+      - generic [ref=e306]: ms
+    - button "Toggle Component Inspector" [ref=e308] [cursor=pointer]:
+      - img [ref=e309] [cursor=pointer]
+```

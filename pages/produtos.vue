@@ -113,6 +113,7 @@
                 <button
                   @click.prevent="addProductToCart(product)"
                   class="w-full bg-coral-soft text-white py-2 px-4 rounded-lg hover:bg-coral-dark transition-colors duration-200 font-medium mt-auto"
+                  data-testid="add-to-cart-button"
                 >
                   Adicionar ao Carrinho
                 </button>

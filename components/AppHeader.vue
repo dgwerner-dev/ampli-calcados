@@ -12,6 +12,7 @@
             type="button"
             @click="handleTopLoginClick"
             class="text-gray-700 hover:text-black transition-colors duration-200"
+            data-testid="login-button"
           >
             <ClientOnly fallback="Login">
               {{ user ? 'Bem-vindo, ' + (user.name || user.email) : 'Login' }}
@@ -255,6 +256,7 @@
             <button
               @click="navigateToWishlist"
               class="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200 relative"
+              data-testid="wishlist-button"
             >
               <svg
                 class="w-5 h-5 text-gray-700"
@@ -282,6 +284,7 @@
             <button
               @click="navigateToCart"
               class="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200 relative"
+              data-testid="cart-button"
             >
               <svg
                 class="w-5 h-5 text-gray-700"
@@ -299,7 +302,8 @@
               <ClientOnly>
                 <span
                   v-if="cartItemCount > 0"
-                  class="absolute -top-1 -right-1 bg-coral-soft text-white text-xs rounded-full min-w-[16px] h-4 flex items-center justify-center px-1"
+                  class="absolute -top-1 -right-1 bg-coral-soft text-white text-xs rounded-full min-w-[16px] h-4 flex items-center justify-center px-1 cart-count"
+                  data-testid="cart-count"
                   >{{ cartItemCount }}</span
                 >
               </ClientOnly>
@@ -329,6 +333,12 @@
 
         <!-- Navigation Menu -->
         <nav class="hidden lg:flex items-center space-x-8">
+          <NuxtLink
+            to="/produtos"
+            class="text-coral-soft hover:text-coral-dark transition-colors font-medium text-sm uppercase tracking-wide"
+          >
+            Produtos
+          </NuxtLink>
           <NuxtLink
             v-for="category in categories"
             :key="category.id"

@@ -1,13 +1,23 @@
 <template>
   <section class="py-16 bg-white">
     <div class="max-w-7xl mx-auto px-4">
+      <!-- Sort Options -->
+      <div class="mb-6 flex justify-end">
+        <select class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral-soft" data-testid="sort-select">
+          <option value="name">Ordenar por Nome</option>
+          <option value="price">Ordenar por Preço</option>
+          <option value="newest">Mais Recentes</option>
+        </select>
+      </div>
+      
       <!-- Products Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" data-testid="products-grid">
         <NuxtLink
           v-for="product in products"
           :key="product.id"
           :to="`/produto/${product.slug}`"
           class="product-card group cursor-pointer"
+          :data-testid="`product-card-${product.id}`"
         >
           <!-- Product Image -->
           <div class="relative rounded-t-lg">
@@ -19,6 +29,7 @@
                 :src="product.images[0]"
                 :alt="product.name"
                 class="w-auto h-auto max-w-full max-h-full object-contain"
+                data-testid="product-image"
               />
               <div v-else class="w-full h-full flex items-center justify-center">
                 <svg
@@ -55,6 +66,7 @@
                     ? 'Remover da lista de desejos'
                     : 'Adicionar à lista de desejos'
                 "
+                data-testid="wishlist-button"
               >
                 <svg
                   v-if="wishlistLoading !== product.id"
@@ -91,16 +103,39 @@
 
           <!-- Product Info -->
           <div class="p-4">
-            <h3 class="font-medium text-black mb-2 group-hover:text-gray-700 transition-colors">
+            <h3 class="font-medium text-black mb-2 group-hover:text-gray-700 transition-colors" data-testid="product-name">
               {{ product.name }}
             </h3>
-            <p class="text-lg font-bold text-black">R$ {{ formatPrice(product.price) }}</p>
+            <p class="text-lg font-bold text-black" data-testid="product-price">R$ {{ formatPrice(product.price) }}</p>
+            
+            <!-- Color Options -->
+            <div class="flex space-x-1 mt-2">
+              <div class="w-4 h-4 bg-red-500 rounded-full color-dot" data-testid="color-option"></div>
+              <div class="w-4 h-4 bg-blue-500 rounded-full color-dot" data-testid="color-option"></div>
+              <div class="w-4 h-4 bg-green-500 rounded-full color-dot" data-testid="color-option"></div>
+            </div>
+            
+            <!-- Size Options -->
+            <div class="flex space-x-1 mt-2">
+              <button class="px-2 py-1 text-xs border rounded size-option" data-testid="size-option">40</button>
+              <button class="px-2 py-1 text-xs border rounded size-option" data-testid="size-option">41</button>
+              <button class="px-2 py-1 text-xs border rounded size-option" data-testid="size-option">42</button>
+            </div>
 
             <!-- Add to Cart Button - Always Visible -->
             <button
               class="w-full mt-3 py-2 text-sm font-medium rounded transition-all duration-300 bg-coral-soft text-white hover:bg-coral-dark"
+              data-testid="add-to-cart-button"
             >
               Adicionar ao Carrinho
+            </button>
+            
+            <!-- Ver Detalhes Button -->
+            <button
+              class="w-full mt-2 py-2 text-sm font-medium rounded transition-all duration-300 border border-gray-300 text-gray-700 hover:bg-gray-50"
+              data-testid="quick-view-button"
+            >
+              Ver Detalhes
             </button>
           </div>
         </NuxtLink>
