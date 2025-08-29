@@ -3,9 +3,18 @@ import { PrismaClient } from '@prisma/client';
 
 export default defineEventHandler(async event => {
   try {
+    console.log('🔍 Verificando autenticação na API wishlist...');
+    
     const user = await serverSupabaseUser(event);
+    
+    console.log('👤 Usuário encontrado:', user ? {
+      id: user.id,
+      email: user.email,
+      role: user.user_metadata?.role
+    } : 'null');
 
     if (!user) {
+      console.log('❌ Usuário não autenticado');
       throw createError({
         statusCode: 401,
         statusMessage: 'Usuário não autenticado',
@@ -37,6 +46,15 @@ export default defineEventHandler(async event => {
     });
 
     await prisma.$disconnect();
+
+    console.log('📊 Wishlist retornada:', {
+      count: wishlistItems.length,
+      items: wishlistItems.map(item => ({
+        id: item.id,
+        productId: item.productId,
+        productName: item.product.name
+      }))
+    });
 
     return {
       success: true,
