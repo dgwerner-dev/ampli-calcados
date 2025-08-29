@@ -383,7 +383,7 @@ const navigateToWishlist = () => {
 
 const { user, signOut, initAuth, refreshUserState } = useAuth();
 const { itemCount: cartItemCount } = useCart();
-const { wishlistCount, loadWishlist } = useWishlist();
+const { wishlistCount, loadWishlistAsync } = useWishlist();
 const supabase = useSupabaseClient();
 
 // Garantir que o carrinho e wishlist sejam inicializados no cliente
@@ -393,9 +393,9 @@ onMounted(() => {
     const { loadCart } = useCart();
     loadCart();
 
-    // Só carregar wishlist se usuário estiver autenticado
+    // Carregar wishlist de forma assíncrona se usuário estiver autenticado
     if (user.value) {
-      loadWishlist();
+      loadWishlistAsync();
     }
   }
 });

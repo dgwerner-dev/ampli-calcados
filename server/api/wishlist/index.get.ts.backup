@@ -1,6 +1,8 @@
 import { serverSupabaseUser } from '#supabase/server';
 import { PrismaClient } from '@prisma/client';
 
+const prisma = new PrismaClient();
+
 export default defineEventHandler(async event => {
   try {
     const user = await serverSupabaseUser(event);
@@ -12,14 +14,9 @@ export default defineEventHandler(async event => {
       });
     }
 
-    const prisma = new PrismaClient();
-
     const wishlistItems = await prisma.wishlistItem.findMany({
       where: { userId: user.id },
-      select: {
-        id: true,
-        productId: true,
-        createdAt: true,
+      include: {
         product: {
           select: {
             id: true,
@@ -36,8 +33,6 @@ export default defineEventHandler(async event => {
       },
     });
 
-    await prisma.$disconnect();
-
     return {
       success: true,
       items: wishlistItems,
@@ -48,5 +43,7 @@ export default defineEventHandler(async event => {
       statusCode: error.statusCode || 500,
       statusMessage: error.statusMessage || 'Erro interno do servidor',
     });
+  } finally {
+    await prisma.$disconnect();
   }
 });

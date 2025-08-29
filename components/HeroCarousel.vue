@@ -372,7 +372,7 @@ const autoPlayInterval = ref(null);
 
 // Composables
 const { slides, loading, error, products, loadFeaturedProducts } = useFeaturedProducts();
-const { wishlist, isInWishlist, addToWishlist, removeFromWishlist, loadWishlist } = useWishlist();
+const { wishlist, isInWishlist, addToWishlist, removeFromWishlist, loadWishlistAsync } = useWishlist();
 const { success, error: notificationError } = useNotifications();
 
 // Funções do carrossel
@@ -431,13 +431,11 @@ const initCarousel = async () => {
   await loadFeaturedProducts();
   console.log('✅ Produtos carregados:', slides.value.length);
 
-  // Carregar wishlist de forma assíncrona (não bloquear o carrossel)
+  // Carregar wishlist de forma assíncrona (não bloqueante)
   const { user } = useAuth();
   if (user.value) {
-    // Carregar wishlist em paralelo
-    loadWishlist().catch(err => {
-      console.error('Erro ao carregar wishlist:', err);
-    });
+    // Carregar wishlist em paralelo sem bloquear
+    loadWishlistAsync();
   }
 
   // Iniciar auto-play após carregamento
