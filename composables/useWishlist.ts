@@ -24,7 +24,7 @@ export const useWishlist = () => {
   const wishlist = ref<WishlistItem[]>([]);
   const loading = ref(false);
   const error = ref<string | null>(null);
-  
+
   // Cache em memória (3 minutos)
   const CACHE_DURATION = 3 * 60 * 1000; // 3 minutos
   let cache: CachedWishlist | null = null;
@@ -76,7 +76,11 @@ export const useWishlist = () => {
         wishlist.value = items;
       } catch (error: any) {
         // Se o erro for de autenticação, limpar wishlist silenciosamente
-        if (error.statusCode === 401 || error.statusCode === 500 || error.message?.includes('Auth session missing')) {
+        if (
+          error.statusCode === 401 ||
+          error.statusCode === 500 ||
+          error.message?.includes('Auth session missing')
+        ) {
           console.log('🔐 Usuário não autenticado, limpando wishlist');
           wishlist.value = [];
           cache = null;
@@ -86,7 +90,7 @@ export const useWishlist = () => {
         // Para outros erros, logar mas não fazer throw
         console.error('Erro ao carregar wishlist:', error);
         error.value = error.message || 'Erro ao carregar wishlist';
-        
+
         // Se há cache expirado, usar como fallback
         if (cache && cache.items.length > 0) {
           wishlist.value = cache.items;
@@ -216,16 +220,25 @@ export const useWishlist = () => {
     return loadWishlist(true);
   };
 
-  // Carregar wishlist de forma assíncrona (não bloqueante)
+    // Carregar wishlist de forma assíncrona (não bloqueante)
   const loadWishlistAsync = () => {
     console.log('🔄 loadWishlistAsync chamado');
     console.log('📊 Estado atual:', {
       loading: loading.value,
       cacheValid: isCacheValid(),
       wishlistCount: wishlist.value.length,
-      hasCache: !!cache
+      hasCache: !!cache,
     });
-    
+ 
+    // Verificar se usuário está autenticado
+    const { user } = useAuth();
+    if (!user.value) {
+      console.log('❌ Usuário não autenticado, limpando wishlist');
+      wishlist.value = [];
+      cache = null;
+      return;
+    }
+ 
     if (!loading.value && !isCacheValid()) {
       console.log('🚀 Iniciando carregamento da wishlist...');
       loadWishlist().catch(err => {
@@ -236,14 +249,19 @@ export const useWishlist = () => {
     }
   };
 
-  // Watcher para limpar wishlist quando usuário não estiver autenticado
+    // Watcher para limpar wishlist quando usuário não estiver autenticado
   const { user } = useAuth();
-  
-  watch(user, (newUser) => {
+ 
+  watch(user, newUser => {
+    console.log('👤 Status do usuário mudou:', !!newUser);
     if (!newUser) {
       console.log('🔐 Usuário deslogado, limpando wishlist');
       wishlist.value = [];
       cache = null;
+    } else {
+      console.log('✅ Usuário logado, carregando wishlist');
+      // Carregar wishlist quando usuário fizer login
+      loadWishlistAsync();
     }
   });
 
@@ -252,12 +270,12 @@ export const useWishlist = () => {
     wishlist: readonly(wishlist),
     loading: readonly(loading),
     error: readonly(error),
-    
+
     // Computed
     wishlistCount,
     isEmpty,
     hasError,
-    
+
     // Métodos
     loadWishlist,
     loadWishlistAsync,

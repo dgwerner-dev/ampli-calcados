@@ -9,7 +9,9 @@
               <!-- Skeleton para imagem -->
               <div class="lg:w-1/2 p-8 lg:p-12">
                 <div class="relative h-80 lg:h-96 rounded-lg bg-gray-200 animate-pulse">
-                  <div class="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-pulse"></div>
+                  <div
+                    class="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-pulse"
+                  ></div>
                 </div>
               </div>
               <!-- Skeleton para conteúdo -->
@@ -221,7 +223,9 @@
                       <div class="space-y-6">
                         <div class="flex items-baseline space-x-3">
                           <p class="text-3xl font-bold text-black">{{ slide.price }}</p>
-                          <p v-if="slide.originalPrice" class="text-lg text-gray-500 line-through">{{ slide.originalPrice }}</p>
+                          <p v-if="slide.originalPrice" class="text-lg text-gray-500 line-through">
+                            {{ slide.originalPrice }}
+                          </p>
                           <span
                             v-if="slide.discount"
                             class="px-2 py-1 bg-red-100 text-red-600 text-sm font-semibold rounded"
@@ -343,7 +347,9 @@
                 <!-- Skeleton para imagem -->
                 <div class="lg:w-1/2 p-8 lg:p-12">
                   <div class="relative h-80 lg:h-96 rounded-lg bg-gray-200 animate-pulse">
-                    <div class="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-pulse"></div>
+                    <div
+                      class="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-pulse"
+                    ></div>
                   </div>
                 </div>
                 <!-- Skeleton para conteúdo -->
@@ -372,7 +378,8 @@ const autoPlayInterval = ref(null);
 
 // Composables
 const { slides, loading, error, products, loadFeaturedProducts } = useFeaturedProducts();
-const { wishlist, isInWishlist, addToWishlist, removeFromWishlist, loadWishlistAsync } = useWishlist();
+const { wishlist, isInWishlist, addToWishlist, removeFromWishlist, loadWishlistAsync } =
+  useWishlist();
 const { success, error: notificationError } = useNotifications();
 
 // Funções do carrossel
@@ -384,18 +391,19 @@ const nextSlide = () => {
 
 const previousSlide = () => {
   if (slides.value.length > 0) {
-    currentSlide.value = currentSlide.value === 0 ? slides.value.length - 1 : currentSlide.value - 1;
+    currentSlide.value =
+      currentSlide.value === 0 ? slides.value.length - 1 : currentSlide.value - 1;
   }
 };
 
-const goToSlide = (index) => {
+const goToSlide = index => {
   if (slides.value.length > 0 && index >= 0 && index < slides.value.length) {
     currentSlide.value = index;
   }
 };
 
 // Função para alternar wishlist
-const toggleWishlist = async (productId) => {
+const toggleWishlist = async productId => {
   try {
     wishlistLoading.value = productId;
 
@@ -415,22 +423,22 @@ const toggleWishlist = async (productId) => {
 };
 
 // Handlers para imagens
-const onImageLoad = (index) => {
+const onImageLoad = index => {
   console.log(`✅ Imagem ${index} carregada com sucesso`);
 };
 
-const onImageError = (index) => {
+const onImageError = index => {
   console.error(`❌ Erro ao carregar imagem ${index}`);
 };
 
 // Inicializar carrossel
 const initCarousel = async () => {
   console.log('🚀 Iniciando carregamento do carrossel...');
-  
+
   // Limpar cache e forçar refresh
   const { clearCache } = useFeaturedProducts();
   clearCache();
-  
+
   // Carregar produtos em destaque
   await loadFeaturedProducts(true); // Forçar refresh
   console.log('✅ Produtos carregados:', slides.value.length);

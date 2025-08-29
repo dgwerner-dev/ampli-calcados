@@ -393,17 +393,31 @@ onMounted(() => {
     const { loadCart } = useCart();
     loadCart();
 
-    // Carregar wishlist de forma assíncrona se usuário estiver autenticado
+    // Verificar status da wishlist baseado na autenticação
     if (user.value) {
+      console.log('✅ AppHeader - Usuário autenticado, carregando wishlist');
       loadWishlistAsync();
+    } else {
+      console.log('❌ AppHeader - Usuário não autenticado, limpando wishlist');
+      const { clearWishlist } = useWishlist();
+      clearWishlist();
     }
   }
 });
 
 // Watcher para carregar wishlist quando usuário fizer login
 watch(user, (newUser) => {
-  if (process.client && newUser) {
-    loadWishlistAsync();
+  console.log('👤 AppHeader - Status do usuário mudou:', !!newUser);
+  if (process.client) {
+    if (newUser) {
+      console.log('✅ AppHeader - Usuário logado, carregando wishlist');
+      loadWishlistAsync();
+    } else {
+      console.log('❌ AppHeader - Usuário deslogado, limpando wishlist');
+      // Limpar wishlist quando usuário deslogar
+      const { clearWishlist } = useWishlist();
+      clearWishlist();
+    }
   }
 });
 

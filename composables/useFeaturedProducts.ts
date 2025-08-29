@@ -25,7 +25,7 @@ export const useFeaturedProducts = () => {
   const products = ref<FeaturedProduct[]>([]);
   const loading = ref(false);
   const error = ref<string | null>(null);
-  
+
   // Cache em memória (5 minutos)
   const CACHE_DURATION = 5 * 60 * 1000; // 5 minutos
   let cache: CachedData | null = null;
@@ -43,7 +43,7 @@ export const useFeaturedProducts = () => {
   // Carregar produtos em destaque com cache
   const loadFeaturedProducts = async (forceRefresh = false) => {
     console.log('🚀 loadFeaturedProducts chamado', { forceRefresh });
-    
+
     try {
       loading.value = true;
       error.value = null;
@@ -75,7 +75,7 @@ export const useFeaturedProducts = () => {
     } catch (err: any) {
       console.error('❌ Erro ao carregar produtos em destaque:', err);
       error.value = err.message || 'Erro ao carregar produtos em destaque';
-      
+
       // Se há cache expirado, usar como fallback
       if (cache && cache.products.length > 0) {
         products.value = cache.products;
@@ -107,15 +107,16 @@ export const useFeaturedProducts = () => {
       price: product.salePrice
         ? `R$ ${parseFloat(product.salePrice.toString()).toFixed(2).replace('.', ',')}`
         : `R$ ${product.price.toFixed(2).replace('.', ',')}`,
-      originalPrice: product.salePrice
-        ? `R$ ${product.price.toFixed(2).replace('.', ',')}`
-        : null,
+      originalPrice: product.salePrice ? `R$ ${product.price.toFixed(2).replace('.', ',')}` : null,
       discount: product.salePrice
-        ? Math.round(((product.price - parseFloat(product.salePrice.toString())) / product.price) * 100)
+        ? Math.round(
+            ((product.price - parseFloat(product.salePrice.toString())) / product.price) * 100
+          )
         : null,
-      image: product.images && product.images.length > 0
-        ? product.images[0]
-        : '/images/placeholder-product.jpg',
+      image:
+        product.images && product.images.length > 0
+          ? product.images[0]
+          : '/images/placeholder-product.jpg',
       slug: product.slug,
       category: product.category?.name,
     }));
@@ -129,12 +130,12 @@ export const useFeaturedProducts = () => {
     products: readonly(products),
     loading: readonly(loading),
     error: readonly(error),
-    
+
     // Computed
     isEmpty,
     hasError,
     slides,
-    
+
     // Métodos
     loadFeaturedProducts,
     clearCache,
