@@ -42,20 +42,26 @@ export const useFeaturedProducts = () => {
 
   // Carregar produtos em destaque com cache
   const loadFeaturedProducts = async (forceRefresh = false) => {
+    console.log('🚀 loadFeaturedProducts chamado', { forceRefresh });
+    
     try {
       loading.value = true;
       error.value = null;
 
       // Verificar cache primeiro (se não for refresh forçado)
       if (!forceRefresh && isCacheValid()) {
+        console.log('📦 Usando cache válido:', cache!.products.length, 'produtos');
         products.value = cache!.products;
         return;
       }
 
+      console.log('🌐 Buscando produtos da API...');
       // Buscar produtos em destaque via API com timeout
       const data = await $fetch('/api/products/featured', {
         timeout: 5000, // 5 segundos de timeout
       });
+
+      console.log('✅ Produtos recebidos da API:', data?.length || 0);
 
       // Atualizar cache
       cache = {
@@ -65,6 +71,7 @@ export const useFeaturedProducts = () => {
       };
 
       products.value = data || [];
+      console.log('📊 Estado atualizado:', products.value.length, 'produtos');
     } catch (err: any) {
       console.error('❌ Erro ao carregar produtos em destaque:', err);
       error.value = err.message || 'Erro ao carregar produtos em destaque';
@@ -81,7 +88,9 @@ export const useFeaturedProducts = () => {
 
   // Limpar cache
   const clearCache = () => {
+    console.log('🗑️ Limpando cache de produtos em destaque');
     cache = null;
+    products.value = [];
   };
 
   // Forçar refresh dos dados

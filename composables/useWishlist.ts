@@ -218,10 +218,21 @@ export const useWishlist = () => {
 
   // Carregar wishlist de forma assíncrona (não bloqueante)
   const loadWishlistAsync = () => {
+    console.log('🔄 loadWishlistAsync chamado');
+    console.log('📊 Estado atual:', {
+      loading: loading.value,
+      cacheValid: isCacheValid(),
+      wishlistCount: wishlist.value.length,
+      hasCache: !!cache
+    });
+    
     if (!loading.value && !isCacheValid()) {
+      console.log('🚀 Iniciando carregamento da wishlist...');
       loadWishlist().catch(err => {
         console.error('Erro ao carregar wishlist de forma assíncrona:', err);
       });
+    } else {
+      console.log('⏭️ Pulando carregamento (loading ou cache válido)');
     }
   };
 

@@ -427,8 +427,12 @@ const onImageError = (index) => {
 const initCarousel = async () => {
   console.log('🚀 Iniciando carregamento do carrossel...');
   
+  // Limpar cache e forçar refresh
+  const { clearCache } = useFeaturedProducts();
+  clearCache();
+  
   // Carregar produtos em destaque
-  await loadFeaturedProducts();
+  await loadFeaturedProducts(true); // Forçar refresh
   console.log('✅ Produtos carregados:', slides.value.length);
 
   // Carregar wishlist de forma assíncrona (não bloqueante)
