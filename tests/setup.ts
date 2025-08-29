@@ -1,4 +1,5 @@
 import { vi } from 'vitest';
+import { config } from '@vue/test-utils';
 
 // Mock global objects
 global.fetch = vi.fn();
@@ -66,3 +67,33 @@ vi.mock('#app', () => ({
   })),
   $fetch: vi.fn(),
 }));
+
+// Configure Vue Test Utils
+config.global.mocks = {
+  $t: (key: string) => key,
+  $route: {
+    path: '/',
+    query: {},
+    params: {},
+  },
+  $router: {
+    push: vi.fn(),
+    replace: vi.fn(),
+    go: vi.fn(),
+    back: vi.fn(),
+  },
+  $nuxt: {
+    $emit: vi.fn(),
+  },
+};
+
+// Mock Nuxt composables for components
+config.global.provide = {
+  $supabase: {
+    auth: {
+      getSession: vi.fn(() => Promise.resolve({ data: { session: null }, error: null })),
+      signOut: vi.fn(() => Promise.resolve({ error: null })),
+      signInWithPassword: vi.fn(() => Promise.resolve({ data: { user: null }, error: null })),
+    },
+  },
+};
