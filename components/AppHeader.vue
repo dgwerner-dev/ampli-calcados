@@ -406,7 +406,7 @@ onMounted(() => {
 });
 
 // Watcher para carregar wishlist quando usuário fizer login
-watch(user, (newUser) => {
+watch(user, newUser => {
   console.log('👤 AppHeader - Status do usuário mudou:', !!newUser);
   if (process.client) {
     if (newUser) {

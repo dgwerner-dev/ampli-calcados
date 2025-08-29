@@ -220,7 +220,7 @@ export const useWishlist = () => {
     return loadWishlist(true);
   };
 
-    // Carregar wishlist de forma assíncrona (não bloqueante)
+  // Carregar wishlist de forma assíncrona (não bloqueante)
   const loadWishlistAsync = () => {
     console.log('🔄 loadWishlistAsync chamado');
     console.log('📊 Estado atual:', {
@@ -229,7 +229,7 @@ export const useWishlist = () => {
       wishlistCount: wishlist.value.length,
       hasCache: !!cache,
     });
- 
+
     // Verificar se usuário está autenticado
     const { user } = useAuth();
     if (!user.value) {
@@ -238,7 +238,7 @@ export const useWishlist = () => {
       cache = null;
       return;
     }
- 
+
     if (!loading.value && !isCacheValid()) {
       console.log('🚀 Iniciando carregamento da wishlist...');
       loadWishlist().catch(err => {
@@ -249,9 +249,9 @@ export const useWishlist = () => {
     }
   };
 
-    // Watcher para limpar wishlist quando usuário não estiver autenticado
+  // Watcher para limpar wishlist quando usuário não estiver autenticado
   const { user } = useAuth();
- 
+
   watch(user, newUser => {
     console.log('👤 Status do usuário mudou:', !!newUser);
     if (!newUser) {
