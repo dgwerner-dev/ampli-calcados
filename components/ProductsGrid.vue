@@ -1,15 +1,6 @@
 <template>
   <section class="py-16 bg-white">
     <div class="max-w-7xl mx-auto px-4">
-      <!-- Sort Options -->
-      <div class="mb-6 flex justify-end">
-        <select class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-coral-soft" data-testid="sort-select">
-          <option value="name">Ordenar por Nome</option>
-          <option value="price">Ordenar por Preço</option>
-          <option value="newest">Mais Recentes</option>
-        </select>
-      </div>
-      
       <!-- Products Grid -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" data-testid="products-grid">
         <NuxtLink
