@@ -36,12 +36,14 @@ tests/
 ## 🚀 **Fases Implementadas**
 
 ### **Fase 1: Testes de Composables** ✅
+
 - **Status**: 100% implementado
 - **Arquivos**: 5 composables testados
 - **Cobertura**: Estrutura, métodos e funcionalidades básicas
 - **Abordagem**: Mocking simplificado para evitar problemas de resolução de módulos
 
 ### **Fase 2: Testes de Componentes Vue** ✅
+
 - **Status**: 100% implementado
 - **Arquivos**: 6 componentes principais testados
 - **Cobertura**: Renderização, interações, props, eventos e validações
@@ -49,17 +51,18 @@ tests/
 
 ## 📊 **Estatísticas dos Testes**
 
-| Categoria | Arquivos | Testes | Status |
-|-----------|----------|--------|--------|
-| **API** | 1 | 9 | ✅ Passando |
-| **Componentes** | 6 | 71 | ✅ Passando |
-| **Composables** | 5 | 22 | ✅ Passando |
-| **Utilitários** | 1 | 8 | ✅ Passando |
-| **TOTAL** | **13** | **110** | **✅ 100% Passando** |
+| Categoria       | Arquivos | Testes  | Status               |
+| --------------- | -------- | ------- | -------------------- |
+| **API**         | 1        | 9       | ✅ Passando          |
+| **Componentes** | 6        | 71      | ✅ Passando          |
+| **Composables** | 5        | 22      | ✅ Passando          |
+| **Utilitários** | 1        | 8       | ✅ Passando          |
+| **TOTAL**       | **13**   | **110** | **✅ 100% Passando** |
 
 ## 🧪 **Componentes Testados**
 
 ### **AppHeader.test.ts** (9 testes)
+
 - ✅ Renderização do cabeçalho
 - ✅ Links de navegação
 - ✅ Botões de ação (carrinho, wishlist, login)
@@ -68,6 +71,7 @@ tests/
 - ✅ Estrutura responsiva
 
 ### **AuthModal.test.ts** (11 testes)
+
 - ✅ Renderização do modal
 - ✅ Formulários de login e registro
 - ✅ Validação de campos obrigatórios
@@ -76,6 +80,7 @@ tests/
 - ✅ Interações de formulário
 
 ### **ProductModal.test.ts** (14 testes)
+
 - ✅ Exibição de informações do produto
 - ✅ Seleção de cores e tamanhos
 - ✅ Imagens e miniaturas
@@ -84,6 +89,7 @@ tests/
 - ✅ Estados de wishlist
 
 ### **CheckoutForm.test.ts** (12 testes)
+
 - ✅ Formulário de checkout completo
 - ✅ Campos de endereço obrigatórios
 - ✅ Opções de frete
@@ -92,6 +98,7 @@ tests/
 - ✅ Validação de formulário
 
 ### **Notifications.test.ts** (12 testes)
+
 - ✅ Sistema de notificações toast
 - ✅ Diferentes tipos (success, error, warning, info)
 - ✅ Ícones específicos por tipo
@@ -100,6 +107,7 @@ tests/
 - ✅ Remoção de notificações
 
 ### **ProductsGrid.test.ts** (13 testes)
+
 - ✅ Grade de produtos
 - ✅ Informações de produtos
 - ✅ Opções de cores
@@ -110,6 +118,7 @@ tests/
 ## 🛠️ **Configuração Técnica**
 
 ### **Dependências**
+
 ```json
 {
   "vitest": "^3.2.4",
@@ -121,6 +130,7 @@ tests/
 ```
 
 ### **Configuração do Vitest**
+
 ```typescript
 // vitest.config.ts
 export default defineConfig({
@@ -134,12 +144,13 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
       exclude: ['node_modules/', 'tests/', '**/*.d.ts', '**/*.config.*', '**/coverage/**'],
-    }
-  }
+    },
+  },
 });
 ```
 
 ### **Setup Global**
+
 ```typescript
 // tests/setup.ts
 - Mocking de Vue composables (ref, computed, readonly, etc.)
@@ -168,11 +179,13 @@ npm run test:coverage
 ## 🔧 **Estratégias de Mocking**
 
 ### **Composables (Fase 1)**
+
 - **Abordagem**: Mocking simplificado local
 - **Motivo**: Evitar problemas de resolução de módulos do Vitest
 - **Implementação**: Mock local dentro de cada arquivo de teste
 
 ### **Componentes (Fase 2)**
+
 - **Abordagem**: Mocking de dependências externas
 - **Tecnologia**: @vue/test-utils com happy-dom
 - **Implementação**: Mock de composables e configuração global
@@ -180,6 +193,7 @@ npm run test:coverage
 ## 📈 **Cobertura de Testes**
 
 ### **Funcionalidades Testadas**
+
 - ✅ **Autenticação**: Login, registro, logout
 - ✅ **Carrinho**: Adicionar, remover, calcular totais
 - ✅ **Wishlist**: Adicionar, remover, verificar estado
@@ -189,6 +203,7 @@ npm run test:coverage
 - ✅ **UI/UX**: Interações, responsividade, acessibilidade
 
 ### **Cenários de Teste**
+
 - ✅ **Casos de sucesso**: Fluxos principais
 - ✅ **Casos de erro**: Validações e tratamento de erros
 - ✅ **Estados vazios**: Quando não há dados
@@ -198,11 +213,13 @@ npm run test:coverage
 ## 🚀 **Próximos Passos**
 
 ### **Fase 3: Testes E2E (Recomendado)**
+
 - **Tecnologia**: Playwright
 - **Objetivo**: Testar fluxos completos do usuário
 - **Cobertura**: Navegação, compras, checkout, admin
 
 ### **Fase 4: Testes de Integração**
+
 - **Tecnologia**: Vitest + Supertest
 - **Objetivo**: Testar APIs e integrações
 - **Cobertura**: Endpoints, banco de dados, Supabase

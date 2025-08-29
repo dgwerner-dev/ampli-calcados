@@ -22,7 +22,7 @@ describe('ProductsGrid', () => {
 
   beforeEach(() => {
     const pinia = createPinia();
-    
+
     const mockProducts = [
       {
         id: '1',
@@ -55,9 +55,10 @@ describe('ProductsGrid', () => {
         sizes: ['35', '36', '37', '38', '39'],
       },
     ];
-    
-    wrapper = mount({
-      template: `
+
+    wrapper = mount(
+      {
+        template: `
         <div class="products-grid" data-testid="products-grid">
           <div class="grid-header">
             <h2>Produtos</h2>
@@ -132,63 +133,69 @@ describe('ProductsGrid', () => {
           </div>
         </div>
       `,
-      data() {
-        return {
-          products: mockProducts,
-          sortBy: 'name',
-        };
-      },
-      computed: {
-        sortedProducts() {
-          return [...this.products].sort((a, b) => {
-            if (this.sortBy === 'name') {
-              return a.name.localeCompare(b.name);
-            } else if (this.sortBy === 'price') {
-              return a.price - b.price;
-            } else if (this.sortBy === 'category') {
-              return a.category.localeCompare(b.category);
-            }
-            return 0;
-          });
-        },
-      },
-      methods: {
-        formatPrice(price: number) {
-          return price.toFixed(2).replace('.', ',');
-        },
-        getColorValue(color: string) {
-          const colorMap: { [key: string]: string } = {
-            preto: '#000000',
-            marrom: '#8B4513',
-            branco: '#FFFFFF',
-            azul: '#0000FF',
-            dourado: '#FFD700',
-            prata: '#C0C0C0',
+        data() {
+          return {
+            products: mockProducts,
+            sortBy: 'name',
           };
-          return colorMap[color] || '#CCCCCC';
         },
-        quickView(product: any) {
-          // Mock implementation
+        computed: {
+          sortedProducts(): any[] {
+            // @ts-ignore - Test component, accessing data properties
+            return [...this.products].sort((a: any, b: any) => {
+              // @ts-ignore - Test component, accessing data properties
+              if (this.sortBy === 'name') {
+                return a.name.localeCompare(b.name);
+                // @ts-ignore - Test component, accessing data properties
+              } else if (this.sortBy === 'price') {
+                return a.price - b.price;
+                // @ts-ignore - Test component, accessing data properties
+              } else if (this.sortBy === 'category') {
+                return a.category.localeCompare(b.category);
+              }
+              return 0;
+            });
+          },
         },
-        addToCart(product: any) {
-          // Mock implementation
-        },
-        toggleWishlist(product: any) {
-          // Mock implementation
-        },
-        isInWishlist(productId: string) {
-          return false;
+        methods: {
+          formatPrice(price: number) {
+            return price.toFixed(2).replace('.', ',');
+          },
+          getColorValue(color: string) {
+            const colorMap: { [key: string]: string } = {
+              preto: '#000000',
+              marrom: '#8B4513',
+              branco: '#FFFFFF',
+              azul: '#0000FF',
+              dourado: '#FFD700',
+              prata: '#C0C0C0',
+            };
+            return colorMap[color] || '#CCCCCC';
+          },
+          quickView(product: any) {
+            // Mock implementation
+          },
+          addToCart(product: any) {
+            // Mock implementation
+          },
+          toggleWishlist(product: any) {
+            // Mock implementation
+          },
+          isInWishlist(productId: string) {
+            return false;
+          },
         },
       },
-    }, {
-      global: {
-        plugins: [pinia],
-        mocks: {
-          $route: { path: '/produtos' },
-          $router: { push: vi.fn() },
+      {
+        global: {
+          plugins: [pinia],
+          mocks: {
+            $route: { path: '/produtos' },
+            $router: { push: vi.fn() },
+          },
         },
-      },
-    });
+      }
+    );
   });
 
   it('should render the products grid', () => {
@@ -230,7 +237,7 @@ describe('ProductsGrid', () => {
   it('should have sorting functionality', () => {
     const sortSelect = wrapper.find('[data-testid="sort-select"]');
     expect(sortSelect.exists()).toBe(true);
-    
+
     const options = sortSelect.findAll('option');
     expect(options).toHaveLength(3);
     expect(options[0].text()).toBe('Nome');
@@ -248,7 +255,7 @@ describe('ProductsGrid', () => {
   it('should change sorting when select value changes', async () => {
     const sortSelect = wrapper.find('[data-testid="sort-select"]');
     await sortSelect.setValue('price');
-    
+
     const productPrices = wrapper.findAll('[data-testid="product-price"]');
     expect(productPrices[0].text()).toBe('R$ 159,99'); // Sandália (mais barata)
     expect(productPrices[1].text()).toBe('R$ 199,99'); // Tênis
@@ -259,7 +266,7 @@ describe('ProductsGrid', () => {
     expect(wrapper.find('.products-grid').exists()).toBe(true);
     expect(wrapper.find('.grid-header').exists()).toBe(true);
     expect(wrapper.find('.products-container').exists()).toBe(true);
-    
+
     const productCard = wrapper.find('.product-card');
     expect(productCard.exists()).toBe(true);
     expect(productCard.find('.product-image').exists()).toBe(true);
@@ -269,15 +276,15 @@ describe('ProductsGrid', () => {
 
   it('should display different products with correct data', () => {
     const products = wrapper.findAll('.product-card');
-    
+
     // First product
     expect(products[0].find('[data-testid="product-name"]').text()).toBe('Sandália Feminina');
     expect(products[0].find('[data-testid="product-price"]').text()).toBe('R$ 159,99');
-    
+
     // Second product
     expect(products[1].find('[data-testid="product-name"]').text()).toBe('Sapato Elegante');
     expect(products[1].find('[data-testid="product-price"]').text()).toBe('R$ 299,99');
-    
+
     // Third product
     expect(products[2].find('[data-testid="product-name"]').text()).toBe('Tênis Esportivo');
     expect(products[2].find('[data-testid="product-price"]').text()).toBe('R$ 199,99');

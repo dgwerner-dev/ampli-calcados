@@ -7,9 +7,10 @@ describe('Notifications', () => {
 
   beforeEach(() => {
     const pinia = createPinia();
-    
-    wrapper = mount({
-      template: `
+
+    wrapper = mount(
+      {
+        template: `
         <div class="notifications-container" data-testid="notifications-container">
           <TransitionGroup name="notification" tag="div" class="notifications-list">
             <div
@@ -40,46 +41,48 @@ describe('Notifications', () => {
           </TransitionGroup>
         </div>
       `,
-      data() {
-        return {
-          notifications: [
-            {
-              id: '1',
-              type: 'success',
-              message: 'Produto adicionado ao carrinho!',
-              duration: 3000,
-            },
-            {
-              id: '2',
-              type: 'error',
-              message: 'Erro ao adicionar produto.',
-              duration: 5000,
-            },
-            {
-              id: '3',
-              type: 'warning',
-              message: 'Produto com estoque baixo.',
-              duration: 4000,
-            },
-            {
-              id: '4',
-              type: 'info',
-              message: 'Frete grátis disponível!',
-              duration: 3000,
-            },
-          ],
-        };
-      },
-      methods: {
-        removeNotification(id: string) {
-          this.notifications = this.notifications.filter(n => n.id !== id);
+        data() {
+          return {
+            notifications: [
+              {
+                id: '1',
+                type: 'success',
+                message: 'Produto adicionado ao carrinho!',
+                duration: 3000,
+              },
+              {
+                id: '2',
+                type: 'error',
+                message: 'Erro ao adicionar produto.',
+                duration: 5000,
+              },
+              {
+                id: '3',
+                type: 'warning',
+                message: 'Produto com estoque baixo.',
+                duration: 4000,
+              },
+              {
+                id: '4',
+                type: 'info',
+                message: 'Frete grátis disponível!',
+                duration: 3000,
+              },
+            ],
+          };
+        },
+        methods: {
+          removeNotification(id: string) {
+            this.notifications = this.notifications.filter(n => n.id !== id);
+          },
         },
       },
-    }, {
-      global: {
-        plugins: [pinia],
-      },
-    });
+      {
+        global: {
+          plugins: [pinia],
+        },
+      }
+    );
   });
 
   it('should render notifications container', () => {
@@ -139,10 +142,10 @@ describe('Notifications', () => {
   it('should remove notification when close button is clicked', async () => {
     const closeButton = wrapper.find('[data-testid="close-1"]');
     await closeButton.trigger('click');
-    
+
     const remainingNotifications = wrapper.findAll('[data-testid^="notification-"]');
     expect(remainingNotifications).toHaveLength(3);
-    
+
     const removedNotification = wrapper.find('[data-testid="notification-1"]');
     expect(removedNotification.exists()).toBe(false);
   });
@@ -150,7 +153,7 @@ describe('Notifications', () => {
   it('should have proper CSS classes for styling', () => {
     expect(wrapper.find('.notifications-container').exists()).toBe(true);
     expect(wrapper.find('.notifications-list').exists()).toBe(true);
-    
+
     const notification = wrapper.find('.notification');
     expect(notification.exists()).toBe(true);
     expect(notification.find('.notification-content').exists()).toBe(true);
@@ -161,7 +164,7 @@ describe('Notifications', () => {
 
   it('should handle multiple notification types correctly', () => {
     const notifications = wrapper.findAll('.notification');
-    
+
     expect(notifications[0].classes()).toContain('notification-success');
     expect(notifications[1].classes()).toContain('notification-error');
     expect(notifications[2].classes()).toContain('notification-warning');
