@@ -55,9 +55,10 @@
 </template>
 
 <script setup>
-const props = withDefaults(defineProps<{
-  count?: number;
-}>(), {
-  count: 8,
+const props = defineProps({
+  count: {
+    type: Number,
+    default: 8
+  }
 });
 </script>

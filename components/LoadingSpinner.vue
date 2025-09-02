@@ -20,14 +20,24 @@
 </template>
 
 <script setup>
-const props = withDefaults(defineProps<{
-  size?: 'sm' | 'md' | 'lg' | 'xl';
-  text?: string;
-  subtext?: string;
-  fullHeight?: boolean;
-}>(), {
-  size: 'md',
-  fullHeight: false,
+const props = defineProps({
+  size: {
+    type: String,
+    default: 'md',
+    validator: (value) => ['sm', 'md', 'lg', 'xl'].includes(value)
+  },
+  text: {
+    type: String,
+    default: ''
+  },
+  subtext: {
+    type: String,
+    default: ''
+  },
+  fullHeight: {
+    type: Boolean,
+    default: false
+  }
 });
 
 const containerClass = computed(() => {
