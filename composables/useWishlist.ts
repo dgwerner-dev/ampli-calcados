@@ -63,22 +63,24 @@ export const useWishlist = () => {
         loading.value = true;
         error.value = null;
 
-                console.log('🌐 Fazendo requisição para /api/wishlist...');
-        
+        console.log('🌐 Fazendo requisição para /api/wishlist...');
+
         // Obter token de acesso do Supabase
         let accessToken = null;
         try {
           const supabase = useSupabaseClient();
-          const { data: { session } } = await supabase.auth.getSession();
+          const {
+            data: { session },
+          } = await supabase.auth.getSession();
           accessToken = session?.access_token;
           console.log('🔑 Token de acesso:', accessToken ? 'Presente' : 'Ausente');
         } catch (tokenError) {
           console.warn('⚠️ Erro ao obter token:', tokenError);
         }
-        
-        // Buscar wishlist via API com timeout
+
+        // Buscar wishlist via API com timeout maior
         const response = await $fetch('/api/wishlist', {
-          timeout: 3000, // 3 segundos de timeout
+          timeout: 10000, // 10 segundos de timeout
           headers: accessToken
             ? {
                 Authorization: `Bearer ${accessToken}`,
@@ -99,8 +101,12 @@ export const useWishlist = () => {
           expiresAt: Date.now() + CACHE_DURATION,
         };
 
-        wishlist.value = items;
+                wishlist.value = items;
         console.log('✅ Wishlist atualizada com sucesso:', items.length, 'itens');
+        
+        // Se chegou até aqui, a requisição foi bem-sucedida
+        // Não limpar a wishlist mesmo se houver timeout posterior
+        return;
       } catch (error: any) {
         console.error('❌ Erro ao carregar wishlist:', error);
         console.error('📋 Detalhes do erro:', {
@@ -108,7 +114,7 @@ export const useWishlist = () => {
           message: error.message,
           data: error.data,
         });
-
+        
         // Se o erro for de autenticação, limpar wishlist silenciosamente
         if (
           error.statusCode === 401 ||
