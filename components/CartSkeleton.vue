@@ -70,7 +70,7 @@
 const props = defineProps({
   count: {
     type: Number,
-    default: 3
-  }
+    default: 3,
+  },
 });
 </script>

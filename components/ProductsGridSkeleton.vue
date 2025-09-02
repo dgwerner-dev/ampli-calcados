@@ -58,7 +58,7 @@
 const props = defineProps({
   count: {
     type: Number,
-    default: 8
-  }
+    default: 8,
+  },
 });
 </script>

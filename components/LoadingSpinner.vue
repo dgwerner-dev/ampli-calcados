@@ -24,20 +24,20 @@ const props = defineProps({
   size: {
     type: String,
     default: 'md',
-    validator: (value) => ['sm', 'md', 'lg', 'xl'].includes(value)
+    validator: value => ['sm', 'md', 'lg', 'xl'].includes(value),
   },
   text: {
     type: String,
-    default: ''
+    default: '',
   },
   subtext: {
     type: String,
-    default: ''
+    default: '',
   },
   fullHeight: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 
 const containerClass = computed(() => {
