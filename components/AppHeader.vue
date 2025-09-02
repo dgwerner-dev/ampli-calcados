@@ -521,11 +521,31 @@ const router = useRouter();
 const goTo = async (path: string) => {
   console.log('🚀 goTo chamado com path:', path);
   showUserMenu.value = false;
+  
   try {
-    await router.push(path);
-    console.log('✅ Navegação para', path, 'realizada com sucesso');
+    // Aguardar router estar pronto
+    if (!router) {
+      console.log('⏳ Router não disponível, aguardando...');
+      await nextTick();
+    }
+    
+    // Verificar se ainda estamos no cliente
+    if (process.client) {
+      console.log('🌐 Executando navegação no cliente...');
+      await router.push(path);
+      console.log('✅ Navegação para', path, 'realizada com sucesso');
+    } else {
+      console.log('🔄 Redirecionando via window.location...');
+      window.location.href = path;
+    }
   } catch (error) {
     console.error('❌ Erro na navegação para', path, ':', error);
+    
+    // Fallback: usar window.location se router falhar
+    if (process.client) {
+      console.log('🔄 Fallback: usando window.location...');
+      window.location.href = path;
+    }
   }
 };
 
