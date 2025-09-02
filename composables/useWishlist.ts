@@ -44,7 +44,7 @@ export const useWishlist = () => {
   // Carregar wishlist com cache e otimizações
   const loadWishlist = async (forceRefresh = false) => {
     console.log('🔄 loadWishlist chamado', { forceRefresh });
-    
+
     // Se já está carregando, retornar a promise existente
     if (loadingPromise && !forceRefresh) {
       console.log('⏭️ Já está carregando, retornando promise existente');
@@ -63,21 +63,27 @@ export const useWishlist = () => {
         loading.value = true;
         error.value = null;
 
-        console.log('🌐 Fazendo requisição para /api/wishlist...');
+                console.log('🌐 Fazendo requisição para /api/wishlist...');
         
         // Obter token de acesso do Supabase
-        const { $supabase } = useNuxtApp();
-        const { data: { session } } = await $supabase.auth.getSession();
-        const accessToken = session?.access_token;
-        
-        console.log('🔑 Token de acesso:', accessToken ? 'Presente' : 'Ausente');
+        let accessToken = null;
+        try {
+          const supabase = useSupabaseClient();
+          const { data: { session } } = await supabase.auth.getSession();
+          accessToken = session?.access_token;
+          console.log('🔑 Token de acesso:', accessToken ? 'Presente' : 'Ausente');
+        } catch (tokenError) {
+          console.warn('⚠️ Erro ao obter token:', tokenError);
+        }
         
         // Buscar wishlist via API com timeout
         const response = await $fetch('/api/wishlist', {
           timeout: 3000, // 3 segundos de timeout
-          headers: accessToken ? {
-            'Authorization': `Bearer ${accessToken}`
-          } : {}
+          headers: accessToken
+            ? {
+                Authorization: `Bearer ${accessToken}`,
+              }
+            : {},
         });
 
         console.log('📥 Resposta da API:', response);
@@ -100,9 +106,9 @@ export const useWishlist = () => {
         console.error('📋 Detalhes do erro:', {
           statusCode: error.statusCode,
           message: error.message,
-          data: error.data
+          data: error.data,
         });
-        
+
         // Se o erro for de autenticação, limpar wishlist silenciosamente
         if (
           error.statusCode === 401 ||
