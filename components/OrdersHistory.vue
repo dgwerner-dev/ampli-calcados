@@ -165,9 +165,9 @@
 
     <!-- Loading State -->
     <div v-if="loading" class="py-8">
-      <LoadingSpinner 
-        size="lg" 
-        text="Carregando seus pedidos..." 
+      <LoadingSpinner
+        size="lg"
+        text="Carregando seus pedidos..."
         subtext="Verificando autenticação e buscando dados"
         :fullHeight="true"
       />

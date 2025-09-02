@@ -11,10 +11,10 @@
           <div class="flex items-center space-x-4">
             <!-- Botão de expansão skeleton -->
             <div class="w-8 h-8 bg-gray-200 rounded-xl"></div>
-            
+
             <!-- Ícone do pedido skeleton -->
             <div class="w-10 h-10 bg-gray-200 rounded-xl"></div>
-            
+
             <div class="space-y-2">
               <!-- Número do pedido skeleton -->
               <div class="h-6 bg-gray-200 rounded w-32"></div>
@@ -22,12 +22,12 @@
               <div class="h-4 bg-gray-200 rounded w-24"></div>
             </div>
           </div>
-          
+
           <!-- Status skeleton -->
           <div class="w-20 h-6 bg-gray-200 rounded-full"></div>
         </div>
       </div>
-      
+
       <!-- Conteúdo do pedido -->
       <div class="p-6">
         <div class="space-y-4">
@@ -35,18 +35,18 @@
           <div class="flex items-center space-x-4">
             <!-- Imagem do produto skeleton -->
             <div class="w-16 h-16 bg-gray-200 rounded-lg"></div>
-            
+
             <div class="flex-1 space-y-2">
               <!-- Nome do produto skeleton -->
               <div class="h-4 bg-gray-200 rounded w-3/4"></div>
               <!-- Detalhes do produto skeleton -->
               <div class="h-3 bg-gray-200 rounded w-1/2"></div>
             </div>
-            
+
             <!-- Preço skeleton -->
             <div class="w-20 h-4 bg-gray-200 rounded"></div>
           </div>
-          
+
           <!-- Botões de ação skeleton -->
           <div class="flex space-x-3 pt-4">
             <div class="w-24 h-8 bg-gray-200 rounded-lg"></div>
@@ -59,11 +59,9 @@
 </template>
 
 <script setup>
-interface Props {
+const props = withDefaults(defineProps<{
   count?: number;
-}
-
-const props = withDefaults(defineProps<Props>(), {
+}>(), {
   count: 3,
 });
 </script>

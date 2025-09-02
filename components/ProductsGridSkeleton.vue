@@ -13,38 +13,38 @@
             <div class="flex items-center justify-center aspect-square p-2">
               <div class="w-full h-full bg-gray-200 rounded-lg"></div>
             </div>
-            
+
             <!-- Wishlist Button Skeleton -->
             <div class="absolute top-4 right-4">
               <div class="w-8 h-8 bg-gray-200 rounded-full"></div>
             </div>
           </div>
-          
+
           <!-- Product Info Skeleton -->
           <div class="p-4 space-y-3">
             <!-- Product Name Skeleton -->
             <div class="h-4 bg-gray-200 rounded w-3/4"></div>
-            
+
             <!-- Product Price Skeleton -->
             <div class="h-6 bg-gray-200 rounded w-1/2"></div>
-            
+
             <!-- Color Options Skeleton -->
             <div class="flex space-x-1 mt-2">
               <div class="w-4 h-4 bg-gray-200 rounded-full"></div>
               <div class="w-4 h-4 bg-gray-200 rounded-full"></div>
               <div class="w-4 h-4 bg-gray-200 rounded-full"></div>
             </div>
-            
+
             <!-- Size Options Skeleton -->
             <div class="flex space-x-1 mt-2">
               <div class="w-8 h-6 bg-gray-200 rounded"></div>
               <div class="w-8 h-6 bg-gray-200 rounded"></div>
               <div class="w-8 h-6 bg-gray-200 rounded"></div>
             </div>
-            
+
             <!-- Add to Cart Button Skeleton -->
             <div class="w-full h-8 bg-gray-200 rounded mt-3"></div>
-            
+
             <!-- Ver Detalhes Button Skeleton -->
             <div class="w-full h-8 bg-gray-200 rounded mt-2"></div>
           </div>
@@ -55,11 +55,9 @@
 </template>
 
 <script setup>
-interface Props {
+const props = withDefaults(defineProps<{
   count?: number;
-}
-
-const props = withDefaults(defineProps<Props>(), {
+}>(), {
   count: 8,
 });
 </script>

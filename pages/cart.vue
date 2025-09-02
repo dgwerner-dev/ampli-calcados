@@ -214,8 +214,17 @@
 </template>
 
 <script setup lang="ts">
-const { cart, total, itemCount, isEmpty, removeFromCart, updateQuantity, clearCart, addToCart, loading } =
-  useCart();
+const {
+  cart,
+  total,
+  itemCount,
+  isEmpty,
+  removeFromCart,
+  updateQuantity,
+  clearCart,
+  addToCart,
+  loading,
+} = useCart();
 const { success, error: notificationError } = useNotifications();
 
 // Estado para produtos recomendados
@@ -255,7 +264,7 @@ const addProductToCart = async product => {
 // Carregar produtos recomendados quando a página for montada
 onMounted(() => {
   loadRecommendedProducts();
-  
+
   // Simular loading inicial do carrinho
   if (process.client) {
     loading.value = true;

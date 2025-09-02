@@ -35,19 +35,19 @@ export const useOrders = () => {
   const getUserOrders = async () => {
     loading.value = true;
     error.value = null;
-    
+
     try {
       // Simular um delay mínimo para mostrar o loading state
       await new Promise(resolve => setTimeout(resolve, 500));
-      
+
       const data = await $fetch('/api/orders', {
         headers: {
-          'Accept': 'application/json',
+          Accept: 'application/json',
         },
         timeout: 10000, // 10 segundos de timeout
       });
       orders.value = Array.isArray(data) ? data : [];
-      
+
       if (process.env.NODE_ENV === 'development') {
         console.log('📦 Pedidos carregados com sucesso:', orders.value.length);
       }
@@ -59,7 +59,7 @@ export const useOrders = () => {
       } else {
         error.value = err.message || 'Erro ao buscar pedidos';
       }
-      
+
       if (process.env.NODE_ENV === 'development') {
         console.error('❌ Erro ao buscar pedidos:', err);
       }

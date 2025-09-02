@@ -92,7 +92,7 @@ export const useWishlist = () => {
 
         // Simular um delay mínimo para mostrar o loading state
         await new Promise(resolve => setTimeout(resolve, 300));
-        
+
         // Buscar wishlist via API com timeout maior
         const response = await $fetch('/api/wishlist', {
           timeout: 10000, // 10 segundos de timeout

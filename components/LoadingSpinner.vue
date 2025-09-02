@@ -2,17 +2,14 @@
   <div class="flex items-center justify-center" :class="containerClass">
     <div class="relative">
       <!-- Spinner principal -->
-      <div
-        class="animate-spin rounded-full border-2 border-gray-200"
-        :class="spinnerClass"
-      ></div>
-      
+      <div class="animate-spin rounded-full border-2 border-gray-200" :class="spinnerClass"></div>
+
       <!-- Spinner interno com cor -->
       <div
         class="absolute top-0 left-0 animate-spin rounded-full border-2 border-transparent border-t-coral-soft"
         :class="spinnerClass"
       ></div>
-      
+
       <!-- Texto de loading opcional -->
       <div v-if="text" class="mt-3 text-center">
         <p class="text-sm text-gray-600 font-medium">{{ text }}</p>
@@ -23,14 +20,12 @@
 </template>
 
 <script setup>
-interface Props {
+const props = withDefaults(defineProps<{
   size?: 'sm' | 'md' | 'lg' | 'xl';
   text?: string;
   subtext?: string;
   fullHeight?: boolean;
-}
-
-const props = withDefaults(defineProps<Props>(), {
+}>(), {
   size: 'md',
   fullHeight: false,
 });
