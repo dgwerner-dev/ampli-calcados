@@ -41,19 +41,25 @@ export const useWishlist = () => {
     return Date.now() < cache.expiresAt;
   };
 
-  // Carregar wishlist com cache e otimizações
+    // Carregar wishlist com cache e otimizações
   const loadWishlist = async (forceRefresh = false) => {
-    console.log('🔄 loadWishlist chamado', { forceRefresh });
-
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🔄 loadWishlist chamado', { forceRefresh });
+    }
+    
     // Se já está carregando, retornar a promise existente
     if (loadingPromise && !forceRefresh) {
-      console.log('⏭️ Já está carregando, retornando promise existente');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('⏭️ Já está carregando, retornando promise existente');
+      }
       return loadingPromise;
     }
 
     // Verificar cache primeiro (se não for refresh forçado)
     if (!forceRefresh && isCacheValid()) {
-      console.log('📦 Usando cache válido');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('📦 Usando cache válido');
+      }
       wishlist.value = cache!.items;
       return;
     }
@@ -63,8 +69,10 @@ export const useWishlist = () => {
         loading.value = true;
         error.value = null;
 
-        console.log('🌐 Fazendo requisição para /api/wishlist...');
-
+                if (process.env.NODE_ENV === 'development') {
+          console.log('🌐 Fazendo requisição para /api/wishlist...');
+        }
+        
         // Obter token de acesso do Supabase
         let accessToken = null;
         try {
@@ -73,9 +81,13 @@ export const useWishlist = () => {
             data: { session },
           } = await supabase.auth.getSession();
           accessToken = session?.access_token;
-          console.log('🔑 Token de acesso:', accessToken ? 'Presente' : 'Ausente');
+          if (process.env.NODE_ENV === 'development') {
+            console.log('🔑 Token de acesso:', accessToken ? 'Presente' : 'Ausente');
+          }
         } catch (tokenError) {
-          console.warn('⚠️ Erro ao obter token:', tokenError);
+          if (process.env.NODE_ENV === 'development') {
+            console.warn('⚠️ Erro ao obter token:', tokenError);
+          }
         }
 
         // Buscar wishlist via API com timeout maior
@@ -88,11 +100,15 @@ export const useWishlist = () => {
             : {},
         });
 
-        console.log('📥 Resposta da API:', response);
+        if (process.env.NODE_ENV === 'development') {
+          console.log('📥 Resposta da API:', response);
+        }
 
         const items = response.items || [];
 
-        console.log('📊 Itens recebidos:', items.length);
+        if (process.env.NODE_ENV === 'development') {
+          console.log('📊 Itens recebidos:', items.length);
+        }
 
         // Atualizar cache
         cache = {
@@ -101,27 +117,33 @@ export const useWishlist = () => {
           expiresAt: Date.now() + CACHE_DURATION,
         };
 
-        wishlist.value = items;
-        console.log('✅ Wishlist atualizada com sucesso:', items.length, 'itens');
-
+                wishlist.value = items;
+        if (process.env.NODE_ENV === 'development') {
+          console.log('✅ Wishlist atualizada com sucesso:', items.length, 'itens');
+        }
+        
         // Se chegou até aqui, a requisição foi bem-sucedida
         // Não limpar a wishlist mesmo se houver timeout posterior
         return;
       } catch (error: any) {
-        console.error('❌ Erro ao carregar wishlist:', error);
-        console.error('📋 Detalhes do erro:', {
-          statusCode: error.statusCode,
-          message: error.message,
-          data: error.data,
-        });
-
+        if (process.env.NODE_ENV === 'development') {
+          console.error('❌ Erro ao carregar wishlist:', error);
+          console.error('📋 Detalhes do erro:', {
+            statusCode: error.statusCode,
+            message: error.message,
+            data: error.data,
+          });
+        }
+        
         // Se o erro for de autenticação, limpar wishlist silenciosamente
         if (
           error.statusCode === 401 ||
           error.statusCode === 500 ||
           error.message?.includes('Auth session missing')
         ) {
-          console.log('🔐 Usuário não autenticado, limpando wishlist');
+          if (process.env.NODE_ENV === 'development') {
+            console.log('🔐 Usuário não autenticado, limpando wishlist');
+          }
           wishlist.value = [];
           cache = null;
           return;
@@ -133,10 +155,14 @@ export const useWishlist = () => {
         // Se há cache expirado, usar como fallback
         if (cache && cache.items.length > 0) {
           wishlist.value = cache.items;
-          console.log('⚠️ Usando wishlist em cache como fallback');
+          if (process.env.NODE_ENV === 'development') {
+            console.log('⚠️ Usando wishlist em cache como fallback');
+          }
         } else {
           wishlist.value = [];
-          console.log('📭 Wishlist vazia após erro');
+          if (process.env.NODE_ENV === 'development') {
+            console.log('📭 Wishlist vazia após erro');
+          }
         }
       } finally {
         loading.value = false;
@@ -262,30 +288,40 @@ export const useWishlist = () => {
 
   // Carregar wishlist de forma assíncrona (não bloqueante)
   const loadWishlistAsync = () => {
-    console.log('🔄 loadWishlistAsync chamado');
-    console.log('📊 Estado atual:', {
-      loading: loading.value,
-      cacheValid: isCacheValid(),
-      wishlistCount: wishlist.value.length,
-      hasCache: !!cache,
-    });
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🔄 loadWishlistAsync chamado');
+      console.log('📊 Estado atual:', {
+        loading: loading.value,
+        cacheValid: isCacheValid(),
+        wishlistCount: wishlist.value.length,
+        hasCache: !!cache,
+      });
+    }
 
     // Verificar se usuário está autenticado
     const { user } = useAuth();
     if (!user.value) {
-      console.log('❌ Usuário não autenticado, limpando wishlist');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('❌ Usuário não autenticado, limpando wishlist');
+      }
       wishlist.value = [];
       cache = null;
       return;
     }
 
     if (!loading.value && !isCacheValid()) {
-      console.log('🚀 Iniciando carregamento da wishlist...');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('🚀 Iniciando carregamento da wishlist...');
+      }
       loadWishlist().catch(err => {
-        console.error('Erro ao carregar wishlist de forma assíncrona:', err);
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Erro ao carregar wishlist de forma assíncrona:', err);
+        }
       });
     } else {
-      console.log('⏭️ Pulando carregamento (loading ou cache válido)');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('⏭️ Pulando carregamento (loading ou cache válido)');
+      }
     }
   };
 
@@ -293,13 +329,19 @@ export const useWishlist = () => {
   const { user } = useAuth();
 
   watch(user, newUser => {
-    console.log('👤 Status do usuário mudou:', !!newUser);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('👤 Status do usuário mudou:', !!newUser);
+    }
     if (!newUser) {
-      console.log('🔐 Usuário deslogado, limpando wishlist');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('🔐 Usuário deslogado, limpando wishlist');
+      }
       wishlist.value = [];
       cache = null;
     } else {
-      console.log('✅ Usuário logado, carregando wishlist');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('✅ Usuário logado, carregando wishlist');
+      }
       // Carregar wishlist quando usuário fizer login
       loadWishlistAsync();
     }
