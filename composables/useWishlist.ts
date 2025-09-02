@@ -101,9 +101,9 @@ export const useWishlist = () => {
           expiresAt: Date.now() + CACHE_DURATION,
         };
 
-                wishlist.value = items;
+        wishlist.value = items;
         console.log('✅ Wishlist atualizada com sucesso:', items.length, 'itens');
-        
+
         // Se chegou até aqui, a requisição foi bem-sucedida
         // Não limpar a wishlist mesmo se houver timeout posterior
         return;
@@ -114,7 +114,7 @@ export const useWishlist = () => {
           message: error.message,
           data: error.data,
         });
-        
+
         // Se o erro for de autenticação, limpar wishlist silenciosamente
         if (
           error.statusCode === 401 ||

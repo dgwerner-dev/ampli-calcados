@@ -519,8 +519,14 @@ const handleLoginSuccess = async () => {
 
 const router = useRouter();
 const goTo = async (path: string) => {
+  console.log('🚀 goTo chamado com path:', path);
   showUserMenu.value = false;
-  await router.push(path);
+  try {
+    await router.push(path);
+    console.log('✅ Navegação para', path, 'realizada com sucesso');
+  } catch (error) {
+    console.error('❌ Erro na navegação para', path, ':', error);
+  }
 };
 
 // Removido goToOrders específico em favor de goTo genérico
