@@ -29,6 +29,11 @@
         </div>
       </div>
 
+      <!-- Loading state -->
+      <div v-if="loading" class="py-8">
+        <CartSkeleton :count="3" />
+      </div>
+
       <div v-else class="bg-white shadow overflow-hidden sm:rounded-md">
         <ul class="divide-y divide-gray-200">
           <li v-for="item in cart" :key="item.id" class="px-6 py-4">
@@ -209,7 +214,7 @@
 </template>
 
 <script setup lang="ts">
-const { cart, total, itemCount, isEmpty, removeFromCart, updateQuantity, clearCart, addToCart } =
+const { cart, total, itemCount, isEmpty, removeFromCart, updateQuantity, clearCart, addToCart, loading } =
   useCart();
 const { success, error: notificationError } = useNotifications();
 
@@ -250,6 +255,14 @@ const addProductToCart = async product => {
 // Carregar produtos recomendados quando a página for montada
 onMounted(() => {
   loadRecommendedProducts();
+  
+  // Simular loading inicial do carrinho
+  if (process.client) {
+    loading.value = true;
+    nextTick(() => {
+      loading.value = false;
+    });
+  }
 });
 
 useHead({

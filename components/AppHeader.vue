@@ -523,7 +523,7 @@ const goTo = async (path: string) => {
     console.log('🚀 goTo chamado com path:', path);
   }
   showUserMenu.value = false;
- 
+
   try {
     // Aguardar router estar pronto
     if (!router) {
@@ -532,7 +532,7 @@ const goTo = async (path: string) => {
       }
       await nextTick();
     }
- 
+
     // Verificar se ainda estamos no cliente
     if (process.client) {
       if (process.env.NODE_ENV === 'development') {
@@ -552,7 +552,7 @@ const goTo = async (path: string) => {
     if (process.env.NODE_ENV === 'development') {
       console.error('❌ Erro na navegação para', path, ':', error);
     }
- 
+
     // Fallback: usar window.location se router falhar
     if (process.client) {
       if (process.env.NODE_ENV === 'development') {

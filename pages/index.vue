@@ -24,7 +24,12 @@
     </ClientOnly>
 
     <!-- Products Grid -->
-    <ProductsGrid />
+    <ClientOnly>
+      <ProductsGrid />
+      <template #fallback>
+        <ProductsGridSkeleton />
+      </template>
+    </ClientOnly>
   </div>
 </template>
 

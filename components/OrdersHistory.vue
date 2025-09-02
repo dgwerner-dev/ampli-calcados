@@ -164,19 +164,13 @@
     </div>
 
     <!-- Loading State -->
-    <div v-if="loading" class="flex flex-col justify-center items-center py-16">
-      <div class="relative">
-        <div
-          class="animate-spin rounded-full h-16 w-16 border-4 border-coral-soft/20 border-t-coral-soft"
-        ></div>
-        <div
-          class="absolute inset-0 rounded-full border-4 border-transparent border-t-coral-dark animate-ping"
-        ></div>
-      </div>
-      <div class="mt-6 text-center">
-        <h3 class="text-lg font-semibold text-gray-900 mb-2">Carregando seus pedidos...</h3>
-        <p class="text-gray-500">Aguarde um momento enquanto buscamos suas informações</p>
-      </div>
+    <div v-if="loading" class="py-8">
+      <LoadingSpinner 
+        size="lg" 
+        text="Carregando seus pedidos..." 
+        subtext="Verificando autenticação e buscando dados"
+        :fullHeight="true"
+      />
     </div>
 
     <!-- Error State -->
@@ -240,7 +234,7 @@
         <h3 class="text-xl font-bold text-gray-900 mb-3">
           {{
             productFilter || periodFilter !== 'all' || statusFilter !== 'all'
-              ? 'Nenhum pedido encontrado'
+              ? 'Nenhum pedido encontrado com os filtros atuais'
               : 'Nenhum pedido ainda'
           }}
         </h3>

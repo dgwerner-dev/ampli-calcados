@@ -41,12 +41,12 @@ export const useWishlist = () => {
     return Date.now() < cache.expiresAt;
   };
 
-    // Carregar wishlist com cache e otimizações
+  // Carregar wishlist com cache e otimizações
   const loadWishlist = async (forceRefresh = false) => {
     if (process.env.NODE_ENV === 'development') {
       console.log('🔄 loadWishlist chamado', { forceRefresh });
     }
-    
+
     // Se já está carregando, retornar a promise existente
     if (loadingPromise && !forceRefresh) {
       if (process.env.NODE_ENV === 'development') {
@@ -69,10 +69,10 @@ export const useWishlist = () => {
         loading.value = true;
         error.value = null;
 
-                if (process.env.NODE_ENV === 'development') {
+        if (process.env.NODE_ENV === 'development') {
           console.log('🌐 Fazendo requisição para /api/wishlist...');
         }
-        
+
         // Obter token de acesso do Supabase
         let accessToken = null;
         try {
@@ -90,6 +90,9 @@ export const useWishlist = () => {
           }
         }
 
+        // Simular um delay mínimo para mostrar o loading state
+        await new Promise(resolve => setTimeout(resolve, 300));
+        
         // Buscar wishlist via API com timeout maior
         const response = await $fetch('/api/wishlist', {
           timeout: 10000, // 10 segundos de timeout
@@ -117,11 +120,11 @@ export const useWishlist = () => {
           expiresAt: Date.now() + CACHE_DURATION,
         };
 
-                wishlist.value = items;
+        wishlist.value = items;
         if (process.env.NODE_ENV === 'development') {
           console.log('✅ Wishlist atualizada com sucesso:', items.length, 'itens');
         }
-        
+
         // Se chegou até aqui, a requisição foi bem-sucedida
         // Não limpar a wishlist mesmo se houver timeout posterior
         return;
@@ -134,7 +137,7 @@ export const useWishlist = () => {
             data: error.data,
           });
         }
-        
+
         // Se o erro for de autenticação, limpar wishlist silenciosamente
         if (
           error.statusCode === 401 ||
