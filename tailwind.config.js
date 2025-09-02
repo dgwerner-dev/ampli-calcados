@@ -12,6 +12,7 @@ module.exports = {
     extend: {
       fontFamily: {
         nunito: ['Nunito', 'sans-serif'],
+        raleway: ['Raleway', 'sans-serif'],
       },
       colors: {
         ampli: {

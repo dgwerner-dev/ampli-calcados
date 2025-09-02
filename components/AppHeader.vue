@@ -336,6 +336,7 @@
           <NuxtLink
             to="/produtos"
             class="text-coral-soft hover:text-coral-dark transition-colors font-medium text-sm uppercase tracking-wide"
+            style="font-family: 'Raleway', sans-serif !important"
           >
             Produtos
           </NuxtLink>
@@ -344,6 +345,7 @@
             :key="category.id"
             :to="`/categoria/${category.slug}`"
             class="text-coral-soft hover:text-coral-dark transition-colors font-medium text-sm uppercase tracking-wide"
+            style="font-family: 'Raleway', sans-serif !important"
           >
             {{ category.name }}
           </NuxtLink>
@@ -360,6 +362,7 @@
           :to="`/categoria/${category.slug}`"
           @click="toggleMobileMenu"
           class="block py-3 px-2 text-gray-700 hover:text-black hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium"
+          style="font-family: 'Raleway', sans-serif !important"
         >
           {{ category.name }}
         </NuxtLink>
@@ -498,7 +501,10 @@ const forceLogout = async () => {
   }
 
   try {
-    user.value = null;
+    // Limpar dados do usuário sem modificar a referência
+    if (user.value) {
+      Object.assign(user.value, {});
+    }
     window.localStorage.removeItem('cart');
     window.localStorage.removeItem('nuxt-storage');
     window.sessionStorage.clear();

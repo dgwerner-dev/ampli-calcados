@@ -1,4 +1,4 @@
-import { serverSupabaseUser } from '#supabase/server';
+import { serverSupabaseUser, serverSupabaseClient } from '#supabase/server';
 
 export default defineEventHandler(async event => {
   try {
@@ -22,14 +22,30 @@ export default defineEventHandler(async event => {
         : 'null'
     );
 
+    let userProfile = null;
+
+    if (serverUser) {
+      // Consultar a tabela users para obter a role
+      const supabase = await serverSupabaseClient(event);
+      const { data: profile, error: profileError } = await supabase
+        .from('users')
+        .select('id, email, role')
+        .eq('id', serverUser.id)
+        .single();
+
+      if (!profileError && profile) {
+        userProfile = profile;
+      }
+    }
+
     return {
       timestamp: new Date().toISOString(),
       serverAuthenticated: !!serverUser,
-      serverUser: serverUser
+      serverUser: userProfile
         ? {
-            id: serverUser.id,
-            email: serverUser.email,
-            role: serverUser.user_metadata?.role || 'USER',
+            id: userProfile.id,
+            email: userProfile.email,
+            role: userProfile.role,
           }
         : null,
       hasCookies: !!cookies,

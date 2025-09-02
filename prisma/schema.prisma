@@ -9,24 +9,24 @@ datasource db {
 }
 
 model User {
-  id                String         @id @default(cuid())
-  email             String         @unique
-  name              String?
-  cpf               String?        @unique
-  avatar            String?
-  role              UserRole       @default(USER)
-  isActive          Boolean        @default(true)
-  dateOfBirth       DateTime?
-  phone             String?
-  newsletter        Boolean        @default(false)
-  smsNotifications  Boolean        @default(false)
-  createdAt         DateTime       @default(now())
-  updatedAt         DateTime       @updatedAt
-  orders            Order[]
-  payments          Payment[]
-  reviews           Review[]
-  wishlist          WishlistItem[]
-  addresses         Address[]
+  id               String         @id @default(cuid())
+  email            String         @unique
+  name             String?
+  avatar           String?
+  role             UserRole       @default(USER)
+  isActive         Boolean        @default(true)
+  dateOfBirth      DateTime?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  cpf              String?        @unique
+  newsletter       Boolean        @default(false)
+  phone            String?
+  smsNotifications Boolean        @default(false)
+  addresses        Address[]
+  orders           Order[]
+  payments         Payment[]
+  reviews          Review[]
+  wishlist         WishlistItem[]
 
   @@map("users")
 }
@@ -235,22 +235,33 @@ model Payment {
 }
 
 model Address {
-  id            String   @id @default(cuid())
-  userId        String
-  name          String
-  zipCode       String
-  street        String
-  number        String
-  complement    String?
-  neighborhood  String
-  city          String
-  state         String
-  isDefault     Boolean  @default(false)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  user          User     @relation(fields: [userId], references: [id])
+  id           String   @id @default(cuid())
+  userId       String
+  name         String
+  zipCode      String
+  street       String
+  number       String
+  complement   String?
+  neighborhood String
+  city         String
+  state        String
+  isDefault    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id])
 
   @@map("addresses")
+}
+
+model Settings {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("settings")
 }
 
 enum UserRole {
@@ -286,15 +297,4 @@ enum PaymentMethod {
   PIX
   BOLETO
   BANK_TRANSFER
-}
-
-model Settings {
-  id                    String   @id @default(cuid())
-  key                   String   @unique
-  value                 String
-  description           String?
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
-
-  @@map("settings")
 }

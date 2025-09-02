@@ -40,16 +40,29 @@ export const useAuth = () => {
 
   const loadUserProfile = async (userId: string) => {
     try {
+      console.log('🔍 Carregando perfil do usuário:', userId);
+
       const { data: profile, error } = await supabase
         .from('users')
         .select('*')
         .eq('id', userId)
         .single();
 
+      console.log('📊 Dados do perfil retornados:', profile);
+      console.log('❌ Erro na consulta:', error);
+
       if (error) {
         console.error('Erro ao carregar perfil:', error);
         return;
       }
+
+      console.log('👤 Perfil carregado com sucesso:', {
+        id: profile.id,
+        email: profile.email,
+        name: profile.name,
+        role: profile.role,
+        isActive: profile.isActive,
+      });
 
       user.value = {
         id: profile.id,
@@ -59,6 +72,8 @@ export const useAuth = () => {
         role: profile.role,
         isActive: profile.isActive,
       };
+
+      console.log('✅ Estado do usuário atualizado:', user.value);
     } catch (err) {
       console.error('Erro ao carregar perfil do usuário:', err);
     }

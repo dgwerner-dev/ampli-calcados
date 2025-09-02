@@ -1,4 +1,4 @@
-import { serverSupabaseUser } from '#supabase/server';
+import { serverSupabaseUser, serverSupabaseClient } from '#supabase/server';
 import { PrismaClient } from '@prisma/client';
 
 export default defineEventHandler(async event => {
@@ -6,10 +6,10 @@ export default defineEventHandler(async event => {
     console.log('🔍 Verificando autenticação na API wishlist...');
 
     // Tentar obter usuário via serverSupabaseUser
-    let user = await serverSupabaseUser(event);
+    let authUser = await serverSupabaseUser(event);
 
     // Se não conseguir via serverSupabaseUser, tentar via headers
-    if (!user) {
+    if (!authUser) {
       console.log('⚠️ serverSupabaseUser falhou, tentando via headers...');
       const headers = getHeaders(event);
       const authHeader = headers.authorization;
@@ -24,13 +24,39 @@ export default defineEventHandler(async event => {
       }
     }
 
+    if (!authUser) {
+      console.log('❌ Usuário não autenticado');
+      throw createError({
+        statusCode: 401,
+        statusMessage: 'Usuário não autenticado',
+      });
+    }
+
+    // Consultar a tabela users para obter a role
+    const supabase = await serverSupabaseClient(event);
+    const { data: userProfile, error: profileError } = await supabase
+      .from('users')
+      .select('id, email, role')
+      .eq('id', authUser.id)
+      .single();
+
+    if (profileError) {
+      console.error('❌ Erro ao carregar perfil do usuário:', profileError);
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Erro ao carregar perfil do usuário',
+      });
+    }
+
+    const user = userProfile;
+
     console.log(
       '👤 Usuário encontrado:',
       user
         ? {
             id: user.id,
             email: user.email,
-            role: user.user_metadata?.role,
+            role: user.role,
           }
         : 'null'
     );
