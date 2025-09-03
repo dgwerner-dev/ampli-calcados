@@ -15,6 +15,14 @@ interface FeaturedProduct {
   isActive: boolean;
 }
 
+interface ApiResponse {
+  success: boolean;
+  products?: FeaturedProduct[];
+  error?: string;
+  details?: string;
+  message?: string;
+}
+
 interface CachedData {
   products: FeaturedProduct[];
   timestamp: number;
@@ -57,20 +65,28 @@ export const useFeaturedProducts = () => {
 
       console.log('🌐 Buscando produtos da API...');
       // Buscar produtos em destaque via API com timeout
-      const data = await $fetch('/api/products/featured', {
+      const response: ApiResponse = await $fetch('/api/products/featured', {
         timeout: 5000, // 5 segundos de timeout
       });
 
-      console.log('✅ Produtos recebidos da API:', data?.length || 0);
+      console.log('✅ Resposta da API recebida:', response);
+
+      // Verificar se a API retornou sucesso
+      if (!response.success) {
+        throw new Error(response.error || 'Erro na API');
+      }
+
+      const productsData = response.products || [];
+      console.log('✅ Produtos recebidos da API:', productsData.length);
 
       // Atualizar cache
       cache = {
-        products: data || [],
+        products: productsData,
         timestamp: Date.now(),
         expiresAt: Date.now() + CACHE_DURATION,
       };
 
-      products.value = data || [];
+      products.value = productsData;
       console.log('📊 Estado atualizado:', products.value.length, 'produtos');
     } catch (err: any) {
       console.error('❌ Erro ao carregar produtos em destaque:', err);

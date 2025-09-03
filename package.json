@@ -10,7 +10,7 @@
     "postinstall": "nuxt prepare",
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
-    "db:seed": "prisma db seed",
+    "db:seed": "prisma seed",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "generate-favicons": "node scripts/generate-favicons.js",
@@ -22,7 +22,8 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:debug": "playwright test --debug",
-    "test:e2e:report": "playwright show-report"
+    "test:e2e:report": "playwright show-report",
+    "test:apis": "node scripts/test-apis.js"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

@@ -26,7 +26,12 @@ export const useFreeShippingInfo = () => {
     try {
       const response = await $fetch('/api/shipping-promotions/minimum-free-shipping');
 
-      if (response.success && response.hasPromotion) {
+      // Verificar se a API retornou sucesso
+      if (!response.success) {
+        throw new Error(response.error || 'Erro na API');
+      }
+
+      if (response.hasPromotion && response.promotion) {
         const promotion = response.promotion;
 
         freeShippingInfo.value = {

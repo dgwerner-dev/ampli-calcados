@@ -436,10 +436,18 @@ watch(user, newUser => {
 
 const loadCategories = async () => {
   try {
-    const data = await $fetch('/api/categories');
-    categories.value = data;
+    const response = await $fetch('/api/categories');
+    
+    // Verificar se a API retornou sucesso
+    if (response.success) {
+      categories.value = response.categories || [];
+    } else {
+      console.error('Erro na API de categorias:', response.error);
+      categories.value = [];
+    }
   } catch (err) {
     console.error('Erro ao carregar categorias:', err);
+    categories.value = [];
   }
 };
 
