@@ -56,6 +56,7 @@ export default defineNuxtConfig({
       supabaseUrl: process.env.SUPABASE_URL,
       supabaseKey: process.env.SUPABASE_ANON_KEY,
       pagbankEnvironment: process.env.PAGBANK_ENVIRONMENT || 'sandbox',
+      policyVersion: process.env.POLICY_VERSION || '1.0.0',
     },
   },
   supabase: {

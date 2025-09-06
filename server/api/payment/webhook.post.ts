@@ -1,16 +1,30 @@
 import { usePagBank } from '~/composables/usePagBank';
+import crypto from 'node:crypto';
 
 export default defineEventHandler(async event => {
   try {
-    const body = await readBody(event);
+    const config = useRuntimeConfig();
 
-    // Verificar assinatura do webhook (recomendado para produção)
-    const signature = getHeader(event, 'x-pagbank-signature');
-    if (!signature) {
-      console.warn('Webhook sem assinatura recebido');
+    // Ler corpo CRU para validar assinatura
+    const rawBody = await readRawBody(event, 'utf8');
+    const signature = getHeader(event, 'x-pagbank-signature') || '';
+
+    if (config.pagbankWebhookSecret) {
+      try {
+        const expected = crypto
+          .createHmac('sha256', config.pagbankWebhookSecret)
+          .update(rawBody || '')
+          .digest('hex');
+        if (expected !== signature) {
+          throw createError({ statusCode: 401, statusMessage: 'Assinatura inválida' });
+        }
+      } catch (err) {
+        throw createError({ statusCode: 401, statusMessage: 'Assinatura inválida' });
+      }
     }
 
-    // Processar webhook
+    const body = rawBody ? JSON.parse(rawBody as string) : {};
+
     const pagBank = usePagBank();
     await pagBank.handleWebhook(body);
 

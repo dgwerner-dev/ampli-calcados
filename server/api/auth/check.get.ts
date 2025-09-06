@@ -2,25 +2,12 @@ import { serverSupabaseUser, serverSupabaseClient } from '#supabase/server';
 
 export default defineEventHandler(async event => {
   try {
-    console.log('🔍 Verificando autenticação do cliente...');
-
     // Tentar obter o usuário do servidor
     const serverUser = await serverSupabaseUser(event);
 
     // Obter headers para debug
     const headers = getHeaders(event);
     const cookies = headers.cookie;
-
-    console.log('🍪 Cookies recebidos:', cookies ? 'Sim' : 'Não');
-    console.log(
-      '👤 Usuário do servidor:',
-      serverUser
-        ? {
-            id: serverUser.id,
-            email: serverUser.email,
-          }
-        : 'null'
-    );
 
     let userProfile = null;
 

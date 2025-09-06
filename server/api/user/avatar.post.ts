@@ -1,5 +1,6 @@
 import { serverSupabaseUser } from '#supabase/server';
 import { PrismaClient } from '@prisma/client';
+import { createSupabaseServerClient } from '~/utils/supabase-server';
 
 export default defineEventHandler(async event => {
   const prisma = new PrismaClient();
@@ -41,21 +42,37 @@ export default defineEventHandler(async event => {
       });
     }
 
-    // Converter para base64 para armazenar no banco
-    const buffer = await file.arrayBuffer();
-    const base64 = Buffer.from(buffer).toString('base64');
-    const dataUrl = `data:${file.type};base64,${base64}`;
+    // Upload para Supabase Storage (bucket: avatars)
+    const supabase = createSupabaseServerClient();
+    const arrayBuffer = await file.arrayBuffer();
+    const fileExt = file.name?.split('.').pop() || 'png';
+    const objectPath = `${user.id}/${Date.now()}.${fileExt}`;
 
-    // Atualizar avatar no banco de dados
+    const { error: uploadError } = await supabase.storage
+      .from('avatars')
+      .upload(objectPath, arrayBuffer, {
+        contentType: file.type,
+        upsert: true,
+      });
+
+    if (uploadError) {
+      throw createError({ statusCode: 500, statusMessage: 'Falha no upload do avatar' });
+    }
+
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from('avatars').getPublicUrl(objectPath);
+
+    // Atualizar avatar no banco de dados com a URL
     await prisma.user.update({
       where: { id: user.id },
-      data: { avatar: dataUrl },
+      data: { avatar: publicUrl },
     });
 
     return {
       success: true,
       message: 'Avatar atualizado com sucesso',
-      avatar: dataUrl,
+      avatar: publicUrl,
     };
   } catch (error) {
     console.error('Erro ao atualizar avatar:', error);

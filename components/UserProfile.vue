@@ -246,6 +246,9 @@
                 type="date"
                 class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-all duration-200 bg-gray-50 focus:bg-white"
               />
+              <p v-if="isUnderAge" class="text-xs text-red-600 mt-1">
+                Você declara ser maior de 18 anos ou possuir consentimento do responsável.
+              </p>
             </div>
 
             <!-- Preferences Section -->
@@ -346,6 +349,24 @@
                 </svg>
                 Restaurar
               </button>
+              <div class="flex-1 flex gap-2 justify-end">
+                <button
+                  type="button"
+                  @click="exportData"
+                  :disabled="updating"
+                  class="inline-flex justify-center items-center px-4 py-3 border border-gray-200 shadow-lg text-sm font-semibold rounded-xl text-gray-700 bg-white hover:bg-gray-50 hover:border-coral-soft focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Exportar dados
+                </button>
+                <button
+                  type="button"
+                  @click="requestDeletion"
+                  :disabled="updating"
+                  class="inline-flex justify-center items-center px-4 py-3 border border-red-200 shadow-lg text-sm font-semibold rounded-xl text-red-700 bg-white hover:bg-red-50 hover:border-red-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-300 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Excluir/Anonimizar conta
+                </button>
+              </div>
             </div>
           </form>
         </div>
@@ -821,6 +842,18 @@ const userInitials = computed(() => {
     .slice(0, 2);
 });
 
+const isUnderAge = computed(() => {
+  if (!form.value.dateOfBirth) return false;
+  const dob = new Date(form.value.dateOfBirth);
+  if (isNaN(dob.getTime())) return false;
+  const now = new Date();
+  const age =
+    now.getFullYear() -
+    dob.getFullYear() -
+    (now < new Date(now.getFullYear(), dob.getMonth(), dob.getDate()) ? 1 : 0);
+  return age < 18;
+});
+
 // Methods
 const triggerFileUpload = () => {
   fileInput.value?.click();
@@ -1066,4 +1099,37 @@ const resetForm = () => {
 onMounted(() => {
   loadUserData();
 });
+
+const exportData = async () => {
+  try {
+    const data = await $fetch('/api/user/export');
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'meus-dados.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    success('✅ Seus dados foram exportados.');
+  } catch (err) {
+    console.error('Erro ao exportar dados:', err);
+    error('Erro ao exportar dados');
+  }
+};
+
+const requestDeletion = async () => {
+  if (!confirm('Tem certeza? Esta ação anonimiza seus dados e desativa sua conta.')) return;
+  try {
+    await $fetch('/api/user/profile', { method: 'DELETE' });
+    success('✅ Solicitação concluída. Sua conta foi desativada/anonimizada.');
+    // Opcional: fazer sign out
+    const { signOut } = useAuth();
+    await signOut();
+  } catch (err) {
+    console.error('Erro ao excluir dados:', err);
+    error('Erro ao processar solicitação.');
+  }
+};
 </script>

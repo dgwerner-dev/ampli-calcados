@@ -134,16 +134,56 @@ export default defineEventHandler(async event => {
       pagBankResponse = await pagBank.createOrder(pagBankOrder);
     }
 
+    // Montar payload minimizado sem dados sensíveis
+    const firstCharge = Array.isArray(pagBankResponse?.charges) ? pagBankResponse.charges[0] : null;
+    const sanitizedPaymentData = {
+      id: pagBankResponse?.id,
+      reference_id: pagBankResponse?.reference_id,
+      status: pagBankResponse?.status,
+      created_at: pagBankResponse?.created_at,
+      amount: pagBankResponse?.amount?.value ?? Math.round(order.total * 100),
+      currency: pagBankResponse?.amount?.currency ?? 'BRL',
+      charge: firstCharge
+        ? {
+            id: firstCharge.id,
+            reference_id: firstCharge.reference_id,
+            status: firstCharge.status,
+            links: firstCharge.links?.map((l: any) => ({
+              rel: l.rel,
+              href: l.href,
+              media: l.media,
+            })),
+            payment_method:
+              paymentMethod === 'pix'
+                ? {
+                    type: 'pix',
+                    expires_in: firstCharge.payment_method?.pix?.expires_in,
+                    pix: {
+                      qr_codes: firstCharge.payment_method?.pix?.qr_codes?.map((q: any) => ({
+                        text: q.text,
+                        links: q.links?.map((l: any) => ({ rel: l.rel, href: l.href })),
+                      })),
+                    },
+                  }
+                : {
+                    type: 'credit_card',
+                    installments: firstCharge.payment_method?.installments,
+                    capture: firstCharge.payment_method?.capture,
+                  },
+          }
+        : null,
+    };
+
     // Salvar dados do pagamento no banco
     const { error: paymentError } = await supabase.from('payments').insert({
       orderId,
       userId: user.id,
       pagBankOrderId: pagBankResponse.id,
-      pagBankChargeId: pagBankResponse.charges[0].id,
+      pagBankChargeId: firstCharge?.id,
       paymentMethod,
       amount: order.total,
       status: 'PENDING',
-      paymentData: pagBankResponse,
+      paymentData: sanitizedPaymentData,
     });
 
     if (paymentError) {
