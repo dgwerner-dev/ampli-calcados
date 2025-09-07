@@ -1,8 +1,8 @@
 import { serverSupabaseUser } from '#supabase/server';
-import { PrismaClient } from '@prisma/client';
+import { usePrisma } from '~/composables/usePrisma';
 
 export default defineEventHandler(async event => {
-  const prisma = new PrismaClient();
+  const prisma = usePrisma();
 
   try {
     // Verificar autenticação
@@ -122,10 +122,8 @@ export default defineEventHandler(async event => {
         status: order.status,
       },
     };
-    await prisma.$disconnect();
     return result;
   } catch (error: any) {
-    await prisma.$disconnect();
     console.error('❌ Erro ao criar pedido:', error);
     console.error('📋 Stack trace:', error.stack);
 
