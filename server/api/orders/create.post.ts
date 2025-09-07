@@ -1,4 +1,4 @@
-import { serverSupabaseUser, serverSupabaseClient } from '#supabase/server';
+import { serverSupabaseUser } from '#supabase/server';
 import { PrismaClient } from '@prisma/client';
 
 export default defineEventHandler(async event => {
@@ -43,44 +43,37 @@ export default defineEventHandler(async event => {
       });
     }
 
-    const supabase = await serverSupabaseClient(event);
-
-    // Buscar dados de todos os produtos
-
+    // Buscar dados de todos os produtos (via Prisma)
     let total = 0;
     const products = [];
 
     for (const item of items) {
-      const { data: product, error: productError } = await supabase
-        .from('products')
-        .select('*')
-        .eq('id', item.productId)
-        .single();
+      const product = await prisma.product.findUnique({
+        where: { id: item.productId },
+      });
 
-      if (productError || !product) {
-        console.error('❌ Erro ao buscar produto:', item.productId, productError);
+      if (!product) {
+        console.error('❌ Erro ao buscar produto (Prisma):', item.productId);
         throw createError({
           statusCode: 404,
           statusMessage: `Produto ${item.productId} não encontrado`,
         });
       }
 
-      const typedProduct = product as any;
-
       // Verificar se o produto está em estoque
-      if (!typedProduct.inStock) {
+      if (!product.inStock) {
         throw createError({
           statusCode: 400,
-          statusMessage: `Produto ${typedProduct.name} fora de estoque`,
+          statusMessage: `Produto ${product.name} fora de estoque`,
         });
       }
 
       // Calcular subtotal do item
-      const itemTotal = typedProduct.price * item.quantity;
+      const itemTotal = Number(product.price) * item.quantity;
       total += itemTotal;
 
       products.push({
-        ...typedProduct,
+        ...product,
         itemQuantity: item.quantity,
         itemSize: item.size,
         itemColor: item.color,
