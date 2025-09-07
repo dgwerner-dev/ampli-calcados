@@ -53,6 +53,7 @@ export default defineEventHandler(async event => {
             },
           },
         },
+        payments: true,
       },
     });
 

@@ -45,9 +45,19 @@ export default defineNuxtConfig({
     geminiApiKey: process.env.GEMINI_API_KEY,
 
     // PagBank configuration
-    pagbankAccessToken: process.env.PAGBANK_ACCESS_TOKEN,
-    pagbankEnvironment: process.env.PAGBANK_ENVIRONMENT || 'sandbox',
+    // Em dev: usa SOMENTE o token local; em prod: SOMENTE o token de produção
+    pagbankAccessToken:
+      process.env.NODE_ENV === 'production'
+        ? process.env.PAGBANK_ACCESS_TOKEN
+        : process.env.PAGBANK_ACCESS_TOKEN_LOCAL,
+    pagbankClientId: process.env.PAGBANK_CLIENT_ID,
+    pagbankClientSecret: process.env.PAGBANK_CLIENT_SECRET,
+    // Usa sandbox por padrão em dev/test e production em produção, permitindo override por env var
+    pagbankEnvironment:
+      process.env.PAGBANK_ENVIRONMENT ||
+      (process.env.NODE_ENV === 'production' ? 'production' : 'sandbox'),
     pagbankWebhookSecret: process.env.PAGBANK_WEBHOOK_SECRET,
+    pagbankWebhookPublicUrl: process.env.PAGBANK_WEBHOOK_PUBLIC_URL,
 
     // Correios API configuration
     correiosAccessCode: process.env.CORREIOS_ACCESS_CODE,
@@ -55,7 +65,10 @@ export default defineNuxtConfig({
     public: {
       supabaseUrl: process.env.SUPABASE_URL,
       supabaseKey: process.env.SUPABASE_ANON_KEY,
-      pagbankEnvironment: process.env.PAGBANK_ENVIRONMENT || 'sandbox',
+      pagbankEnvironment:
+        process.env.PAGBANK_ENVIRONMENT ||
+        (process.env.NODE_ENV === 'production' ? 'production' : 'sandbox'),
+      pagbankClientId: process.env.PAGBANK_CLIENT_ID,
       policyVersion: process.env.POLICY_VERSION || '1.0.0',
     },
   },

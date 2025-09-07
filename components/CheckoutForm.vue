@@ -84,7 +84,20 @@
               </div>
               <div v-else class="flex justify-between items-center text-sm text-gray-600 mb-2">
                 <span>Subtotal</span>
-                <span>R$ {{ formatPrice(total) }}</span>
+                <span
+                  >R$
+                  {{
+                    formatPrice(
+                      orderItems.reduce(
+                        (acc, i) =>
+                          acc +
+                          Number((i.price as any)?.toString?.() || i.price || 0) *
+                            (i.quantity || 0),
+                        0
+                      )
+                    )
+                  }}</span
+                >
               </div>
 
               <!-- Opções de Frete -->
@@ -237,7 +250,20 @@
             <div class="border-t border-gray-200 pt-4">
               <div class="flex justify-between items-center text-lg font-bold text-gray-900">
                 <span>Total</span>
-                <span>R$ {{ formatPrice(total + (selectedShippingOption?.cost || 0)) }}</span>
+                <span
+                  >R$
+                  {{
+                    formatPrice(
+                      orderItems.reduce(
+                        (acc, i) =>
+                          acc +
+                          Number((i.price as any)?.toString?.() || i.price || 0) *
+                            (i.quantity || 0),
+                        0
+                      ) + (selectedShippingOption?.cost || 0)
+                    )
+                  }}</span
+                >
               </div>
             </div>
 
@@ -547,7 +573,7 @@
             <div v-else class="pt-8">
               <button
                 type="submit"
-                :disabled="loading"
+                :disabled="loading || paymentLocked"
                 class="w-full bg-gradient-to-r from-coral-soft to-coral-dark hover:from-coral-dark hover:to-coral-soft text-white font-semibold py-4 px-6 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
               >
                 <svg
@@ -571,8 +597,17 @@
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                   ></path>
                 </svg>
-                {{ loading ? 'Processando...' : `Comprar Agora` }}
+                {{
+                  loading
+                    ? 'Processando...'
+                    : paymentLocked
+                      ? 'Aguardando pagamento PIX'
+                      : `Comprar Agora`
+                }}
               </button>
+              <p v-if="paymentLocked" class="mt-2 text-xs text-gray-500">
+                Método de pagamento travado até confirmação ou atualização da página.
+              </p>
             </div>
           </form>
         </div>
@@ -596,46 +631,19 @@
           </div>
 
           <div class="p-6">
-            <div class="grid grid-cols-1 gap-4 mb-6">
+            <div
+              class="grid grid-cols-1 gap-4 mb-6"
+              :class="paymentLocked ? 'opacity-60 pointer-events-none' : ''"
+            >
+              <!-- Temporariamente ocultamos cartão de crédito -->
               <label class="relative cursor-pointer">
                 <input
                   v-model="form.paymentMethod"
-                  value="credit_card"
+                  value="pix"
                   type="radio"
                   class="sr-only"
+                  :disabled="paymentLocked"
                 />
-                <div
-                  class="border-2 rounded-lg p-4 transition-all duration-200"
-                  :class="
-                    form.paymentMethod === 'credit_card'
-                      ? 'border-coral-soft bg-coral-soft/5'
-                      : 'border-gray-200 hover:border-gray-300'
-                  "
-                >
-                  <div class="flex items-center">
-                    <div
-                      class="w-5 h-5 border-2 rounded-full mr-3 flex items-center justify-center"
-                      :class="
-                        form.paymentMethod === 'credit_card'
-                          ? 'border-coral-soft'
-                          : 'border-gray-300'
-                      "
-                    >
-                      <div
-                        v-if="form.paymentMethod === 'credit_card'"
-                        class="w-3 h-3 bg-coral-soft rounded-full"
-                      ></div>
-                    </div>
-                    <div>
-                      <div class="font-medium text-gray-900">Cartão de Crédito</div>
-                      <div class="text-sm text-gray-500">Pague com segurança</div>
-                    </div>
-                  </div>
-                </div>
-              </label>
-
-              <label class="relative cursor-pointer">
-                <input v-model="form.paymentMethod" value="pix" type="radio" class="sr-only" />
                 <div
                   class="border-2 rounded-lg p-4 transition-all duration-200"
                   :class="
@@ -728,7 +736,18 @@
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
                   >
                     <option v-for="i in 12" :key="i" :value="i">
-                      {{ i }}x de R$ {{ formatPrice(total / i) }}
+                      {{ i }}x de R$
+                      {{
+                        formatPrice(
+                          orderItems.reduce(
+                            (acc, it) =>
+                              acc +
+                              Number((it.price as any)?.toString?.() || it.price || 0) *
+                                (it.quantity || 0),
+                            0
+                          ) / i
+                        )
+                      }}
                     </option>
                   </select>
                 </div>
@@ -1111,6 +1130,7 @@ const loadingProfile = ref(true);
 const showPixModal = ref(false);
 const pixQrCode = ref('');
 const pixCode = ref('');
+const paymentLocked = ref(false);
 const showNewAddressModal = ref(false);
 const savedAddresses = ref<any[]>([]);
 const selectedAddressId = ref<string | null>(null);
@@ -1137,7 +1157,8 @@ const form = ref({
     city: '',
     state: '',
   },
-  paymentMethod: 'credit_card',
+  // Temporariamente permitimos apenas PIX
+  paymentMethod: 'pix',
   card: {
     number: '',
     holderName: '',
@@ -1276,9 +1297,13 @@ const processPayment = async () => {
       if (form.value.paymentMethod === 'pix') {
         // Mostrar modal PIX
         const orderData = response.order as any;
-        pixQrCode.value = orderData.charges[0].payment_method.pix.qr_codes[0].links[0].href;
-        pixCode.value = orderData.charges[0].payment_method.pix.qr_codes[0].text;
+        const firstQr = Array.isArray(orderData?.qr_codes) ? orderData.qr_codes[0] : null;
+        if (firstQr) {
+          pixQrCode.value = firstQr.links?.[0]?.href || '';
+          pixCode.value = firstQr.text || '';
+        }
         showPixModal.value = true;
+        paymentLocked.value = true;
       } else {
         // Pagamento com cartão
         success('Pagamento processado com sucesso!');
@@ -1303,10 +1328,10 @@ const copyPixCode = async () => {
   }
 };
 
-const closePixModal = () => {
+const closePixModal = async () => {
   showPixModal.value = false;
-  pixQrCode.value = '';
-  pixCode.value = '';
+  // Redireciona para a lista de pedidos
+  await navigateTo('/orders');
 };
 
 // Funções para gerenciar endereços
@@ -1314,6 +1339,24 @@ const loadSavedAddresses = async () => {
   try {
     const response = await $fetch('/api/addresses');
     savedAddresses.value = response.addresses;
+    // Seleciona endereço padrão (ou o primeiro) automaticamente
+    if (Array.isArray(savedAddresses.value) && savedAddresses.value.length > 0) {
+      let toSelect = savedAddresses.value.find((a: any) => a.isDefault) || savedAddresses.value[0];
+      selectedAddressId.value = toSelect.id;
+      form.value.address = {
+        zipCode: toSelect.zipCode,
+        street: toSelect.street,
+        number: toSelect.number,
+        complement: toSelect.complement || '',
+        neighborhood: toSelect.neighborhood,
+        city: toSelect.city,
+        state: toSelect.state,
+      };
+      const cepDigits = (toSelect.zipCode || '').replace(/\D/g, '');
+      if (cepDigits.length === 8) {
+        await calculateShipping(cepDigits);
+      }
+    }
   } catch (error: any) {
     console.error('Erro ao carregar endereços:', error);
     // Se o erro for de autenticação, não mostrar erro para o usuário

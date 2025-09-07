@@ -326,8 +326,10 @@
             </div>
             <div class="flex items-center space-x-3">
               <div class="text-right">
-                <p class="text-sm text-gray-500">Total</p>
-                <p class="text-lg font-bold text-gray-900">{{ formatPrice(order.total) }}</p>
+                <p class="text-sm text-gray-500">Total com frete</p>
+                <p class="text-lg font-bold text-gray-900">
+                  {{ formatPrice(getItemsSubtotal(order) + Number(order.shipping || 0)) }}
+                </p>
               </div>
               <span
                 :class="[
@@ -472,11 +474,7 @@
                   <div class="space-y-2">
                     <div class="flex justify-between text-sm">
                       <span class="text-gray-600">Subtotal:</span>
-                      <span class="font-medium">{{
-                        formatPrice(
-                          Number(order.total) - Number(order.shipping) - Number(order.tax)
-                        )
-                      }}</span>
+                      <span class="font-medium">{{ formatPrice(getItemsSubtotal(order)) }}</span>
                     </div>
                     <div v-if="Number(order.shipping) > 0" class="flex justify-between text-sm">
                       <span class="text-gray-600">Frete:</span>
@@ -491,9 +489,9 @@
                   </div>
                   <div class="text-right">
                     <div class="text-2xl font-bold text-gray-900">
-                      {{ formatPrice(order.total) }}
+                      {{ formatPrice(getItemsSubtotal(order) + Number(order.shipping || 0)) }}
                     </div>
-                    <p class="text-sm text-gray-500">Total do Pedido</p>
+                    <p class="text-sm text-gray-500">Total com frete</p>
                   </div>
                 </div>
               </div>
@@ -502,63 +500,64 @@
             <!-- Order Actions -->
             <div class="mt-6 pt-6 border-t border-gray-200">
               <div class="flex flex-wrap justify-end gap-3">
-                <button
-                  v-if="order.status === 'PENDING'"
-                  @click="addMoreItemsToOrder(order)"
-                  class="inline-flex items-center px-6 py-3 border border-coral-soft shadow-lg text-sm font-semibold rounded-xl text-coral-soft bg-white hover:bg-coral-soft hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-all duration-200"
-                >
-                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M12 4v16m8-8H4"
-                    ></path>
-                  </svg>
-                  Adicionar Mais Itens
-                </button>
-                <button
-                  v-if="order.status === 'PENDING'"
-                  @click="finalizeOrder(order)"
-                  :disabled="finalizingOrder === order.id"
-                  class="inline-flex items-center px-6 py-3 border border-transparent shadow-lg text-sm font-semibold rounded-xl text-white bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
-                >
-                  <svg
-                    v-if="finalizingOrder === order.id"
-                    class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
+                <!-- Em Aguardando pagamento, removemos botões de alteração/adição -->
+                <template v-if="order.status !== 'PENDING'">
+                  <button
+                    @click="addMoreItemsToOrder(order)"
+                    class="inline-flex items-center px-6 py-3 border border-coral-soft shadow-lg text-sm font-semibold rounded-xl text-coral-soft bg-white hover:bg-coral-soft hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-all duration-200"
                   >
-                    <circle
-                      class="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 4v16m8-8H4"
+                      ></path>
+                    </svg>
+                    Adicionar Mais Itens
+                  </button>
+                  <button
+                    @click="finalizeOrder(order)"
+                    :disabled="finalizingOrder === order.id"
+                    class="inline-flex items-center px-6 py-3 border border-transparent shadow-lg text-sm font-semibold rounded-xl text-white bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duração-200"
+                  >
+                    <svg
+                      v-if="finalizingOrder === order.id"
+                      class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        class="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        stroke-width="4"
+                      ></circle>
+                      <path
+                        class="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    <svg
+                      v-else
+                      class="w-4 h-4 mr-2"
+                      fill="none"
                       stroke="currentColor"
-                      stroke-width="4"
-                    ></circle>
-                    <path
-                      class="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    ></path>
-                  </svg>
-                  <svg
-                    v-else
-                    class="w-4 h-4 mr-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-                    ></path>
-                  </svg>
-                  {{ finalizingOrder === order.id ? 'Redirecionando...' : 'Finalizar Pedido' }}
-                </button>
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                      ></path>
+                    </svg>
+                    {{ finalizingOrder === order.id ? 'Redirecionando...' : 'Finalizar Pedido' }}
+                  </button>
+                </template>
                 <button
                   @click="viewOrderDetails(order)"
                   class="inline-flex items-center px-6 py-3 border border-gray-200 shadow-lg text-sm font-semibold rounded-xl text-gray-700 bg-white hover:bg-gray-50 hover:border-coral-soft focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coral-soft transition-all duration-200"
@@ -653,8 +652,14 @@
                 </span>
               </div>
               <div>
-                <p class="text-gray-600">Total:</p>
-                <p class="font-medium text-lg">{{ formatPrice(selectedOrder.total) }}</p>
+                <p class="text-gray-600">Total com frete:</p>
+                <p class="font-medium text-lg">
+                  {{
+                    formatPrice(
+                      getItemsSubtotal(selectedOrder) + Number(selectedOrder.shipping || 0)
+                    )
+                  }}
+                </p>
               </div>
               <div v-if="selectedOrder.shipping > 0">
                 <p class="text-gray-600">Frete:</p>
@@ -709,27 +714,30 @@
             <h4 class="font-semibold text-gray-900 mb-3">Resumo Financeiro</h4>
             <div class="space-y-2 text-sm">
               <div class="flex justify-between">
-                <span class="text-gray-600">Subtotal:</span>
-                <span>{{
-                  formatPrice(
-                    Number(selectedOrder.total) -
-                      Number(selectedOrder.shipping) -
-                      Number(selectedOrder.tax)
-                  )
-                }}</span>
+                <span class="text-gray-600">Valor dos produtos:</span>
+                <span>{{ formatPrice(getItemsSubtotal(selectedOrder)) }}</span>
               </div>
-              <div v-if="Number(selectedOrder.shipping) > 0" class="flex justify-between">
+              <div class="flex justify-between">
                 <span class="text-gray-600">Frete:</span>
-                <span>{{ formatPrice(selectedOrder.shipping) }}</span>
+                <span>{{ formatPrice(selectedOrder.shipping || 0) }}</span>
               </div>
-              <div v-if="Number(selectedOrder.tax) > 0" class="flex justify-between">
-                <span class="text-gray-600">Impostos:</span>
-                <span>{{ formatPrice(selectedOrder.tax) }}</span>
+              <!-- Impostos removidos da soma para evitar diferença de R$ 1 -->
+              <div class="flex justify-between">
+                <span class="text-gray-600">Método de pagamento:</span>
+                <span class="font-medium">
+                  {{
+                    selectedOrder.payments?.[0]?.paymentMethod === 'PIX'
+                      ? 'PIX'
+                      : selectedOrder.payments?.[0]?.paymentMethod === 'CREDIT_CARD'
+                        ? 'Cartão de Crédito'
+                        : selectedOrder.payments?.[0]?.paymentMethod || '—'
+                  }}
+                </span>
               </div>
               <div class="flex justify-between border-t border-gray-300 pt-2">
-                <span class="font-semibold text-gray-900">Total:</span>
+                <span class="font-semibold text-gray-900">Total com frete:</span>
                 <span class="font-bold text-lg text-gray-900">{{
-                  formatPrice(selectedOrder.total)
+                  formatPrice(getItemsSubtotal(selectedOrder) + Number(selectedOrder.shipping || 0))
                 }}</span>
               </div>
             </div>
@@ -757,7 +765,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const {
   orders,
   loading,
@@ -807,6 +815,18 @@ const filteredOrders = computed(() => {
   return filtered;
 });
 
+// Subtotal dos itens (sem frete) para um pedido vindo da API
+const getItemsSubtotal = order => {
+  try {
+    return (order?.orderItems || []).reduce((acc, it) => {
+      const unit = Number(it.price?.toString?.() || it.price || 0);
+      return acc + unit * (it.quantity || 0);
+    }, 0);
+  } catch {
+    return 0;
+  }
+};
+
 onMounted(() => {
   getUserOrders();
 });
@@ -819,9 +839,23 @@ const selectedOrder = ref(null);
 const expandedOrders = ref([]);
 const finalizingOrder = ref(null);
 
-const viewOrderDetails = order => {
-  selectedOrder.value = order;
-  showOrderDetailsModal.value = true;
+const viewOrderDetails = async order => {
+  try {
+    // Abre o modal imediatamente com dados básicos
+    selectedOrder.value = order;
+    showOrderDetailsModal.value = true;
+
+    // Busca detalhes completos (inclui payments)
+    const fullOrder = await $fetch(`/api/orders/${order.id}`, {
+      headers: { Accept: 'application/json' },
+      timeout: 10000,
+    });
+    if (fullOrder) {
+      selectedOrder.value = fullOrder;
+    }
+  } catch (e) {
+    console.error('Erro ao carregar detalhes do pedido:', e);
+  }
 };
 
 // Função para alternar expansão do pedido

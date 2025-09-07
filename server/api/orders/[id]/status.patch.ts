@@ -47,7 +47,15 @@ export default defineEventHandler(async event => {
     }
 
     // Validar status permitidos
-    const allowedStatuses = ['PENDING', 'CONFIRMED', 'SHIPPED', 'DELIVERED', 'CANCELLED'];
+    const allowedStatuses = [
+      'PENDING',
+      'CONFIRMED',
+      'SEPARATING',
+      'AWAITING_SHIPMENT',
+      'SHIPPED',
+      'DELIVERED',
+      'CANCELLED',
+    ];
     if (!allowedStatuses.includes(status)) {
       throw createError({
         statusCode: 400,

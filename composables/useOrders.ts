@@ -70,8 +70,10 @@ export const useOrders = () => {
 
   const getOrderStatusText = (status: string) => {
     const statusMap = {
-      PENDING: 'Pendente',
+      PENDING: 'Aguardando pagamento',
       CONFIRMED: 'Confirmado',
+      SEPARATING: 'Em separação',
+      AWAITING_SHIPMENT: 'Aguardando envio',
       SHIPPED: 'Enviado',
       DELIVERED: 'Entregue',
       CANCELLED: 'Cancelado',
@@ -83,6 +85,8 @@ export const useOrders = () => {
     const colorMap = {
       PENDING: 'bg-yellow-100 text-yellow-800',
       CONFIRMED: 'bg-blue-100 text-blue-800',
+      SEPARATING: 'bg-amber-100 text-amber-800',
+      AWAITING_SHIPMENT: 'bg-sky-100 text-sky-800',
       SHIPPED: 'bg-purple-100 text-purple-800',
       DELIVERED: 'bg-green-100 text-green-800',
       CANCELLED: 'bg-red-100 text-red-800',
