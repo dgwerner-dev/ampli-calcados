@@ -701,9 +701,24 @@
                         class="w-3 h-3 bg-coral-soft rounded-full"
                       ></div>
                     </div>
-                    <div>
+                    <div class="flex-1">
                       <div class="font-medium text-gray-900">Cartão de Crédito</div>
                       <div class="text-sm text-gray-500">Parcelamento em até 12x</div>
+                    </div>
+                    <!-- Bandeiras aceitas -->
+                    <div class="flex items-center space-x-1">
+                      <div class="w-6 h-4 bg-blue-600 rounded flex items-center justify-center">
+                        <span class="text-white text-xs font-bold">V</span>
+                      </div>
+                      <div class="w-6 h-4 bg-red-500 rounded flex items-center justify-center">
+                        <span class="text-white text-xs font-bold">M</span>
+                      </div>
+                      <div class="w-6 h-4 bg-yellow-500 rounded flex items-center justify-center">
+                        <span class="text-white text-xs font-bold">E</span>
+                      </div>
+                      <div class="w-6 h-4 bg-blue-800 rounded flex items-center justify-center">
+                        <span class="text-white text-xs font-bold">A</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -738,9 +753,24 @@
                         class="w-3 h-3 bg-coral-soft rounded-full"
                       ></div>
                     </div>
-                    <div>
+                    <div class="flex-1">
                       <div class="font-medium text-gray-900">Cartão de Débito</div>
                       <div class="text-sm text-gray-500">Pagamento à vista</div>
+                    </div>
+                    <!-- Bandeiras aceitas -->
+                    <div class="flex items-center space-x-1">
+                      <div class="w-6 h-4 bg-blue-600 rounded flex items-center justify-center">
+                        <span class="text-white text-xs font-bold">V</span>
+                      </div>
+                      <div class="w-6 h-4 bg-red-500 rounded flex items-center justify-center">
+                        <span class="text-white text-xs font-bold">M</span>
+                      </div>
+                      <div class="w-6 h-4 bg-yellow-500 rounded flex items-center justify-center">
+                        <span class="text-white text-xs font-bold">E</span>
+                      </div>
+                      <div class="w-6 h-4 bg-blue-800 rounded flex items-center justify-center">
+                        <span class="text-white text-xs font-bold">A</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -786,7 +816,35 @@
 
             <!-- Dados do cartão (se selecionado) -->
             <div v-if="form.paymentMethod === 'credit_card' || form.paymentMethod === 'debit_card'" class="animate-fade-in space-y-4">
-              <h3 class="text-lg font-semibold text-gray-900">Dados do Cartão</h3>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-semibold text-gray-900">Dados do Cartão</h3>
+                <!-- Bandeiras aceitas -->
+                <div class="flex items-center space-x-2">
+                  <span class="text-xs text-gray-500">Aceitamos:</span>
+                  <div class="flex items-center space-x-1">
+                    <!-- Visa -->
+                    <div class="w-8 h-5 bg-gradient-to-r from-blue-600 to-blue-700 rounded flex items-center justify-center shadow-sm">
+                      <span class="text-white text-xs font-bold">VISA</span>
+                    </div>
+                    <!-- Mastercard -->
+                    <div class="w-8 h-5 bg-gradient-to-r from-red-500 to-red-600 rounded flex items-center justify-center shadow-sm">
+                      <span class="text-white text-xs font-bold">MC</span>
+                    </div>
+                    <!-- Elo -->
+                    <div class="w-8 h-5 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded flex items-center justify-center shadow-sm">
+                      <span class="text-white text-xs font-bold">ELO</span>
+                    </div>
+                    <!-- American Express -->
+                    <div class="w-8 h-5 bg-gradient-to-r from-blue-800 to-blue-900 rounded flex items-center justify-center shadow-sm">
+                      <span class="text-white text-xs font-bold">AE</span>
+                    </div>
+                    <!-- Hipercard -->
+                    <div class="w-8 h-5 bg-gradient-to-r from-purple-600 to-purple-700 rounded flex items-center justify-center shadow-sm">
+                      <span class="text-white text-xs font-bold">HC</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="space-y-4">
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-2"
@@ -862,6 +920,19 @@
                     </option>
                   </select>
                 </div>
+              </div>
+              
+              <!-- Informações de segurança -->
+              <div class="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                <div class="flex items-center space-x-2">
+                  <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  <span class="text-sm text-green-800 font-medium">Pagamento 100% Seguro</span>
+                </div>
+                <p class="text-xs text-green-700 mt-1">
+                  Seus dados são criptografados e protegidos pelo PagBank. Não armazenamos informações do cartão.
+                </p>
               </div>
             </div>
           </div>
