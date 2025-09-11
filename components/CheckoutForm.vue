@@ -693,7 +693,9 @@
                     <div
                       class="w-5 h-5 border-2 rounded-full mr-3 flex items-center justify-center"
                       :class="
-                        form.paymentMethod === 'credit_card' ? 'border-coral-soft' : 'border-gray-300'
+                        form.paymentMethod === 'credit_card'
+                          ? 'border-coral-soft'
+                          : 'border-gray-300'
                       "
                     >
                       <div
@@ -707,17 +709,38 @@
                     </div>
                     <!-- Bandeiras aceitas -->
                     <div class="flex items-center space-x-1">
-                      <div class="w-6 h-4 bg-blue-600 rounded flex items-center justify-center">
-                        <span class="text-white text-xs font-bold">V</span>
+                      <!-- Visa -->
+                      <div class="w-8 h-5 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
+                        <svg viewBox="0 0 24 16" class="w-6 h-4">
+                          <rect width="24" height="16" rx="2" fill="#1A1F71"/>
+                          <path d="M10.5 4.5h3v7h-3z" fill="white"/>
+                          <path d="M8.5 4.5h1.5v7H8.5z" fill="white"/>
+                          <path d="M14 4.5h1.5v7H14z" fill="white"/>
+                          <text x="12" y="12" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="6" font-weight="bold">VISA</text>
+                        </svg>
                       </div>
-                      <div class="w-6 h-4 bg-red-500 rounded flex items-center justify-center">
-                        <span class="text-white text-xs font-bold">M</span>
+                      <!-- Mastercard -->
+                      <div class="w-8 h-5 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
+                        <svg viewBox="0 0 24 16" class="w-6 h-4">
+                          <rect width="24" height="16" rx="2" fill="#EB001B"/>
+                          <circle cx="9" cy="8" r="4" fill="#F79E1B"/>
+                          <circle cx="15" cy="8" r="4" fill="#FF5F00"/>
+                          <path d="M9 4c2.5 0 4.5 1.8 4.5 4s-2 4-4.5 4c-2.5 0-4.5-1.8-4.5-4s2-4 4.5-4z" fill="none" stroke="white" stroke-width="0.5"/>
+                        </svg>
                       </div>
-                      <div class="w-6 h-4 bg-yellow-500 rounded flex items-center justify-center">
-                        <span class="text-white text-xs font-bold">E</span>
+                      <!-- Elo -->
+                      <div class="w-8 h-5 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
+                        <svg viewBox="0 0 24 16" class="w-6 h-4">
+                          <rect width="24" height="16" rx="2" fill="#FFD700"/>
+                          <text x="12" y="10" text-anchor="middle" fill="#000" font-family="Arial, sans-serif" font-size="5" font-weight="bold">ELO</text>
+                        </svg>
                       </div>
-                      <div class="w-6 h-4 bg-blue-800 rounded flex items-center justify-center">
-                        <span class="text-white text-xs font-bold">A</span>
+                      <!-- American Express -->
+                      <div class="w-8 h-5 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
+                        <svg viewBox="0 0 24 16" class="w-6 h-4">
+                          <rect width="24" height="16" rx="2" fill="#006FCF"/>
+                          <text x="12" y="10" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="4" font-weight="bold">AMEX</text>
+                        </svg>
                       </div>
                     </div>
                   </div>
@@ -745,7 +768,9 @@
                     <div
                       class="w-5 h-5 border-2 rounded-full mr-3 flex items-center justify-center"
                       :class="
-                        form.paymentMethod === 'debit_card' ? 'border-coral-soft' : 'border-gray-300'
+                        form.paymentMethod === 'debit_card'
+                          ? 'border-coral-soft'
+                          : 'border-gray-300'
                       "
                     >
                       <div
@@ -759,17 +784,38 @@
                     </div>
                     <!-- Bandeiras aceitas -->
                     <div class="flex items-center space-x-1">
-                      <div class="w-6 h-4 bg-blue-600 rounded flex items-center justify-center">
-                        <span class="text-white text-xs font-bold">V</span>
+                      <!-- Visa -->
+                      <div class="w-8 h-5 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
+                        <svg viewBox="0 0 24 16" class="w-6 h-4">
+                          <rect width="24" height="16" rx="2" fill="#1A1F71"/>
+                          <path d="M10.5 4.5h3v7h-3z" fill="white"/>
+                          <path d="M8.5 4.5h1.5v7H8.5z" fill="white"/>
+                          <path d="M14 4.5h1.5v7H14z" fill="white"/>
+                          <text x="12" y="12" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="6" font-weight="bold">VISA</text>
+                        </svg>
                       </div>
-                      <div class="w-6 h-4 bg-red-500 rounded flex items-center justify-center">
-                        <span class="text-white text-xs font-bold">M</span>
+                      <!-- Mastercard -->
+                      <div class="w-8 h-5 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
+                        <svg viewBox="0 0 24 16" class="w-6 h-4">
+                          <rect width="24" height="16" rx="2" fill="#EB001B"/>
+                          <circle cx="9" cy="8" r="4" fill="#F79E1B"/>
+                          <circle cx="15" cy="8" r="4" fill="#FF5F00"/>
+                          <path d="M9 4c2.5 0 4.5 1.8 4.5 4s-2 4-4.5 4c-2.5 0-4.5-1.8-4.5-4s2-4 4.5-4z" fill="none" stroke="white" stroke-width="0.5"/>
+                        </svg>
                       </div>
-                      <div class="w-6 h-4 bg-yellow-500 rounded flex items-center justify-center">
-                        <span class="text-white text-xs font-bold">E</span>
+                      <!-- Elo -->
+                      <div class="w-8 h-5 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
+                        <svg viewBox="0 0 24 16" class="w-6 h-4">
+                          <rect width="24" height="16" rx="2" fill="#FFD700"/>
+                          <text x="12" y="10" text-anchor="middle" fill="#000" font-family="Arial, sans-serif" font-size="5" font-weight="bold">ELO</text>
+                        </svg>
                       </div>
-                      <div class="w-6 h-4 bg-blue-800 rounded flex items-center justify-center">
-                        <span class="text-white text-xs font-bold">A</span>
+                      <!-- American Express -->
+                      <div class="w-8 h-5 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
+                        <svg viewBox="0 0 24 16" class="w-6 h-4">
+                          <rect width="24" height="16" rx="2" fill="#006FCF"/>
+                          <text x="12" y="10" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="4" font-weight="bold">AMEX</text>
+                        </svg>
                       </div>
                     </div>
                   </div>
@@ -815,7 +861,10 @@
             </div>
 
             <!-- Dados do cartão (se selecionado) -->
-            <div v-if="form.paymentMethod === 'credit_card' || form.paymentMethod === 'debit_card'" class="animate-fade-in space-y-4">
+            <div
+              v-if="form.paymentMethod === 'credit_card' || form.paymentMethod === 'debit_card'"
+              class="animate-fade-in space-y-4"
+            >
               <div class="flex items-center justify-between">
                 <h3 class="text-lg font-semibold text-gray-900">Dados do Cartão</h3>
                 <!-- Bandeiras aceitas -->
@@ -823,24 +872,44 @@
                   <span class="text-xs text-gray-500">Aceitamos:</span>
                   <div class="flex items-center space-x-1">
                     <!-- Visa -->
-                    <div class="w-8 h-5 bg-gradient-to-r from-blue-600 to-blue-700 rounded flex items-center justify-center shadow-sm">
-                      <span class="text-white text-xs font-bold">VISA</span>
+                    <div class="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
+                      <svg viewBox="0 0 30 20" class="w-8 h-5">
+                        <rect width="30" height="20" rx="2" fill="#1A1F71"/>
+                        <path d="M13 6h4v8h-4z" fill="white"/>
+                        <path d="M10.5 6h1.5v8h-1.5z" fill="white"/>
+                        <path d="M17.5 6h1.5v8h-1.5z" fill="white"/>
+                        <text x="15" y="15" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="7" font-weight="bold">VISA</text>
+                      </svg>
                     </div>
                     <!-- Mastercard -->
-                    <div class="w-8 h-5 bg-gradient-to-r from-red-500 to-red-600 rounded flex items-center justify-center shadow-sm">
-                      <span class="text-white text-xs font-bold">MC</span>
+                    <div class="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
+                      <svg viewBox="0 0 30 20" class="w-8 h-5">
+                        <rect width="30" height="20" rx="2" fill="#EB001B"/>
+                        <circle cx="11" cy="10" r="5" fill="#F79E1B"/>
+                        <circle cx="19" cy="10" r="5" fill="#FF5F00"/>
+                        <path d="M11 5c2.5 0 4.5 2.2 4.5 5s-2 5-4.5 5c-2.5 0-4.5-2.2-4.5-5s2-5 4.5-5z" fill="none" stroke="white" stroke-width="0.5"/>
+                      </svg>
                     </div>
                     <!-- Elo -->
-                    <div class="w-8 h-5 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded flex items-center justify-center shadow-sm">
-                      <span class="text-white text-xs font-bold">ELO</span>
+                    <div class="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
+                      <svg viewBox="0 0 30 20" class="w-8 h-5">
+                        <rect width="30" height="20" rx="2" fill="#FFD700"/>
+                        <text x="15" y="13" text-anchor="middle" fill="#000" font-family="Arial, sans-serif" font-size="6" font-weight="bold">ELO</text>
+                      </svg>
                     </div>
                     <!-- American Express -->
-                    <div class="w-8 h-5 bg-gradient-to-r from-blue-800 to-blue-900 rounded flex items-center justify-center shadow-sm">
-                      <span class="text-white text-xs font-bold">AE</span>
+                    <div class="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
+                      <svg viewBox="0 0 30 20" class="w-8 h-5">
+                        <rect width="30" height="20" rx="2" fill="#006FCF"/>
+                        <text x="15" y="13" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="5" font-weight="bold">AMEX</text>
+                      </svg>
                     </div>
                     <!-- Hipercard -->
-                    <div class="w-8 h-5 bg-gradient-to-r from-purple-600 to-purple-700 rounded flex items-center justify-center shadow-sm">
-                      <span class="text-white text-xs font-bold">HC</span>
+                    <div class="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
+                      <svg viewBox="0 0 30 20" class="w-8 h-5">
+                        <rect width="30" height="20" rx="2" fill="#8B5CF6"/>
+                        <text x="15" y="13" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="5" font-weight="bold">HIPER</text>
+                      </svg>
                     </div>
                   </div>
                 </div>
@@ -921,17 +990,28 @@
                   </select>
                 </div>
               </div>
-              
+
               <!-- Informações de segurança -->
               <div class="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
                 <div class="flex items-center space-x-2">
-                  <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  <svg
+                    class="w-4 h-4 text-green-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    ></path>
                   </svg>
                   <span class="text-sm text-green-800 font-medium">Pagamento 100% Seguro</span>
                 </div>
                 <p class="text-xs text-green-700 mt-1">
-                  Seus dados são criptografados e protegidos pelo PagBank. Não armazenamos informações do cartão.
+                  Seus dados são criptografados e protegidos pelo PagBank. Não armazenamos
+                  informações do cartão.
                 </p>
               </div>
             </div>
