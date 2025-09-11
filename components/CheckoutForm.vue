@@ -793,12 +793,13 @@
               v-if="form.paymentMethod === 'credit_card' || form.paymentMethod === 'debit_card'"
               class="animate-fade-in space-y-4"
             >
-              <div class="flex flex-col space-y-3">
-                <h3 class="text-lg font-semibold text-gray-900">Dados do Cartão</h3>
-                <!-- Bandeiras aceitas -->
-                <div class="flex items-center space-x-2">
-                  <span class="text-xs text-gray-500">Aceitamos:</span>
-                  <div class="flex items-center space-x-1">
+              <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                  <h3 class="text-lg font-semibold text-gray-900">Dados do Cartão</h3>
+                  <!-- Bandeiras aceitas -->
+                  <div class="flex items-center space-x-2">
+                    <span class="text-xs text-gray-500">Aceitamos:</span>
+                    <div class="flex items-center space-x-1">
                     <!-- Visa -->
                     <div
                       class="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
