@@ -741,11 +741,11 @@
                             text-anchor="middle"
                             fill="white"
                             font-family="Arial, sans-serif"
-                            font-size="6"
+                            font-size="7"
                             font-weight="bold"
-                            letter-spacing="0.1"
+                            letter-spacing="0.2"
                           >
-                            MASTERCARD
+                            MC
                           </text>
                         </svg>
                       </div>
@@ -863,11 +863,11 @@
                             text-anchor="middle"
                             fill="white"
                             font-family="Arial, sans-serif"
-                            font-size="6"
+                            font-size="7"
                             font-weight="bold"
-                            letter-spacing="0.1"
+                            letter-spacing="0.2"
                           >
-                            MASTERCARD
+                            MC
                           </text>
                         </svg>
                       </div>
