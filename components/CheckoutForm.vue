@@ -735,14 +735,18 @@
                       >
                         <svg viewBox="0 0 30 20" class="w-10 h-6">
                           <rect width="30" height="20" rx="2" fill="#EB001B" />
-                          <circle cx="11" cy="10" r="5" fill="#F79E1B" />
-                          <circle cx="19" cy="10" r="5" fill="#FF5F00" />
-                          <path
-                            d="M11 5c2.5 0 4.5 2.2 4.5 5s-2 5-4.5 5c-2.5 0-4.5-2.2-4.5-5s2-5 4.5-5z"
-                            fill="none"
-                            stroke="white"
-                            stroke-width="0.5"
-                          />
+                          <text
+                            x="15"
+                            y="14"
+                            text-anchor="middle"
+                            fill="white"
+                            font-family="Arial, sans-serif"
+                            font-size="6"
+                            font-weight="bold"
+                            letter-spacing="0.1"
+                          >
+                            MASTERCARD
+                          </text>
                         </svg>
                       </div>
                       <!-- Elo -->
@@ -753,12 +757,13 @@
                           <rect width="30" height="20" rx="2" fill="#FFD700" />
                           <text
                             x="15"
-                            y="13"
+                            y="14"
                             text-anchor="middle"
                             fill="#000"
                             font-family="Arial, sans-serif"
-                            font-size="7"
+                            font-size="9"
                             font-weight="bold"
+                            letter-spacing="0.5"
                           >
                             ELO
                           </text>
@@ -772,12 +777,13 @@
                           <rect width="30" height="20" rx="2" fill="#006FCF" />
                           <text
                             x="15"
-                            y="13"
+                            y="14"
                             text-anchor="middle"
                             fill="white"
                             font-family="Arial, sans-serif"
-                            font-size="6"
+                            font-size="8"
                             font-weight="bold"
+                            letter-spacing="0.3"
                           >
                             AMEX
                           </text>
@@ -851,14 +857,18 @@
                       >
                         <svg viewBox="0 0 30 20" class="w-10 h-6">
                           <rect width="30" height="20" rx="2" fill="#EB001B" />
-                          <circle cx="11" cy="10" r="5" fill="#F79E1B" />
-                          <circle cx="19" cy="10" r="5" fill="#FF5F00" />
-                          <path
-                            d="M11 5c2.5 0 4.5 2.2 4.5 5s-2 5-4.5 5c-2.5 0-4.5-2.2-4.5-5s2-5 4.5-5z"
-                            fill="none"
-                            stroke="white"
-                            stroke-width="0.5"
-                          />
+                          <text
+                            x="15"
+                            y="14"
+                            text-anchor="middle"
+                            fill="white"
+                            font-family="Arial, sans-serif"
+                            font-size="6"
+                            font-weight="bold"
+                            letter-spacing="0.1"
+                          >
+                            MASTERCARD
+                          </text>
                         </svg>
                       </div>
                       <!-- Elo -->
@@ -869,12 +879,13 @@
                           <rect width="30" height="20" rx="2" fill="#FFD700" />
                           <text
                             x="15"
-                            y="13"
+                            y="14"
                             text-anchor="middle"
                             fill="#000"
                             font-family="Arial, sans-serif"
-                            font-size="7"
+                            font-size="9"
                             font-weight="bold"
+                            letter-spacing="0.5"
                           >
                             ELO
                           </text>
@@ -888,12 +899,13 @@
                           <rect width="30" height="20" rx="2" fill="#006FCF" />
                           <text
                             x="15"
-                            y="13"
+                            y="14"
                             text-anchor="middle"
                             fill="white"
                             font-family="Arial, sans-serif"
-                            font-size="6"
+                            font-size="8"
                             font-weight="bold"
+                            letter-spacing="0.3"
                           >
                             AMEX
                           </text>
@@ -1037,12 +1049,13 @@
                         <rect width="30" height="20" rx="2" fill="#8B5CF6" />
                         <text
                           x="15"
-                          y="13"
+                          y="14"
                           text-anchor="middle"
                           fill="white"
                           font-family="Arial, sans-serif"
-                          font-size="5"
+                          font-size="7"
                           font-weight="bold"
+                          letter-spacing="0.3"
                         >
                           HIPER
                         </text>
