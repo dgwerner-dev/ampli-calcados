@@ -635,7 +635,7 @@
               class="grid grid-cols-1 gap-4 mb-6"
               :class="paymentLocked ? 'opacity-60 pointer-events-none' : ''"
             >
-              <!-- Temporariamente ocultamos cartão de crédito -->
+              <!-- PIX -->
               <label class="relative cursor-pointer">
                 <input
                   v-model="form.paymentMethod"
@@ -671,10 +671,121 @@
                   </div>
                 </div>
               </label>
+
+              <!-- Cartão de Crédito -->
+              <label class="relative cursor-pointer">
+                <input
+                  v-model="form.paymentMethod"
+                  value="credit_card"
+                  type="radio"
+                  class="sr-only"
+                  :disabled="paymentLocked"
+                />
+                <div
+                  class="border-2 rounded-lg p-4 transition-all duration-200"
+                  :class="
+                    form.paymentMethod === 'credit_card'
+                      ? 'border-coral-soft bg-coral-soft/5'
+                      : 'border-gray-200 hover:border-gray-300'
+                  "
+                >
+                  <div class="flex items-center">
+                    <div
+                      class="w-5 h-5 border-2 rounded-full mr-3 flex items-center justify-center"
+                      :class="
+                        form.paymentMethod === 'credit_card' ? 'border-coral-soft' : 'border-gray-300'
+                      "
+                    >
+                      <div
+                        v-if="form.paymentMethod === 'credit_card'"
+                        class="w-3 h-3 bg-coral-soft rounded-full"
+                      ></div>
+                    </div>
+                    <div>
+                      <div class="font-medium text-gray-900">Cartão de Crédito</div>
+                      <div class="text-sm text-gray-500">Parcelamento em até 12x</div>
+                    </div>
+                  </div>
+                </div>
+              </label>
+
+              <!-- Cartão de Débito -->
+              <label class="relative cursor-pointer">
+                <input
+                  v-model="form.paymentMethod"
+                  value="debit_card"
+                  type="radio"
+                  class="sr-only"
+                  :disabled="paymentLocked"
+                />
+                <div
+                  class="border-2 rounded-lg p-4 transition-all duration-200"
+                  :class="
+                    form.paymentMethod === 'debit_card'
+                      ? 'border-coral-soft bg-coral-soft/5'
+                      : 'border-gray-200 hover:border-gray-300'
+                  "
+                >
+                  <div class="flex items-center">
+                    <div
+                      class="w-5 h-5 border-2 rounded-full mr-3 flex items-center justify-center"
+                      :class="
+                        form.paymentMethod === 'debit_card' ? 'border-coral-soft' : 'border-gray-300'
+                      "
+                    >
+                      <div
+                        v-if="form.paymentMethod === 'debit_card'"
+                        class="w-3 h-3 bg-coral-soft rounded-full"
+                      ></div>
+                    </div>
+                    <div>
+                      <div class="font-medium text-gray-900">Cartão de Débito</div>
+                      <div class="text-sm text-gray-500">Pagamento à vista</div>
+                    </div>
+                  </div>
+                </div>
+              </label>
+
+              <!-- Boleto Bancário -->
+              <label class="relative cursor-pointer">
+                <input
+                  v-model="form.paymentMethod"
+                  value="boleto"
+                  type="radio"
+                  class="sr-only"
+                  :disabled="paymentLocked"
+                />
+                <div
+                  class="border-2 rounded-lg p-4 transition-all duration-200"
+                  :class="
+                    form.paymentMethod === 'boleto'
+                      ? 'border-coral-soft bg-coral-soft/5'
+                      : 'border-gray-200 hover:border-gray-300'
+                  "
+                >
+                  <div class="flex items-center">
+                    <div
+                      class="w-5 h-5 border-2 rounded-full mr-3 flex items-center justify-center"
+                      :class="
+                        form.paymentMethod === 'boleto' ? 'border-coral-soft' : 'border-gray-300'
+                      "
+                    >
+                      <div
+                        v-if="form.paymentMethod === 'boleto'"
+                        class="w-3 h-3 bg-coral-soft rounded-full"
+                      ></div>
+                    </div>
+                    <div>
+                      <div class="font-medium text-gray-900">Boleto Bancário</div>
+                      <div class="text-sm text-gray-500">Vencimento em 3 dias úteis</div>
+                    </div>
+                  </div>
+                </div>
+              </label>
             </div>
 
             <!-- Dados do cartão (se selecionado) -->
-            <div v-if="form.paymentMethod === 'credit_card'" class="animate-fade-in space-y-4">
+            <div v-if="form.paymentMethod === 'credit_card' || form.paymentMethod === 'debit_card'" class="animate-fade-in space-y-4">
               <h3 class="text-lg font-semibold text-gray-900">Dados do Cartão</h3>
               <div class="space-y-4">
                 <div>
@@ -727,8 +838,8 @@
                   </div>
                 </div>
 
-                <!-- Campo de Parcelas movido para baixo -->
-                <div class="mt-4">
+                <!-- Campo de Parcelas apenas para crédito -->
+                <div v-if="form.paymentMethod === 'credit_card'" class="mt-4">
                   <label class="block text-sm font-medium text-gray-700 mb-2">Parcelas *</label>
                   <select
                     v-model="form.installments"
@@ -1260,7 +1371,7 @@ const processPayment = async () => {
   try {
     // Preparar dados do cartão
     let cardData = null;
-    if (form.value.paymentMethod === 'credit_card') {
+    if (form.value.paymentMethod === 'credit_card' || form.value.paymentMethod === 'debit_card') {
       const [expMonth, expYear] = form.value.card.expiry.split('/');
       cardData = {
         number: form.value.card.number.replace(/\s/g, ''),
@@ -1304,6 +1415,16 @@ const processPayment = async () => {
         }
         showPixModal.value = true;
         paymentLocked.value = true;
+      } else if (form.value.paymentMethod === 'boleto') {
+        // Mostrar modal Boleto
+        const orderData = response.order as any;
+        const firstCharge = Array.isArray(orderData?.charges) ? orderData.charges[0] : null;
+        if (firstCharge?.links?.[0]?.href) {
+          // Abrir boleto em nova aba
+          window.open(firstCharge.links[0].href, '_blank');
+          success('Boleto gerado! Abra o PDF para pagamento.');
+        }
+        emit('payment-success', response.order);
       } else {
         // Pagamento com cartão
         success('Pagamento processado com sucesso!');

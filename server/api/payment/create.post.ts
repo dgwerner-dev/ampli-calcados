@@ -183,7 +183,49 @@ export default defineEventHandler(async event => {
             ...baseOrder,
             qr_codes: [
               {
-                amount: { value: totalWithShippingCents },
+                amount: { 
+                  value: totalWithShippingCents,
+                  currency: 'BRL'
+                },
+                expires_in: 3600, // 1 hora
+              },
+            ],
+          }
+        : paymentMethod === 'boleto'
+        ? {
+            ...baseOrder,
+            charges: [
+              {
+                reference_id: `${orderId}-charge`,
+                description: `Pedido ${orderId}`,
+                amount: {
+                  value: totalWithShippingCents,
+                  currency: 'BRL',
+                },
+                payment_method: {
+                  type: 'boleto',
+                  boleto: {
+                    due_date: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 3 dias
+                    instruction_lines: {
+                      line_1: 'Pagamento referente ao pedido',
+                      line_2: 'Não receber após o vencimento',
+                    },
+                    holder: {
+                      name: customerData.name,
+                      tax_id: cpfDigits,
+                      email: customerData.email,
+                      address: {
+                        street: address.street,
+                        number: address.number,
+                        locality: address.neighborhood,
+                        city: address.city,
+                        region_code: address.state,
+                        country: 'BR',
+                        postal_code: address.zipCode.replace(/\D/g, ''),
+                      },
+                    },
+                  },
+                },
               },
             ],
           }
@@ -194,11 +236,11 @@ export default defineEventHandler(async event => {
                 reference_id: `${orderId}-charge`,
                 description: `Pedido ${orderId}`,
                 amount: {
-                  value: totalWithShippingCents, // PagBank usa centavos
+                  value: totalWithShippingCents,
                   currency: 'BRL',
                 },
                 payment_method: {
-                  type: 'credit_card',
+                  type: paymentMethod === 'debit_card' ? 'debit_card' : 'credit_card',
                   installments,
                   capture: true,
                   card: cardData
@@ -213,6 +255,13 @@ export default defineEventHandler(async event => {
                       }
                     : undefined,
                   soft_descriptor: 'BARTEZEN',
+                  // 3DS obrigatório para débito
+                  ...(paymentMethod === 'debit_card' && {
+                    authentication_method: {
+                      type: 'THREEDS',
+                      id: crypto.randomUUID(),
+                    },
+                  }),
                 },
               },
             ],

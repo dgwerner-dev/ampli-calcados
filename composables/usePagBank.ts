@@ -103,7 +103,7 @@ export const usePagBank = () => {
       };
     };
     notification_urls: string[];
-    charges: Array<{
+    charges?: Array<{
       reference_id: string;
       description: string;
       amount: {
@@ -123,8 +123,40 @@ export const usePagBank = () => {
             name: string;
           };
         };
+        boleto?: {
+          due_date: string;
+          instruction_lines: {
+            line_1: string;
+            line_2: string;
+          };
+          holder: {
+            name: string;
+            tax_id: string;
+            email: string;
+            address: {
+              street: string;
+              number: string;
+              locality: string;
+              city: string;
+              region_code: string;
+              country: string;
+              postal_code: string;
+            };
+          };
+        };
         soft_descriptor?: string;
+        authentication_method?: {
+          type: string;
+          id: string;
+        };
       };
+    }>;
+    qr_codes?: Array<{
+      amount: {
+        value: number;
+        currency: string;
+      };
+      expires_in: number;
     }>;
   }) => {
     try {
@@ -272,26 +304,117 @@ export const usePagBank = () => {
     }
   };
 
+  // Tokenizar cartão
+  const tokenizeCard = async (cardData: {
+    number: string;
+    exp_month: string;
+    exp_year: string;
+    security_code: string;
+    holder: {
+      name: string;
+    };
+  }) => {
+    try {
+      const response = await fetchWithFallback(`/cards`, {
+        method: 'POST',
+        headers: getHeaders(),
+        body: cardData,
+      });
+
+      return response;
+    } catch (error: any) {
+      console.error('Erro ao tokenizar cartão:', error);
+      throw new Error('Erro ao tokenizar cartão');
+    }
+  };
+
+  // Consultar pedidos por parâmetros
+  const getOrdersByParams = async (params: {
+    reference_id?: string;
+    status?: string;
+    created_at?: string;
+    limit?: number;
+    offset?: number;
+  }) => {
+    try {
+      const queryParams = new URLSearchParams();
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined) {
+          queryParams.append(key, value.toString());
+        }
+      });
+
+      const response = await fetchWithFallback(`/orders?${queryParams.toString()}`, {
+        method: 'GET',
+        headers: getHeaders(),
+      });
+
+      return response;
+    } catch (error: any) {
+      console.error('Erro ao consultar pedidos:', error);
+      throw new Error('Erro ao consultar pedidos');
+    }
+  };
+
+  // Consultar pagamento específico
+  const getPayment = async (chargeId: string) => {
+    try {
+      const response = await fetchWithFallback(`/charges/${chargeId}`, {
+        method: 'GET',
+        headers: getHeaders(),
+      });
+
+      return response;
+    } catch (error: any) {
+      console.error('Erro ao consultar pagamento:', error);
+      throw new Error('Erro ao consultar pagamento');
+    }
+  };
+
+  // Criar sessão de autenticação 3DS
+  const create3DSSession = async (orderId: string) => {
+    try {
+      const response = await fetchWithFallback(`/orders/${orderId}/3ds-sessions`, {
+        method: 'POST',
+        headers: getHeaders(),
+        body: {
+          order_id: orderId,
+        },
+      });
+
+      return response;
+    } catch (error: any) {
+      console.error('Erro ao criar sessão 3DS:', error);
+      throw new Error('Erro ao criar sessão 3DS');
+    }
+  };
+
   // Webhook para receber notificações do PagBank
   const handleWebhook = async (webhookData: any) => {
     try {
       const { event, data } = webhookData;
 
       switch (event) {
-        case 'PAYMENT_RECEIVED':
-          await handlePaymentReceived(data);
+        case 'ORDER_CREATED':
+          await handleOrderCreated(data);
           break;
-        case 'PAYMENT_CONFIRMED':
-          await handlePaymentConfirmed(data);
+        case 'ORDER_PAID':
+          await handleOrderPaid(data);
           break;
-        case 'PAYMENT_DENIED':
-          await handlePaymentDenied(data);
+        case 'ORDER_CANCELED':
+          await handleOrderCanceled(data);
           break;
-        case 'PAYMENT_CANCELLED':
-          await handlePaymentCancelled(data);
+        case 'CHARGE_PAID':
+          await handleChargePaid(data);
           break;
-        case 'PAYMENT_REFUNDED':
-          await handlePaymentRefunded(data);
+        case 'CHARGE_CANCELED':
+          await handleChargeCanceled(data);
+          break;
+        case 'CHARGE_REFUNDED':
+          await handleChargeRefunded(data);
+          break;
+        case 'CHARGE_DENIED':
+          await handleChargeDenied(data);
           break;
         default:
           console.log('Evento não tratado:', event);
@@ -303,34 +426,41 @@ export const usePagBank = () => {
   };
 
   // Handlers para eventos do webhook
-  const handlePaymentReceived = async (data: any) => {
-    // Atualizar status do pedido e pagamento para PENDING
+  const handleOrderCreated = async (data: any) => {
+    // Pedido criado no PagBank
     await updateOrderStatus(data.reference_id, 'PENDING');
-    await updatePaymentStatus(data.reference_id, 'PENDING');
   };
 
-  const handlePaymentConfirmed = async (data: any) => {
-    // Pedido CONFIRMED; Pagamento APPROVED
+  const handleOrderPaid = async (data: any) => {
+    // Pedido pago completamente
     await updateOrderStatus(data.reference_id, 'CONFIRMED');
     await updatePaymentStatus(data.reference_id, 'APPROVED');
   };
 
-  const handlePaymentDenied = async (data: any) => {
-    // Pedido CANCELLED; Pagamento REJECTED
-    await updateOrderStatus(data.reference_id, 'CANCELLED');
-    await updatePaymentStatus(data.reference_id, 'REJECTED');
-  };
-
-  const handlePaymentCancelled = async (data: any) => {
-    // Pedido CANCELLED; Pagamento CANCELLED
+  const handleOrderCanceled = async (data: any) => {
+    // Pedido cancelado
     await updateOrderStatus(data.reference_id, 'CANCELLED');
     await updatePaymentStatus(data.reference_id, 'CANCELLED');
   };
 
-  const handlePaymentRefunded = async (data: any) => {
-    // Pedido não possui REFUNDED; mapear para CANCELLED; Pagamento REFUNDED
-    await updateOrderStatus(data.reference_id, 'CANCELLED');
+  const handleChargePaid = async (data: any) => {
+    // Cobrança específica paga
+    await updatePaymentStatus(data.reference_id, 'APPROVED');
+  };
+
+  const handleChargeCanceled = async (data: any) => {
+    // Cobrança cancelada
+    await updatePaymentStatus(data.reference_id, 'CANCELLED');
+  };
+
+  const handleChargeRefunded = async (data: any) => {
+    // Cobrança reembolsada
     await updatePaymentStatus(data.reference_id, 'REFUNDED');
+  };
+
+  const handleChargeDenied = async (data: any) => {
+    // Cobrança negada
+    await updatePaymentStatus(data.reference_id, 'REJECTED');
   };
 
   // Atualizar status do pedido no banco
@@ -368,9 +498,13 @@ export const usePagBank = () => {
     createOrder,
     createPixOrder,
     getOrderStatus,
+    getOrdersByParams,
+    getPayment,
     capturePayment,
     cancelPayment,
     refundPayment,
+    tokenizeCard,
+    create3DSSession,
     handleWebhook,
   };
 };
