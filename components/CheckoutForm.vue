@@ -689,9 +689,9 @@
                       : 'border-gray-200 hover:border-gray-300'
                   "
                 >
-                  <div class="flex items-start">
+                  <div class="flex items-center">
                     <div
-                      class="w-5 h-5 border-2 rounded-full mr-3 flex items-center justify-center mt-0.5"
+                      class="w-5 h-5 border-2 rounded-full mr-3 flex items-center justify-center"
                       :class="
                         form.paymentMethod === 'credit_card'
                           ? 'border-coral-soft'
@@ -819,9 +819,9 @@
                       : 'border-gray-200 hover:border-gray-300'
                   "
                 >
-                  <div class="flex items-start">
+                  <div class="flex items-center">
                     <div
-                      class="w-5 h-5 border-2 rounded-full mr-3 flex items-center justify-center mt-0.5"
+                      class="w-5 h-5 border-2 rounded-full mr-3 flex items-center justify-center"
                       :class="
                         form.paymentMethod === 'debit_card'
                           ? 'border-coral-soft'
