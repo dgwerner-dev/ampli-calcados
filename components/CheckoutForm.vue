@@ -708,38 +708,81 @@
                       <div class="text-sm text-gray-500">Parcelamento em até 12x</div>
                     </div>
                     <!-- Bandeiras aceitas -->
-                    <div class="flex items-center space-x-1">
+                    <div class="flex items-center space-x-2">
                       <!-- Visa -->
-                      <div class="w-8 h-5 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
-                        <svg viewBox="0 0 24 16" class="w-6 h-4">
-                          <rect width="24" height="16" rx="2" fill="#1A1F71"/>
-                          <path d="M10.5 4.5h3v7h-3z" fill="white"/>
-                          <path d="M8.5 4.5h1.5v7H8.5z" fill="white"/>
-                          <path d="M14 4.5h1.5v7H14z" fill="white"/>
-                          <text x="12" y="12" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="6" font-weight="bold">VISA</text>
+                      <div
+                        class="w-12 h-8 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
+                      >
+                        <svg viewBox="0 0 30 20" class="w-10 h-6">
+                          <rect width="30" height="20" rx="2" fill="#1A1F71" />
+                          <path d="M13 6h4v8h-4z" fill="white" />
+                          <path d="M10.5 6h1.5v8h-1.5z" fill="white" />
+                          <path d="M17.5 6h1.5v8h-1.5z" fill="white" />
+                          <text
+                            x="15"
+                            y="15"
+                            text-anchor="middle"
+                            fill="white"
+                            font-family="Arial, sans-serif"
+                            font-size="8"
+                            font-weight="bold"
+                          >
+                            VISA
+                          </text>
                         </svg>
                       </div>
                       <!-- Mastercard -->
-                      <div class="w-8 h-5 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
-                        <svg viewBox="0 0 24 16" class="w-6 h-4">
-                          <rect width="24" height="16" rx="2" fill="#EB001B"/>
-                          <circle cx="9" cy="8" r="4" fill="#F79E1B"/>
-                          <circle cx="15" cy="8" r="4" fill="#FF5F00"/>
-                          <path d="M9 4c2.5 0 4.5 1.8 4.5 4s-2 4-4.5 4c-2.5 0-4.5-1.8-4.5-4s2-4 4.5-4z" fill="none" stroke="white" stroke-width="0.5"/>
+                      <div
+                        class="w-12 h-8 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
+                      >
+                        <svg viewBox="0 0 30 20" class="w-10 h-6">
+                          <rect width="30" height="20" rx="2" fill="#EB001B" />
+                          <circle cx="11" cy="10" r="5" fill="#F79E1B" />
+                          <circle cx="19" cy="10" r="5" fill="#FF5F00" />
+                          <path
+                            d="M11 5c2.5 0 4.5 2.2 4.5 5s-2 5-4.5 5c-2.5 0-4.5-2.2-4.5-5s2-5 4.5-5z"
+                            fill="none"
+                            stroke="white"
+                            stroke-width="0.5"
+                          />
                         </svg>
                       </div>
                       <!-- Elo -->
-                      <div class="w-8 h-5 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
-                        <svg viewBox="0 0 24 16" class="w-6 h-4">
-                          <rect width="24" height="16" rx="2" fill="#FFD700"/>
-                          <text x="12" y="10" text-anchor="middle" fill="#000" font-family="Arial, sans-serif" font-size="5" font-weight="bold">ELO</text>
+                      <div
+                        class="w-12 h-8 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
+                      >
+                        <svg viewBox="0 0 30 20" class="w-10 h-6">
+                          <rect width="30" height="20" rx="2" fill="#FFD700" />
+                          <text
+                            x="15"
+                            y="13"
+                            text-anchor="middle"
+                            fill="#000"
+                            font-family="Arial, sans-serif"
+                            font-size="7"
+                            font-weight="bold"
+                          >
+                            ELO
+                          </text>
                         </svg>
                       </div>
                       <!-- American Express -->
-                      <div class="w-8 h-5 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
-                        <svg viewBox="0 0 24 16" class="w-6 h-4">
-                          <rect width="24" height="16" rx="2" fill="#006FCF"/>
-                          <text x="12" y="10" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="4" font-weight="bold">AMEX</text>
+                      <div
+                        class="w-12 h-8 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
+                      >
+                        <svg viewBox="0 0 30 20" class="w-10 h-6">
+                          <rect width="30" height="20" rx="2" fill="#006FCF" />
+                          <text
+                            x="15"
+                            y="13"
+                            text-anchor="middle"
+                            fill="white"
+                            font-family="Arial, sans-serif"
+                            font-size="6"
+                            font-weight="bold"
+                          >
+                            AMEX
+                          </text>
                         </svg>
                       </div>
                     </div>
@@ -783,38 +826,81 @@
                       <div class="text-sm text-gray-500">Pagamento à vista</div>
                     </div>
                     <!-- Bandeiras aceitas -->
-                    <div class="flex items-center space-x-1">
+                    <div class="flex items-center space-x-2">
                       <!-- Visa -->
-                      <div class="w-8 h-5 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
-                        <svg viewBox="0 0 24 16" class="w-6 h-4">
-                          <rect width="24" height="16" rx="2" fill="#1A1F71"/>
-                          <path d="M10.5 4.5h3v7h-3z" fill="white"/>
-                          <path d="M8.5 4.5h1.5v7H8.5z" fill="white"/>
-                          <path d="M14 4.5h1.5v7H14z" fill="white"/>
-                          <text x="12" y="12" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="6" font-weight="bold">VISA</text>
+                      <div
+                        class="w-12 h-8 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
+                      >
+                        <svg viewBox="0 0 30 20" class="w-10 h-6">
+                          <rect width="30" height="20" rx="2" fill="#1A1F71" />
+                          <path d="M13 6h4v8h-4z" fill="white" />
+                          <path d="M10.5 6h1.5v8h-1.5z" fill="white" />
+                          <path d="M17.5 6h1.5v8h-1.5z" fill="white" />
+                          <text
+                            x="15"
+                            y="15"
+                            text-anchor="middle"
+                            fill="white"
+                            font-family="Arial, sans-serif"
+                            font-size="8"
+                            font-weight="bold"
+                          >
+                            VISA
+                          </text>
                         </svg>
                       </div>
                       <!-- Mastercard -->
-                      <div class="w-8 h-5 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
-                        <svg viewBox="0 0 24 16" class="w-6 h-4">
-                          <rect width="24" height="16" rx="2" fill="#EB001B"/>
-                          <circle cx="9" cy="8" r="4" fill="#F79E1B"/>
-                          <circle cx="15" cy="8" r="4" fill="#FF5F00"/>
-                          <path d="M9 4c2.5 0 4.5 1.8 4.5 4s-2 4-4.5 4c-2.5 0-4.5-1.8-4.5-4s2-4 4.5-4z" fill="none" stroke="white" stroke-width="0.5"/>
+                      <div
+                        class="w-12 h-8 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
+                      >
+                        <svg viewBox="0 0 30 20" class="w-10 h-6">
+                          <rect width="30" height="20" rx="2" fill="#EB001B" />
+                          <circle cx="11" cy="10" r="5" fill="#F79E1B" />
+                          <circle cx="19" cy="10" r="5" fill="#FF5F00" />
+                          <path
+                            d="M11 5c2.5 0 4.5 2.2 4.5 5s-2 5-4.5 5c-2.5 0-4.5-2.2-4.5-5s2-5 4.5-5z"
+                            fill="none"
+                            stroke="white"
+                            stroke-width="0.5"
+                          />
                         </svg>
                       </div>
                       <!-- Elo -->
-                      <div class="w-8 h-5 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
-                        <svg viewBox="0 0 24 16" class="w-6 h-4">
-                          <rect width="24" height="16" rx="2" fill="#FFD700"/>
-                          <text x="12" y="10" text-anchor="middle" fill="#000" font-family="Arial, sans-serif" font-size="5" font-weight="bold">ELO</text>
+                      <div
+                        class="w-12 h-8 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
+                      >
+                        <svg viewBox="0 0 30 20" class="w-10 h-6">
+                          <rect width="30" height="20" rx="2" fill="#FFD700" />
+                          <text
+                            x="15"
+                            y="13"
+                            text-anchor="middle"
+                            fill="#000"
+                            font-family="Arial, sans-serif"
+                            font-size="7"
+                            font-weight="bold"
+                          >
+                            ELO
+                          </text>
                         </svg>
                       </div>
                       <!-- American Express -->
-                      <div class="w-8 h-5 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
-                        <svg viewBox="0 0 24 16" class="w-6 h-4">
-                          <rect width="24" height="16" rx="2" fill="#006FCF"/>
-                          <text x="12" y="10" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="4" font-weight="bold">AMEX</text>
+                      <div
+                        class="w-12 h-8 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
+                      >
+                        <svg viewBox="0 0 30 20" class="w-10 h-6">
+                          <rect width="30" height="20" rx="2" fill="#006FCF" />
+                          <text
+                            x="15"
+                            y="13"
+                            text-anchor="middle"
+                            fill="white"
+                            font-family="Arial, sans-serif"
+                            font-size="6"
+                            font-weight="bold"
+                          >
+                            AMEX
+                          </text>
                         </svg>
                       </div>
                     </div>
@@ -872,43 +958,98 @@
                   <span class="text-xs text-gray-500">Aceitamos:</span>
                   <div class="flex items-center space-x-1">
                     <!-- Visa -->
-                    <div class="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
+                    <div
+                      class="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
+                    >
                       <svg viewBox="0 0 30 20" class="w-8 h-5">
-                        <rect width="30" height="20" rx="2" fill="#1A1F71"/>
-                        <path d="M13 6h4v8h-4z" fill="white"/>
-                        <path d="M10.5 6h1.5v8h-1.5z" fill="white"/>
-                        <path d="M17.5 6h1.5v8h-1.5z" fill="white"/>
-                        <text x="15" y="15" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="7" font-weight="bold">VISA</text>
+                        <rect width="30" height="20" rx="2" fill="#1A1F71" />
+                        <path d="M13 6h4v8h-4z" fill="white" />
+                        <path d="M10.5 6h1.5v8h-1.5z" fill="white" />
+                        <path d="M17.5 6h1.5v8h-1.5z" fill="white" />
+                        <text
+                          x="15"
+                          y="15"
+                          text-anchor="middle"
+                          fill="white"
+                          font-family="Arial, sans-serif"
+                          font-size="7"
+                          font-weight="bold"
+                        >
+                          VISA
+                        </text>
                       </svg>
                     </div>
                     <!-- Mastercard -->
-                    <div class="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
+                    <div
+                      class="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
+                    >
                       <svg viewBox="0 0 30 20" class="w-8 h-5">
-                        <rect width="30" height="20" rx="2" fill="#EB001B"/>
-                        <circle cx="11" cy="10" r="5" fill="#F79E1B"/>
-                        <circle cx="19" cy="10" r="5" fill="#FF5F00"/>
-                        <path d="M11 5c2.5 0 4.5 2.2 4.5 5s-2 5-4.5 5c-2.5 0-4.5-2.2-4.5-5s2-5 4.5-5z" fill="none" stroke="white" stroke-width="0.5"/>
+                        <rect width="30" height="20" rx="2" fill="#EB001B" />
+                        <circle cx="11" cy="10" r="5" fill="#F79E1B" />
+                        <circle cx="19" cy="10" r="5" fill="#FF5F00" />
+                        <path
+                          d="M11 5c2.5 0 4.5 2.2 4.5 5s-2 5-4.5 5c-2.5 0-4.5-2.2-4.5-5s2-5 4.5-5z"
+                          fill="none"
+                          stroke="white"
+                          stroke-width="0.5"
+                        />
                       </svg>
                     </div>
                     <!-- Elo -->
-                    <div class="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
+                    <div
+                      class="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
+                    >
                       <svg viewBox="0 0 30 20" class="w-8 h-5">
-                        <rect width="30" height="20" rx="2" fill="#FFD700"/>
-                        <text x="15" y="13" text-anchor="middle" fill="#000" font-family="Arial, sans-serif" font-size="6" font-weight="bold">ELO</text>
+                        <rect width="30" height="20" rx="2" fill="#FFD700" />
+                        <text
+                          x="15"
+                          y="13"
+                          text-anchor="middle"
+                          fill="#000"
+                          font-family="Arial, sans-serif"
+                          font-size="6"
+                          font-weight="bold"
+                        >
+                          ELO
+                        </text>
                       </svg>
                     </div>
                     <!-- American Express -->
-                    <div class="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
+                    <div
+                      class="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
+                    >
                       <svg viewBox="0 0 30 20" class="w-8 h-5">
-                        <rect width="30" height="20" rx="2" fill="#006FCF"/>
-                        <text x="15" y="13" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="5" font-weight="bold">AMEX</text>
+                        <rect width="30" height="20" rx="2" fill="#006FCF" />
+                        <text
+                          x="15"
+                          y="13"
+                          text-anchor="middle"
+                          fill="white"
+                          font-family="Arial, sans-serif"
+                          font-size="5"
+                          font-weight="bold"
+                        >
+                          AMEX
+                        </text>
                       </svg>
                     </div>
                     <!-- Hipercard -->
-                    <div class="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm">
+                    <div
+                      class="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
+                    >
                       <svg viewBox="0 0 30 20" class="w-8 h-5">
-                        <rect width="30" height="20" rx="2" fill="#8B5CF6"/>
-                        <text x="15" y="13" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="5" font-weight="bold">HIPER</text>
+                        <rect width="30" height="20" rx="2" fill="#8B5CF6" />
+                        <text
+                          x="15"
+                          y="13"
+                          text-anchor="middle"
+                          fill="white"
+                          font-family="Arial, sans-serif"
+                          font-size="5"
+                          font-weight="bold"
+                        >
+                          HIPER
+                        </text>
                       </svg>
                     </div>
                   </div>
