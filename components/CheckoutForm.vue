@@ -689,9 +689,9 @@
                       : 'border-gray-200 hover:border-gray-300'
                   "
                 >
-                  <div class="flex items-center">
+                  <div class="flex items-start">
                     <div
-                      class="w-5 h-5 border-2 rounded-full mr-3 flex items-center justify-center"
+                      class="w-5 h-5 border-2 rounded-full mr-3 flex items-center justify-center mt-0.5"
                       :class="
                         form.paymentMethod === 'credit_card'
                           ? 'border-coral-soft'
@@ -708,7 +708,7 @@
                       <div class="text-sm text-gray-500">Parcelamento em até 12x</div>
                     </div>
                     <!-- Bandeiras aceitas -->
-                    <div class="flex items-center space-x-2">
+                    <div class="flex items-center space-x-2 flex-shrink-0">
                       <!-- Visa -->
                       <div
                         class="w-12 h-8 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
@@ -807,9 +807,9 @@
                       : 'border-gray-200 hover:border-gray-300'
                   "
                 >
-                  <div class="flex items-center">
+                  <div class="flex items-start">
                     <div
-                      class="w-5 h-5 border-2 rounded-full mr-3 flex items-center justify-center"
+                      class="w-5 h-5 border-2 rounded-full mr-3 flex items-center justify-center mt-0.5"
                       :class="
                         form.paymentMethod === 'debit_card'
                           ? 'border-coral-soft'
@@ -826,7 +826,7 @@
                       <div class="text-sm text-gray-500">Pagamento à vista</div>
                     </div>
                     <!-- Bandeiras aceitas -->
-                    <div class="flex items-center space-x-2">
+                    <div class="flex items-center space-x-2 flex-shrink-0">
                       <!-- Visa -->
                       <div
                         class="w-12 h-8 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
