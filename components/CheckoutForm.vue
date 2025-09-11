@@ -795,7 +795,7 @@
             >
               <div class="space-y-4">
                 <div class="flex flex-col space-y-3">
-                  <h3 class="text-lg font-semibold text-gray-900">Dados do Cartão</h3>
+                  <h3 class="text-base font-semibold text-gray-900">Cartão</h3>
                   <!-- Bandeiras aceitas -->
                   <div class="flex items-center space-x-2">
                     <span class="text-xs text-gray-500">Aceitamos:</span>
