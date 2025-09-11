@@ -715,17 +715,15 @@
                       >
                         <svg viewBox="0 0 30 20" class="w-10 h-6">
                           <rect width="30" height="20" rx="2" fill="#1A1F71" />
-                          <path d="M13 6h4v8h-4z" fill="white" />
-                          <path d="M10.5 6h1.5v8h-1.5z" fill="white" />
-                          <path d="M17.5 6h1.5v8h-1.5z" fill="white" />
                           <text
                             x="15"
-                            y="15"
+                            y="14"
                             text-anchor="middle"
                             fill="white"
                             font-family="Arial, sans-serif"
-                            font-size="8"
+                            font-size="9"
                             font-weight="bold"
+                            letter-spacing="0.5"
                           >
                             VISA
                           </text>
@@ -833,17 +831,15 @@
                       >
                         <svg viewBox="0 0 30 20" class="w-10 h-6">
                           <rect width="30" height="20" rx="2" fill="#1A1F71" />
-                          <path d="M13 6h4v8h-4z" fill="white" />
-                          <path d="M10.5 6h1.5v8h-1.5z" fill="white" />
-                          <path d="M17.5 6h1.5v8h-1.5z" fill="white" />
                           <text
                             x="15"
-                            y="15"
+                            y="14"
                             text-anchor="middle"
                             fill="white"
                             font-family="Arial, sans-serif"
-                            font-size="8"
+                            font-size="9"
                             font-weight="bold"
+                            letter-spacing="0.5"
                           >
                             VISA
                           </text>
