@@ -731,21 +731,21 @@
                       </div>
                       <!-- Mastercard -->
                       <div
-                        class="w-12 h-8 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
+                        class="w-16 h-8 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
                       >
-                        <svg viewBox="0 0 30 20" class="w-10 h-6">
-                          <rect width="30" height="20" rx="2" fill="#EB001B" />
+                        <svg viewBox="0 0 40 20" class="w-14 h-6">
+                          <rect width="40" height="20" rx="2" fill="#EB001B" />
                           <text
-                            x="15"
+                            x="20"
                             y="14"
                             text-anchor="middle"
                             fill="white"
                             font-family="Arial, sans-serif"
-                            font-size="7"
+                            font-size="6"
                             font-weight="bold"
-                            letter-spacing="0.2"
+                            letter-spacing="0.1"
                           >
-                            MC
+                            MASTERCARD
                           </text>
                         </svg>
                       </div>
@@ -853,21 +853,21 @@
                       </div>
                       <!-- Mastercard -->
                       <div
-                        class="w-12 h-8 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
+                        class="w-16 h-8 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
                       >
-                        <svg viewBox="0 0 30 20" class="w-10 h-6">
-                          <rect width="30" height="20" rx="2" fill="#EB001B" />
+                        <svg viewBox="0 0 40 20" class="w-14 h-6">
+                          <rect width="40" height="20" rx="2" fill="#EB001B" />
                           <text
-                            x="15"
+                            x="20"
                             y="14"
                             text-anchor="middle"
                             fill="white"
                             font-family="Arial, sans-serif"
-                            font-size="7"
+                            font-size="6"
                             font-weight="bold"
-                            letter-spacing="0.2"
+                            letter-spacing="0.1"
                           >
-                            MC
+                            MASTERCARD
                           </text>
                         </svg>
                       </div>
