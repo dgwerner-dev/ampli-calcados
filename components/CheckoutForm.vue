@@ -266,42 +266,6 @@
                 >
               </div>
             </div>
-
-            <!-- Informações de segurança -->
-            <div class="mt-6 p-4 bg-gray-50 rounded-lg">
-              <div class="flex items-center text-sm text-gray-600">
-                <svg
-                  class="w-4 h-4 mr-2 text-green-500"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path>
-                </svg>
-                Pagamento 100% seguro
-              </div>
-              <div class="flex items-center text-sm text-gray-600 mt-1">
-                <svg
-                  class="w-4 h-4 mr-2 text-green-500"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path>
-                </svg>
-                Dados criptografados
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -800,272 +764,225 @@
                   <div class="flex items-center space-x-2">
                     <span class="text-xs text-gray-500">Aceitamos:</span>
                     <div class="flex items-center space-x-1">
-                    <!-- Visa -->
-                    <div
-                      class="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
-                    >
-                      <svg viewBox="0 0 30 20" class="w-8 h-5">
-                        <rect width="30" height="20" rx="2" fill="white" />
-                        <text
-                          x="15"
-                          y="14"
-                          text-anchor="middle"
-                          fill="#1A1F71"
-                          font-family="Arial, sans-serif"
-                          font-size="7"
-                          font-weight="bold"
-                          letter-spacing="0.2"
-                        >
-                          VISA
-                        </text>
-                      </svg>
-                    </div>
-                    <!-- Mastercard -->
-                    <div
-                      class="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
-                    >
-                      <svg viewBox="0 0 30 20" class="w-8 h-5">
-                        <rect width="30" height="20" rx="2" fill="white" />
-                        <circle cx="11" cy="10" r="5" fill="#EB001B" />
-                        <circle cx="19" cy="10" r="5" fill="#F79E1B" />
-                        <path
-                          d="M11 5c2.5 0 4.5 2.2 4.5 5s-2 5-4.5 5c-2.5 0-4.5-2.2-4.5-5s2-5 4.5-5z"
-                          fill="none"
-                          stroke="white"
-                          stroke-width="0.5"
-                        />
-                      </svg>
-                    </div>
-                    <!-- Elo -->
-                    <div
-                      class="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
-                    >
-                      <svg viewBox="0 0 30 20" class="w-8 h-5">
-                        <rect width="30" height="20" rx="2" fill="#00A651" />
-                        <text
-                          x="15"
-                          y="14"
-                          text-anchor="middle"
-                          fill="white"
-                          font-family="Arial, sans-serif"
-                          font-size="7"
-                          font-weight="bold"
-                          letter-spacing="0.2"
-                        >
-                          eLO
-                        </text>
-                      </svg>
-                    </div>
-                    <!-- American Express -->
-                    <div
-                      class="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
-                    >
-                      <svg viewBox="0 0 30 20" class="w-8 h-5">
-                        <rect width="30" height="20" rx="2" fill="#006FCF" />
-                        <text
-                          x="15"
-                          y="9"
-                          text-anchor="middle"
-                          fill="white"
-                          font-family="Arial, sans-serif"
-                          font-size="3"
-                          font-weight="bold"
-                          letter-spacing="0.1"
-                        >
-                          AMERICAN
-                        </text>
-                        <text
-                          x="15"
-                          y="15"
-                          text-anchor="middle"
-                          fill="white"
-                          font-family="Arial, sans-serif"
-                          font-size="3"
-                          font-weight="bold"
-                          letter-spacing="0.1"
-                        >
-                          EXPRESS
-                        </text>
-                      </svg>
+                      <!-- Visa -->
+                      <div
+                        class="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
+                      >
+                        <svg viewBox="0 0 30 20" class="w-8 h-5">
+                          <rect width="30" height="20" rx="2" fill="white" />
+                          <text
+                            x="15"
+                            y="14"
+                            text-anchor="middle"
+                            fill="#1A1F71"
+                            font-family="Arial, sans-serif"
+                            font-size="7"
+                            font-weight="bold"
+                            letter-spacing="0.2"
+                          >
+                            VISA
+                          </text>
+                        </svg>
+                      </div>
+                      <!-- Mastercard -->
+                      <div
+                        class="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
+                      >
+                        <svg viewBox="0 0 30 20" class="w-8 h-5">
+                          <rect width="30" height="20" rx="2" fill="white" />
+                          <circle cx="11" cy="10" r="5" fill="#EB001B" />
+                          <circle cx="19" cy="10" r="5" fill="#F79E1B" />
+                          <path
+                            d="M11 5c2.5 0 4.5 2.2 4.5 5s-2 5-4.5 5c-2.5 0-4.5-2.2-4.5-5s2-5 4.5-5z"
+                            fill="none"
+                            stroke="white"
+                            stroke-width="0.5"
+                          />
+                        </svg>
+                      </div>
+                      <!-- Elo -->
+                      <div
+                        class="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
+                      >
+                        <svg viewBox="0 0 30 20" class="w-8 h-5">
+                          <rect width="30" height="20" rx="2" fill="#00A651" />
+                          <text
+                            x="15"
+                            y="14"
+                            text-anchor="middle"
+                            fill="white"
+                            font-family="Arial, sans-serif"
+                            font-size="7"
+                            font-weight="bold"
+                            letter-spacing="0.2"
+                          >
+                            eLO
+                          </text>
+                        </svg>
+                      </div>
+                      <!-- American Express -->
+                      <div
+                        class="w-10 h-6 bg-white border border-gray-200 rounded flex items-center justify-center shadow-sm"
+                      >
+                        <svg viewBox="0 0 30 20" class="w-8 h-5">
+                          <rect width="30" height="20" rx="2" fill="#006FCF" />
+                          <text
+                            x="15"
+                            y="9"
+                            text-anchor="middle"
+                            fill="white"
+                            font-family="Arial, sans-serif"
+                            font-size="3"
+                            font-weight="bold"
+                            letter-spacing="0.1"
+                          >
+                            AMERICAN
+                          </text>
+                          <text
+                            x="15"
+                            y="15"
+                            text-anchor="middle"
+                            fill="white"
+                            font-family="Arial, sans-serif"
+                            font-size="3"
+                            font-weight="bold"
+                            letter-spacing="0.1"
+                          >
+                            EXPRESS
+                          </text>
+                        </svg>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="space-y-4">
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2"
-                    >Número do Cartão *</label
-                  >
-                  <input
-                    v-model="form.card.number"
-                    type="text"
-                    required
-                    @input="formatCardNumber"
-                    placeholder="0000 0000 0000 0000"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
-                  />
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2"
-                    >Nome no Cartão *</label
-                  >
-                  <input
-                    v-model="form.card.holderName"
-                    type="text"
-                    required
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
-                    placeholder="Nome como está no cartão"
-                  />
-                </div>
-                <div class="grid grid-cols-3 gap-4">
+                <div class="space-y-4">
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Validade *</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2"
+                      >Número do Cartão *</label
+                    >
                     <input
-                      v-model="form.card.expiry"
+                      v-model="form.card.number"
                       type="text"
                       required
-                      @input="formatExpiry"
-                      placeholder="MM/AA"
+                      @input="formatCardNumber"
+                      placeholder="0000 0000 0000 0000"
                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
                     />
                   </div>
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">CVV *</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2"
+                      >Nome no Cartão *</label
+                    >
                     <input
-                      v-model="form.card.cvv"
+                      v-model="form.card.holderName"
                       type="text"
                       required
-                      @input="formatCvv"
-                      placeholder="000"
                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                      placeholder="Nome como está no cartão"
                     />
+                  </div>
+                  <div class="grid grid-cols-3 gap-4">
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">Validade *</label>
+                      <input
+                        v-model="form.card.expiry"
+                        type="text"
+                        required
+                        @input="formatExpiry"
+                        placeholder="MM/AA"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">CVV *</label>
+                      <input
+                        v-model="form.card.cvv"
+                        type="text"
+                        required
+                        @input="formatCvv"
+                        placeholder="000"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                      />
+                    </div>
+                  </div>
+
+                  <!-- Campo de Parcelas apenas para crédito -->
+                  <div v-if="form.paymentMethod === 'credit_card'" class="mt-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Parcelas *</label>
+                    <select
+                      v-model="form.installments"
+                      required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                    >
+                      <option v-for="i in 12" :key="i" :value="i">
+                        {{ i }}x de R$
+                        {{
+                          formatPrice(
+                            orderItems.reduce(
+                              (acc, it) =>
+                                acc +
+                                Number((it.price as any)?.toString?.() || it.price || 0) *
+                                  (it.quantity || 0),
+                              0
+                            ) / i
+                          )
+                        }}
+                      </option>
+                    </select>
                   </div>
                 </div>
 
-                <!-- Campo de Parcelas apenas para crédito -->
-                <div v-if="form.paymentMethod === 'credit_card'" class="mt-4">
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Parcelas *</label>
-                  <select
-                    v-model="form.installments"
-                    required
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
-                  >
-                    <option v-for="i in 12" :key="i" :value="i">
-                      {{ i }}x de R$
-                      {{
-                        formatPrice(
-                          orderItems.reduce(
-                            (acc, it) =>
-                              acc +
-                              Number((it.price as any)?.toString?.() || it.price || 0) *
-                                (it.quantity || 0),
-                            0
-                          ) / i
-                        )
-                      }}
-                    </option>
-                  </select>
+                <!-- Informações de segurança -->
+                <div class="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                  <div class="flex items-center space-x-2">
+                    <svg
+                      class="w-4 h-4 text-green-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      ></path>
+                    </svg>
+                    <span class="text-sm text-green-800 font-medium">Pagamento 100% Seguro</span>
+                  </div>
+                  <p class="text-xs text-green-700 mt-1">
+                    Seus dados são criptografados e protegidos pelo PagBank. Não armazenamos
+                    informações do cartão.
+                  </p>
                 </div>
-              </div>
-
-              <!-- Informações de segurança -->
-              <div class="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
-                <div class="flex items-center space-x-2">
-                  <svg
-                    class="w-4 h-4 text-green-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                    ></path>
-                  </svg>
-                  <span class="text-sm text-green-800 font-medium">Pagamento 100% Seguro</span>
-                </div>
-                <p class="text-xs text-green-700 mt-1">
-                  Seus dados são criptografados e protegidos pelo PagBank. Não armazenamos
-                  informações do cartão.
-                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Modal Novo Endereço -->
-    <div v-if="showNewAddressModal" class="fixed inset-0 z-50 overflow-y-auto">
-      <div
-        class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
-      >
-        <!-- Background overlay com blur -->
+      <!-- Modal Novo Endereço -->
+      <div v-if="showNewAddressModal" class="fixed inset-0 z-50 overflow-y-auto">
         <div
-          class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
-          @click="closeNewAddressModal"
-        ></div>
-
-        <!-- Modal panel modernizado -->
-        <div
-          class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full border border-gray-100"
+          class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
         >
-          <!-- Header com gradiente -->
-          <div class="bg-gradient-to-r from-coral-soft to-coral-dark px-6 py-4">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                  <svg
-                    class="w-6 h-6 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                    ></path>
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                    ></path>
-                  </svg>
-                </div>
-                <div>
-                  <h3 class="text-xl font-bold text-white">Novo Endereço</h3>
-                  <p class="text-coral-100 text-sm">Cadastre um novo endereço de entrega</p>
-                </div>
-              </div>
-              <button
-                @click="closeNewAddressModal"
-                class="text-white/80 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
-              >
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  ></path>
-                </svg>
-              </button>
-            </div>
-          </div>
+          <!-- Background overlay com blur -->
+          <div
+            class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+            @click="closeNewAddressModal"
+          ></div>
 
-          <div class="bg-gray-50 px-6 py-8">
-            <form @submit.prevent="saveNewAddress" class="space-y-6">
-              <!-- Informações do endereço -->
-              <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                <div class="flex items-center space-x-3 mb-6">
-                  <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+          <!-- Modal panel modernizado -->
+          <div
+            class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full border border-gray-100"
+          >
+            <!-- Header com gradiente -->
+            <div class="bg-gradient-to-r from-coral-soft to-coral-dark px-6 py-4">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                  <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
                     <svg
-                      class="w-5 h-5 text-blue-600"
+                      class="w-6 h-6 text-white"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -1084,64 +1001,35 @@
                       ></path>
                     </svg>
                   </div>
-                  <h4 class="text-lg font-semibold text-gray-900">Informações do endereço</h4>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div class="md:col-span-2">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                      Nome do Endereço <span class="text-red-500">*</span>
-                    </label>
-                    <input
-                      v-model="newAddress.name"
-                      type="text"
-                      placeholder="Ex: Casa, Trabalho, etc."
-                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
-                    />
+                  <div>
+                    <h3 class="text-xl font-bold text-white">Novo Endereço</h3>
+                    <p class="text-coral-100 text-sm">Cadastre um novo endereço de entrega</p>
                   </div>
-                  <div class="md:col-span-2">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                      CEP <span class="text-red-500">*</span>
-                    </label>
-                    <div class="relative">
-                      <input
-                        v-model="newAddress.zipCode"
-                        type="text"
-                        required
-                        @input="formatNewAddressCep"
-                        @blur="searchNewAddressCep"
-                        placeholder="00000-000"
-                        class="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
-                      />
-                      <div
-                        v-if="loadingCep"
-                        class="absolute inset-y-0 right-0 flex items-center pr-3"
-                      >
-                        <svg
-                          class="animate-spin h-5 w-5 text-coral-soft"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <circle
-                            class="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            stroke-width="4"
-                          ></circle>
-                          <path
-                            class="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                          ></path>
-                        </svg>
-                      </div>
-                    </div>
-                    <p class="text-xs text-gray-500 mt-1">
+                </div>
+                <button
+                  @click="closeNewAddressModal"
+                  class="text-white/80 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
+                >
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="bg-gray-50 px-6 py-8">
+              <form @submit.prevent="saveNewAddress" class="space-y-6">
+                <!-- Informações do endereço -->
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                  <div class="flex items-center space-x-3 mb-6">
+                    <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
                       <svg
-                        class="w-3 h-3 inline mr-1"
+                        class="w-5 h-5 text-blue-600"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -1150,192 +1038,271 @@
                           stroke-linecap="round"
                           stroke-linejoin="round"
                           stroke-width="2"
-                          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                        ></path>
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                         ></path>
                       </svg>
-                      Digite o CEP e os dados serão preenchidos automaticamente
-                    </p>
+                    </div>
+                    <h4 class="text-lg font-semibold text-gray-900">Informações do endereço</h4>
                   </div>
-                  <div class="md:col-span-2">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                      Rua <span class="text-red-500">*</span>
-                    </label>
-                    <input
-                      v-model="newAddress.street"
-                      type="text"
-                      required
-                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
-                      placeholder="Nome da rua"
-                    />
-                  </div>
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                      Número <span class="text-red-500">*</span>
-                    </label>
-                    <input
-                      v-model="newAddress.number"
-                      type="text"
-                      required
-                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
-                      placeholder="123"
-                    />
-                  </div>
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Complemento</label>
-                    <input
-                      v-model="newAddress.complement"
-                      type="text"
-                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
-                      placeholder="Apto, bloco, etc."
-                    />
-                  </div>
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                      Bairro <span class="text-red-500">*</span>
-                    </label>
-                    <input
-                      v-model="newAddress.neighborhood"
-                      type="text"
-                      required
-                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
-                      placeholder="Nome do bairro"
-                    />
-                  </div>
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                      Cidade <span class="text-red-500">*</span>
-                    </label>
-                    <input
-                      v-model="newAddress.city"
-                      type="text"
-                      required
-                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
-                      placeholder="Nome da cidade"
-                    />
-                  </div>
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                      Estado <span class="text-red-500">*</span>
-                    </label>
-                    <select
-                      v-model="newAddress.state"
-                      required
-                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
-                    >
-                      <option value="">Selecione...</option>
-                      <option value="AC">Acre</option>
-                      <option value="AL">Alagoas</option>
-                      <option value="AP">Amapá</option>
-                      <option value="AM">Amazonas</option>
-                      <option value="BA">Bahia</option>
-                      <option value="CE">Ceará</option>
-                      <option value="DF">Distrito Federal</option>
-                      <option value="ES">Espírito Santo</option>
-                      <option value="GO">Goiás</option>
-                      <option value="MA">Maranhão</option>
-                      <option value="MT">Mato Grosso</option>
-                      <option value="MS">Mato Grosso do Sul</option>
-                      <option value="MG">Minas Gerais</option>
-                      <option value="PA">Pará</option>
-                      <option value="PB">Paraíba</option>
-                      <option value="PR">Paraná</option>
-                      <option value="PE">Pernambuco</option>
-                      <option value="PI">Piauí</option>
-                      <option value="RJ">Rio de Janeiro</option>
-                      <option value="RN">Rio Grande do Norte</option>
-                      <option value="RS">Rio Grande do Sul</option>
-                      <option value="RO">Rondônia</option>
-                      <option value="RR">Roraima</option>
-                      <option value="SC">Santa Catarina</option>
-                      <option value="SP">São Paulo</option>
-                      <option value="SE">Sergipe</option>
-                      <option value="TO">Tocantins</option>
-                    </select>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="md:col-span-2">
+                      <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Nome do Endereço <span class="text-red-500">*</span>
+                      </label>
+                      <input
+                        v-model="newAddress.name"
+                        type="text"
+                        placeholder="Ex: Casa, Trabalho, etc."
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                      />
+                    </div>
+                    <div class="md:col-span-2">
+                      <label class="block text-sm font-medium text-gray-700 mb-2">
+                        CEP <span class="text-red-500">*</span>
+                      </label>
+                      <div class="relative">
+                        <input
+                          v-model="newAddress.zipCode"
+                          type="text"
+                          required
+                          @input="formatNewAddressCep"
+                          @blur="searchNewAddressCep"
+                          placeholder="00000-000"
+                          class="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                        />
+                        <div
+                          v-if="loadingCep"
+                          class="absolute inset-y-0 right-0 flex items-center pr-3"
+                        >
+                          <svg
+                            class="animate-spin h-5 w-5 text-coral-soft"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              class="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              stroke-width="4"
+                            ></circle>
+                            <path
+                              class="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                          </svg>
+                        </div>
+                      </div>
+                      <p class="text-xs text-gray-500 mt-1">
+                        <svg
+                          class="w-3 h-3 inline mr-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path>
+                        </svg>
+                        Digite o CEP e os dados serão preenchidos automaticamente
+                      </p>
+                    </div>
+                    <div class="md:col-span-2">
+                      <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Rua <span class="text-red-500">*</span>
+                      </label>
+                      <input
+                        v-model="newAddress.street"
+                        type="text"
+                        required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                        placeholder="Nome da rua"
+                      />
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Número <span class="text-red-500">*</span>
+                      </label>
+                      <input
+                        v-model="newAddress.number"
+                        type="text"
+                        required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                        placeholder="123"
+                      />
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-2"
+                        >Complemento</label
+                      >
+                      <input
+                        v-model="newAddress.complement"
+                        type="text"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                        placeholder="Apto, bloco, etc."
+                      />
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Bairro <span class="text-red-500">*</span>
+                      </label>
+                      <input
+                        v-model="newAddress.neighborhood"
+                        type="text"
+                        required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                        placeholder="Nome do bairro"
+                      />
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Cidade <span class="text-red-500">*</span>
+                      </label>
+                      <input
+                        v-model="newAddress.city"
+                        type="text"
+                        required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                        placeholder="Nome da cidade"
+                      />
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Estado <span class="text-red-500">*</span>
+                      </label>
+                      <select
+                        v-model="newAddress.state"
+                        required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-soft focus:border-coral-soft transition-colors"
+                      >
+                        <option value="">Selecione...</option>
+                        <option value="AC">Acre</option>
+                        <option value="AL">Alagoas</option>
+                        <option value="AP">Amapá</option>
+                        <option value="AM">Amazonas</option>
+                        <option value="BA">Bahia</option>
+                        <option value="CE">Ceará</option>
+                        <option value="DF">Distrito Federal</option>
+                        <option value="ES">Espírito Santo</option>
+                        <option value="GO">Goiás</option>
+                        <option value="MA">Maranhão</option>
+                        <option value="MT">Mato Grosso</option>
+                        <option value="MS">Mato Grosso do Sul</option>
+                        <option value="MG">Minas Gerais</option>
+                        <option value="PA">Pará</option>
+                        <option value="PB">Paraíba</option>
+                        <option value="PR">Paraná</option>
+                        <option value="PE">Pernambuco</option>
+                        <option value="PI">Piauí</option>
+                        <option value="RJ">Rio de Janeiro</option>
+                        <option value="RN">Rio Grande do Norte</option>
+                        <option value="RS">Rio Grande do Sul</option>
+                        <option value="RO">Rondônia</option>
+                        <option value="RR">Roraima</option>
+                        <option value="SC">Santa Catarina</option>
+                        <option value="SP">São Paulo</option>
+                        <option value="SE">Sergipe</option>
+                        <option value="TO">Tocantins</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <!-- Botões de ação -->
-              <div class="flex justify-end space-x-4">
-                <button
-                  @click="closeNewAddressModal"
-                  type="button"
-                  class="px-6 py-3 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors font-medium"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  class="px-8 py-3 bg-gradient-to-r from-coral-soft to-coral-dark text-white rounded-lg hover:from-coral-dark hover:to-coral-soft transition-all font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-                >
-                  Salvar Endereço
-                </button>
-              </div>
-            </form>
+                <!-- Botões de ação -->
+                <div class="flex justify-end space-x-4">
+                  <button
+                    @click="closeNewAddressModal"
+                    type="button"
+                    class="px-6 py-3 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="submit"
+                    class="px-8 py-3 bg-gradient-to-r from-coral-soft to-coral-dark text-white rounded-lg hover:from-coral-dark hover:to-coral-soft transition-all font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                  >
+                    Salvar Endereço
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Modal PIX -->
-    <div
-      v-if="showPixModal"
-      class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50"
-      @click="closePixModal"
-    >
+      <!-- Modal PIX -->
       <div
-        class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white"
-        @click.stop
+        v-if="showPixModal"
+        class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50"
+        @click="closePixModal"
       >
-        <!-- Header do Modal -->
-        <div class="flex items-center justify-between mb-6">
-          <h3 class="text-xl font-bold text-gray-900">Pagamento PIX</h3>
-          <button
-            @click="closePixModal"
-            class="text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              ></path>
-            </svg>
-          </button>
-        </div>
-
-        <!-- Conteúdo do Modal -->
-        <div class="text-center">
-          <p class="text-sm text-gray-600 mb-6">
-            Escaneie o QR Code abaixo ou copie o código PIX para pagar
-          </p>
-
-          <!-- QR Code -->
-          <div class="mb-6 flex justify-center">
-            <img :src="pixQrCode" alt="QR Code PIX" class="w-48 h-48" />
+        <div
+          class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white"
+          @click.stop
+        >
+          <!-- Header do Modal -->
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="text-xl font-bold text-gray-900">Pagamento PIX</h3>
+            <button
+              @click="closePixModal"
+              class="text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                ></path>
+              </svg>
+            </button>
           </div>
 
-          <!-- Código PIX -->
-          <div class="mb-6">
-            <label class="block text-sm font-medium text-gray-700 mb-2"> Código PIX </label>
-            <div class="flex">
-              <input
-                :value="pixCode"
-                type="text"
-                readonly
-                class="flex-1 px-3 py-2 border border-gray-300 rounded-l-lg bg-gray-50 text-sm"
-              />
-              <button
-                @click="copyPixCode"
-                class="px-4 py-2 bg-orange-500 text-white rounded-r-lg hover:bg-orange-600 transition-colors"
-              >
-                Copiar
-              </button>
+          <!-- Conteúdo do Modal -->
+          <div class="text-center">
+            <p class="text-sm text-gray-600 mb-6">
+              Escaneie o QR Code abaixo ou copie o código PIX para pagar
+            </p>
+
+            <!-- QR Code -->
+            <div class="mb-6 flex justify-center">
+              <img :src="pixQrCode" alt="QR Code PIX" class="w-48 h-48" />
             </div>
-          </div>
 
-          <div class="text-xs text-gray-500">O pagamento expira em 1 hora</div>
+            <!-- Código PIX -->
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-700 mb-2"> Código PIX </label>
+              <div class="flex">
+                <input
+                  :value="pixCode"
+                  type="text"
+                  readonly
+                  class="flex-1 px-3 py-2 border border-gray-300 rounded-l-lg bg-gray-50 text-sm"
+                />
+                <button
+                  @click="copyPixCode"
+                  class="px-4 py-2 bg-orange-500 text-white rounded-r-lg hover:bg-orange-600 transition-colors"
+                >
+                  Copiar
+                </button>
+              </div>
+            </div>
+
+            <div class="text-xs text-gray-500">O pagamento expira em 1 hora</div>
+          </div>
         </div>
       </div>
     </div>
@@ -1343,14 +1310,103 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted, nextTick, watch } from 'vue';
 import type { PropType } from 'vue';
+
+// Interfaces para tipagem
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  weight?: number;
+  images?: string[];
+}
+
+interface OrderItem {
+  id: string;
+  product: Product;
+  quantity: number;
+  size?: string;
+  color?: string;
+  price: number;
+}
+
+interface Address {
+  id: string;
+  name: string;
+  zipCode: string;
+  street: string;
+  number: string;
+  complement?: string;
+  neighborhood: string;
+  city: string;
+  state: string;
+  isDefault?: boolean;
+}
+
+interface ShippingOption {
+  id: string;
+  name: string;
+  description: string;
+  cost: number;
+  estimatedDays: number;
+  icon: string;
+  appliedPromotion?: {
+    name: string;
+  };
+  originalCost?: number;
+}
+
+interface FreeShippingAlert {
+  message: string;
+  promotion?: {
+    name: string;
+  };
+}
+
+interface ShippingResponse {
+  success: boolean;
+  shipping: {
+    options: ShippingOption[];
+    freeShippingAlert?: FreeShippingAlert;
+  };
+}
+
+interface AddressResponse {
+  addresses: Address[];
+  address?: Address;
+}
+
+interface ProfileData {
+  name?: string;
+  email?: string;
+  cpf?: string;
+  phone?: string;
+  address?: {
+    cep: string;
+    street: string;
+    number: string;
+    complement?: string;
+    neighborhood: string;
+    city: string;
+    state: string;
+  };
+}
+
+interface CepResponse {
+  logradouro: string;
+  bairro: string;
+  localidade: string;
+  uf: string;
+}
+
 const props = defineProps({
   orderId: {
     type: String,
     required: true,
   },
   orderItems: {
-    type: Array as PropType<any[]>,
+    type: Array as PropType<OrderItem[]>,
     required: true,
   },
   total: {
@@ -1371,13 +1427,13 @@ const pixQrCode = ref('');
 const pixCode = ref('');
 const paymentLocked = ref(false);
 const showNewAddressModal = ref(false);
-const savedAddresses = ref<any[]>([]);
+const savedAddresses = ref<Address[]>([]);
 const selectedAddressId = ref<string | null>(null);
 const loadingCep = ref(false);
-const shippingOptions = ref<any[]>([]);
-const selectedShippingOption = ref<any>(null);
+const shippingOptions = ref<ShippingOption[]>([]);
+const selectedShippingOption = ref<ShippingOption | null>(null);
 const loadingShipping = ref(false);
-const freeShippingAlert = ref<any>(null);
+const freeShippingAlert = ref<FreeShippingAlert | null>(null);
 
 // Formulário
 const form = ref({
@@ -1470,7 +1526,7 @@ const searchCep = async () => {
     loadingCep.value = true;
     try {
       // Usar endpoint local para evitar CORS
-      const response = (await $fetch(`/api/cep/${cep}`)) as any;
+      const response: CepResponse = await $fetch(`/api/cep/${cep}`);
 
       if (response && response.logradouro) {
         form.value.address.street = response.logradouro;
@@ -1498,9 +1554,16 @@ const processPayment = async () => {
 
   try {
     // Preparar dados do cartão
-    let cardData = null;
+    let cardData: {
+      number: string;
+      holderName: string;
+      expMonth: string;
+      expYear: string;
+      cvv: string;
+    } | null = null;
     if (form.value.paymentMethod === 'credit_card' || form.value.paymentMethod === 'debit_card') {
       const [expMonth, expYear] = form.value.card.expiry.split('/');
+      if (!expMonth || !expYear) throw new Error('Data de expiração inválida');
       cardData = {
         number: form.value.card.number.replace(/\s/g, ''),
         holderName: form.value.card.holderName,
@@ -1520,7 +1583,18 @@ const processPayment = async () => {
     };
 
     // Processar pagamento
-    const response = await $fetch('/api/payment/create', {
+    const response: {
+      success: boolean;
+      order: {
+        qr_codes?: Array<{
+          links?: Array<{ href: string }>;
+          text?: string;
+        }>;
+        charges?: Array<{
+          links?: Array<{ href: string }>;
+        }>;
+      };
+    } = await $fetch('/api/payment/create', {
       method: 'POST',
       body: {
         orderId: props.orderId,
@@ -1535,7 +1609,7 @@ const processPayment = async () => {
     if (response.success) {
       if (form.value.paymentMethod === 'pix') {
         // Mostrar modal PIX
-        const orderData = response.order as any;
+        const orderData = response.order;
         const firstQr = Array.isArray(orderData?.qr_codes) ? orderData.qr_codes[0] : null;
         if (firstQr) {
           pixQrCode.value = firstQr.links?.[0]?.href || '';
@@ -1545,7 +1619,7 @@ const processPayment = async () => {
         paymentLocked.value = true;
       } else if (form.value.paymentMethod === 'boleto') {
         // Mostrar modal Boleto
-        const orderData = response.order as any;
+        const orderData = response.order;
         const firstCharge = Array.isArray(orderData?.charges) ? orderData.charges[0] : null;
         if (firstCharge?.links?.[0]?.href) {
           // Abrir boleto em nova aba
@@ -1586,24 +1660,27 @@ const closePixModal = async () => {
 // Funções para gerenciar endereços
 const loadSavedAddresses = async () => {
   try {
-    const response = await $fetch('/api/addresses');
-    savedAddresses.value = response.addresses;
+    const response: AddressResponse = await $fetch('/api/addresses');
+    savedAddresses.value = Array.isArray(response.addresses) ? response.addresses : [];
     // Seleciona endereço padrão (ou o primeiro) automaticamente
     if (Array.isArray(savedAddresses.value) && savedAddresses.value.length > 0) {
-      let toSelect = savedAddresses.value.find((a: any) => a.isDefault) || savedAddresses.value[0];
-      selectedAddressId.value = toSelect.id;
-      form.value.address = {
-        zipCode: toSelect.zipCode,
-        street: toSelect.street,
-        number: toSelect.number,
-        complement: toSelect.complement || '',
-        neighborhood: toSelect.neighborhood,
-        city: toSelect.city,
-        state: toSelect.state,
-      };
-      const cepDigits = (toSelect.zipCode || '').replace(/\D/g, '');
-      if (cepDigits.length === 8) {
-        await calculateShipping(cepDigits);
+      let toSelect =
+        savedAddresses.value.find((a: Address) => a.isDefault) || savedAddresses.value[0];
+      if (toSelect) {
+        selectedAddressId.value = toSelect.id;
+        form.value.address = {
+          zipCode: toSelect.zipCode,
+          street: toSelect.street,
+          number: toSelect.number,
+          complement: toSelect.complement || '',
+          neighborhood: toSelect.neighborhood,
+          city: toSelect.city,
+          state: toSelect.state,
+        };
+        const cepDigits = (toSelect.zipCode || '').replace(/\D/g, '');
+        if (cepDigits.length === 8) {
+          await calculateShipping(cepDigits);
+        }
       }
     }
   } catch (error: any) {
@@ -1616,7 +1693,7 @@ const loadSavedAddresses = async () => {
   }
 };
 
-const selectAddress = async (address: any) => {
+const selectAddress = async (address: Address) => {
   selectedAddressId.value = address.id;
   // Preenche o formulário com os dados do endereço selecionado
   form.value.address = {
@@ -1672,7 +1749,7 @@ const searchNewAddressCep = async () => {
     loadingCep.value = true;
     try {
       // Usar endpoint local para evitar CORS
-      const response = (await $fetch(`/api/cep/${cep}`)) as any;
+      const response: CepResponse = await $fetch(`/api/cep/${cep}`);
 
       if (response && response.logradouro) {
         newAddress.value.street = response.logradouro;
@@ -1710,7 +1787,7 @@ const calculateShipping = async (cep: string) => {
       return acc + item.product.price * item.quantity;
     }, 0);
 
-    const response = await $fetch('/api/shipping/calculate', {
+    const response: ShippingResponse = await $fetch('/api/shipping/calculate', {
       method: 'POST',
       body: {
         destinationCep: cep,
@@ -1720,13 +1797,17 @@ const calculateShipping = async (cep: string) => {
     });
 
     if (response.success) {
-      shippingOptions.value = response.shipping.options;
+      shippingOptions.value = Array.isArray(response.shipping?.options)
+        ? response.shipping.options
+        : [];
       // Selecionar PAC como padrão
       selectedShippingOption.value =
-        shippingOptions.value.find(option => option.id === 'pac') || shippingOptions.value[0];
+        shippingOptions.value.find(option => option.id === 'pac') ||
+        shippingOptions.value[0] ||
+        null;
 
       // Atualizar alerta de frete grátis
-      if (response.shipping.freeShippingAlert) {
+      if (response.shipping?.freeShippingAlert) {
         freeShippingAlert.value = response.shipping.freeShippingAlert;
       } else {
         freeShippingAlert.value = null;
@@ -1745,7 +1826,7 @@ const calculateShipping = async (cep: string) => {
         icon: '📦',
       },
     ];
-    selectedShippingOption.value = shippingOptions.value[0];
+    selectedShippingOption.value = shippingOptions.value[0] || null;
     freeShippingAlert.value = null;
   } finally {
     loadingShipping.value = false;
@@ -1783,12 +1864,12 @@ const saveNewAddress = async () => {
   }
 
   try {
-    const response = await $fetch('/api/addresses', {
+    const response: AddressResponse = await $fetch('/api/addresses', {
       method: 'POST',
       body: newAddress.value,
     });
 
-    const savedAddress = response.address;
+    const savedAddress: Address = response.address || ({} as Address);
     savedAddresses.value.push(savedAddress);
     selectedAddressId.value = savedAddress.id;
 
@@ -1827,19 +1908,19 @@ const saveNewAddress = async () => {
 const loadUserProfile = async () => {
   loadingProfile.value = true;
   try {
-    const profileData = await $fetch('/api/user/profile');
+    const profileData: ProfileData = await $fetch('/api/user/profile');
 
     // Preencher dados pessoais do formulário
-    if (profileData.name) {
+    if (profileData?.name) {
       form.value.customer.name = profileData.name;
     }
-    if (profileData.email) {
+    if (profileData?.email) {
       form.value.customer.email = profileData.email;
     }
-    if (profileData.cpf) {
+    if (profileData?.cpf) {
       form.value.customer.cpf = profileData.cpf;
     }
-    if (profileData.phone) {
+    if (profileData?.phone) {
       // Aplicar formatação do telefone após carregar
       form.value.customer.phone = profileData.phone;
       // Aguardar o próximo tick para garantir que o valor foi atualizado
@@ -1848,19 +1929,21 @@ const loadUserProfile = async () => {
     }
 
     // Se não há endereço padrão salvo, mas há um no perfil, usar ele
-    if (!selectedAddressId.value && profileData.address) {
+    if (!selectedAddressId.value && profileData?.address) {
       form.value.address = {
-        zipCode: profileData.address.cep,
-        street: profileData.address.street,
-        number: profileData.address.number,
+        zipCode: profileData.address.cep || '',
+        street: profileData.address.street || '',
+        number: profileData.address.number || '',
         complement: profileData.address.complement || '',
-        neighborhood: profileData.address.neighborhood,
-        city: profileData.address.city,
-        state: profileData.address.state,
+        neighborhood: profileData.address.neighborhood || '',
+        city: profileData.address.city || '',
+        state: profileData.address.state || '',
       };
 
       // Calcular frete para o endereço do perfil
-      await calculateShipping(profileData.address.cep.replace(/\D/g, ''));
+      if (profileData.address.cep) {
+        await calculateShipping(profileData.address.cep.replace(/\D/g, ''));
+      }
     }
 
     success('✅ Dados do perfil carregados com sucesso!');

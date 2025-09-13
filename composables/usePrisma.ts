@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { generateOrderNumberWithPrisma } from '~/utils/orderNumberGenerator';
 
 // Singleton do Prisma Client
 let prisma: PrismaClient;
@@ -79,8 +80,12 @@ export const useOrderService = () => {
   return {
     // Criar pedido
     async createOrder(userId: string, items: any[], total: number) {
+      // Gerar número do pedido sequencial
+      const orderNumber = await generateOrderNumberWithPrisma(prisma);
+      
       return await prisma.order.create({
         data: {
+          orderNumber,
           userId,
           total,
           shipping: 0,

@@ -97,7 +97,7 @@ export const usePagBank = () => {
         number: string;
         locality: string;
         city: string;
-        region_code: string;
+        state: string;
         country: string;
         postal_code: string;
       };
@@ -138,6 +138,7 @@ export const usePagBank = () => {
               number: string;
               locality: string;
               city: string;
+              region: string;
               region_code: string;
               country: string;
               postal_code: string;
@@ -160,6 +161,9 @@ export const usePagBank = () => {
     }>;
   }) => {
     try {
+      // Log do payload para debug
+      console.log('🔍 Payload enviado para PagBank:', JSON.stringify(orderData, null, 2));
+
       const response = await fetchWithFallback(`/orders`, {
         method: 'POST',
         headers: getHeaders(),
@@ -168,7 +172,9 @@ export const usePagBank = () => {
 
       return response;
     } catch (error: any) {
-      console.error('Erro ao criar pedido no PagBank:', error);
+      console.error('❌ Erro ao criar pedido no PagBank:', error);
+      console.error('📋 Payload que causou erro:', JSON.stringify(orderData, null, 2));
+      console.error('🔍 Detalhes do erro:', error.data);
       throw new Error(
         error.data?.error_messages?.[0]?.description || 'Erro ao processar pagamento'
       );
@@ -200,7 +206,7 @@ export const usePagBank = () => {
         number: string;
         locality: string;
         city: string;
-        region_code: string;
+        state: string;
         country: string;
         postal_code: string;
       };

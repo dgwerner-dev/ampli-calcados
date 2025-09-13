@@ -73,19 +73,20 @@ model Product {
 }
 
 model Order {
-  id         String      @id @default(cuid())
-  userId     String
-  couponId   String?
-  status     OrderStatus @default(PENDING)
-  total      Decimal     @db.Decimal(10, 2)
-  shipping   Decimal     @db.Decimal(10, 2)
-  tax        Decimal     @db.Decimal(10, 2)
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  orderItems OrderItem[]
-  coupon     Coupon?     @relation(fields: [couponId], references: [id])
-  user       User        @relation(fields: [userId], references: [id])
-  payments   Payment[]
+  id          String      @id @default(cuid())
+  orderNumber Int         @unique
+  userId      String
+  couponId    String?
+  status      OrderStatus @default(PENDING)
+  total       Decimal     @db.Decimal(10, 2)
+  shipping    Decimal     @db.Decimal(10, 2)
+  tax         Decimal     @db.Decimal(10, 2)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  orderItems  OrderItem[]
+  coupon      Coupon?     @relation(fields: [couponId], references: [id])
+  user        User        @relation(fields: [userId], references: [id])
+  payments    Payment[]
 
   @@map("orders")
 }

@@ -117,8 +117,9 @@ const loadOrder = async () => {
 };
 
 // Métodos
-const formatPrice = (price: number) => {
-  return price.toFixed(2).replace('.', ',');
+const formatPrice = (price: number | string | null | undefined) => {
+  if (!price || isNaN(Number(price))) return '0,00';
+  return Number(price).toFixed(2).replace('.', ',');
 };
 
 const formatDate = (date: string) => {

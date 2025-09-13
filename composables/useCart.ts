@@ -21,17 +21,49 @@ export const useCart = () => {
   const loading = ref(false);
   const error = ref<string | null>(null);
 
+  // Validar item do carrinho
+  const validateCartItem = (item: any): boolean => {
+    return (
+      item &&
+      typeof item === 'object' &&
+      typeof item.id === 'string' &&
+      typeof item.productId === 'string' &&
+      typeof item.quantity === 'number' &&
+      item.quantity > 0 &&
+      typeof item.price === 'number' &&
+      item.price > 0 &&
+      item.product &&
+      typeof item.product.id === 'string' &&
+      typeof item.product.name === 'string'
+    );
+  };
+
   // Carregar carrinho do localStorage
   const loadCart = () => {
     if (process.client) {
       const savedCart = localStorage.getItem('cart');
       if (savedCart) {
         try {
-          cart.value = JSON.parse(savedCart);
+          const parsedCart = JSON.parse(savedCart);
+          if (Array.isArray(parsedCart)) {
+            // Validar cada item do carrinho
+            const validItems = parsedCart.filter(validateCartItem);
+            if (validItems.length !== parsedCart.length) {
+              console.warn('🛒 Alguns itens do carrinho foram removidos por serem inválidos');
+            }
+            cart.value = validItems;
+          } else {
+            console.warn('🛒 Dados do carrinho não são um array válido, limpando...');
+            cart.value = [];
+            localStorage.removeItem('cart');
+          }
         } catch (err) {
           console.error('Erro ao carregar carrinho:', err);
           cart.value = [];
+          localStorage.removeItem('cart');
         }
+      } else {
+        cart.value = [];
       }
     }
   };
@@ -112,6 +144,15 @@ export const useCart = () => {
     saveCart();
   };
 
+  // Forçar limpeza completa do carrinho (incluindo localStorage)
+  const forceClearCart = () => {
+    cart.value = [];
+    if (process.client) {
+      localStorage.removeItem('cart');
+      console.log('🧹 Carrinho completamente limpo');
+    }
+  };
+
   // Calcular total
   const total = computed(() => {
     return cart.value.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -131,7 +172,7 @@ export const useCart = () => {
   }
 
   return {
-    cart: computed(() => cart.value),
+    cart: computed(() => (Array.isArray(cart.value) ? cart.value : [])),
     loading: computed(() => loading.value),
     error: computed(() => error.value),
     total,
@@ -141,6 +182,7 @@ export const useCart = () => {
     removeFromCart,
     updateQuantity,
     clearCart,
+    forceClearCart,
     loadCart,
   };
 };

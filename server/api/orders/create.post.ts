@@ -1,5 +1,6 @@
 import { serverSupabaseUser } from '#supabase/server';
 import { usePrisma } from '~/composables/usePrisma';
+import { generateOrderNumberWithPrisma } from '~/utils/orderNumberGenerator';
 
 export default defineEventHandler(async event => {
   const prisma = usePrisma();
@@ -84,8 +85,12 @@ export default defineEventHandler(async event => {
     const tax = 0; // Impostos se necessário
     const finalTotal = total + shipping + tax;
 
+    // Gerar número do pedido sequencial
+    const orderNumber = await generateOrderNumberWithPrisma(prisma);
+
     // Criar pedido usando Prisma
     const orderData = {
+      orderNumber: orderNumber,
       userId: user.id,
       status: 'PENDING' as const,
       total: finalTotal,
@@ -118,6 +123,7 @@ export default defineEventHandler(async event => {
       success: true,
       order: {
         id: order.id,
+        orderNumber: order.orderNumber,
         total: finalTotal,
         status: order.status,
       },

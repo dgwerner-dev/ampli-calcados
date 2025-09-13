@@ -38,15 +38,24 @@ export default defineEventHandler(async event => {
     const phoneDigitsAll = (customerData?.phone || '').replace(/\D/g, '');
     const address = customerData?.address || {};
     const missingFields: string[] = [];
-    if (!customerData?.name) missingFields.push('customer.name');
-    if (!customerData?.email) missingFields.push('customer.email');
+
+    // Validações obrigatórias
+    if (!customerData?.name || customerData.name.trim().length === 0)
+      missingFields.push('customer.name');
+    if (!customerData?.email || customerData.email.trim().length === 0)
+      missingFields.push('customer.email');
     if (cpfDigits.length !== 11) missingFields.push('customer.tax_id(cpf 11 dígitos)');
     if (phoneDigitsAll.length < 10) missingFields.push('customer.phones.number(10-11 dígitos)');
-    if (!address.street) missingFields.push('shipping.address.street');
-    if (!address.number) missingFields.push('shipping.address.number');
-    if (!address.neighborhood) missingFields.push('shipping.address.locality');
-    if (!address.city) missingFields.push('shipping.address.city');
-    if (!address.state) missingFields.push('shipping.address.region_code');
+    if (!address.street || address.street.trim().length === 0)
+      missingFields.push('shipping.address.street');
+    if (!address.number || address.number.trim().length === 0)
+      missingFields.push('shipping.address.number');
+    if (!address.neighborhood || address.neighborhood.trim().length === 0)
+      missingFields.push('shipping.address.locality');
+    if (!address.city || address.city.trim().length === 0)
+      missingFields.push('shipping.address.city');
+    if (!address.state || address.state.trim().length === 0)
+      missingFields.push('shipping.address.region_code');
     if ((address.zipCode || '').replace(/\D/g, '').length !== 8)
       missingFields.push('shipping.address.postal_code(CEP 8 dígitos)');
 
@@ -92,9 +101,9 @@ export default defineEventHandler(async event => {
     // Preparar dados para o PagBank
     // Normalizar telefone (somente dígitos)
     const phoneDigits = (customerData.phone || '').replace(/\D/g, '');
-    const phoneArea = phoneDigits.slice(0, 2);
-    const phoneNumberDigits = phoneDigits.slice(2);
-    const phoneNumber = phoneNumberDigits ? parseInt(phoneNumberDigits, 10) : undefined;
+    const phoneArea = phoneDigits.length >= 10 ? phoneDigits.slice(0, 2) : '11';
+    const phoneNumberDigits = phoneDigits.length >= 10 ? phoneDigits.slice(2) : phoneDigits;
+    const phoneNumber = phoneNumberDigits ? phoneNumberDigits : '999999999';
 
     // Definir notification URL: em dev usar PAGBANK_WEBHOOK_PUBLIC_URL; em prod usar origin https
     const origin = getRequestURL(event).origin;
@@ -110,7 +119,7 @@ export default defineEventHandler(async event => {
     } catch {}
 
     const baseOrder = {
-      reference_id: orderId,
+      reference_id: order.orderNumber.toString(),
       customer: {
         name: customerData.name,
         email: customerData.email,
@@ -136,7 +145,7 @@ export default defineEventHandler(async event => {
           number: customerData.address.number,
           locality: customerData.address.neighborhood,
           city: customerData.address.city,
-          region_code: customerData.address.state,
+          region_code: customerData.address.state || '',
           country: 'BRA',
           postal_code: customerData.address.zipCode.replace(/\D/g, ''),
         },
@@ -183,93 +192,101 @@ export default defineEventHandler(async event => {
             ...baseOrder,
             qr_codes: [
               {
-                amount: { 
+                amount: {
                   value: totalWithShippingCents,
-                  currency: 'BRL'
+                  currency: 'BRL',
                 },
                 expires_in: 3600, // 1 hora
               },
             ],
           }
         : paymentMethod === 'boleto'
-        ? {
-            ...baseOrder,
-            charges: [
-              {
-                reference_id: `${orderId}-charge`,
-                description: `Pedido ${orderId}`,
-                amount: {
-                  value: totalWithShippingCents,
-                  currency: 'BRL',
-                },
-                payment_method: {
-                  type: 'boleto',
-                  boleto: {
-                    due_date: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 3 dias
-                    instruction_lines: {
-                      line_1: 'Pagamento referente ao pedido',
-                      line_2: 'Não receber após o vencimento',
-                    },
-                    holder: {
-                      name: customerData.name,
-                      tax_id: cpfDigits,
-                      email: customerData.email,
-                      address: {
-                        street: address.street,
-                        number: address.number,
-                        locality: address.neighborhood,
-                        city: address.city,
-                        region_code: address.state,
-                        country: 'BR',
-                        postal_code: address.zipCode.replace(/\D/g, ''),
+          ? {
+              ...baseOrder,
+              charges: [
+                {
+                  reference_id: `${order.orderNumber}-charge`,
+                  description: `Pedido ${order.orderNumber}`,
+                  amount: {
+                    value: totalWithShippingCents,
+                    currency: 'BRL',
+                  },
+                  payment_method: {
+                    type: 'boleto',
+                    boleto: {
+                      due_date: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)
+                        .toISOString()
+                        .split('T')[0], // 3 dias
+                      instruction_lines: {
+                        line_1: 'Pagamento referente ao pedido',
+                        line_2: 'Não receber após o vencimento',
+                      },
+                      // 🔍 LOG: Usando 'state' para holder.address
+                      holder: {
+                        name: customerData.name.trim(),
+                        tax_id: cpfDigits,
+                        email: customerData.email.trim(),
+                        address: {
+                          street: address.street.trim(),
+                          number: address.number.trim(),
+                          locality: address.neighborhood.trim(),
+                          city: address.city.trim(),
+                          region: (address.state || '').trim(),
+                          region_code: (address.state || '').trim(),
+                          country: 'BRA',
+                          postal_code: address.zipCode.replace(/\D/g, ''),
+                        },
                       },
                     },
                   },
                 },
-              },
-            ],
-          }
-        : {
-            ...baseOrder,
-            charges: [
-              {
-                reference_id: `${orderId}-charge`,
-                description: `Pedido ${orderId}`,
-                amount: {
-                  value: totalWithShippingCents,
-                  currency: 'BRL',
+              ],
+            }
+          : {
+              ...baseOrder,
+              charges: [
+                {
+                  reference_id: `${order.orderNumber}-charge`,
+                  description: `Pedido ${order.orderNumber}`,
+                  amount: {
+                    value: totalWithShippingCents,
+                    currency: 'BRL',
+                  },
+                  payment_method: {
+                    type: paymentMethod === 'debit_card' ? 'debit_card' : 'credit_card',
+                    installments,
+                    capture: true,
+                    card: cardData
+                      ? {
+                          number: cardData.number.replace(/\s/g, ''),
+                          exp_month: cardData.expMonth,
+                          exp_year: cardData.expYear,
+                          security_code: cardData.cvv,
+                          holder: {
+                            name: cardData.holderName,
+                          },
+                        }
+                      : undefined,
+                    soft_descriptor: 'BARTEZEN',
+                    // 3DS obrigatório para débito
+                    ...(paymentMethod === 'debit_card' && {
+                      authentication_method: {
+                        type: 'THREEDS',
+                        id: crypto.randomUUID(),
+                      },
+                    }),
+                  },
                 },
-                payment_method: {
-                  type: paymentMethod === 'debit_card' ? 'debit_card' : 'credit_card',
-                  installments,
-                  capture: true,
-                  card: cardData
-                    ? {
-                        number: cardData.number.replace(/\s/g, ''),
-                        exp_month: cardData.expMonth,
-                        exp_year: cardData.expYear,
-                        security_code: cardData.cvv,
-                        holder: {
-                          name: cardData.holderName,
-                        },
-                      }
-                    : undefined,
-                  soft_descriptor: 'BARTEZEN',
-                  // 3DS obrigatório para débito
-                  ...(paymentMethod === 'debit_card' && {
-                    authentication_method: {
-                      type: 'THREEDS',
-                      id: crypto.randomUUID(),
-                    },
-                  }),
-                },
-              },
-            ],
-          };
+              ],
+            };
 
     // Criar pedido no PagBank
     const pagBank = usePagBank();
     let pagBankResponse;
+
+    // Log do payload para debug
+    console.log('🔍 Payload do boleto sendo enviado:', JSON.stringify(pagBankOrder, null, 2));
+    console.log('🔍 customerData.address.state:', customerData.address.state);
 
     // Para PIX usamos o formato com qr_codes; para cartão, charges
     pagBankResponse = await pagBank.createOrder(pagBankOrder);

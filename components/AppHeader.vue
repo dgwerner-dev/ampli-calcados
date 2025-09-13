@@ -309,6 +309,23 @@
               </ClientOnly>
             </button>
 
+            <!-- Debug: Limpar Carrinho (temporário) -->
+            <button
+              v-if="cartItemCount > 0"
+              @click="clearCartDebug"
+              class="p-2 hover:bg-red-100 rounded-full transition-colors duration-200 text-red-600"
+              title="Limpar carrinho (debug)"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                ></path>
+              </svg>
+            </button>
+
             <!-- Mobile Menu Button -->
             <button
               @click="toggleMobileMenu"
@@ -395,8 +412,14 @@ const navigateToWishlist = () => {
 };
 
 const { user, signOut, initAuth, refreshUserState } = useAuth();
-const { itemCount: cartItemCount } = useCart();
+const { itemCount: cartItemCount, forceClearCart } = useCart();
 const { wishlistCount, loadWishlistAsync } = useWishlist();
+
+// Função para limpar carrinho (debug)
+const clearCartDebug = () => {
+  console.log('🧹 Limpando carrinho...');
+  forceClearCart();
+};
 const supabase = useSupabaseClient();
 
 // Garantir que o carrinho e wishlist sejam inicializados no cliente
@@ -437,7 +460,7 @@ watch(user, newUser => {
 const loadCategories = async () => {
   try {
     const response = await $fetch('/api/categories');
-    
+
     // Verificar se a API retornou sucesso
     if (response.success) {
       categories.value = response.categories || [];
@@ -531,7 +554,6 @@ const handleLoginSuccess = async () => {
   success('Login realizado com sucesso!');
 };
 
-const router = useRouter();
 const goTo = async (path: string) => {
   if (process.env.NODE_ENV === 'development') {
     console.log('🚀 goTo chamado com path:', path);
@@ -539,39 +561,27 @@ const goTo = async (path: string) => {
   showUserMenu.value = false;
 
   try {
-    // Aguardar router estar pronto
-    if (!router) {
-      if (process.env.NODE_ENV === 'development') {
-        console.log('⏳ Router não disponível, aguardando...');
-      }
-      await nextTick();
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🌐 Executando navegação para:', path);
+      console.log('🔍 Estado do usuário:', {
+        isAuthenticated: isAuthenticated.value,
+        user: user.value,
+      });
     }
 
-    // Verificar se ainda estamos no cliente
-    if (process.client) {
-      if (process.env.NODE_ENV === 'development') {
-        console.log('🌐 Executando navegação no cliente...');
-      }
-      await router.push(path);
-      if (process.env.NODE_ENV === 'development') {
-        console.log('✅ Navegação para', path, 'realizada com sucesso');
-      }
-    } else {
-      if (process.env.NODE_ENV === 'development') {
-        console.log('🔄 Redirecionando via window.location...');
-      }
-      window.location.href = path;
+    await navigateTo(path);
+
+    if (process.env.NODE_ENV === 'development') {
+      console.log('✅ Navegação para', path, 'realizada com sucesso');
     }
   } catch (error) {
     if (process.env.NODE_ENV === 'development') {
       console.error('❌ Erro na navegação para', path, ':', error);
     }
 
-    // Fallback: usar window.location se router falhar
+    // Fallback: usar window.location se navigateTo falhar
     if (process.client) {
-      if (process.env.NODE_ENV === 'development') {
-        console.log('🔄 Fallback: usando window.location...');
-      }
+      console.log('🔄 Usando fallback window.location para:', path);
       window.location.href = path;
     }
   }

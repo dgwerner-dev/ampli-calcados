@@ -36,7 +36,7 @@
 
       <div v-else class="bg-white shadow overflow-hidden sm:rounded-md">
         <ul class="divide-y divide-gray-200">
-          <li v-for="item in cart" :key="item.id" class="px-6 py-4">
+          <li v-for="item in cart || []" :key="item.id" class="px-6 py-4">
             <div class="flex items-center">
               <div class="flex-shrink-0 h-16 w-16">
                 <img
@@ -214,8 +214,26 @@
 </template>
 
 <script setup lang="ts">
+import { ref, computed, onMounted, nextTick } from 'vue';
+
+// Interfaces para tipagem
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  salePrice?: number;
+  slug: string;
+  images?: string[];
+  weight?: number;
+}
+
+interface AddToCartResult {
+  success: boolean;
+  error?: string;
+}
+
 const {
-  cart,
+  cart: rawCart,
   total,
   itemCount,
   isEmpty,
@@ -225,18 +243,23 @@ const {
   addToCart,
   loading,
 } = useCart();
+
+// Garantir que cart seja sempre um array válido
+const cart = computed(() => {
+  return Array.isArray(rawCart.value) ? rawCart.value : [];
+});
 const { success, error: notificationError } = useNotifications();
 
 // Estado para produtos recomendados
-const recommendedProducts = ref([]);
+const recommendedProducts = ref<Product[]>([]);
 const loadingProducts = ref(false);
 
 // Carregar produtos recomendados
 const loadRecommendedProducts = async () => {
   loadingProducts.value = true;
   try {
-    const data = await $fetch('/api/products/featured');
-    recommendedProducts.value = data || [];
+    const data: Product[] = await $fetch('/api/products/featured');
+    recommendedProducts.value = Array.isArray(data) ? data : [];
   } catch (err) {
     console.error('Erro ao carregar produtos recomendados:', err);
     recommendedProducts.value = [];
@@ -246,9 +269,9 @@ const loadRecommendedProducts = async () => {
 };
 
 // Adicionar produto ao carrinho
-const addProductToCart = async product => {
+const addProductToCart = async (product: Product) => {
   try {
-    const result = await addToCart(product, 1);
+    const result: AddToCartResult = await addToCart(product, 1);
 
     if (result.success) {
       success(`✅ ${product.name} adicionado ao carrinho!`);
@@ -264,14 +287,6 @@ const addProductToCart = async product => {
 // Carregar produtos recomendados quando a página for montada
 onMounted(() => {
   loadRecommendedProducts();
-
-  // Simular loading inicial do carrinho
-  if (process.client) {
-    loading.value = true;
-    nextTick(() => {
-      loading.value = false;
-    });
-  }
 });
 
 useHead({
