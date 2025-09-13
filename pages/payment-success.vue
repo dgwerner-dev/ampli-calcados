@@ -28,7 +28,7 @@
         <div class="space-y-3 text-left">
           <div class="flex justify-between">
             <span class="text-gray-600">Número do Pedido:</span>
-            <span class="font-medium">{{ order.id }}</span>
+            <span class="font-medium">#{{ order.orderNumber || order.id?.slice(-8) }}</span>
           </div>
           <div class="flex justify-between">
             <span class="text-gray-600">Total:</span>

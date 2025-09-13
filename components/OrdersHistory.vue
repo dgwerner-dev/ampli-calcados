@@ -309,7 +309,7 @@
                   </svg>
                 </div>
                 <div>
-                  <h3 class="text-xl font-bold text-gray-900">Pedido #{{ order.id.slice(-8) }}</h3>
+                  <h3 class="text-xl font-bold text-gray-900">Pedido #{{ order.orderNumber }}</h3>
                   <p class="text-sm text-gray-500 flex items-center">
                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
