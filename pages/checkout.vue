@@ -210,7 +210,9 @@ const handlePaymentSuccess = async (paymentData: any) => {
         clearCart();
         success('Pagamento realizado com sucesso!');
         // Redirecionar para página de sucesso com o ID real do pedido
-        navigateTo(`/payment-success?orderId=${createdOrder.order.id}&orderNumber=${createdOrder.order.orderNumber}`);
+        navigateTo(
+          `/payment-success?orderId=${createdOrder.order.id}&orderNumber=${createdOrder.order.orderNumber}`
+        );
       } else {
         throw new Error('Erro ao criar pedido');
       }

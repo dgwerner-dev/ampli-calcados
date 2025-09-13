@@ -404,11 +404,23 @@ const sizes = [40, 41, 42, 43];
 const categories = ref<any[]>([]);
 
 const navigateToCart = () => {
-  navigateTo('/cart');
+  if (process.env.NODE_ENV === 'development') {
+    console.log('🛒 Navegando para carrinho...');
+  }
+
+  if (process.client) {
+    window.location.href = '/cart';
+  }
 };
 
 const navigateToWishlist = () => {
-  navigateTo('/wishlist');
+  if (process.env.NODE_ENV === 'development') {
+    console.log('❤️ Navegando para wishlist...');
+  }
+
+  if (process.client) {
+    window.location.href = '/wishlist';
+  }
 };
 
 const { user, signOut, initAuth, refreshUserState } = useAuth();
